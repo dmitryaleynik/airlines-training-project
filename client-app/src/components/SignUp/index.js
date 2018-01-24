@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Form from './Form';
 import FormErrors from '../FormErrors';
+import './styles.css';
 
 class SignUp extends Component {
   state = {
@@ -34,15 +35,15 @@ class SignUp extends Component {
     switch (fieldName) {
       case 'email':
         emailValid = /^[a-z][a-z0-9]*@[a-z0-9]+\.[a-z]+$/i.test(value);
-        formErrors.email = emailValid ? '' : ' is invalid';
+        formErrors.email = emailValid ? '' : 'email is invalid';
         break;
       case 'password':
         passwordValid = value.length >= 6;
-        formErrors.password = passwordValid ? '' : ' is too short';
+        formErrors.password = passwordValid ? '' : 'password is too short';
         break;
       case 'confirmPassword':
         confirmPasswordValid = value === this.state.password;
-        formErrors.confirmPassword = confirmPasswordValid ? '' : ' is not matched';
+        formErrors.confirmPassword = confirmPasswordValid ? '' : "passwords don't match";
         break;
       default:
         break;
@@ -71,12 +72,10 @@ class SignUp extends Component {
     } = this.state;
     return (
       <div>
-        <div className="panel panel-default">
-          <FormErrors formErrors={this.state.formErrors} />
-        </div>
         <Form
           email={email}
           password={password}
+          formErrors={this.state.formErrors}
           confirmPassword={confirmPassword}
           submit={this.submit}
           change={this.change.bind(this)}
