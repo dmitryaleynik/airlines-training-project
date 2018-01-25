@@ -1,0 +1,17 @@
+body {
+  background-color: #79a6c4;
+  background-image: url("https://www.transparenttextures.com/patterns/binding-light.png");
+}
+
+.navbar {
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/binding-light.png");
+}
+
+#navbarNav {
+  flex-direction: row;
+}
+
+#navbarNav .nav-item {
+  padding: 0 10px;
+}
