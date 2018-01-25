@@ -1,20 +1,27 @@
+// @flow
 import React, { Component } from 'react';
 import Form from './Form';
-import './styles.css';
+import FormErrors from '../FormErrors';
+// import './styles.css';
 
-class SignUp extends Component {
+type State = {
+  formErrors: {
+    
+  }
+}
+
+class SignIn extends Component {
   state = {
-    formErrors: { email: '', password: '', confirmPassword: '' },
+    formErrors: { email: '', password: '' },
     emailValid: false,
     passwordValid: false,
-    confirmPasswordValid: false,
     formValid: false,
   };
-
+  
   submit(e) {
+    console.log(2122);
     e.preventDefault();
-    console.log(e.target.elements.email.value);
-    window.location.href = `${window.location.origin}/sign-in`;
+    window.location.href = `${window.location.origin}`;
   }
 
   change(e) {
@@ -27,7 +34,7 @@ class SignUp extends Component {
 
   validateField(fieldName, value) {
     let {
-      formErrors, emailValid, passwordValid, confirmPasswordValid,
+      formErrors, emailValid, passwordValid,
     } = this.state;
 
     switch (fieldName) {
@@ -39,10 +46,6 @@ class SignUp extends Component {
         passwordValid = value.length >= 6;
         formErrors.password = passwordValid ? '' : 'password is too short';
         break;
-      case 'confirmPassword':
-        confirmPasswordValid = value === this.state.password;
-        formErrors.confirmPassword = confirmPasswordValid ? '' : "passwords don't match";
-        break;
       default:
         break;
     }
@@ -51,7 +54,6 @@ class SignUp extends Component {
         formErrors,
         emailValid,
         passwordValid,
-        confirmPasswordValid,
       },
       this.validateForm,
     );
@@ -60,21 +62,21 @@ class SignUp extends Component {
   validateForm() {
     this.setState({
       formValid:
-        this.state.emailValid && this.state.passwordValid && this.state.confirmPasswordValid,
+        this.state.emailValid && this.state.passwordValid,
     });
   }
 
   render() {
     const {
-      email, password, confirmPassword, formValid,
+      email, password, formValid,
     } = this.state;
     return (
       <div>
+        <h2>Sign in</h2>
         <Form
           email={email}
           password={password}
           formErrors={this.state.formErrors}
-          confirmPassword={confirmPassword}
           submit={this.submit}
           change={this.change.bind(this)}
           isValid={formValid}
@@ -84,4 +86,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default SignIn;

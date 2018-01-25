@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, NavLink, HashRouter } from 'react-router-dom';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
-import Contact from './components/Contact';
+import SignIn from './components/SignIn';
 
 const App = () => (
   <HashRouter>
@@ -27,6 +27,7 @@ const App = () => (
       <div className="content row justify-content-center">
         <Route exact path="/" component={Home} />
         <Route path="/sign-up" component={SignUp} />
+        <Route path="/sign-in" component={SignIn} />
       </div>
     </div>
   </HashRouter>
