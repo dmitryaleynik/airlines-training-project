@@ -17,3 +17,13 @@ export const passwordValidator = password => {
   }
   return '';
 };
+
+export const confirmPasswordValidator = (password1, password2) => {
+  if (passwordValidator(password1) !== '') {
+    return '';
+  }
+  if (password2 !== password1) {
+    return 'Passwords don\'t match!';
+  }
+  return '';
+};

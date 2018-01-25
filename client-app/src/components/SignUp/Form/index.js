@@ -1,40 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Form, StyledText, } from 'react-form';
 
-const Form = (props) => {
-  const {
-    change, submit, formErrors, isValid,
-  } = props;
+const SignUpForm = props => {
   return (
-    <form onChange={change} onSubmit={submit} className="sign-up-form" noValidate>
-      <h2>Sign up</h2>
-      <div className="form-group">
-        <label htmlFor="email">
-          Email address
-          <input type="email" className="form-control" name="email" />
-          {formErrors.email && <span className="error">{formErrors.email}</span>}
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">
-          Password
-          <input type="password" className="form-control" name="password" />
-          {formErrors.password && <span className="error">{formErrors.password}</span>}
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">
-          Confirm password
-          <input type="password" className="form-control" name="confirmPassword" />
-          {formErrors.confirmPassword && (
-            <span className="error">{formErrors.confirmPassword}</span>
-          )}
-        </label>
-      </div>
-      <button type="submit" className="btn btn-primary" disabled={!isValid}>
-        Sign up
-      </button>
-    </form>
+    <Form
+      onSubmit={props.onSubmit}
+      dontValidateOnMount
+      validateOnSubmit
+      validateError={props.validator}
+    >
+      {formApi => (
+        <form onSubmit={formApi.submitForm} name="signInForm">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <StyledText field="email" className="form-control" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <StyledText
+              type="password"
+              field="password"
+              className="form-control"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm password</label>
+            <StyledText
+              type="password"
+              field="confirmPassword"
+              className="form-control"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      )}
+    </Form>
   );
 };
 
-export default Form;
+export default SignUpForm;

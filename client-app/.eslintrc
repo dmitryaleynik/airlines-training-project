@@ -2,8 +2,8 @@
   "extends": "react-app",
   "rules": {
     "no-console": "warn",
-    "comma-dangle": ["error", "always"],
-    "quotes": ["error", "single"],
+    "comma-dangle": ["warn", "always"],
+    "quotes": ["warn", "single"],
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": [
       "warn",

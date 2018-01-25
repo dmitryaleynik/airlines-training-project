@@ -1,11 +1,10 @@
 import React, { Component, } from 'react';
 import Form from './Form';
-import { emailValidator, passwordValidator, } from '../../validators';
+import { emailValidator, passwordValidator, } from 'src/validators';
 // import './styles.css';
 
 class SignIn extends Component {
   handleSubmit(a, b, c) {
-    console.log(a);
     // window.location.href = `${window.location.origin}`;
   }
 
