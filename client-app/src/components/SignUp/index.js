@@ -4,7 +4,7 @@ import {
   emailValidator,
   passwordValidator,
   confirmPasswordValidator,
-} from 'src/validators';
+} from 'src/utils/validators';
 import './styles.css';
 
 class SignUp extends Component {

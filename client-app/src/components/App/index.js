@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, NavLink, HashRouter, } from 'react-router-dom';
-import Home from './components/Home';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
+import Home from 'src/components/Home';
+import SignUp from 'src/components/SignUp';
+import SignIn from 'src/components/SignIn';
 
 const App = () => (
   <HashRouter>
