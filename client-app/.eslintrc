@@ -3,6 +3,7 @@
   "rules": {
     "no-console": "warn",
     "comma-dangle": ["warn", "always"],
+    "arrow-parens": ["warn", "always"],
     "quotes": ["warn", "single"],
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": [
