@@ -1,5 +1,5 @@
 import React, { Component, } from 'react';
-import Form from './Form';
+import SignInForm from './SignInForm';
 import { emailValidator, passwordValidator, } from 'src/validators';
 // import './styles.css';
 
@@ -19,7 +19,7 @@ class SignIn extends Component {
     return (
       <div>
         <h2>Sign in</h2>
-        <Form onSubmit={this.handleSubmit} validator={this.validateForm} />
+        <SignInForm onSubmit={this.handleSubmit} validator={this.validateForm} />
       </div>
     );
   }

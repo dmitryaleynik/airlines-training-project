@@ -1,5 +1,5 @@
 import React, { Component, } from 'react';
-import Form from './Form';
+import SignUpForm from './SignUpForm';
 import {
   emailValidator,
   passwordValidator,
@@ -25,7 +25,10 @@ class SignUp extends Component {
     return (
       <div>
         <h2>Sign up</h2>
-        <Form onSubmit={this.handleSubmit} validator={this.validateForm} />
+        <SignUpForm
+          onSubmit={this.handleSubmit}
+          validator={this.validateForm}
+        />
       </div>
     );
   }
