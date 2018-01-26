@@ -1,4 +1,5 @@
-export const emailValidator = email => {
+// @flow
+export const emailValidator = (email: string) => {
   if (!email) {
     return 'Email is required!';
   }
@@ -8,7 +9,7 @@ export const emailValidator = email => {
   return '';
 };
 
-export const passwordValidator = password => {
+export const passwordValidator = (password: string) => {
   if (!password) {
     return 'Password is required!';
   }
@@ -18,7 +19,10 @@ export const passwordValidator = password => {
   return '';
 };
 
-export const confirmPasswordValidator = (password1, password2) => {
+export const confirmPasswordValidator = (
+  password1: string,
+  password2: string
+) => {
   if (passwordValidator(password1) !== '') {
     return '';
   }
