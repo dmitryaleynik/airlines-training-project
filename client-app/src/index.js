@@ -1,8 +1,18 @@
 /* global document */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, } from 'redux';
+import { Provider, } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
-import App from './App';
+import clientApp from 'src/reducers';
+import App from 'src/components/App';
 import './index.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const store = createStore(clientApp);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
