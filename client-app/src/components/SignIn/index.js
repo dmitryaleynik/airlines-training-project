@@ -1,14 +1,16 @@
+// @flow
 import React, { Component, } from 'react';
 import SignInForm from './SignInForm';
 import { emailValidator, passwordValidator, } from 'src/validators';
+import type { SignInFormFields, } from 'src/types';
 // import './styles.css';
 
-class SignIn extends Component {
-  handleSubmit(a, b, c) {
+class SignIn extends Component<{}, {}> {
+  handleSubmit(a: SignInFormFields, b: Event, c: Object) {
     // window.location.href = `${window.location.origin}`;
   }
 
-  validateForm(value) {
+  validateForm(value: SignInFormFields): SignInFormFields {
     return {
       email: emailValidator(value.email),
       password: passwordValidator(value.password),
