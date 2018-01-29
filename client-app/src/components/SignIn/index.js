@@ -21,7 +21,10 @@ class SignIn extends Component<{}, {}> {
     return (
       <div>
         <h2>Sign in</h2>
-        <SignInForm onSubmit={this.handleSubmit} validator={this.validateForm} />
+        <SignInForm
+          onSubmit={this.handleSubmit}
+          validator={this.validateForm}
+        />
       </div>
     );
   }

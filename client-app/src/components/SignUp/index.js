@@ -5,7 +5,7 @@ import {
   emailValidator,
   passwordValidator,
   confirmPasswordValidator,
-} from 'src/validators';
+} from 'src/utils/validators';
 import './styles.css';
 import type { SignUpFormFields, } from 'src/types';
 
