@@ -1,7 +1,14 @@
+// @flow
 import React from 'react';
 import { Form, StyledText, } from 'react-form';
+import type { SignUpFormFields, } from 'src/types';
 
-const SignUpForm = props => {
+type Props = {
+  onSubmit: Function,
+  validator: SignUpFormFields => SignUpFormFields,
+};
+
+const SignUpForm = (props: Props) => {
   return (
     <Form
       onSubmit={props.onSubmit}
