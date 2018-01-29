@@ -8,3 +8,11 @@ export type SignUpFormFields = {
   password: string,
   confirmPassword: string,
 };
+
+export type OrderTableItem = {
+  flightName: string,
+  airport: string,
+  city: string,
+  numberOfTickets: number,
+  date: Date,
+};

@@ -1,19 +1,25 @@
+// @flow
 import React, { Component, } from 'react';
 import OrderTable from './OrderTable';
 import Dropdown from 'src/components/Dropdown';
 import './styles.css';
 
-class UserPage extends Component {
+type State = {
+  dropdownIsToggled: boolean,
+  filter: string,
+};
+
+class UserPage extends Component<{}, State> {
   state = {
     dropdownIsToggled: false,
     filter: 'future',
   };
 
-  toggleDropdown = e => {
+  toggleDropdown = (e: SyntheticMouseEvent<HTMLButtonElement>) => {
     this.setState({ dropdownIsToggled: !this.state.dropdownIsToggled, });
   };
 
-  handleDropdownClick = e => {
+  handleDropdownClick = (e: any) => {
     this.setState({
       filter: e.target.getAttribute('filter'),
       dropdownIsToggled: false,

@@ -1,8 +1,16 @@
+// @flow
 import React from 'react';
 import classNames from 'classnames';
 import './styles.css';
+type Props = {
+  isToggled: boolean,
+  onDropdownClick: (SyntheticMouseEvent<HTMLButtonElement>) => void,
+  toggleDropdown: (SyntheticMouseEvent<HTMLButtonElement>) => void,
+  menuItems: Array<{ key: string, filter: string }>,
+  children: string,
+};
 
-const Dropdown = props => {
+const Dropdown = (props: Props) => {
   return (
     <div className="dropdown">
       <button
@@ -17,7 +25,7 @@ const Dropdown = props => {
           visible: props.isToggled,
         })}
       >
-        {props.menuItems.map(item => (
+        {props.menuItems.map((item) => (
           <button
             key={item.filter}
             onClick={props.onDropdownClick}

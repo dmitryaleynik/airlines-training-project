@@ -1,8 +1,14 @@
+// @flow
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+import type { OrderTableItem, } from 'src/types';
 
-const OrderTable = props => {
+type Props = {
+  filter: string,
+};
+
+const OrderTable = (props: Props) => {
   const tableProps = {};
   const data = [
     {
@@ -29,7 +35,7 @@ const OrderTable = props => {
   ];
 
   tableProps.data = data.filter(
-    item =>
+    (item: OrderTableItem) =>
       props.filter === 'future'
         ? item.date > new Date()
         : item.date <= new Date()
@@ -60,7 +66,7 @@ const OrderTable = props => {
     {
       id: 'date',
       Header: 'Date',
-      accessor: d => d.date.toDateString(),
+      accessor: (d: OrderTableItem) => d.date.toDateString(),
     },
   ];
 

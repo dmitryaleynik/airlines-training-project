@@ -5,7 +5,7 @@ import type { SignInFormFields, } from 'src/types';
 
 type Props = {
   onSubmit: Function,
-  validator: SignInFormFields => SignInFormFields,
+  validator: (SignInFormFields) => SignInFormFields,
 };
 
 const SignInForm = (props: Props) => {
@@ -16,7 +16,7 @@ const SignInForm = (props: Props) => {
       validateOnSubmit
       validateError={props.validator}
     >
-      {formApi => (
+      {(formApi) => (
         <form onSubmit={formApi.submitForm} name="signInForm">
           <div className="form-group">
             <label htmlFor="email">Email</label>
