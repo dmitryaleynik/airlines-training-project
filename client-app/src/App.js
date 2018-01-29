@@ -12,7 +12,7 @@ const App = () => (
         <NavLink className="navbar-brand" to="/">
           Airlines
         </NavLink>
-        <ul className="navbar-nav" id="navbarNav">
+        <ul className="nav">
           <li className="nav-item">
             <NavLink className="nav-link" to="/sign-up">
               Sign up
@@ -25,7 +25,7 @@ const App = () => (
           </li>
         </ul>
       </nav>
-      <div className="content row">
+      <div>
         <Route exact path="/" component={Home} />
         <Route path="/sign-up" component={SignUp} />
         <Route path="/sign-in" component={SignIn} />

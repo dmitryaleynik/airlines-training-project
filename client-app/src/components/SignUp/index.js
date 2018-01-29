@@ -23,12 +23,14 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Sign up</h2>
-        <SignUpForm
-          onSubmit={this.handleSubmit}
-          validator={this.validateForm}
-        />
+      <div className="d-flex flex-row justify-content-center">
+        <div className="content">
+          <h2>Sign up</h2>
+          <SignUpForm
+            onSubmit={this.handleSubmit}
+            validator={this.validateForm}
+          />
+        </div>
       </div>
     );
   }

@@ -23,17 +23,20 @@ class UserPage extends Component {
   render() {
     return (
       <div className="root">
-        <Dropdown
-          isToggled={this.state.dropdownIsToggled}
-          onDropdownClick={this.handleDropdownClick}
-          toggleDropdown={this.toggleDropdown}
-          menuItems={[
-            { key: 'Future', filter: 'future', },
-            { key: 'Past', filter: 'past', },
-          ]}
-        >
-          Filter flights
-        </Dropdown>
+        <div className="d-flex justify-content-between">
+          <Dropdown
+            isToggled={this.state.dropdownIsToggled}
+            onDropdownClick={this.handleDropdownClick}
+            toggleDropdown={this.toggleDropdown}
+            menuItems={[
+              { key: 'Future', filter: 'future', },
+              { key: 'Past', filter: 'past', },
+            ]}
+          >
+            Filter flights
+          </Dropdown>
+          <button className="btn btn-secondary btn-sm">New Flight</button>
+        </div>
         <OrderTable filter={this.state.filter} />
       </div>
     );
