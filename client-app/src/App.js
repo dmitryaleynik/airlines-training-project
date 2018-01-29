@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, NavLink, HashRouter, } from 'react-router-dom';
-import Home from './components/Home';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
+import Home from 'src/components/Home';
+import SignUp from 'src/components/SignUp';
+import SignIn from 'src/components/SignIn';
+import UserPage from 'src/components/UserPage';
 
 const App = () => (
   <HashRouter>
@@ -24,10 +25,11 @@ const App = () => (
           </li>
         </ul>
       </nav>
-      <div className="content row justify-content-center">
+      <div className="content row">
         <Route exact path="/" component={Home} />
         <Route path="/sign-up" component={SignUp} />
         <Route path="/sign-in" component={SignIn} />
+        <Route path="/user-page" component={UserPage} />
       </div>
     </div>
   </HashRouter>
