@@ -2,37 +2,38 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import type { OrderTableItem, } from 'src/types';
+import type { OrderTableItem, OrderTableProps, } from 'src/types';
 
 type Props = {
   filter: string,
 };
 
+const data = [
+  {
+    flightName: 'No 1',
+    airport: 'Minsk 1',
+    city: 'Minsk',
+    numberOfTickets: 1,
+    date: new Date('2018-02-22'),
+  },
+  {
+    flightName: 'No 2',
+    airport: 'Minsk 2',
+    city: 'MG',
+    numberOfTickets: 2,
+    date: new Date('2017-01-14'),
+  },
+  {
+    flightName: 'No 3',
+    airport: 'Minsk 1',
+    city: 'MG',
+    numberOfTickets: 1,
+    date: new Date('2018-02-14'),
+  },
+];
+
 const OrderTable = (props: Props) => {
-  const tableProps = {};
-  const data = [
-    {
-      flightName: 'No 1',
-      airport: 'Minsk 1',
-      city: 'Minsk',
-      numberOfTickets: 1,
-      date: new Date('2018-02-22'),
-    },
-    {
-      flightName: 'No 2',
-      airport: 'Minsk 2',
-      city: 'MG',
-      numberOfTickets: 2,
-      date: new Date('2017-01-14'),
-    },
-    {
-      flightName: 'No 3',
-      airport: 'Minsk 1',
-      city: 'MG',
-      numberOfTickets: 1,
-      date: new Date('2018-02-14'),
-    },
-  ];
+  const tableProps: OrderTableProps = {};
 
   tableProps.data = data.filter(
     (item: OrderTableItem) =>

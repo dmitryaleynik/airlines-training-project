@@ -21,23 +21,30 @@ class UserPage extends Component<{}, State> {
 
   handleDropdownClick = (e: any) => {
     this.setState({
-      filter: e.target.getAttribute('filter'),
+      filter: e.target.value,
       dropdownIsToggled: false,
     });
   };
 
   render() {
+    const menuItems = [
+      {
+        key: 'Future',
+        value: 'future',
+      },
+      {
+        key: 'Past',
+        value: 'past',
+      },
+    ];
     return (
       <div className="root">
-        <div className="d-flex justify-content-between">
+        <div className="button-panel d-flex justify-content-between">
           <Dropdown
             isToggled={this.state.dropdownIsToggled}
             onDropdownClick={this.handleDropdownClick}
             toggleDropdown={this.toggleDropdown}
-            menuItems={[
-              { key: 'Future', filter: 'future', },
-              { key: 'Past', filter: 'past', },
-            ]}
+            menuItems={menuItems}
           >
             Filter flights
           </Dropdown>

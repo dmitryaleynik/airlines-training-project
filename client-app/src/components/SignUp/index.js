@@ -6,8 +6,8 @@ import {
   passwordValidator,
   confirmPasswordValidator,
 } from 'src/utils/validators';
-import './styles.css';
 import type { SignUpFormFields, } from 'src/types';
+import './styles.css';
 
 class SignUp extends Component<{}, {}> {
   handleSubmit(e: SignUpFormFields) {}

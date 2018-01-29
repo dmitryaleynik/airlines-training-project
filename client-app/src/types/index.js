@@ -16,3 +16,11 @@ export type OrderTableItem = {
   numberOfTickets: number,
   date: Date,
 };
+
+export type OrderTableProps = {
+  data: Array<OrderTableItem>,
+  columns: Array<Cell>,
+  minRows: number,
+  defaultSize: number,
+  showPagination: boolean,
+};
