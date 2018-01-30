@@ -35,12 +35,17 @@ const data = [
 const OrderTable = (props: Props) => {
   const tableProps: OrderTableProps = {};
 
-  tableProps.data = data.filter(
-    (item: OrderTableItem) =>
-      props.filter === 'future'
-        ? item.date > new Date()
-        : item.date <= new Date()
-  );
+  tableProps.data = data.filter((item: OrderTableItem) => {
+    switch (props.filter) {
+      case 'future':
+        return item.date > new Date();
+      case 'past':
+        return item.date <= new Date();
+      case 'all':
+      default:
+        return true;
+    }
+  });
 
   tableProps.minRows = tableProps.data.lenth || 1;
   tableProps.defaultPageSize = 5;

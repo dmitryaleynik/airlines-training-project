@@ -36,6 +36,10 @@ class UserPage extends Component<{}, State> {
         key: 'Past',
         value: 'past',
       },
+      {
+        key: 'All',
+        value: 'all',
+      },
     ];
     return (
       <div className="root">
