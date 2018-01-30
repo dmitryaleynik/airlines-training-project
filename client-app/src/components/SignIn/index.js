@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, } from 'react';
 import SignInForm from './SignInForm';
-import { emailValidator, passwordValidator, } from 'src/validators';
+import { emailValidator, passwordValidator, } from 'src/utils/validators';
 import type { SignInFormFields, } from 'src/types';
 // import './styles.css';
 
