@@ -1,13 +1,14 @@
 import React, { Component, } from 'react';
-import FlightFinder from './FlightFinder';
 import classNames from 'classnames';
+import FlightFinder from './FlightFinder';
+import ButtonPanel from './ButtonPanel';
 import './styles.css';
 
 class NewFlight extends Component {
   state = {
     stepsStarted: [true, false, false,],
     stepsFulfilled: [false, false, false,],
-    currentStep: 1,
+    currentStep: 0,
   };
 
   findFlight = (e) => {
@@ -23,9 +24,9 @@ class NewFlight extends Component {
     this.setState({
       currentStep: currentStep + 1,
       stepsStarted: [
-        ...stepsStarted.slice(0, currentStep),
+        ...stepsStarted.slice(0, currentStep + 1),
         true,
-        ...stepsStarted.slice(currentStep + 1),
+        ...stepsStarted.slice(currentStep + 2),
       ],
     });
   };
@@ -35,14 +36,19 @@ class NewFlight extends Component {
     this.setState({
       currentStep: currentStep - 1,
       stepsStarted: [
-        ...stepsStarted.slice(0, currentStep - 1),
+        ...stepsStarted.slice(0, currentStep),
         false,
-        ...stepsStarted.slice(currentStep),
+        ...stepsStarted.slice(currentStep + 1),
       ],
     });
   };
 
   render() {
+    const renderredComponents = [
+      <FlightFinder findFlight={this.findFlight} />,
+      <div>N2</div>,
+      <div>N3</div>,
+    ];
     return (
       <div>
         <div className="row">
@@ -58,26 +64,13 @@ class NewFlight extends Component {
             );
           })}
         </div>
-        <FlightFinder findFlight={this.findFlight} />
-        <div className="button-panel position-relative">
-          <button
-            className={classNames('btn btn-primary btn-back', {
-              'd-none': this.state.currentStep <= 1,
-            })}
-            onClick={this.handleBackClick}
-          >
-            Back
-          </button>
-          <button
-            className={classNames('btn btn-primary btn-next', {
-              'd-none': this.state.currentStep >= 3,
-            })}
-            onClick={this.handleNextClick}
-            disabled={!this.state.stepsFulfilled[this.state.currentStep - 1]}
-          >
-            Next
-          </button>
-        </div>
+        {renderredComponents[this.state.currentStep]}
+        <ButtonPanel
+          onBackClick={this.handleBackClick}
+          onNextClick={this.handleNextClick}
+          currentStep={this.state.currentStep}
+          stepsFulfilled={this.state.stepsFulfilled}
+        />
       </div>
     );
   }
