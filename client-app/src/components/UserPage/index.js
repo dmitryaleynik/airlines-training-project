@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, } from 'react';
+import { Link, } from 'react-router-dom';
 import OrderTable from './OrderTable';
 import Dropdown from 'src/components/Dropdown';
 import './styles.css';
@@ -52,7 +53,9 @@ class UserPage extends Component<{}, State> {
           >
             Filter flights
           </Dropdown>
-          <button className="btn btn-secondary btn-sm">New Flight</button>
+          <Link className="btn btn-secondary btn-sm" to="/new-flight">
+            New Flight
+          </Link>
         </div>
         <OrderTable filter={this.state.filter} />
       </div>
