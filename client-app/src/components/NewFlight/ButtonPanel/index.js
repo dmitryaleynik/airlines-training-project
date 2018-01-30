@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import './styles.css';
 
 const ButtonPanel = (props) => (
-  <div className="button-panel position-relative">
+  <div className="new-flight button-panel position-relative">
     <button
       className={classNames('btn btn-primary btn-back', {
         'd-none': props.currentStep <= 0,

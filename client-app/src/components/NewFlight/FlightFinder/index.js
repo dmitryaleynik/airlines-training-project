@@ -31,7 +31,7 @@ class FlightFinder extends Component {
         <h2>Step 1: Find a flight</h2>
         <button onClick={addFilterField}>Add field</button>
         {this.state.filterFields.map((field) => field)}
-        <FlightsTable />
+        {/* <FlightsTable /> */}
       </div>
     );
   }

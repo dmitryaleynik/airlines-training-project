@@ -1,22 +1,22 @@
-.button-panel {
+.new-flight .button-panel {
   margin-top: 50px;
   height: 38px;
 }
 
-.btn {
+.new-flight .btn {
   width: 65px;
 }
 
-.btn-back,
-.btn-next {
+.new-flight .btn-back,
+.new-flight .btn-next {
   position: absolute;
   bottom: 0;
 }
 
-.btn-back {
+.new-flight .btn-back {
   left: 0;
 }
 
-.btn-next {
+.new-flight .btn-next {
   right: 0;
 }
