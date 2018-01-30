@@ -1,0 +1,39 @@
+.status-bar {
+  height: 5px;
+  border-right: 0.5px solid #323232;
+}
+
+.status-bar:last-child {
+  border-right: 0;
+}
+
+.prev-step {
+  background-color: turquoise;
+}
+
+.following-step {
+  background-color: #a6a6a6;
+}
+
+.button-panel {
+  margin-top: 50px;
+  height: 38px;
+}
+
+.btn {
+  width: 65px;
+}
+
+.btn-back,
+.btn-next {
+  position: absolute;
+  bottom: 0;
+}
+
+.btn-back {
+  left: 0;
+}
+
+.btn-next {
+  right: 0;
+}
