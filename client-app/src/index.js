@@ -12,10 +12,9 @@ import './index.css';
 const store = createStore(clientApp);
 ReactDOM.render(
   <Provider store={store}>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-  </Provider>
-  ,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   (document.getElementById('root'): any)
 );

@@ -6,8 +6,8 @@ import {
   passwordValidator,
   confirmPasswordValidator,
 } from 'src/utils/validators';
+import { SignUpFormFields, } from '../../types';
 import './styles.css';
-import type { SignUpFormFields, } from 'src/types';
 
 class SignUp extends Component<{}, {}> {
   handleSubmit(e: SignUpFormFields) {}
@@ -25,12 +25,14 @@ class SignUp extends Component<{}, {}> {
 
   render() {
     return (
-      <div>
-        <h2>Sign up</h2>
-        <SignUpForm
-          onSubmit={this.handleSubmit}
-          validator={this.validateForm}
-        />
+      <div className="d-flex flex-row justify-content-center sign-up">
+        <div className="content">
+          <h2>Sign up</h2>
+          <SignUpForm
+            onSubmit={this.handleSubmit}
+            validator={this.validateForm}
+          />
+        </div>
       </div>
     );
   }

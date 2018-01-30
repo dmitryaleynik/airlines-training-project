@@ -1,9 +1,9 @@
 // @flow
 import React, { Component, } from 'react';
 import SignInForm from './SignInForm';
-import { emailValidator, passwordValidator, } from 'src/validators';
-import type { SignInFormFields, } from 'src/types';
-// import './styles.css';
+import { emailValidator, passwordValidator, } from 'src/utils/validators';
+import { SignInFormFields, } from '../../types';
+import './styles.css';
 
 class SignIn extends Component<{}, {}> {
   handleSubmit(a: SignInFormFields, b: Event, c: Object) {
@@ -19,12 +19,14 @@ class SignIn extends Component<{}, {}> {
 
   render() {
     return (
-      <div>
-        <h2>Sign in</h2>
-        <SignInForm
-          onSubmit={this.handleSubmit}
-          validator={this.validateForm}
-        />
+      <div className="d-flex flex-row justify-content-center sign-in">
+        <div className="content">
+          <h2>Sign in</h2>
+          <SignInForm
+            onSubmit={this.handleSubmit}
+            validator={this.validateForm}
+          />
+        </div>
       </div>
     );
   }
