@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import type { OrderTableItem, OrderTableProps, } from 'src/types';
+import { OrderTableItem, OrderTableProps, } from '../../../types';
 
 type Props = {
   filter: string,

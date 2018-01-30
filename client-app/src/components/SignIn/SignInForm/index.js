@@ -1,11 +1,11 @@
 // @flow
 import React from 'react';
 import { Form, StyledText, } from 'react-form';
-import type { SignInFormFields, } from 'src/types';
+import { SignInFormFields, } from '../../../types';
 
 type Props = {
   onSubmit: Function,
-  validator: (SignInFormFields) => SignInFormFields,
+  validator: (value: SignInFormFields) => SignInFormFields,
 };
 
 const SignInForm = (props: Props) => {

@@ -6,7 +6,7 @@ import {
   passwordValidator,
   confirmPasswordValidator,
 } from 'src/utils/validators';
-import type { SignUpFormFields, } from 'src/types';
+import { SignUpFormFields, } from '../../types';
 import './styles.css';
 
 class SignUp extends Component<{}, {}> {

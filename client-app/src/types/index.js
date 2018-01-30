@@ -14,7 +14,7 @@ export type OrderTableItem = {
   airport: string,
   city: string,
   numberOfTickets: number,
-  date: Date,
+  // date: Date,
 };
 
 export type OrderTableProps = {
