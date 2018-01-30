@@ -5,14 +5,16 @@ import Home from 'src/components/Home';
 import SignUp from 'src/components/SignUp';
 import SignIn from 'src/components/SignIn';
 import NewFlight from 'src/components/NewFlight';
+import UserPage from 'src/components/UserPage';
+import './styles.css';
 
 const App = () => (
-  <div className="container">
+  <div className="root container">
     <nav className="navbar navbar-light">
       <Link className="navbar-brand" to="/">
         Airlines
       </Link>
-      <ul className="navbar-nav" id="navbarNav">
+      <ul className="nav">
         <li className="nav-item">
           <Link className="nav-link" to="/sign-up">
             Sign up
@@ -25,11 +27,12 @@ const App = () => (
         </li>
       </ul>
     </nav>
-    <div className="content row justify-content-center">
+    <div>
       <Route exact path="/" component={Home} />
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
       <Route path="/new-flight" component={NewFlight} />
+      <Route path="/user-page" component={UserPage} />
     </div>
   </div>
 );

@@ -1,11 +1,11 @@
 // @flow
 import React from 'react';
 import { Form, StyledText, } from 'react-form';
-import type { SignUpFormFields, } from 'src/types';
+import { SignUpFormFields, } from '../../../types';
 
 type Props = {
   onSubmit: Function,
-  validator: SignUpFormFields => SignUpFormFields,
+  validator: (value: SignUpFormFields) => SignUpFormFields,
 };
 
 const SignUpForm = (props: Props) => {
@@ -16,7 +16,7 @@ const SignUpForm = (props: Props) => {
       validateOnSubmit
       validateError={props.validator}
     >
-      {formApi => (
+      {(formApi) => (
         <form onSubmit={formApi.submitForm} name="signInForm">
           <div className="form-group">
             <label htmlFor="email">Email</label>

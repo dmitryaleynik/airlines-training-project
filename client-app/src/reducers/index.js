@@ -1,3 +1,4 @@
+// @flow
 import { combineReducers, } from 'redux';
 
 const clientApp = combineReducers({});
