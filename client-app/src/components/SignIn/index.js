@@ -19,7 +19,7 @@ class SignIn extends Component<{}, {}> {
 
   render() {
     return (
-      <div className="d-flex flex-row justify-content-center">
+      <div className="d-flex flex-row justify-content-center sign-in">
         <div className="content">
           <h2>Sign in</h2>
           <SignInForm

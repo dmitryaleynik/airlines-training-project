@@ -25,7 +25,7 @@ class SignUp extends Component<{}, {}> {
 
   render() {
     return (
-      <div className="d-flex flex-row justify-content-center">
+      <div className="d-flex flex-row justify-content-center sign-up">
         <div className="content">
           <h2>Sign up</h2>
           <SignUpForm

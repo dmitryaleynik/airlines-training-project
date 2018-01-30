@@ -1,14 +1,14 @@
-.navbar {
+.root .navbar {
   background-color: #ffffff;
   background-image: url("https://www.transparenttextures.com/patterns/binding-light.png");
   margin-bottom: 20px;
 }
 
-.nav-link {
+.root .nav-link {
   color: black;
 }
 
-.nav-link:hover,
-.nav-link:active {
+.root .nav-link:hover,
+.root .nav-link:active {
   color: gray;
 }

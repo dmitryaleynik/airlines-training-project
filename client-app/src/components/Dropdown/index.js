@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import classNames from 'classnames';
-import './styles.css';
 
 type Props = {
   isToggled: boolean,
@@ -23,7 +22,7 @@ const Dropdown = (props: Props) => {
       </button>
       <div
         className={classNames('dropdown-menu', {
-          visible: props.isToggled,
+          'd-block': props.isToggled,
         })}
       >
         {props.menuItems.map((item) => (

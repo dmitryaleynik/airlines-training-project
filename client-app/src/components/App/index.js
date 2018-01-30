@@ -8,7 +8,7 @@ import UserPage from 'src/components/UserPage';
 import './styles.css';
 
 const App = () => (
-  <div className="container">
+  <div className="root container">
     <nav className="navbar navbar-light">
       <Link className="navbar-brand" to="/">
         Airlines
@@ -26,7 +26,7 @@ const App = () => (
         </li>
       </ul>
     </nav>
-    <div className="">
+    <div>
       <Route exact path="/" component={Home} />
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />

@@ -42,7 +42,7 @@ class UserPage extends Component<{}, State> {
       },
     ];
     return (
-      <div className="root">
+      <div className="user-page">
         <div className="button-panel d-flex justify-content-between">
           <Dropdown
             isToggled={this.state.dropdownIsToggled}
