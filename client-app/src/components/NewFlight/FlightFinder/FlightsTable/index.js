@@ -13,8 +13,8 @@ type Props = {
   ) => {
     style: {
       backgroundColor: string,
-      onClick: (e: Event) => void,
     },
+    onClick: (e: Event) => void,
   },
 };
 

@@ -1,3 +1,7 @@
 .flight-finder .table {
   background-color: white;
 }
+
+.new-flight .flight-finder .btn {
+  width: 100px;
+}

@@ -1,36 +1,102 @@
 // @flow
 import React, { Component, } from 'react';
+import DatePicker from 'react-datepicker';
 import FlightsTable from './FlightsTable';
+import Dropdown from 'src/components/Dropdown';
+import 'react-datepicker/dist/react-datepicker.css';
 import './styles.css';
 
 type Props = {
-  findFlight: (e: Event) => void,
+  findFlight: (e: string) => void,
 };
 
 type State = {
-  filterFields: Array<any>,
+  filterFields: Array<React$Element<'input'>>,
   selectedId: string,
+  dropdownIsToggled: boolean,
+  filterOptions: Object,
 };
 
 class FlightFinder extends Component<Props, State> {
   state = {
     filterFields: [],
     selectedId: '',
+    dropdownIsToggled: false,
+    filterOptions: {},
   };
 
-  addFilterField = (e: Event, props: Props) => {
+  prepareFilterInput = (field: string) => {
+    switch (field) {
+      case 'airport':
+      case 'city':
+        return (
+          <div key={field} className="row form-group justify-content-between">
+            <h3 className="col-1">{field}</h3>
+            <input
+              type="text"
+              className="col-5 form-control"
+              id={`from-${field}`}
+              placeholder="From"
+            />
+            {' - '}
+            <input
+              type="text"
+              className="col-5 form-control"
+              id={`to-${field}`}
+              placeholder="To"
+            />
+          </div>
+        );
+      case 'date':
+        return (
+          <div key={field}>
+            <h3 className="col-1">{field}</h3>
+            <DatePicker
+              className="col-5 form-control"
+              selected={this.state.filterOptions.from}
+              onChange={(date1, date2) => {
+                this.setState({
+                  startDate: date1,
+                });
+              }}
+            />
+            {' - '}
+            <DatePicker
+              selected={this.state.filterOptions.to}
+              onChange={(d) => {
+                this.setState({
+                  filterOptions: {
+                    ...this.state.filterOptions,
+                    from: d,
+                  },
+                });
+              }}
+            />
+          </div>
+        );
+      default:
+        return;
+    }
+  };
+
+  filterElements = {
+    airports: this.prepareFilterInput('airport'),
+    cities: this.prepareFilterInput('city'),
+    dates: this.prepareFilterInput('date'),
+  };
+
+  toggleDropdown = (e: SyntheticMouseEvent<HTMLButtonElement>) => {
+    this.setState({ dropdownIsToggled: !this.state.dropdownIsToggled, });
+  };
+
+  handleDropdownClick = (e: any) => {
     this.setState({
       filterFields: [
         ...this.state.filterFields,
-        <input
-          key={this.state.filterFields.length}
-          type="text"
-          placeholder="airport"
-          onChange={props.findFlight}
-        />,
+        this.filterElements[e.target.value],
       ],
+      dropdownIsToggled: false,
     });
-    return;
   };
 
   trOptions = (state: Object, rowInfo: Object, column: Object) => {
@@ -45,15 +111,32 @@ class FlightFinder extends Component<Props, State> {
     };
   };
 
+  componentWillUpdate = (nextProps, nextState) => {
+    if (nextState.selectedId !== this.state.selectedId) {
+      console.log(nextState);
+      this.props.findFlight(nextState.selectedId);
+    }
+  };
+
   render() {
-    const addFilterField = (e: Event) => {
-      return this.addFilterField(e, this.props);
-    };
+    const menuItems = Object.keys(this.filterElements).map((key) => {
+      return {
+        key,
+        value: key,
+      };
+    });
 
     return (
       <div className="flight-finder">
         <h2>Step 1: Find a flight</h2>
-        <button onClick={addFilterField}>Add field</button>
+        <Dropdown
+          isToggled={this.state.dropdownIsToggled}
+          menuItems={menuItems}
+          onDropdownClick={this.handleDropdownClick}
+          toggleDropdown={this.toggleDropdown}
+        >
+          Add filter
+        </Dropdown>
         {this.state.filterFields.map((field) => field)}
         <FlightsTable trOptions={this.trOptions} />
       </div>

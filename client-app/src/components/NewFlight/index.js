@@ -18,8 +18,9 @@ class NewFlight extends Component<{}, State> {
     currentStep: 0,
   };
 
-  findFlight = (e: any) => {
-    if (e.target.value.length >= 2) {
+  findFlight = (id: string) => {
+    console.log(id);
+    if (id) {
       this.setState({
         stepsFulfilled: [true, ...this.state.stepsFulfilled.slice(1),],
       });
