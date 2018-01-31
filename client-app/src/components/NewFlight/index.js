@@ -1,17 +1,24 @@
+// @flow
 import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import ButtonPanel from './ButtonPanel';
 import './styles.css';
 
-class NewFlight extends Component {
+type State = {
+  stepsStarted: Array<boolean>,
+  stepsFulfilled: Array<boolean>,
+  currentStep: number,
+};
+
+class NewFlight extends Component<{}, State> {
   state = {
     stepsStarted: [true, false, false,],
     stepsFulfilled: [false, false, false,],
     currentStep: 0,
   };
 
-  findFlight = (e) => {
+  findFlight = (e: any) => {
     if (e.target.value.length >= 2) {
       this.setState({
         stepsFulfilled: [true, ...this.state.stepsFulfilled.slice(1),],

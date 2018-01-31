@@ -1,14 +1,24 @@
+// @flow
 import React, { Component, } from 'react';
 import FlightsTable from './FlightsTable';
 import './styles.css';
 
-class FlightFinder extends Component {
+type Props = {
+  findFlight: (e: Event) => void,
+};
+
+type State = {
+  filterFields: Array<any>,
+  selectedId: string,
+};
+
+class FlightFinder extends Component<Props, State> {
   state = {
     filterFields: [],
     selectedId: '',
   };
 
-  addFilterField = (e, props) => {
+  addFilterField = (e: Event, props: Props) => {
     this.setState({
       filterFields: [
         ...this.state.filterFields,
@@ -23,20 +33,20 @@ class FlightFinder extends Component {
     return;
   };
 
-  trOptions = (state, rowInfo, column, instance) => {
+  trOptions = (state: Object, rowInfo: Object, column: Object) => {
     return {
       style: {
         backgroundColor:
           rowInfo.original.id === this.state.selectedId ? 'red' : '',
       },
-      onClick: (e, handleOriginal) => {
+      onClick: (e: Event) => {
         this.setState({ selectedId: rowInfo.original.id, });
       },
     };
   };
 
   render() {
-    const addFilterField = (e) => {
+    const addFilterField = (e: Event) => {
       return this.addFilterField(e, this.props);
     };
 
