@@ -7,3 +7,111 @@ export const initializeTableProps = (data) => {
     showPagination: data.length > defaultPageSize,
   };
 };
+
+export const orderTableColumns = () => {
+  return [
+    {
+      id: 'id',
+      Header: 'Flight No',
+      accessor: (d) => `#${d.id}`,
+    },
+    {
+      Header: 'Plane Type',
+      accessor: 'planeType',
+    },
+    {
+      Header: 'Airports',
+      columns: [
+        {
+          id: 'airportFrom',
+          Header: 'From',
+          accessor: (d) => d.airport.from,
+        },
+        {
+          id: 'airportTo',
+          Header: 'To',
+          accessor: (d) => d.airport.to,
+        },
+      ],
+    },
+    {
+      Header: 'Cities',
+      columns: [
+        {
+          id: 'cityFrom',
+          Header: 'From',
+          accessor: (d) => d.city.from,
+        },
+        {
+          id: 'cityTo',
+          Header: 'To',
+          accessor: (d) => d.city.to,
+        },
+      ],
+    },
+    {
+      Header: 'Dates',
+      columns: [
+        {
+          id: 'dateFrom',
+          Header: 'From',
+          width: 250,
+          accessor: (d) =>
+            `${d.date.from.toDateString()} ${d.date.from.toLocaleTimeString()}`,
+        },
+        {
+          id: 'dateTo',
+          Header: 'To',
+          width: 250,
+          accessor: (d) =>
+            `${d.date.to.toDateString()} ${d.date.to.toLocaleTimeString()}`,
+        },
+      ],
+    },
+    {
+      Header: 'Econom tickets',
+      columns: [
+        {
+          id: 'economAmount',
+          Header: 'Amount',
+          accessor: (d) => d.places.econom.amount,
+        },
+        {
+          id: 'economPrice',
+          Header: 'Price',
+          accessor: (d) => d.places.econom.price,
+        },
+      ],
+    },
+    {
+      Header: 'Business tickets',
+      columns: [
+        {
+          id: 'businessAmount',
+          Header: 'Amount',
+          accessor: (d) => d.places.business.amount,
+        },
+        {
+          id: 'businessPrice',
+          Header: 'Price',
+          accessor: (d) => d.places.business.price,
+        },
+      ],
+    },
+    {
+      Header: 'Luggage',
+      columns: [
+        {
+          id: 'luggageKg',
+          Header: 'KG',
+          accessor: (d) => d.luggage.kg,
+        },
+        {
+          id: 'luggagePrice',
+          Header: 'Price',
+          accessor: (d) => d.luggage.price,
+        },
+      ],
+    },
+  ];
+};

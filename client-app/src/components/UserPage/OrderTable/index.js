@@ -2,79 +2,31 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { OrderTableItem, OrderTableProps, } from '../../../types';
+import { initializeTableProps, orderTableColumns, } from 'src/utils/tableProps';
+import data from './data';
+
+import type { OrderTableItem, OrderTableProps, } from 'src/types';
 
 type Props = {
   filter: string,
 };
 
-const data = [
-  {
-    flightName: 'No 1',
-    airport: 'Minsk 1',
-    city: 'Minsk',
-    numberOfTickets: 1,
-    date: new Date('2018-02-22'),
-  },
-  {
-    flightName: 'No 2',
-    airport: 'Minsk 2',
-    city: 'MG',
-    numberOfTickets: 2,
-    date: new Date('2017-01-14'),
-  },
-  {
-    flightName: 'No 3',
-    airport: 'Minsk 1',
-    city: 'MG',
-    numberOfTickets: 1,
-    date: new Date('2018-02-14'),
-  },
-];
-
 const OrderTable = (props: Props) => {
-  const tableProps: OrderTableProps = {};
+  const tableProps: OrderTableProps = initializeTableProps(data);
 
   tableProps.data = data.filter((item: OrderTableItem) => {
     switch (props.filter) {
       case 'future':
-        return item.date > new Date();
+        return item.date.from > new Date();
       case 'past':
-        return item.date <= new Date();
+        return item.date.from <= new Date();
       case 'all':
       default:
         return true;
     }
   });
 
-  tableProps.minRows = tableProps.data.lenth || 1;
-  tableProps.defaultPageSize = 5;
-  tableProps.showPagination =
-    tableProps.data.length > tableProps.defaultPageSize;
-
-  tableProps.columns = [
-    {
-      Header: 'Flignt Name',
-      accessor: 'flightName',
-    },
-    {
-      Header: 'Airport',
-      accessor: 'airport',
-    },
-    {
-      Header: 'City',
-      accessor: 'city',
-    },
-    {
-      Header: 'Tickets',
-      accessor: 'numberOfTickets',
-    },
-    {
-      id: 'date',
-      Header: 'Date',
-      accessor: (d: OrderTableItem) => d.date.toDateString(),
-    },
-  ];
+  tableProps.columns = orderTableColumns();
 
   return (
     <ReactTable
