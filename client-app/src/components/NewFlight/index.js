@@ -50,7 +50,7 @@ class NewFlight extends Component {
       <div>N3</div>,
     ];
     return (
-      <div>
+      <div className="new-flight">
         <div className="row">
           {this.state.stepsStarted.map((step, index) => {
             return (

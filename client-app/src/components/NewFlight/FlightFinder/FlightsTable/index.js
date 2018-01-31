@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+import { initializeTableProps, } from 'src/utils/tableProps';
 
 const data = [
   {
@@ -64,23 +65,82 @@ const data = [
 ];
 
 const FlightsTable = (props) => {
-  const tableProps = {};
-  tableProps.data = data;
+  const tableProps = initializeTableProps(data);
 
-  tableProps.minRows = tableProps.data.lenth || 1;
-  tableProps.defaultPageSize = 5;
-  tableProps.showPagination =
-    tableProps.data.length > tableProps.defaultPageSize;
-
-  
-
+  tableProps.columns = [
+    {
+      Header: 'Info',
+      columns: [
+        {
+          id: 'airports',
+          Header: 'Airports',
+          accessor: (d) => `${d.airport.from} - ${d.airport.to}`,
+        },
+        {
+          id: 'cities',
+          Header: 'Cities',
+          accessor: (d) => `${d.city.from} - ${d.city.to}`,
+        },
+        {
+          id: 'dates',
+          className: 'date-column',
+          Header: 'Dates',
+          accessor: (d) =>
+            `${d.date.from.toUTCString()} - ${d.date.to.toUTCString()}`,
+        },
+        {
+          Header: 'Plane',
+          accessor: 'planeType',
+        },
+      ],
+    },
+    {
+      Header: 'Places',
+      columns: [
+        {
+          id: 'economPl',
+          Header: 'Econom',
+          accessor: (d) => d.places.econom.amount,
+        },
+        {
+          id: 'businessPl',
+          Header: 'Business',
+          accessor: (d) => d.places.business.amount,
+        },
+      ],
+    },
+    {
+      Header: 'Prices',
+      columns: [
+        {
+          id: 'economPr',
+          Header: 'Econom',
+          accessor: (d) => d.places.econom.price,
+        },
+        {
+          id: 'businessPr',
+          Header: 'Business',
+          accessor: (d) => d.places.business.price,
+        },
+      ],
+    },
+  ];
   return (
     <ReactTable
+      className="table"
       data={tableProps.data}
       columns={tableProps.columns}
       showPagination={tableProps.showPagination}
       minRows={tableProps.minRows}
       defaultPageSize={tableProps.defaultPageSize}
+      getTrProps={(state, rowInfo, column, instance) => {
+        return {
+          onClick: (e, handleOriginal) => {
+            // console.log(state, rowInfo, column, instance);
+            console.log(e.currentTarget, this.state);
+          },
+        };
+      }}
     />
   );
 };
