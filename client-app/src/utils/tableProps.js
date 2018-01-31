@@ -8,7 +8,7 @@ export const initializeTableProps = (data) => {
   };
 };
 
-export const orderTableColumns = () => {
+export const orderTableColumns = (isFinder) => {
   return [
     {
       id: 'id',
@@ -102,9 +102,9 @@ export const orderTableColumns = () => {
       Header: 'Luggage',
       columns: [
         {
-          id: 'luggageKg',
-          Header: 'KG',
-          accessor: (d) => d.luggage.kg,
+          id: (d) => (isFinder ? 'luggageFree' : 'luggageKg'),
+          Header: (d) => (isFinder ? 'Free' : 'KG'),
+          accessor: (d) => (isFinder ? d.luggage.free : d.luggage.kg),
         },
         {
           id: 'luggagePrice',

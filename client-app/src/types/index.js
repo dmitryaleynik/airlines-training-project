@@ -36,7 +36,8 @@ export type OrderTableItem = {
     },
   },
   luggage: {
-    kg: number,
+    free?: number,
+    kg?: number,
     price: number,
   },
 };

@@ -5,6 +5,7 @@ import './styles.css';
 class FlightFinder extends Component {
   state = {
     filterFields: [],
+    selectedId: '',
   };
 
   addFilterField = (e, props) => {
@@ -22,6 +23,18 @@ class FlightFinder extends Component {
     return;
   };
 
+  trOptions = (state, rowInfo, column, instance) => {
+    return {
+      style: {
+        backgroundColor:
+          rowInfo.original.id === this.state.selectedId ? 'red' : '',
+      },
+      onClick: (e, handleOriginal) => {
+        this.setState({ selectedId: rowInfo.original.id, });
+      },
+    };
+  };
+
   render() {
     const addFilterField = (e) => {
       return this.addFilterField(e, this.props);
@@ -32,7 +45,7 @@ class FlightFinder extends Component {
         <h2>Step 1: Find a flight</h2>
         <button onClick={addFilterField}>Add field</button>
         {this.state.filterFields.map((field) => field)}
-        <FlightsTable />
+        <FlightsTable trOptions={this.trOptions} />
       </div>
     );
   }
