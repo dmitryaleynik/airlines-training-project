@@ -22,6 +22,8 @@ class NewFlight extends Component<{}, State> {
       stepsStarted: [true, true, false,], // don't forget to change to initial state!!!!!!!!!!!!!!!!!!!!!!!!!
       stepsFulfilled: [false, false, false,],
       currentStep: 1, // don't forget to set back to 0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      isLuggage: false,
+      luggageWeight: null,
     };
     for (let i = 1; i <= 30; ++i) {
       this.state.places.push({
@@ -40,8 +42,24 @@ class NewFlight extends Component<{}, State> {
     }
   };
 
+  checkSecondStepFulfillment = (places, isLuggage, luggageWeight) => {
+    if (!places.length) {
+      return false;
+    }
+    if (isLuggage && (!luggageWeight || !Number(luggageWeight))) {
+      return false;
+    }
+    return true;
+  };
+
   handlePlaceClick = (e) => {
-    const { places, pickedPlaces, stepsFulfilled, } = this.state;
+    const {
+      places,
+      pickedPlaces,
+      stepsFulfilled,
+      isLuggage,
+      luggageWeight,
+    } = this.state;
     const pickedPlace = places[e.target.innerHTML - 1];
     let newPickedPlaces = [],
       isStepFulfilled = false;
@@ -51,13 +69,50 @@ class NewFlight extends Component<{}, State> {
       let index = pickedPlaces.indexOf(pickedPlace.number);
       newPickedPlaces = immutableSplice(pickedPlaces, index, 1);
     }
-    isStepFulfilled = newPickedPlaces.length ? true : false;
+    isStepFulfilled = this.checkSecondStepFulfillment(
+      newPickedPlaces,
+      isLuggage,
+      luggageWeight
+    );
     this.setState({
       places: immutableSplice(places, pickedPlace.number - 1, 1, {
         number: pickedPlace.number,
         isAvailable: !pickedPlace.isAvailable,
       }),
       pickedPlaces: newPickedPlaces,
+      stepsFulfilled: immutableSplice(stepsFulfilled, 1, 1, isStepFulfilled),
+    });
+  };
+
+  toggleLuggage = () => {
+    const {
+      isLuggage,
+      pickedPlaces,
+      luggageWeight,
+      stepsFulfilled,
+    } = this.state;
+    const isStepFulfilled = this.checkSecondStepFulfillment(
+      pickedPlaces,
+      !isLuggage,
+      luggageWeight
+    );
+    this.setState({
+      isLuggage: !isLuggage,
+      stepsFulfilled: immutableSplice(stepsFulfilled, 1, 1, isStepFulfilled),
+      luggageWeight: null,
+    });
+  };
+
+  handleLuggageChange = (e) => {
+    const { pickedPlaces, stepsFulfilled, } = this.state;
+    const luggageWeight = e.target.value;
+    const isStepFulfilled = this.checkSecondStepFulfillment(
+      pickedPlaces,
+      true,
+      luggageWeight
+    );
+    this.setState({
+      luggageWeight,
       stepsFulfilled: immutableSplice(stepsFulfilled, 1, 1, isStepFulfilled),
     });
   };
@@ -79,10 +134,16 @@ class NewFlight extends Component<{}, State> {
   };
 
   render() {
-    const { places, } = this.state;
+    const { places, isLuggage, } = this.state;
     const renderredComponents = [
       <FlightFinder findFlight={this.findFlight} />,
-      <PlacePicker places={places} onClick={this.handlePlaceClick} />,
+      <PlacePicker
+        places={places}
+        onClick={this.handlePlaceClick}
+        toggleLuggage={this.toggleLuggage}
+        onLuggageChange={this.handleLuggageChange}
+        isLuggage={isLuggage}
+      />,
       <div>N3</div>,
     ];
     return (

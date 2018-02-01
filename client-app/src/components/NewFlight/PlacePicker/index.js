@@ -3,7 +3,13 @@ import './styles.css';
 
 class PlacePicker extends Component {
   render() {
-    const { places, onClick, } = this.props;
+    const {
+      places,
+      onClick,
+      isLuggage,
+      toggleLuggage,
+      onLuggageChange,
+    } = this.props;
     return (
       <div className="place-picker">
         <h2>Step 2: Pick places</h2>
@@ -25,6 +31,28 @@ class PlacePicker extends Component {
             );
           })}
         </div>
+        <div className="form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="luggageCheck"
+            value={isLuggage}
+            onChange={toggleLuggage}
+          />
+          <label htmlFor="luggageCheck" className="form-check-label">
+            Is luggage needed?
+          </label>
+        </div>
+        {isLuggage && (
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Input your luggage weight, kg"
+              onChange={onLuggageChange}
+            />
+          </div>
+        )}
       </div>
     );
   }
