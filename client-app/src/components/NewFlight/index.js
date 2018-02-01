@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
+import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
 import { immutableSplice, immutablePush, } from 'src/utils/helpers';
 
@@ -24,6 +25,7 @@ class NewFlight extends Component<{}, State> {
       currentStep: 1, // don't forget to set back to 0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       isLuggage: false,
       luggageWeight: null,
+      isBooked: false,
     };
     for (let i = 1; i <= 30; ++i) {
       this.state.places.push({
@@ -117,6 +119,13 @@ class NewFlight extends Component<{}, State> {
     });
   };
 
+  handleBuyingConfirmation = () => {
+    this.setState({ isBooked: true, });
+    setTimeout(() => {
+      window.location = 'http://localhost:3000/user-page';
+    }, 3000);
+  };
+
   handleNextClick = () => {
     const { stepsStarted, currentStep, } = this.state;
     this.setState({
@@ -134,7 +143,7 @@ class NewFlight extends Component<{}, State> {
   };
 
   render() {
-    const { places, isLuggage, } = this.state;
+    const { places, isLuggage, luggageWeight, pickedPlaces, } = this.state;
     const renderredComponents = [
       <FlightFinder findFlight={this.findFlight} />,
       <PlacePicker
@@ -144,7 +153,12 @@ class NewFlight extends Component<{}, State> {
         onLuggageChange={this.handleLuggageChange}
         isLuggage={isLuggage}
       />,
-      <div>N3</div>,
+      <PriceConfirmator
+        luggageWeight={luggageWeight}
+        pickedPlaces={pickedPlaces}
+        onClick={this.handleBuyingConfirmation}
+        isBooked={this.state.isBooked}
+      />,
     ];
     return (
       <div className="new-flight">
