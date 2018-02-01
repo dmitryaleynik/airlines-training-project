@@ -1,7 +1,7 @@
-// @flow
 import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
+import PlacePicker from './PlacePicker';
 import ButtonPanel from './ButtonPanel';
 import './styles.css';
 
@@ -12,19 +12,66 @@ type State = {
 };
 
 class NewFlight extends Component<{}, State> {
-  state = {
-    stepsStarted: [true, false, false,],
-    stepsFulfilled: [false, false, false,],
-    currentStep: 0,
-  };
+  constructor() {
+    super();
+    this.state = {
+      places: [],
+      pickedPlaces: [],
+      stepsStarted: [true, true, false,], // don't forget to change to initial state!!!!!!!!!!!!!!!!!!!!!!!!!
+      stepsFulfilled: [false, false, false,],
+      currentStep: 1, // don't forget to set back to 0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    };
+    for (let i = 1; i <= 30; ++i) {
+      this.state.places.push({
+        number: i,
+        isAvailable: true,
+      });
+    }
+  }
 
   findFlight = (id: string) => {
-    console.log(id);
     if (id) {
       this.setState({
         stepsFulfilled: [true, ...this.state.stepsFulfilled.slice(1),],
       });
     }
+  };
+
+  handlePlaceClick = (e) => {
+    const { places, pickedPlaces, stepsFulfilled, } = this.state;
+    const pickedPlace = places[e.target.innerHTML - 1];
+    let newPickedPlaces = [],
+      isStepFulfilled = false;
+    if (pickedPlace.isAvailable) {
+      newPickedPlaces = [...pickedPlaces, pickedPlace.number,];
+    } else {
+      let index = pickedPlaces.indexOf(pickedPlace.number);
+      newPickedPlaces = [
+        ...pickedPlaces.slice(0, index),
+        ...pickedPlaces.slice(index + 1),
+      ];
+    }
+    if (newPickedPlaces.length) {
+      isStepFulfilled = true;
+    } else {
+      isStepFulfilled = false;
+    }
+    this.setState({
+      places: [
+        ...places.slice(0, pickedPlace.number - 1),
+        {
+          number: pickedPlace.number,
+          isAvailable: !pickedPlace.isAvailable,
+        },
+        ...places.slice(pickedPlace.number),
+      ],
+      pickedPlaces: newPickedPlaces,
+      stepsFulfilled: [
+        ...stepsFulfilled.slice(0, 1),
+        isStepFulfilled,
+        ...stepsFulfilled.slice(2),
+      ],
+    });
   };
 
   handleNextClick = () => {
@@ -52,9 +99,10 @@ class NewFlight extends Component<{}, State> {
   };
 
   render() {
+    const { places, } = this.state;
     const renderredComponents = [
       <FlightFinder findFlight={this.findFlight} />,
-      <div>N2</div>,
+      <PlacePicker places={places} onClick={this.handlePlaceClick} />,
       <div>N3</div>,
     ];
     return (

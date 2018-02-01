@@ -113,7 +113,6 @@ class FlightFinder extends Component<Props, State> {
 
   componentWillUpdate = (nextProps, nextState) => {
     if (nextState.selectedId !== this.state.selectedId) {
-      console.log(nextState);
       this.props.findFlight(nextState.selectedId);
     }
   };
