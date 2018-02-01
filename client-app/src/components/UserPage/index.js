@@ -10,6 +10,21 @@ type State = {
   filter: string,
 };
 
+const menuItems = [
+  {
+    key: 'Future',
+    value: 'future',
+  },
+  {
+    key: 'Past',
+    value: 'past',
+  },
+  {
+    key: 'All',
+    value: 'all',
+  },
+];
+
 class UserPage extends Component<{}, State> {
   state = {
     dropdownIsToggled: false,
@@ -28,20 +43,6 @@ class UserPage extends Component<{}, State> {
   };
 
   render() {
-    const menuItems = [
-      {
-        key: 'Future',
-        value: 'future',
-      },
-      {
-        key: 'Past',
-        value: 'past',
-      },
-      {
-        key: 'All',
-        value: 'all',
-      },
-    ];
     return (
       <div className="user-page">
         <div className="button-panel d-flex justify-content-between">
