@@ -56,9 +56,12 @@ class FlightFinder extends Component<Props, State> {
             <DatePicker
               className="col-5 form-control"
               selected={this.state.filterOptions.from}
-              onChange={(date1, date2) => {
+              onChange={(d) => {
                 this.setState({
-                  startDate: date1,
+                  filterOptions: {
+                    ...this.state.filterOptions,
+                    from: d,
+                  },
                 });
               }}
             />
@@ -69,7 +72,7 @@ class FlightFinder extends Component<Props, State> {
                 this.setState({
                   filterOptions: {
                     ...this.state.filterOptions,
-                    from: d,
+                    to: d,
                   },
                 });
               }}

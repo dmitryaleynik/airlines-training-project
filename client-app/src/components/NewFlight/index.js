@@ -20,9 +20,9 @@ class NewFlight extends Component<{}, State> {
     this.state = {
       places: [],
       pickedPlaces: [],
-      stepsStarted: [true, true, false,], // don't forget to change to initial state!!!!!!!!!!!!!!!!!!!!!!!!!
+      stepsStarted: [true, false, false,],
       stepsFulfilled: [false, false, false,],
-      currentStep: 1, // don't forget to set back to 0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      currentStep: 0,
       isLuggage: false,
       luggageWeight: null,
       isBooked: false,
@@ -35,6 +35,7 @@ class NewFlight extends Component<{}, State> {
     }
   }
 
+  /////// FlightFinder methods ///////
   findFlight = (id: string) => {
     const { stepsFulfilled, } = this.state;
     if (id) {
@@ -44,6 +45,7 @@ class NewFlight extends Component<{}, State> {
     }
   };
 
+  /////// PlacePicker methods ///////
   checkSecondStepFulfillment = (places, isLuggage, luggageWeight) => {
     if (!places.length) {
       return false;
@@ -119,6 +121,7 @@ class NewFlight extends Component<{}, State> {
     });
   };
 
+  /////// PriceConfirmator methods ///////
   handleBuyingConfirmation = () => {
     this.setState({ isBooked: true, });
     setTimeout(() => {
@@ -126,6 +129,7 @@ class NewFlight extends Component<{}, State> {
     }, 3000);
   };
 
+  /////// Local methods ///////
   handleNextClick = () => {
     const { stepsStarted, currentStep, } = this.state;
     this.setState({
