@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
 import ButtonPanel from './ButtonPanel';
+import { immutableSplice, immutablePush, } from 'src/utils/helpers';
+
 import './styles.css';
 
 type State = {
@@ -30,9 +32,10 @@ class NewFlight extends Component<{}, State> {
   }
 
   findFlight = (id: string) => {
+    const { stepsFulfilled, } = this.state;
     if (id) {
       this.setState({
-        stepsFulfilled: [true, ...this.state.stepsFulfilled.slice(1),],
+        stepsFulfilled: immutableSplice(stepsFulfilled, 0, 1, true),
       });
     }
   };
@@ -43,34 +46,19 @@ class NewFlight extends Component<{}, State> {
     let newPickedPlaces = [],
       isStepFulfilled = false;
     if (pickedPlace.isAvailable) {
-      newPickedPlaces = [...pickedPlaces, pickedPlace.number,];
+      newPickedPlaces = immutablePush(pickedPlaces, pickedPlace.number);
     } else {
       let index = pickedPlaces.indexOf(pickedPlace.number);
-      newPickedPlaces = [
-        ...pickedPlaces.slice(0, index),
-        ...pickedPlaces.slice(index + 1),
-      ];
+      newPickedPlaces = immutableSplice(pickedPlaces, index, 1);
     }
-    if (newPickedPlaces.length) {
-      isStepFulfilled = true;
-    } else {
-      isStepFulfilled = false;
-    }
+    isStepFulfilled = newPickedPlaces.length ? true : false;
     this.setState({
-      places: [
-        ...places.slice(0, pickedPlace.number - 1),
-        {
-          number: pickedPlace.number,
-          isAvailable: !pickedPlace.isAvailable,
-        },
-        ...places.slice(pickedPlace.number),
-      ],
+      places: immutableSplice(places, pickedPlace.number - 1, 1, {
+        number: pickedPlace.number,
+        isAvailable: !pickedPlace.isAvailable,
+      }),
       pickedPlaces: newPickedPlaces,
-      stepsFulfilled: [
-        ...stepsFulfilled.slice(0, 1),
-        isStepFulfilled,
-        ...stepsFulfilled.slice(2),
-      ],
+      stepsFulfilled: immutableSplice(stepsFulfilled, 1, 1, isStepFulfilled),
     });
   };
 
@@ -78,11 +66,7 @@ class NewFlight extends Component<{}, State> {
     const { stepsStarted, currentStep, } = this.state;
     this.setState({
       currentStep: currentStep + 1,
-      stepsStarted: [
-        ...stepsStarted.slice(0, currentStep + 1),
-        true,
-        ...stepsStarted.slice(currentStep + 2),
-      ],
+      stepsStarted: immutableSplice(stepsStarted, currentStep + 1, 1, true),
     });
   };
 
@@ -90,11 +74,7 @@ class NewFlight extends Component<{}, State> {
     const { stepsStarted, currentStep, } = this.state;
     this.setState({
       currentStep: currentStep - 1,
-      stepsStarted: [
-        ...stepsStarted.slice(0, currentStep),
-        false,
-        ...stepsStarted.slice(currentStep + 1),
-      ],
+      stepsStarted: immutableSplice(stepsStarted, currentStep, 1, false),
     });
   };
 

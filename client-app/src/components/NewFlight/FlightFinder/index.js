@@ -3,6 +3,8 @@ import React, { Component, } from 'react';
 import DatePicker from 'react-datepicker';
 import FlightsTable from './FlightsTable';
 import Dropdown from 'src/components/Dropdown';
+import { immutablePush, } from 'src/utils/helpers';
+
 import 'react-datepicker/dist/react-datepicker.css';
 import './styles.css';
 
@@ -90,11 +92,12 @@ class FlightFinder extends Component<Props, State> {
   };
 
   handleDropdownClick = (e: any) => {
+    const { filterFields, } = this.state;
     this.setState({
-      filterFields: [
-        ...this.state.filterFields,
-        this.filterElements[e.target.value],
-      ],
+      filterFields: immutablePush(
+        filterFields,
+        this.filterElements[e.target.value]
+      ),
       dropdownIsToggled: false,
     });
   };
