@@ -2,7 +2,7 @@
 import React, { Component, } from 'react';
 import OrderTable from './OrderTable';
 import Dropdown from 'src/components/Dropdown';
-import './styles.css';
+import './styles.scss';
 
 type State = {
   dropdownIsToggled: boolean,

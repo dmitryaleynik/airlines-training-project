@@ -30,7 +30,7 @@ const SignInForm = (props: Props) => {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-dark">
             Submit
           </button>
         </form>
