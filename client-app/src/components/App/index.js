@@ -6,7 +6,7 @@ import SignUp from 'src/components/SignUp';
 import SignIn from 'src/components/SignIn';
 import NewFlight from 'src/components/NewFlight/container';
 import UserPage from 'src/components/UserPage';
-import './styles.css';
+import './styles.scss';
 
 const App = () => (
   <div className="root container">

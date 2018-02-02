@@ -3,7 +3,7 @@ import React, { Component, } from 'react';
 import SignInForm from './SignInForm';
 import { emailValidator, passwordValidator, } from 'src/utils/validators';
 import { SignInFormFields, } from '../../types';
-import './styles.css';
+import './styles.scss';
 
 class SignIn extends Component<{}, {}> {
   handleSubmit(a: SignInFormFields, b: Event, c: Object) {

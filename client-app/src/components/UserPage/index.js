@@ -3,7 +3,7 @@ import React, { Component, } from 'react';
 import { Link, } from 'react-router-dom';
 import OrderTable from './OrderTable';
 import Dropdown from 'src/components/Dropdown';
-import './styles.css';
+import './styles.scss';
 
 type State = {
   dropdownIsToggled: boolean,
