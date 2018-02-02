@@ -25,6 +25,11 @@ const App = () => (
             Sign in
           </Link>
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/new-flight">
+            NF
+          </Link>
+        </li>
       </ul>
     </nav>
     <div>

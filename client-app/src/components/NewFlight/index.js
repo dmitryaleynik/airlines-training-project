@@ -129,29 +129,32 @@ class NewFlight extends Component<{}, State> {
 
   render() {
     const {
+      cities,
+      hints,
       startedSteps,
       fulfilledSteps,
       currentStep,
       handleBackClick,
       handleNextClick,
+      toggleHint,
     } = this.props;
     // const { places, isLuggage, luggageWeight, pickedPlaces, } = this.state;
-    // const renderredComponents = [
-    //   <FlightFinder findFlight={this.findFlight} />,
-    //   <PlacePicker
-    //     places={places}
-    //     onClick={this.handlePlaceClick}
-    //     toggleLuggage={this.toggleLuggage}
-    //     onLuggageChange={this.handleLuggageChange}
-    //     isLuggage={isLuggage}
-    //   />,
-    //   <PriceConfirmator
-    //     luggageWeight={luggageWeight}
-    //     pickedPlaces={pickedPlaces}
-    //     onClick={this.handleBuyingConfirmation}
-    //     isBooked={this.state.isBooked}
-    //   />,
-    // ];
+    const renderredComponents = [
+      <FlightFinder cities={cities} hints={hints} toggleHint={toggleHint} />,
+      //   <PlacePicker
+      //     places={places}
+      //     onClick={this.handlePlaceClick}
+      //     toggleLuggage={this.toggleLuggage}
+      //     onLuggageChange={this.handleLuggageChange}
+      //     isLuggage={isLuggage}
+      //   />,
+      //   <PriceConfirmator
+      //     luggageWeight={luggageWeight}
+      //     pickedPlaces={pickedPlaces}
+      //     onClick={this.handleBuyingConfirmation}
+      //     isBooked={this.state.isBooked}
+      //   />,
+    ];
     return (
       <div className="new-flight">
         <div className="row">
@@ -167,7 +170,7 @@ class NewFlight extends Component<{}, State> {
             );
           })}
         </div>
-        {/* {renderredComponents[this.state.currentStep]} */}
+        {renderredComponents[currentStep]}
         <ButtonPanel
           onBackClick={handleBackClick}
           onNextClick={handleNextClick}
