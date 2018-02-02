@@ -171,12 +171,7 @@ module.exports = {
                   plugins: () => [
                     require('postcss-flexbugs-fixes'),
                     autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
+                      browsers: ['last 2 versions', 'not ie <= 11',],
                       flexbox: 'no-2009',
                     }),
                   ],
@@ -206,12 +201,7 @@ module.exports = {
                   plugins: () => [
                     require('postcss-flexbugs-fixes'),
                     autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9',
-                      ],
+                      browsers: ['last 2 versions', 'not ie <= 11',],
                       flexbox: 'no-2009',
                     }),
                   ],
