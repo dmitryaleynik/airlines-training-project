@@ -1,95 +1,10 @@
-// @flow
 import React, { Component, } from 'react';
-import DatePicker from 'react-datepicker';
-import FlightsTable from './FlightsTable';
-import Dropdown from 'src/components/Dropdown';
 import { immutablePush, } from 'src/utils/helpers';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './styles.css';
 
-type Props = {
-  findFlight: (e: string) => void,
-};
-
-type State = {
-  filterFields: Array<React$Element<'input'>>,
-  selectedId: string,
-  dropdownIsToggled: boolean,
-  filterOptions: Object,
-};
-
 class FlightFinder extends Component<Props, State> {
-  state = {
-    filterFields: [],
-    selectedId: '',
-    dropdownIsToggled: false,
-    filterOptions: {},
-  };
-
-  prepareFilterInput = (field: string) => {
-    switch (field) {
-      case 'airport':
-      case 'city':
-        return (
-          <div key={field} className="row form-group justify-content-between">
-            <h3 className="col-1">{field}</h3>
-            <input
-              type="text"
-              className="col-5 form-control"
-              id={`from-${field}`}
-              placeholder="From"
-            />
-            {' - '}
-            <input
-              type="text"
-              className="col-5 form-control"
-              id={`to-${field}`}
-              placeholder="To"
-            />
-          </div>
-        );
-      case 'date':
-        return (
-          <div key={field}>
-            <h3 className="col-1">{field}</h3>
-            <DatePicker
-              className="col-5 form-control"
-              selected={this.state.filterOptions.from}
-              onChange={(d) => {
-                this.setState({
-                  filterOptions: {
-                    ...this.state.filterOptions,
-                    from: d,
-                  },
-                });
-              }}
-            />
-            {' - '}
-            <DatePicker
-              selected={this.state.filterOptions.to}
-              onChange={(d) => {
-                this.setState({
-                  filterOptions: {
-                    ...this.state.filterOptions,
-                    to: d,
-                  },
-                });
-              }}
-            />
-          </div>
-        );
-      default:
-        return;
-    }
-  };
-
-  filterElements = {
-    airports: this.prepareFilterInput('airport'),
-    cities: this.prepareFilterInput('city'),
-    dates: this.prepareFilterInput('date'),
-  };
-
   toggleDropdown = (e: SyntheticMouseEvent<HTMLButtonElement>) => {
     this.setState({ dropdownIsToggled: !this.state.dropdownIsToggled, });
   };
@@ -124,26 +39,15 @@ class FlightFinder extends Component<Props, State> {
   };
 
   render() {
-    const menuItems = Object.keys(this.filterElements).map((key) => {
-      return {
-        key,
-        value: key,
-      };
-    });
-
+    console.log(this.state, this.props);
     return (
       <div className="flight-finder">
         <h2>Step 1: Find a flight</h2>
-        <Dropdown
-          isToggled={this.state.dropdownIsToggled}
-          menuItems={menuItems}
-          onDropdownClick={this.handleDropdownClick}
-          toggleDropdown={this.toggleDropdown}
-        >
-          Add filter
-        </Dropdown>
-        {this.state.filterFields.map((field) => field)}
-        <FlightsTable trOptions={this.trOptions} />
+        {/* <button onClick={this.props.onClick('friend')}>
+          {this.state.greetings}
+        </button> */}
+        {/* {this.state.filterFields.map((field) => field)} */}
+        {/* <FlightsTable trOptions={this.trOptions} /> */}
       </div>
     );
   }

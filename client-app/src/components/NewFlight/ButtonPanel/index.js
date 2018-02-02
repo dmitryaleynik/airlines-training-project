@@ -17,7 +17,7 @@ const ButtonPanel = (props) => (
         'd-none': props.currentStep >= 2,
       })}
       onClick={props.onNextClick}
-      disabled={!props.stepsFulfilled[props.currentStep]}
+      disabled={!props.fulfilledSteps[props.currentStep]}
     >
       Next
     </button>
