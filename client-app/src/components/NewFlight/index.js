@@ -12,24 +12,47 @@ class NewFlight extends Component<{}, State> {
     this.props.getCities();
   }
 
-  findFlights = (e) => {
-    e.preventDefault();
+  findFlights = (e, directionName) => {
     const fields = e.target.elements;
-    this.props.findFlights({
-      cities: {
-        from: fields['city-from'].value,
-        to: fields['city-to'].value,
+    this.props.findFlights(
+      {
+        cities: {
+          from: fields['city-from'].value,
+          to: fields['city-to'].value,
+        },
+        dates: {
+          from: this.props[directionName].filters.dates.from,
+          to: this.props[directionName].filters.dates.to,
+        },
+        numberOfTickets: fields['tickets'].value,
       },
-      dates: {
-        from: this.props.filters.dates.from,
-        to: this.props.filters.dates.to,
-      },
-      numberOfTickets: fields['tickets'].value,
-    });
+      directionName
+    );
+  };
+
+  fulfillFirstStep = (nextProps) => {
+    if (!nextProps.straightFlight.selectedId) {
+      return false;
+    }
+    if (this.props.straightFlight.selectedId) {
+      return false;
+    }
+    if (!this.props.isReverseRequired && nextProps.isReverseRequired) {
+      return false;
+    }
+    if (this.props.isReverseRequired) {
+      if (!nextProps.reverseFlight.selectedId) {
+        return false;
+      }
+      if (this.props.reverseFlight.selectedId) {
+        return false;
+      }
+    }
+    return true;
   };
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.selectedId && nextProps.selectedId) {
+    if (this.fulfillFirstStep(nextProps)) {
       this.props.fulfillStep(0);
     }
   }
@@ -124,26 +147,26 @@ class NewFlight extends Component<{}, State> {
       fulfilledSteps,
       currentStep,
       cities,
-      filters,
-      flights,
-      isSearched,
-      selectedId,
+      straightFlight,
+      reverseFlight,
+      isReverseRequired,
       handleBackClick,
       handleNextClick,
       changeDateStart,
       changeDateEnd,
       selectFlight,
+      toggleReversePath,
     } = this.props;
     const { findFlights, } = this;
     const renderredComponents = [
       <FlightFinder
         cities={cities}
-        filters={filters}
-        flights={flights}
-        isSearched={isSearched}
-        selectedId={selectedId}
+        straightFlight={straightFlight}
+        reverseFlight={reverseFlight}
+        isReverseRequired={isReverseRequired}
         changeDateStart={changeDateStart}
         changeDateEnd={changeDateEnd}
+        onReverseClick={toggleReversePath}
         onSubmit={findFlights}
         selectFlight={selectFlight}
       />,

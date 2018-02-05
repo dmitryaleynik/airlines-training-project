@@ -6,6 +6,7 @@ import {
   UPDATE_FILTERS,
   UPDATE_FLIGHTS,
   SELECT_FLIGHT,
+  TOGGLE_REVERSE,
 } from './types';
 
 export const getCities = () => {
@@ -20,39 +21,45 @@ export const getCities = () => {
   };
 };
 
-export const changeDateStart = (date) => {
+export const changeDateStart = (date, directionName) => {
   return {
     type: CHANGE_DATE_START,
-    payload: date,
+    payload: { date, directionName, },
   };
 };
 
-export const changeDateEnd = (date) => {
+export const changeDateEnd = (date, directionName) => {
   return {
     type: CHANGE_DATE_END,
-    payload: date,
+    payload: { date, directionName, },
   };
 };
 
-export const findFlights = (filters) => {
+export const findFlights = (filters, directionName) => {
   return async (dispatch) => {
     dispatch({
       type: UPDATE_FILTERS,
-      payload: filters,
+      payload: { filters, directionName, },
     });
     let resolvedFlights = await new Promise((resolve, reject) => {
       resolve(flights);
     });
     dispatch({
       type: UPDATE_FLIGHTS,
-      payload: resolvedFlights,
+      payload: { flights: resolvedFlights, directionName, },
     });
   };
 };
 
-export const selectFlight = (id) => {
+export const selectFlight = (id, directionName) => {
   return {
     type: SELECT_FLIGHT,
-    payload: id,
+    payload: { id, directionName, },
+  };
+};
+
+export const toggleReversePath = () => {
+  return {
+    type: TOGGLE_REVERSE,
   };
 };
