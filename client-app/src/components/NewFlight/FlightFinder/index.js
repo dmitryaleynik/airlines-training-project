@@ -5,10 +5,16 @@ import './styles.scss';
 
 const FlightFinder = (props) => {
   const matchedCities = props.cities;
-
   const citiesHints = matchedCities.map((city, index) => (
     <option key={index} value={city} />
   ));
+  const fffProps = {
+    citiesHints,
+    changeDateStart: props.changeDateStart,
+    changeDateEnd: props.changeDateEnd,
+    onSubmit: props.onSubmit,
+    selectFlight: props.selectFlight,
+  };
 
   return (
     <div className="flight-finder">
@@ -16,11 +22,7 @@ const FlightFinder = (props) => {
       <FlightFinderForm
         directionName="straightFlight"
         direction={props.straightFlight}
-        citiesHints={citiesHints}
-        changeDateStart={props.changeDateStart}
-        changeDateEnd={props.changeDateEnd}
-        onSubmit={props.onSubmit}
-        selectFlight={props.selectFlight}
+        {...fffProps}
       />
       {props.straightFlight.isSearched && (
         <button
@@ -34,11 +36,7 @@ const FlightFinder = (props) => {
         <FlightFinderForm
           directionName="reverseFlight"
           direction={props.reverseFlight}
-          citiesHints={citiesHints}
-          changeDateStart={props.changeDateStart}
-          changeDateEnd={props.changeDateEnd}
-          onSubmit={props.onSubmit}
-          selectFlight={props.selectFlight}
+          {...fffProps}
         />
       )}
     </div>

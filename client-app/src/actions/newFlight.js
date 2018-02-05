@@ -1,4 +1,4 @@
-import { STEP_FORWARD, STEP_BACKWARD, FULFILL_STEP, } from './types';
+import { STEP_FORWARD, STEP_BACKWARD, SET_STEP, } from './types';
 
 export const handleNextClick = () => {
   return {
@@ -12,9 +12,12 @@ export const handleBackClick = () => {
   };
 };
 
-export const fulfillStep = (step) => {
+export const setStep = (index, value) => {
   return {
-    type: FULFILL_STEP,
-    payload: step,
+    type: SET_STEP,
+    payload: {
+      index,
+      value,
+    },
   };
 };

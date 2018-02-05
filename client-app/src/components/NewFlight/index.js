@@ -30,30 +30,31 @@ class NewFlight extends Component<{}, State> {
     );
   };
 
-  fulfillFirstStep = (nextProps) => {
-    if (!nextProps.straightFlight.selectedId) {
-      return false;
-    }
-    if (this.props.straightFlight.selectedId) {
-      return false;
-    }
-    if (!this.props.isReverseRequired && nextProps.isReverseRequired) {
-      return false;
-    }
-    if (this.props.isReverseRequired) {
-      if (!nextProps.reverseFlight.selectedId) {
-        return false;
+  selectFlight = (id, directionName) => {
+    this.props.selectFlight(id, directionName);
+    if (directionName === 'straightFlight') {
+      if (!this.props.isReverseRequired
+        || (this.props.isReverseRequired && this.props.reverseFlight.selectedId)) {
+        this.props.setStep(0, true);
       }
-      if (this.props.reverseFlight.selectedId) {
-        return false;
+    } else if (directionName === 'reverseFlight') {
+      if (this.props.straightFlight.selectedId) {
+        this.props.setStep(0, true);
       }
     }
-    return true;
-  };
+    return;
+  }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.fulfillFirstStep(nextProps)) {
-      this.props.fulfillStep(0);
+  toggleReversePath = () => {
+    this.props.toggleReversePath();
+    if (!this.props.isReverseRequired) {
+      this.props.setStep(0, false);
+    } else {
+      if (this.props.straightFlight.selectedId) {
+        this.props.setStep(0, true);
+      } else {
+        this.props.setStep(0, false);
+      }
     }
   }
 
@@ -154,10 +155,12 @@ class NewFlight extends Component<{}, State> {
       handleNextClick,
       changeDateStart,
       changeDateEnd,
+    } = this.props;
+    const {
+      findFlights,
       selectFlight,
       toggleReversePath,
-    } = this.props;
-    const { findFlights, } = this;
+    } = this;
     const renderredComponents = [
       <FlightFinder
         cities={cities}

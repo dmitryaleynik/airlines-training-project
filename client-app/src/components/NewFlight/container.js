@@ -2,7 +2,7 @@ import { connect, } from 'react-redux';
 import {
   handleNextClick,
   handleBackClick,
-  fulfillStep,
+  setStep,
 } from 'src/actions/newFlight';
 import {
   getCities,
@@ -36,7 +36,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   handleBackClick,
   handleNextClick,
-  fulfillStep,
+  setStep,
   getCities,
   changeDateStart,
   changeDateEnd,

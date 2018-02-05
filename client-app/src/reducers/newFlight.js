@@ -1,4 +1,4 @@
-import { STEP_FORWARD, STEP_BACKWARD, FULFILL_STEP, } from 'src/actions/types';
+import { STEP_FORWARD, STEP_BACKWARD, SET_STEP, } from 'src/actions/types';
 import { immutableSplice, } from 'src/utils/helpers';
 
 const initialState = {
@@ -31,10 +31,10 @@ export default (state = initialState, { type, payload, }) => {
           false
         ),
       };
-    case FULFILL_STEP:
+    case SET_STEP:
       return {
         ...state,
-        fulfilledSteps: immutableSplice(state.fulfilledSteps, payload, 1, true),
+        fulfilledSteps: immutableSplice(state.fulfilledSteps, payload.index, 1, payload.value),
       };
     default:
       return state;

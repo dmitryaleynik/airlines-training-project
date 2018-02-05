@@ -1,7 +1,7 @@
 // NewFlight
 export const STEP_FORWARD = 'STEP_FORWARD';
 export const STEP_BACKWARD = 'STEP_BACKWARD';
-export const FULFILL_STEP = 'FULFILL_STEP';
+export const SET_STEP = 'SET_STEP';
 
 // FlightFinder
 export const GET_CITIES = 'GET_CITIES';
