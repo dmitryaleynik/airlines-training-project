@@ -3,7 +3,7 @@ import { immutablePush, } from 'src/utils/helpers';
 
 import cn from 'classnames';
 import 'react-datepicker/dist/react-datepicker.css';
-import './styles.css';
+import './styles.scss';
 
 const FlightFinder = (props) => {
   let matchedCities = props.cities;
@@ -46,6 +46,7 @@ const FlightFinder = (props) => {
   //     this.props.findFlight(nextState.selectedId);
   //   }
   // };
+  const citiesHints = matchedCities.map((city) => <option value={city} />);
 
   return (
     <div className="flight-finder">
@@ -54,18 +55,17 @@ const FlightFinder = (props) => {
         <input
           name="city-from"
           type="text"
+          list="city-from-hint"
           className="form-control"
-          onFocus={toggleHint}
-          onChange={handleCityChange}
         />
-        <div
-          className={cn('hint', {
-            'd-block': props.hints['city-from'],
-          })}
-        >
-          Ama hint
-        </div>
-        <input type="text" className="form-control" />
+        <datalist id="city-from-hint">{citiesHints}</datalist>
+        <input
+          name="city-to"
+          type="text"
+          list="city-to-hint"
+          className="form-control"
+        />
+        <datalist id="city-to-hint">{citiesHints}</datalist>
         <input type="text" className="form-control" />
         <input type="text" className="form-control" />
       </div>

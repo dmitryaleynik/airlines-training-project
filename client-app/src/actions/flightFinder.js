@@ -1,5 +1,5 @@
 import { cities, } from 'src/db/flightFinder';
-import { GET_CITIES, SHOW_HINT, HIDE_HINT, TOGGLE_HINT, } from './types';
+import { GET_CITIES, } from './types';
 
 export const getCities = () => {
   return async (dispatch) => {
@@ -10,12 +10,5 @@ export const getCities = () => {
       type: GET_CITIES,
       payload: resolvedCities,
     });
-  };
-};
-
-export const toggleHint = (hintType) => {
-  return {
-    type: TOGGLE_HINT,
-    payload: hintType,
   };
 };
