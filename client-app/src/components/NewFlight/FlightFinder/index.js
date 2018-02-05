@@ -1,4 +1,6 @@
 import React, { Component, } from 'react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import { immutablePush, } from 'src/utils/helpers';
 
 import cn from 'classnames';
@@ -6,17 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './styles.scss';
 
 const FlightFinder = (props) => {
-  let matchedCities = props.cities;
-
-  const handleCityChange = (e) => {
-    const filter = new RegExp(e.target.value, 'i');
-    matchedCities = props.cities.filter((city) => filter.test(city));
-    return matchedCities;
-  };
-
-  const toggleHint = (e) => {
-    return props.toggleHint(e.target.getAttribute('name'));
-  };
+  const matchedCities = props.cities;
 
   // handleDropdownClick = (e: any) => {
   //   const { filterFields, } = this.state;
@@ -66,8 +58,24 @@ const FlightFinder = (props) => {
           className="form-control"
         />
         <datalist id="city-to-hint">{citiesHints}</datalist>
-        <input type="text" className="form-control" />
-        <input type="text" className="form-control" />
+        <DatePicker
+          className="form-control"
+          data-target="date-from"
+          selected={props.dates.from}
+          selectsStart
+          startDate={props.dates.from}
+          endDate={props.dates.to}
+          onChange={props.changeDateStart}
+        />
+        <DatePicker
+          className="form-control"
+          data-target="date-to"
+          selected={props.dates.to}
+          selectsEnd
+          startDate={props.dates.from}
+          endDate={props.dates.to}
+          onChange={props.changeDateEnd}
+        />
       </div>
       {/* <button onClick={this.props.onClick('friend')}>
           {this.state.greetings}

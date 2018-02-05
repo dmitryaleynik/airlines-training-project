@@ -130,17 +130,23 @@ class NewFlight extends Component<{}, State> {
   render() {
     const {
       cities,
-      hints,
+      dates,
       startedSteps,
       fulfilledSteps,
       currentStep,
       handleBackClick,
       handleNextClick,
-      toggleHint,
+      changeDateStart,
+      changeDateEnd,
     } = this.props;
     // const { places, isLuggage, luggageWeight, pickedPlaces, } = this.state;
     const renderredComponents = [
-      <FlightFinder cities={cities} hints={hints} toggleHint={toggleHint} />,
+      <FlightFinder
+        cities={cities}
+        dates={dates}
+        changeDateStart={changeDateStart}
+        changeDateEnd={changeDateEnd}
+      />,
       //   <PlacePicker
       //     places={places}
       //     onClick={this.handlePlaceClick}
