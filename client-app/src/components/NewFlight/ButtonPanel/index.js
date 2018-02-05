@@ -1,11 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
-import './styles.css';
+import './styles.scss';
 
 const ButtonPanel = (props) => (
   <div className="new-flight button-panel position-relative">
     <button
-      className={classNames('btn btn-primary btn-back', {
+      className={classNames('btn btn-dark btn-back', {
         'd-none': props.currentStep <= 0,
       })}
       onClick={props.onBackClick}
@@ -13,7 +13,7 @@ const ButtonPanel = (props) => (
       Back
     </button>
     <button
-      className={classNames('btn btn-primary btn-next', {
+      className={classNames('btn btn-dark btn-next', {
         'd-none': props.currentStep >= 2,
       })}
       onClick={props.onNextClick}
