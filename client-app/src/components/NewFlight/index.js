@@ -1,47 +1,38 @@
 import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
-import PlacePicker from './PlacePicker';
-import PriceConfirmator from './PriceConfirmator';
+// import PlacePicker from './PlacePicker';
+// import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
-import { immutableSplice, immutablePush, } from 'src/utils/helpers';
 
-import './styles.css';
+import './styles.scss';
 
 class NewFlight extends Component<{}, State> {
-  constructor() {
-    super();
-    // this.state = {
-    //   places: [],
-    //   pickedPlaces: [],
-    //   stepsStarted: [true, false, false,],
-    //   stepsFulfilled: [false, false, false,],
-    //   currentStep: 0,
-    //   isLuggage: false,
-    //   luggageWeight: null,
-    //   isBooked: false,
-    // };
-    // for (let i = 1; i <= 30; ++i) {
-    //   this.state.places.push({
-    //     number: i,
-    //     isAvailable: true,
-    //   });
-    // }
-  }
-
   componentWillMount() {
     this.props.getCities();
   }
 
-  /////// FlightFinder methods ///////
-  // findFlight = (id: string) => {
-  //   const { stepsFulfilled, } = this.state;
-  //   if (id) {
-  //     this.setState({
-  //       stepsFulfilled: immutableSplice(stepsFulfilled, 0, 1, true),
-  //     });
-  //   }
-  // };
+  findFlights = (e) => {
+    e.preventDefault();
+    const fields = e.target.elements;
+    this.props.findFlights({
+      cities: {
+        from: fields['city-from'].value,
+        to: fields['city-to'].value,
+      },
+      dates: {
+        from: this.props.filters.dates.from,
+        to: this.props.filters.dates.to,
+      },
+      numberOfTickets: fields['tickets'].value,
+    });
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.selectedId && nextProps.selectedId) {
+      this.props.fulfillStep(0);
+    }
+  }
 
   // /////// PlacePicker methods ///////
   // checkSecondStepFulfillment = (places, isLuggage, luggageWeight) => {
@@ -129,23 +120,32 @@ class NewFlight extends Component<{}, State> {
 
   render() {
     const {
-      cities,
-      dates,
       startedSteps,
       fulfilledSteps,
       currentStep,
+      cities,
+      filters,
+      flights,
+      isSearched,
+      selectedId,
       handleBackClick,
       handleNextClick,
       changeDateStart,
       changeDateEnd,
+      selectFlight,
     } = this.props;
-    // const { places, isLuggage, luggageWeight, pickedPlaces, } = this.state;
+    const { findFlights, } = this;
     const renderredComponents = [
       <FlightFinder
         cities={cities}
-        dates={dates}
+        filters={filters}
+        flights={flights}
+        isSearched={isSearched}
+        selectedId={selectedId}
         changeDateStart={changeDateStart}
         changeDateEnd={changeDateEnd}
+        onSubmit={findFlights}
+        selectFlight={selectFlight}
       />,
       //   <PlacePicker
       //     places={places}

@@ -1,6 +1,7 @@
 import React, { Component, } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import FlightsTable from './FlightsTable';
 import { immutablePush, } from 'src/utils/helpers';
 
 import cn from 'classnames';
@@ -10,45 +11,33 @@ import './styles.scss';
 const FlightFinder = (props) => {
   const matchedCities = props.cities;
 
-  // handleDropdownClick = (e: any) => {
-  //   const { filterFields, } = this.state;
-  //   this.setState({
-  //     filterFields: immutablePush(
-  //       filterFields,
-  //       this.filterElements[e.target.value]
-  //     ),
-  //     dropdownIsToggled: false,
-  //   });
-  // };
+  const trOptions = (state: Object, rowInfo: Object, column: Object) => {
+    return {
+      style: {
+        backgroundColor:
+          rowInfo.original.id === props.selectedId ? '#ff7f7f' : '',
+      },
+      onClick: (e: Event) => {
+        props.selectFlight(rowInfo.original.id);
+      },
+    };
+  };
 
-  // trOptions = (state: Object, rowInfo: Object, column: Object) => {
-  //   return {
-  //     style: {
-  //       backgroundColor:
-  //         rowInfo.original.id === this.state.selectedId ? 'red' : '',
-  //     },
-  //     onClick: (e: Event) => {
-  //       this.setState({ selectedId: rowInfo.original.id, });
-  //     },
-  //   };
-  // };
-
-  // componentWillUpdate = (nextProps, nextState) => {
-  //   if (nextState.selectedId !== this.state.selectedId) {
-  //     this.props.findFlight(nextState.selectedId);
-  //   }
-  // };
-  const citiesHints = matchedCities.map((city) => <option value={city} />);
+  const citiesHints = matchedCities.map((city, index) => (
+    <option key={index} value={city} />
+  ));
 
   return (
     <div className="flight-finder">
       <h2>Step 1: Find a flight</h2>
-      <div className="input-group">
+      <form className="filter-panel input-group" onSubmit={props.onSubmit}>
         <input
           name="city-from"
           type="text"
           list="city-from-hint"
           className="form-control"
+          defaultValue={props.filters.cities.from}
+          required
         />
         <datalist id="city-from-hint">{citiesHints}</datalist>
         <input
@@ -56,32 +45,50 @@ const FlightFinder = (props) => {
           type="text"
           list="city-to-hint"
           className="form-control"
+          defaultValue={props.filters.cities.to}
+          required
         />
         <datalist id="city-to-hint">{citiesHints}</datalist>
         <DatePicker
           className="form-control"
+          name="date-from"
           data-target="date-from"
-          selected={props.dates.from}
+          selected={props.filters.dates.from}
           selectsStart
-          startDate={props.dates.from}
-          endDate={props.dates.to}
+          startDate={props.filters.dates.from}
+          endDate={props.filters.dates.to}
           onChange={props.changeDateStart}
         />
         <DatePicker
           className="form-control"
+          name="date-to"
           data-target="date-to"
-          selected={props.dates.to}
+          selected={props.filters.dates.to}
           selectsEnd
-          startDate={props.dates.from}
-          endDate={props.dates.to}
+          startDate={props.filters.dates.from}
+          endDate={props.filters.dates.to}
           onChange={props.changeDateEnd}
         />
-      </div>
+        <input
+          name="tickets"
+          className="form-control"
+          type="number"
+          min="1"
+          defaultValue={props.filters.numberOfTickets}
+        />
+        <div className="input-group-append">
+          <button type="submit" className="btn btn-secondary">
+            Find
+          </button>
+        </div>
+      </form>
       {/* <button onClick={this.props.onClick('friend')}>
           {this.state.greetings}
         </button> */}
       {/* {this.state.filterFields.map((field) => field)} */}
-      {/* <FlightsTable trOptions={this.trOptions} /> */}
+      {props.isSearched && (
+        <FlightsTable trOptions={trOptions} data={props.flights} />
+      )}
     </div>
   );
 };

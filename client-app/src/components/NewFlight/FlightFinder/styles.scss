@@ -1,7 +1,9 @@
-.flight-finder .table {
-  background-color: white;
-}
+.flight-finder {
+  .filter-panel {
+    margin-bottom: 20px;
+  }
 
-.new-flight .flight-finder .btn {
-  width: 100px;
+  .table {
+    background-color: #ffffff;
+  }
 }

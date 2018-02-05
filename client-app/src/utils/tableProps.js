@@ -2,7 +2,7 @@ export const initializeTableProps = (data) => {
   const defaultPageSize = 5;
   return {
     data: data,
-    minRows: data.lenth || 1,
+    minRows: data.length || 1,
     defaultPageSize,
     showPagination: data.length > defaultPageSize,
   };
@@ -19,21 +19,21 @@ export const orderTableColumns = (isFinder) => {
       Header: 'Plane Type',
       accessor: 'planeType',
     },
-    {
-      Header: 'Airports',
-      columns: [
-        {
-          id: 'airportFrom',
-          Header: 'From',
-          accessor: (d) => d.airport.from,
-        },
-        {
-          id: 'airportTo',
-          Header: 'To',
-          accessor: (d) => d.airport.to,
-        },
-      ],
-    },
+    // {
+    //   Header: 'Airports',
+    //   columns: [
+    //     {
+    //       id: 'airportFrom',
+    //       Header: 'From',
+    //       accessor: (d) => d.airport.from,
+    //     },
+    //     {
+    //       id: 'airportTo',
+    //       Header: 'To',
+    //       accessor: (d) => d.airport.to,
+    //     },
+    //   ],
+    // },
     {
       Header: 'Cities',
       columns: [
