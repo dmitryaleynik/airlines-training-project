@@ -11,3 +11,7 @@ export const UPDATE_FILTERS = 'UPDATE_FILTERS';
 export const UPDATE_FLIGHTS = 'UPDATE_FLIGHTS';
 export const SELECT_FLIGHT = 'SELECT_FLIGHT';
 export const TOGGLE_REVERSE = 'TOGGLE_REVERSE';
+
+// PlacePicker
+export const GET_PLACES = 'GET_PLACES';
+export const TOGGLE_PLACE = 'TOGGLE_PLACE';

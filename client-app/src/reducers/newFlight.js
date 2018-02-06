@@ -2,8 +2,8 @@ import { STEP_FORWARD, STEP_BACKWARD, SET_STEP, } from 'src/actions/types';
 import { immutableSplice, } from 'src/utils/helpers';
 
 const initialState = {
-  currentStep: 0,
-  startedSteps: [true, false, false,],
+  currentStep: 1,
+  startedSteps: [true, true, false,],
   fulfilledSteps: [false, true, true,],
 };
 
@@ -34,7 +34,12 @@ export default (state = initialState, { type, payload, }) => {
     case SET_STEP:
       return {
         ...state,
-        fulfilledSteps: immutableSplice(state.fulfilledSteps, payload.index, 1, payload.value),
+        fulfilledSteps: immutableSplice(
+          state.fulfilledSteps,
+          payload.index,
+          1,
+          payload.value
+        ),
       };
     default:
       return state;

@@ -12,6 +12,7 @@ import {
   selectFlight,
   toggleReversePath,
 } from 'src/actions/flightFinder';
+import { getPlaces, togglePlace, } from 'src/actions/placePicker';
 import NewFlight from 'src/components/NewFlight';
 
 const mapStateToProps = (state) => {
@@ -22,6 +23,7 @@ const mapStateToProps = (state) => {
     reverseFlight,
     isReverseRequired,
   } = state.flightFinder;
+  const { straightPlaces, reversePlaces, } = state.placePicker;
   return {
     currentStep,
     startedSteps,
@@ -30,6 +32,8 @@ const mapStateToProps = (state) => {
     straightFlight,
     reverseFlight,
     isReverseRequired,
+    straightPlaces,
+    reversePlaces,
   };
 };
 
@@ -43,6 +47,8 @@ const mapDispatchToProps = {
   findFlights,
   selectFlight,
   toggleReversePath,
+  getPlaces,
+  togglePlace,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);

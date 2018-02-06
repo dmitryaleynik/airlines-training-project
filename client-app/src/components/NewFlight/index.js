@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
-// import PlacePicker from './PlacePicker';
+import PlacePicker from './PlacePicker';
 // import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
 
@@ -10,6 +10,31 @@ import './styles.scss';
 class NewFlight extends Component<{}, State> {
   componentWillMount() {
     this.props.getCities();
+    this.props.getPlaces(this.props.straightFlight.selectedId);
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.currentStep !== nextProps.currentStep) {
+      switch (nextProps.currentStep) {
+        case 0:
+          this.props.getCities();
+          break;
+        case 1:
+          this.props.getPlaces(
+            this.props.straightFlight.selectedId,
+            'straightPlaces'
+          );
+          if (this.props.isReverseRequired) {
+            this.props.getPlaces(
+              this.props.reverseFlight.selectedId,
+              'reversePlaces'
+            );
+          }
+          break;
+        default:
+          return;
+      }
+    }
   }
 
   findFlights = (e, directionName) => {
@@ -33,8 +58,10 @@ class NewFlight extends Component<{}, State> {
   selectFlight = (id, directionName) => {
     this.props.selectFlight(id, directionName);
     if (directionName === 'straightFlight') {
-      if (!this.props.isReverseRequired
-        || (this.props.isReverseRequired && this.props.reverseFlight.selectedId)) {
+      if (
+        !this.props.isReverseRequired ||
+        (this.props.isReverseRequired && this.props.reverseFlight.selectedId)
+      ) {
         this.props.setStep(0, true);
       }
     } else if (directionName === 'reverseFlight') {
@@ -43,7 +70,7 @@ class NewFlight extends Component<{}, State> {
       }
     }
     return;
-  }
+  };
 
   toggleReversePath = () => {
     this.props.toggleReversePath();
@@ -56,7 +83,7 @@ class NewFlight extends Component<{}, State> {
         this.props.setStep(0, false);
       }
     }
-  }
+  };
 
   // /////// PlacePicker methods ///////
   // checkSecondStepFulfillment = (places, isLuggage, luggageWeight) => {
@@ -155,12 +182,11 @@ class NewFlight extends Component<{}, State> {
       handleNextClick,
       changeDateStart,
       changeDateEnd,
+      straightPlaces,
+      reversePlaces,
+      togglePlace,
     } = this.props;
-    const {
-      findFlights,
-      selectFlight,
-      toggleReversePath,
-    } = this;
+    const { findFlights, selectFlight, toggleReversePath, } = this;
     const renderredComponents = [
       <FlightFinder
         cities={cities}
@@ -173,13 +199,11 @@ class NewFlight extends Component<{}, State> {
         onSubmit={findFlights}
         selectFlight={selectFlight}
       />,
-      //   <PlacePicker
-      //     places={places}
-      //     onClick={this.handlePlaceClick}
-      //     toggleLuggage={this.toggleLuggage}
-      //     onLuggageChange={this.handleLuggageChange}
-      //     isLuggage={isLuggage}
-      //   />,
+      <PlacePicker
+        straightPlaces={straightPlaces}
+        reversePlaces={reversePlaces}
+        togglePlace={togglePlace}
+      />,
       //   <PriceConfirmator
       //     luggageWeight={luggageWeight}
       //     pickedPlaces={pickedPlaces}
