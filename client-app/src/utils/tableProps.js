@@ -19,21 +19,6 @@ export const orderTableColumns = (isFinder) => {
       Header: 'Plane Type',
       accessor: 'planeType',
     },
-    // {
-    //   Header: 'Airports',
-    //   columns: [
-    //     {
-    //       id: 'airportFrom',
-    //       Header: 'From',
-    //       accessor: (d) => d.airport.from,
-    //     },
-    //     {
-    //       id: 'airportTo',
-    //       Header: 'To',
-    //       accessor: (d) => d.airport.to,
-    //     },
-    //   ],
-    // },
     {
       Header: 'Cities',
       columns: [

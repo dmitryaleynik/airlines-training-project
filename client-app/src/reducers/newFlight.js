@@ -1,4 +1,8 @@
-import { STEP_FORWARD, STEP_BACKWARD, SET_STEP, } from 'src/actions/types';
+import {
+  NEW_FLIGHT_NEXT_STEP,
+  NEW_FLIGHT_PREV_STEP,
+  NEW_FLIGHT_SET_STEP_FULFILLMENT,
+} from 'src/actions/types';
 import { immutableSplice, } from 'src/utils/helpers';
 
 const initialState = {
@@ -9,7 +13,7 @@ const initialState = {
 
 export default (state = initialState, { type, payload, }) => {
   switch (type) {
-    case STEP_FORWARD:
+    case NEW_FLIGHT_NEXT_STEP:
       return {
         ...state,
         currentStep: state.currentStep + 1,
@@ -20,7 +24,7 @@ export default (state = initialState, { type, payload, }) => {
           true
         ),
       };
-    case STEP_BACKWARD:
+    case NEW_FLIGHT_PREV_STEP:
       return {
         ...state,
         currentStep: state.currentStep - 1,
@@ -31,10 +35,15 @@ export default (state = initialState, { type, payload, }) => {
           false
         ),
       };
-    case SET_STEP:
+    case NEW_FLIGHT_SET_STEP_FULFILLMENT:
       return {
         ...state,
-        fulfilledSteps: immutableSplice(state.fulfilledSteps, payload.index, 1, payload.value),
+        fulfilledSteps: immutableSplice(
+          state.fulfilledSteps,
+          payload.index,
+          1,
+          payload.value
+        ),
       };
     default:
       return state;

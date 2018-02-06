@@ -7,10 +7,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 const FlightFinderForm = (props) => {
   const trOptions = (state: Object, rowInfo: Object, column: Object) => {
     return {
-      style: {
-        backgroundColor:
-          rowInfo.original.id === props.direction.selectedId ? '#ff7f7f' : '',
-      },
+      className:
+        rowInfo.original.id === props.direction.selectedId ? 'picked-row' : '',
       onClick: (e: Event) => {
         props.selectFlight(rowInfo.original.id, props.directionName);
       },

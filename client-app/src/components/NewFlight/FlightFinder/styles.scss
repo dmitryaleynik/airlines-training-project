@@ -5,9 +5,12 @@
 
   .table {
     background-color: #ffffff;
-  }
+    .rt-tr {
+      cursor: pointer;
+    }
 
-  .rt-tr {
-    cursor: pointer;
+    .picked-row {
+      background-color: #ff7f7f;
+    }
   }
 }

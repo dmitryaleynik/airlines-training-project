@@ -1,20 +1,24 @@
-import { STEP_FORWARD, STEP_BACKWARD, SET_STEP, } from './types';
+import {
+  NEW_FLIGHT_NEXT_STEP,
+  NEW_FLIGHT_PREV_STEP,
+  NEW_FLIGHT_SET_STEP_FULFILLMENT,
+} from './types';
 
 export const handleNextClick = () => {
   return {
-    type: STEP_FORWARD,
+    type: NEW_FLIGHT_NEXT_STEP,
   };
 };
 
 export const handleBackClick = () => {
   return {
-    type: STEP_BACKWARD,
+    type: NEW_FLIGHT_PREV_STEP,
   };
 };
 
-export const setStep = (index, value) => {
+export const setStepFulfillment = (index, value) => {
   return {
-    type: SET_STEP,
+    type: NEW_FLIGHT_SET_STEP_FULFILLMENT,
     payload: {
       index,
       value,

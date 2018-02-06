@@ -27,6 +27,7 @@ const App = () => (
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/new-flight">
+            {/* Temporary added for development convenience */}
             NF
           </Link>
         </li>
