@@ -1,0 +1,23 @@
+.new-flight {
+  .status-bar {
+    height: 5px;
+    border-right: 0.5px solid #323232;
+    margin-top: -20px;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  .row {
+    margin: 0;
+  }
+
+  .prev-step {
+    background-color: turquoise;
+  }
+
+  .following-step {
+    background-color: #a6a6a6;
+  }
+}

@@ -1,0 +1,21 @@
+.new-flight {
+  .button-panel {
+    margin-top: 50px;
+    height: 38px;
+  }
+
+  .btn-back,
+  .btn-next {
+    position: absolute;
+    bottom: 0;
+    width: 65px;
+  }
+
+  .btn-back {
+    left: 0;
+  }
+
+  .btn-next {
+    right: 0;
+  }
+}

@@ -4,6 +4,7 @@ import { Route, Link, } from 'react-router-dom';
 import Home from 'src/components/Home';
 import SignUp from 'src/components/SignUp';
 import SignIn from 'src/components/SignIn';
+import NewFlight from 'src/components/NewFlight/container';
 import UserPage from 'src/components/UserPage';
 import './styles.scss';
 
@@ -24,12 +25,19 @@ const App = () => (
             Sign in
           </Link>
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/new-flight">
+            {/* Temporary added for development convenience */}
+            NF
+          </Link>
+        </li>
       </ul>
     </nav>
     <div>
       <Route exact path="/" component={Home} />
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
+      <Route path="/new-flight" component={NewFlight} />
       <Route path="/user-page" component={UserPage} />
     </div>
   </div>

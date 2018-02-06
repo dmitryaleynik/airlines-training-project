@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, } from 'react';
+import { Link, } from 'react-router-dom';
 import OrderTable from './OrderTable';
 import Dropdown from 'src/components/Dropdown';
 import './styles.scss';
@@ -8,6 +9,21 @@ type State = {
   dropdownIsToggled: boolean,
   filter: string,
 };
+
+const menuItems = [
+  {
+    key: 'Future',
+    value: 'future',
+  },
+  {
+    key: 'Past',
+    value: 'past',
+  },
+  {
+    key: 'All',
+    value: 'all',
+  },
+];
 
 class UserPage extends Component<{}, State> {
   state = {
@@ -27,20 +43,6 @@ class UserPage extends Component<{}, State> {
   };
 
   render() {
-    const menuItems = [
-      {
-        key: 'Future',
-        value: 'future',
-      },
-      {
-        key: 'Past',
-        value: 'past',
-      },
-      {
-        key: 'All',
-        value: 'all',
-      },
-    ];
     return (
       <div className="user-page">
         <div className="button-panel d-flex justify-content-between">
@@ -52,7 +54,9 @@ class UserPage extends Component<{}, State> {
           >
             Filter flights
           </Dropdown>
-          <button className="btn btn-secondary btn-sm">New Flight</button>
+          <Link className="btn btn-secondary btn-sm" to="/new-flight">
+            New Flight
+          </Link>
         </div>
         <OrderTable filter={this.state.filter} />
       </div>
