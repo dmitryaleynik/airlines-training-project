@@ -1,42 +1,39 @@
 import React from 'react';
 import PlacePickerJumbotron from './PlacePickerJumbotron';
-import { STRAIGHT_PLACES, } from 'src/imports';
+import {
+  STRAIGHT_FLIGHT,
+  REVERSE_FLIGHT,
+  STRAIGHT_PLACES,
+  REVERSE_PLACES,
+} from 'src/imports';
 
 import './styles.scss';
 
 const PlacePicker = (props) => {
+  const PlacePickerJumbotronProps = {
+    togglePlace: props.togglePlace,
+    toggleLuggage: props.toggleLuggage,
+    onLuggageChange: props.onLuggageChange,
+  };
   return (
     <div className="place-picker">
       <h2>Step 2: Pick places</h2>
       <PlacePickerJumbotron
         directionName={STRAIGHT_PLACES}
-        direction={props.straightPlaces}
-        togglePlace={props.togglePlace}
-        toggleLuggage={props.toggleLuggage}
+        direction={props[STRAIGHT_PLACES]}
+        selectedId={props.selectedIds[STRAIGHT_FLIGHT]}
         luggageLimit={props.luggageLimit[STRAIGHT_PLACES]}
+        {...PlacePickerJumbotronProps}
       />
-      {/* <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="luggageCheck"
-          value={isLuggage}
-          onChange={toggleLuggage}
+      {props.isReverseRequired && (
+        <PlacePickerJumbotron
+          directionName={REVERSE_PLACES}
+          direction={props[REVERSE_PLACES]}
+          selectedId={props.selectedIds[REVERSE_FLIGHT]}
+          luggageLimit={props.luggageLimit[REVERSE_PLACES]}
+          {...PlacePickerJumbotronProps}
         />
-        <label htmlFor="luggageCheck" className="form-check-label">
-          Do you have any luggage?
-        </label>
-      </div>
-      {isLuggage && (
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Input your luggage weight, kg"
-            onChange={onLuggageChange}
-          />
-        </div>
-      )} */}
+      )}
     </div>
   );
 };

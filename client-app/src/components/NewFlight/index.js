@@ -116,12 +116,17 @@ class NewFlight extends Component<{}, State> {
       reversePlaces,
       togglePlace,
       toggleLuggageRequirement,
+      changeLuggageAmount,
     } = this.props;
     const { findFlights, selectFlight, toggleReversePath, } = this;
 
     const luggageLimit = {
       [STRAIGHT_PLACES]: this.getLuggageLimit(STRAIGHT_FLIGHT),
       [REVERSE_PLACES]: this.getLuggageLimit(REVERSE_FLIGHT),
+    };
+    const selectedIds = {
+      [STRAIGHT_FLIGHT]: straightFlight.selectedId,
+      [REVERSE_FLIGHT]: reverseFlight.selectedId,
     };
 
     const renderredComponents = [
@@ -137,11 +142,14 @@ class NewFlight extends Component<{}, State> {
         selectFlight={selectFlight}
       />,
       <PlacePicker
+        isReverseRequired={isReverseRequired}
+        selectedIds={selectedIds}
         straightPlaces={straightPlaces}
         reversePlaces={reversePlaces}
         togglePlace={togglePlace}
         toggleLuggage={toggleLuggageRequirement}
         luggageLimit={luggageLimit}
+        onLuggageChange={changeLuggageAmount}
       />,
     ];
     return (

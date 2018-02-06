@@ -2,15 +2,23 @@ import {
   PLACE_PICKER_GET_ALL_PLACES,
   PLACE_PICKER_TOGGLE_PLACE,
   PLACE_PICKER_TOGGLE_LUGGAGE_REQUIREMENT,
+  PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT,
 } from 'src/actions/types';
-import { immutableSplice, } from 'src/utils/helpers';
+import { immutableSplice, immutablePush, } from 'src/utils/helpers';
 
 const initialState = {
   straightPlaces: {
     places: [],
+    pickedPlaces: [],
     isLuggageRequired: false,
+    luggageKg: 0,
   },
-  reversePlaces: {},
+  reversePlaces: {
+    places: [],
+    pickedPlaces: [],
+    isLuggageRequired: false,
+    luggageKg: 0,
+  },
 };
 
 const togglePlace = (state, payload) => {
@@ -19,6 +27,19 @@ const togglePlace = (state, payload) => {
     (place) => place.number === number
   );
   const place = state[directionName].places[index];
+  const pickedIndex = state[directionName].pickedPlaces.findIndex(
+    (num) => num === number
+  );
+  let newPickedPlaces = [];
+  if (pickedIndex !== -1) {
+    newPickedPlaces = immutableSplice(
+      state[directionName].pickedPlaces,
+      pickedIndex,
+      1
+    );
+  } else {
+    newPickedPlaces = immutablePush(state[directionName].pickedPlaces, number);
+  }
   return {
     ...state,
     [directionName]: {
@@ -28,6 +49,7 @@ const togglePlace = (state, payload) => {
         type: place.type,
         available: !place.available,
       }),
+      pickedPlaces: newPickedPlaces,
     },
   };
 };
@@ -50,6 +72,14 @@ export default (state = initialState, { type, payload, }) => {
         [payload]: {
           ...state[payload],
           isLuggageRequired: !state[payload].isLuggageRequired,
+        },
+      };
+    case PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT:
+      return {
+        ...state,
+        [payload.directionName]: {
+          ...state[payload.directionName],
+          luggageKg: payload.kg,
         },
       };
     default:

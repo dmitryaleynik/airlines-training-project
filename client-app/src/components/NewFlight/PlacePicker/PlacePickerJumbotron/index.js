@@ -7,12 +7,19 @@ const PlacePickerJumbotron = (props) => {
   const { places, isLuggageRequired, } = props.direction;
   const economPlaces = places.filter((place) => place.type === 'econom');
   const businessPlaces = places.filter((place) => place.type === 'business');
+
   const togglePlace = (e) => {
     props.togglePlace(Number(e.target.innerHTML), props.directionName);
   };
+
   const toggleLuggage = (e) => {
     props.toggleLuggage(props.directionName);
   };
+
+  const handleLuggageChange = (e) => {
+    props.onLuggageChange(Number(e.target.value), props.directionName);
+  };
+
   const placeRenderer = (place) => {
     if (place.isPermanently || moment() < place.expiresAt) {
       return (
@@ -42,7 +49,9 @@ const PlacePickerJumbotron = (props) => {
   };
   return (
     <div className="jumbotron">
-      <p className="lead text-center">Choose available places:</p>
+      <p className="lead text-center">
+        Pick places for flight #{props.selectedId}
+      </p>
       <div className="w-50">
         <p>Econom places:</p>
         {economPlaces.map(placeRenderer)}
@@ -56,7 +65,6 @@ const PlacePickerJumbotron = (props) => {
           type="checkbox"
           className="form-check-input"
           id="luggageCheck"
-          // value={isLuggage}
           onChange={toggleLuggage}
         />
         <label htmlFor="luggageCheck" className="form-check-label">
@@ -66,9 +74,12 @@ const PlacePickerJumbotron = (props) => {
       {isLuggageRequired && (
         <div className="form-group">
           <input
-            type="text"
+            type="number"
+            min="0"
+            max={props.luggageLimit}
             className="form-control"
             placeholder="Input your luggage weight, kg"
+            onChange={handleLuggageChange}
             required
           />
           Max amount: {props.luggageLimit}kg!!

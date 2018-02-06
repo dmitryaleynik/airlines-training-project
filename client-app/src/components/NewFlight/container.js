@@ -16,6 +16,7 @@ import {
   getPlaces,
   togglePlace,
   toggleLuggageRequirement,
+  changeLuggageAmount,
 } from 'src/actions/placePicker';
 import NewFlight from 'src/components/NewFlight';
 
@@ -54,6 +55,7 @@ const mapDispatchToProps = {
   getPlaces,
   togglePlace,
   toggleLuggageRequirement,
+  changeLuggageAmount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);
