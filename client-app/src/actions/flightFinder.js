@@ -1,21 +1,19 @@
 import { cities, flights, } from 'src/db/flightFinder';
 import {
-  GET_CITIES,
-  CHANGE_DATE_START,
-  CHANGE_DATE_END,
-  UPDATE_FILTERS,
-  UPDATE_FLIGHTS,
-  SELECT_FLIGHT,
-  TOGGLE_REVERSE,
+  FLIGHT_FINDER_GET_CITIES,
+  FLIGHT_FINDER_CHANGE_DATE_START,
+  FLIGHT_FINDER_CHANGE_DATE_END,
+  FLIGHT_FINDER_UPDATE_FILTERS,
+  FLIGHT_FINDER_UPDATE_FLIGHTS,
+  FLIGHT_FINDER_SELECT_FLIGHT,
+  FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT,
 } from './types';
 
 export const getCities = () => {
   return async (dispatch) => {
-    let resolvedCities = await new Promise((resolve, reject) => {
-      resolve(cities);
-    });
+    let resolvedCities = await Promise.resolve(cities);
     dispatch({
-      type: GET_CITIES,
+      type: FLIGHT_FINDER_GET_CITIES,
       payload: resolvedCities,
     });
   };
@@ -23,14 +21,14 @@ export const getCities = () => {
 
 export const changeDateStart = (date, directionName) => {
   return {
-    type: CHANGE_DATE_START,
+    type: FLIGHT_FINDER_CHANGE_DATE_START,
     payload: { date, directionName, },
   };
 };
 
 export const changeDateEnd = (date, directionName) => {
   return {
-    type: CHANGE_DATE_END,
+    type: FLIGHT_FINDER_CHANGE_DATE_END,
     payload: { date, directionName, },
   };
 };
@@ -38,14 +36,12 @@ export const changeDateEnd = (date, directionName) => {
 export const findFlights = (filters, directionName) => {
   return async (dispatch) => {
     dispatch({
-      type: UPDATE_FILTERS,
+      type: FLIGHT_FINDER_UPDATE_FILTERS,
       payload: { filters, directionName, },
     });
-    let resolvedFlights = await new Promise((resolve, reject) => {
-      resolve(flights);
-    });
+    let resolvedFlights = await Promise.resolve(flights);
     dispatch({
-      type: UPDATE_FLIGHTS,
+      type: FLIGHT_FINDER_UPDATE_FLIGHTS,
       payload: { flights: resolvedFlights, directionName, },
     });
   };
@@ -53,13 +49,13 @@ export const findFlights = (filters, directionName) => {
 
 export const selectFlight = (id, directionName) => {
   return {
-    type: SELECT_FLIGHT,
+    type: FLIGHT_FINDER_SELECT_FLIGHT,
     payload: { id, directionName, },
   };
 };
 
 export const toggleReversePath = () => {
   return {
-    type: TOGGLE_REVERSE,
+    type: FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT,
   };
 };

@@ -5,6 +5,7 @@ import PlacePicker from './PlacePicker';
 // import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
 import {
+  steps,
   STRAIGHT_FLIGHT,
   REVERSE_FLIGHT,
   STRAIGHT_PLACES,
@@ -62,16 +63,16 @@ class NewFlight extends Component<{}, State> {
 
   selectFlight = (id, directionName) => {
     this.props.selectFlight(id, directionName);
-    if (directionName === 'straightFlight') {
+    if (directionName === STRAIGHT_FLIGHT) {
       if (
         !this.props.isReverseRequired ||
         (this.props.isReverseRequired && this.props.reverseFlight.selectedId)
       ) {
-        this.props.setStep(0, true);
+        this.props.setStepFulfillment(steps.FINDER, true);
       }
-    } else if (directionName === 'reverseFlight') {
+    } else if (directionName === REVERSE_FLIGHT) {
       if (this.props.straightFlight.selectedId) {
-        this.props.setStep(0, true);
+        this.props.setStepFulfillment(steps.FINDER, true);
       }
     }
     return;
@@ -80,99 +81,16 @@ class NewFlight extends Component<{}, State> {
   toggleReversePath = () => {
     this.props.toggleReversePath();
     if (!this.props.isReverseRequired) {
-      this.props.setStep(0, false);
+      this.props.setStepFulfillment(steps.FINDER, false);
     } else {
       if (this.props.straightFlight.selectedId) {
-        this.props.setStep(0, true);
+        this.props.setStepFulfillment(steps.FINDER, true);
       } else {
-        this.props.setStep(0, false);
+        this.props.setStepFulfillment(steps.FINDER, false);
       }
     }
   };
 
-  // /////// PlacePicker methods ///////
-  // checkSecondStepFulfillment = (places, isLuggage, luggageWeight) => {
-  //   if (!places.length) {
-  //     return false;
-  //   }
-  //   if (isLuggage && (!luggageWeight || !Number(luggageWeight))) {
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
-  // handlePlaceClick = (e) => {
-  //   const {
-  //     places,
-  //     pickedPlaces,
-  //     stepsFulfilled,
-  //     isLuggage,
-  //     luggageWeight,
-  //   } = this.state;
-  //   const pickedPlace = places[e.target.innerHTML - 1];
-  //   let newPickedPlaces = [],
-  //     isStepFulfilled = false;
-  //   if (pickedPlace.isAvailable) {
-  //     newPickedPlaces = immutablePush(pickedPlaces, pickedPlace.number);
-  //   } else {
-  //     let index = pickedPlaces.indexOf(pickedPlace.number);
-  //     newPickedPlaces = immutableSplice(pickedPlaces, index, 1);
-  //   }
-  //   isStepFulfilled = this.checkSecondStepFulfillment(
-  //     newPickedPlaces,
-  //     isLuggage,
-  //     luggageWeight
-  //   );
-  //   this.setState({
-  //     places: immutableSplice(places, pickedPlace.number - 1, 1, {
-  //       number: pickedPlace.number,
-  //       isAvailable: !pickedPlace.isAvailable,
-  //     }),
-  //     pickedPlaces: newPickedPlaces,
-  //     stepsFulfilled: immutableSplice(stepsFulfilled, 1, 1, isStepFulfilled),
-  //   });
-  // };
-
-  // toggleLuggage = () => {
-  //   const {
-  //     isLuggage,
-  //     pickedPlaces,
-  //     luggageWeight,
-  //     stepsFulfilled,
-  //   } = this.state;
-  //   const isStepFulfilled = this.checkSecondStepFulfillment(
-  //     pickedPlaces,
-  //     !isLuggage,
-  //     luggageWeight
-  //   );
-  //   this.setState({
-  //     isLuggage: !isLuggage,
-  //     stepsFulfilled: immutableSplice(stepsFulfilled, 1, 1, isStepFulfilled),
-  //     luggageWeight: null,
-  //   });
-  // };
-
-  // handleLuggageChange = (e) => {
-  //   const { pickedPlaces, stepsFulfilled, } = this.state;
-  //   const luggageWeight = e.target.value;
-  //   const isStepFulfilled = this.checkSecondStepFulfillment(
-  //     pickedPlaces,
-  //     true,
-  //     luggageWeight
-  //   );
-  //   this.setState({
-  //     luggageWeight,
-  //     stepsFulfilled: immutableSplice(stepsFulfilled, 1, 1, isStepFulfilled),
-  //   });
-  // };
-
-  // /////// PriceConfirmator methods ///////
-  // handleBuyingConfirmation = () => {
-  //   this.setState({ isBooked: true, });
-  //   setTimeout(() => {
-  //     window.location = 'http://localhost:3000/user-page';
-  //   }, 3000);
-  // };
   getLuggageLimit = (directionName) => {
     return this.props[directionName].selectedId
       ? this.props[directionName].flights.find(
@@ -225,12 +143,6 @@ class NewFlight extends Component<{}, State> {
         toggleLuggage={toggleLuggageRequirement}
         luggageLimit={luggageLimit}
       />,
-      //   <PriceConfirmator
-      //     luggageWeight={luggageWeight}
-      //     pickedPlaces={pickedPlaces}
-      //     onClick={this.handleBuyingConfirmation}
-      //     isBooked={this.state.isBooked}
-      //   />,
     ];
     return (
       <div className="new-flight">

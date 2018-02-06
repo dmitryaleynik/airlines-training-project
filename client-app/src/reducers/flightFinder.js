@@ -1,12 +1,12 @@
 import moment from 'moment';
 import {
-  GET_CITIES,
-  CHANGE_DATE_START,
-  CHANGE_DATE_END,
-  UPDATE_FILTERS,
-  UPDATE_FLIGHTS,
-  SELECT_FLIGHT,
-  TOGGLE_REVERSE,
+  FLIGHT_FINDER_GET_CITIES,
+  FLIGHT_FINDER_CHANGE_DATE_START,
+  FLIGHT_FINDER_CHANGE_DATE_END,
+  FLIGHT_FINDER_UPDATE_FILTERS,
+  FLIGHT_FINDER_UPDATE_FLIGHTS,
+  FLIGHT_FINDER_SELECT_FLIGHT,
+  FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT,
 } from 'src/actions/types';
 
 const currentMoment = moment();
@@ -61,14 +61,14 @@ export default (state = initialState, { type, payload, }) => {
     dName = payload.directionName;
   }
   switch (type) {
-    case GET_CITIES:
+    case FLIGHT_FINDER_GET_CITIES:
       return {
         ...state,
         cities: payload,
       };
-    case TOGGLE_REVERSE:
+    case FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT:
       return toggleReverse(state, payload);
-    case CHANGE_DATE_START:
+    case FLIGHT_FINDER_CHANGE_DATE_START:
       return {
         ...state,
         [dName]: {
@@ -86,7 +86,7 @@ export default (state = initialState, { type, payload, }) => {
         },
       };
     // };
-    case CHANGE_DATE_END:
+    case FLIGHT_FINDER_CHANGE_DATE_END:
       return {
         ...state,
         [dName]: {
@@ -103,7 +103,7 @@ export default (state = initialState, { type, payload, }) => {
           },
         },
       };
-    case UPDATE_FILTERS:
+    case FLIGHT_FINDER_UPDATE_FILTERS:
       return {
         ...state,
         [dName]: {
@@ -111,7 +111,7 @@ export default (state = initialState, { type, payload, }) => {
           filters: payload.filters,
         },
       };
-    case UPDATE_FLIGHTS:
+    case FLIGHT_FINDER_UPDATE_FLIGHTS:
       return {
         ...state,
         [dName]: {
@@ -121,7 +121,7 @@ export default (state = initialState, { type, payload, }) => {
           selectedId: '',
         },
       };
-    case SELECT_FLIGHT:
+    case FLIGHT_FINDER_SELECT_FLIGHT:
       return {
         ...state,
         [dName]: {

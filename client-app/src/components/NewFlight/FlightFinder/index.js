@@ -8,7 +8,7 @@ const FlightFinder = (props) => {
   const citiesHints = matchedCities.map((city, index) => (
     <option key={index} value={city} />
   ));
-  const fffProps = {
+  const FlightFinderFormProps = {
     citiesHints,
     changeDateStart: props.changeDateStart,
     changeDateEnd: props.changeDateEnd,
@@ -22,7 +22,7 @@ const FlightFinder = (props) => {
       <FlightFinderForm
         directionName="straightFlight"
         direction={props.straightFlight}
-        {...fffProps}
+        {...FlightFinderFormProps}
       />
       {props.straightFlight.isSearched && (
         <button
@@ -36,7 +36,7 @@ const FlightFinder = (props) => {
         <FlightFinderForm
           directionName="reverseFlight"
           direction={props.reverseFlight}
-          {...fffProps}
+          {...FlightFinderFormProps}
         />
       )}
     </div>
