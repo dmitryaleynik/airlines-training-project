@@ -26,6 +26,7 @@ export const flights = [
       },
     },
     luggage: {
+      maxKg: 30,
       free: 20,
       price: 3,
     },
@@ -56,6 +57,7 @@ export const flights = [
       },
     },
     luggage: {
+      maxKg: 50,
       free: 25,
       price: 4,
     },

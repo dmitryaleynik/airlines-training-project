@@ -1,59 +1,20 @@
 import React from 'react';
-import moment from 'moment';
+import PlacePickerJumbotron from './PlacePickerJumbotron';
+import { STRAIGHT_PLACES, } from 'src/imports';
 
-import cn from 'classnames';
 import './styles.scss';
 
 const PlacePicker = (props) => {
-  const economPlaces = props.places.filter((place) => place.type === 'econom');
-  const businessPlaces = props.places.filter(
-    (place) => place.type === 'business'
-  );
-  const togglePlace = (e) => {
-    props.togglePlace(e.target.innerHTML);
-  };
-  const placeRenderer = (place) => {
-    if (place.isPermanently || moment() < place.expiresAt) {
-      return (
-        <span className="mx-1" key={place.number}>
-          {place.number}
-        </span>
-      );
-    } else {
-      return (
-        <a
-          key={place.number}
-          className={cn(
-            'mx-1',
-            {
-              'available-place': place.available,
-            },
-            {
-              'booked-place': !place.available,
-            }
-          )}
-          onClick={togglePlace}
-        >
-          {place.number}
-        </a>
-      );
-    }
-  };
-
   return (
     <div className="place-picker">
       <h2>Step 2: Pick places</h2>
-      <div className="jumbotron">
-        <p className="lead text-center">Choose available places:</p>
-        <div className="w-50">
-          <p>Econom places:</p>
-          {economPlaces.map(placeRenderer)}
-        </div>
-        <div className="w-50 m-0">
-          <p>Business places:</p>
-          {businessPlaces.map(placeRenderer)}
-        </div>
-      </div>
+      <PlacePickerJumbotron
+        directionName={STRAIGHT_PLACES}
+        direction={props.straightPlaces}
+        togglePlace={props.togglePlace}
+        toggleLuggage={props.toggleLuggage}
+        luggageLimit={props.luggageLimit[STRAIGHT_PLACES]}
+      />
       {/* <div className="form-check">
         <input
           type="checkbox"

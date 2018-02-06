@@ -12,7 +12,11 @@ import {
   selectFlight,
   toggleReversePath,
 } from 'src/actions/flightFinder';
-import { getPlaces, togglePlace, } from 'src/actions/placePicker';
+import {
+  getPlaces,
+  togglePlace,
+  toggleLuggageRequirement,
+} from 'src/actions/placePicker';
 import NewFlight from 'src/components/NewFlight';
 
 const mapStateToProps = (state) => {
@@ -49,6 +53,7 @@ const mapDispatchToProps = {
   toggleReversePath,
   getPlaces,
   togglePlace,
+  toggleLuggageRequirement,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);

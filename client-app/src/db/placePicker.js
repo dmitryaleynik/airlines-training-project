@@ -8,7 +8,7 @@ export const tickets = [
         type: 'econom',
         available: true,
         isPermanently: false,
-        expiresAt: moment('2018-02-06 12:21'),
+        expiresAt: moment('2018-02-06 14:21'),
       },
       {
         number: 2,

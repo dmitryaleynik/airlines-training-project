@@ -2,8 +2,8 @@ import { STEP_FORWARD, STEP_BACKWARD, SET_STEP, } from 'src/actions/types';
 import { immutableSplice, } from 'src/utils/helpers';
 
 const initialState = {
-  currentStep: 1,
-  startedSteps: [true, true, false,],
+  currentStep: 0,
+  startedSteps: [true, false, false,],
   fulfilledSteps: [false, true, true,],
 };
 

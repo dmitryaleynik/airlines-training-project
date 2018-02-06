@@ -4,13 +4,18 @@ import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
 // import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
+import {
+  STRAIGHT_FLIGHT,
+  REVERSE_FLIGHT,
+  STRAIGHT_PLACES,
+  REVERSE_PLACES,
+} from 'src/imports';
 
 import './styles.scss';
 
 class NewFlight extends Component<{}, State> {
   componentWillMount() {
     this.props.getCities();
-    this.props.getPlaces(this.props.straightFlight.selectedId);
   }
 
   componentWillUpdate(nextProps) {
@@ -22,12 +27,12 @@ class NewFlight extends Component<{}, State> {
         case 1:
           this.props.getPlaces(
             this.props.straightFlight.selectedId,
-            'straightPlaces'
+            STRAIGHT_PLACES
           );
           if (this.props.isReverseRequired) {
             this.props.getPlaces(
               this.props.reverseFlight.selectedId,
-              'reversePlaces'
+              REVERSE_PLACES
             );
           }
           break;
@@ -168,6 +173,13 @@ class NewFlight extends Component<{}, State> {
   //     window.location = 'http://localhost:3000/user-page';
   //   }, 3000);
   // };
+  getLuggageLimit = (directionName) => {
+    return this.props[directionName].selectedId
+      ? this.props[directionName].flights.find(
+          (flight) => flight.id === this.props[directionName].selectedId
+        ).luggage.maxKg
+      : null;
+  };
 
   render() {
     const {
@@ -185,8 +197,15 @@ class NewFlight extends Component<{}, State> {
       straightPlaces,
       reversePlaces,
       togglePlace,
+      toggleLuggageRequirement,
     } = this.props;
     const { findFlights, selectFlight, toggleReversePath, } = this;
+
+    const luggageLimit = {
+      [STRAIGHT_PLACES]: this.getLuggageLimit(STRAIGHT_FLIGHT),
+      [REVERSE_PLACES]: this.getLuggageLimit(REVERSE_FLIGHT),
+    };
+
     const renderredComponents = [
       <FlightFinder
         cities={cities}
@@ -203,6 +222,8 @@ class NewFlight extends Component<{}, State> {
         straightPlaces={straightPlaces}
         reversePlaces={reversePlaces}
         togglePlace={togglePlace}
+        toggleLuggage={toggleLuggageRequirement}
+        luggageLimit={luggageLimit}
       />,
       //   <PriceConfirmator
       //     luggageWeight={luggageWeight}

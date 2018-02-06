@@ -14,6 +14,7 @@
   }
 
   .booked-place {
+    text-decoration: underline !important;
     &:hover {
       color: #b2b2b2 !important;
     }

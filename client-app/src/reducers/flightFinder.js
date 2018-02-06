@@ -27,7 +27,7 @@ const initialState = {
       numberOfTickets: 1,
     },
     isSearched: false,
-    selectedId: '4',
+    selectedId: '',
   },
   reverseFlight: {},
 };
