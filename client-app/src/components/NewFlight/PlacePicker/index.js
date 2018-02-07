@@ -14,6 +14,7 @@ const PlacePicker = (props) => {
     togglePlace: props.togglePlace,
     toggleLuggage: props.toggleLuggage,
     onLuggageChange: props.onLuggageChange,
+    validatePlaces: props.validatePlaces,
   };
   return (
     <div className="place-picker">

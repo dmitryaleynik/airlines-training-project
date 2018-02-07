@@ -2,24 +2,26 @@ import React from 'react';
 
 import cn from 'classnames';
 
-const PlacePickerJumbotron = (props) => {
-  const { places, pickedPlaces, isLuggageRequired, } = props.direction;
-  const economPlaces = places.filter((place) => place.type === 'econom');
-  const businessPlaces = places.filter((place) => place.type === 'business');
-
-  const togglePlace = (e) => {
-    props.togglePlace(Number(e.target.innerHTML), props.directionName);
+class PlacePickerJumbotron extends React.Component {
+  togglePlace = (e) => {
+    this.props.togglePlace(
+      Number(e.target.innerHTML),
+      this.props.directionName
+    );
   };
 
-  const toggleLuggage = (e) => {
-    props.toggleLuggage(props.directionName);
+  toggleLuggage = (e) => {
+    this.props.toggleLuggage(this.props.directionName);
   };
 
-  const handleLuggageChange = (e) => {
-    props.onLuggageChange(Number(e.target.value), props.directionName);
+  handleLuggageChange = (e) => {
+    this.props.onLuggageChange(
+      Number(e.target.value),
+      this.props.directionName
+    );
   };
 
-  const placeRenderer = (place) => {
+  placeRenderer = (place) => {
     if (!place.isAvailable) {
       return (
         <span className="mx-1" key={place.number}>
@@ -27,7 +29,8 @@ const PlacePickerJumbotron = (props) => {
         </span>
       );
     } else {
-      const isPicked = pickedPlaces.indexOf(place.number) !== -1;
+      const isPicked =
+        this.props.direction.pickedPlaces.indexOf(place.number) !== -1;
       return (
         <a
           key={place.number}
@@ -40,53 +43,85 @@ const PlacePickerJumbotron = (props) => {
               'booked-place': isPicked,
             }
           )}
-          onClick={togglePlace}
+          onClick={this.togglePlace}
         >
           {place.number}
         </a>
       );
     }
   };
-  return (
-    <div className="jumbotron">
-      <p className="lead text-center">
-        Pick places for flight #{props.selectedId}
-      </p>
-      <div className="w-50">
-        <p>Econom places:</p>
-        {economPlaces.map(placeRenderer)}
-      </div>
-      <div>
-        <p>Business places:</p>
-        {businessPlaces.map(placeRenderer)}
-      </div>
-      <div className="form-check mt-4">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="luggageCheck"
-          onChange={toggleLuggage}
-        />
-        <label htmlFor="luggageCheck" className="form-check-label">
-          Check if you have luggage
-        </label>
-      </div>
-      {isLuggageRequired && (
-        <div className="form-group">
-          <input
-            type="number"
-            min="0"
-            max={props.luggageLimit}
-            className="form-control"
-            placeholder="Input your luggage weight, kg"
-            onChange={handleLuggageChange}
-            required
-          />
-          Max amount: {props.luggageLimit}kg!!
+
+  componentWillUpdate(nextProps) {
+    const cur = this.props.direction;
+    const next = nextProps.direction;
+    if (
+      cur.pickedPlaces.length === next.pickedPlaces.length &&
+      cur.isLuggageRequired === next.isLuggageRequired &&
+      cur.luggageKg === next.luggageKg
+    ) {
+      return;
+    }
+
+    if (next.pickedPlaces.length) {
+      if (next.isLuggageRequired) {
+        if (next.luggageKg) {
+          this.props.validatePlaces(true, this.props.directionName);
+        } else {
+          this.props.validatePlaces(false, this.props.directionName);
+        }
+      } else {
+        this.props.validatePlaces(true, this.props.directionName);
+      }
+    } else {
+      this.props.validatePlaces(false, this.props.directionName);
+    }
+  }
+
+  render() {
+    const { places, isLuggageRequired, } = this.props.direction;
+    const economPlaces = places.filter((place) => place.type === 'econom');
+    const businessPlaces = places.filter((place) => place.type === 'business');
+    return (
+      <div className="jumbotron">
+        <p className="lead text-center">
+          Pick places for flight #{this.props.selectedId}
+        </p>
+        <div className="w-50">
+          <p>Econom places:</p>
+          {economPlaces.map(this.placeRenderer)}
         </div>
-      )}
-    </div>
-  );
-};
+        <div>
+          <p>Business places:</p>
+          {businessPlaces.map(this.placeRenderer)}
+        </div>
+        <div className="form-check mt-4">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="luggageCheck"
+            onChange={this.toggleLuggage}
+          />
+          <label htmlFor="luggageCheck" className="form-check-label">
+            Check if you have luggage
+          </label>
+        </div>
+        {isLuggageRequired && (
+          <div className="form-group">
+            <input
+              type="number"
+              min="0"
+              max={this.props.luggageLimit}
+              className="form-control"
+              placeholder="Input your luggage weight, kg"
+              onChange={this.handleLuggageChange}
+              required
+            />
+            Max amount: {this.props.luggageLimit}kg!!
+          </div>
+        )}
+      </div>
+    );
+  }
+}
 
 export default PlacePickerJumbotron;

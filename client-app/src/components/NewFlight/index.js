@@ -96,6 +96,25 @@ class NewFlight extends Component<{}, State> {
     }
   };
 
+  validatePlaces = (isValid, directionName) => {
+    this.props.validatePlaces(isValid, directionName);
+    if (directionName === STRAIGHT_PLACES) {
+      if (!this.props.isReverseRequired) {
+        this.props.setStepFulfillment(steps.PICKER, isValid);
+      } else if (this.props[REVERSE_PLACES].isValid && isValid) {
+        this.props.setStepFulfillment(steps.PICKER, true);
+      } else {
+        this.props.setStepFulfillment(steps.PICKER, false);
+      }
+    } else if (directionName === REVERSE_PLACES) {
+      if (this.props[STRAIGHT_PLACES].isValid && isValid) {
+        this.props.setStepFulfillment(steps.PICKER, true);
+      } else {
+        this.props.setStepFulfillment(steps.PICKER, false);
+      }
+    }
+  };
+
   getLuggageLimit = (directionName) => {
     return this.props[directionName].selectedId
       ? this.props[directionName].flights.find(
@@ -123,7 +142,12 @@ class NewFlight extends Component<{}, State> {
       changeLuggageAmount,
       togglePlace,
     } = this.props;
-    const { findFlights, selectFlight, toggleReversePath, } = this;
+    const {
+      findFlights,
+      selectFlight,
+      toggleReversePath,
+      validatePlaces,
+    } = this;
 
     const luggageLimit = {
       [STRAIGHT_PLACES]: this.getLuggageLimit(STRAIGHT_FLIGHT),
@@ -155,6 +179,7 @@ class NewFlight extends Component<{}, State> {
         toggleLuggage={toggleLuggageRequirement}
         luggageLimit={luggageLimit}
         onLuggageChange={changeLuggageAmount}
+        validatePlaces={validatePlaces}
       />,
     ];
     return (

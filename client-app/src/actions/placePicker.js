@@ -3,6 +3,7 @@ import {
   PLACE_PICKER_TOGGLE_PLACE,
   PLACE_PICKER_TOGGLE_LUGGAGE_REQUIREMENT,
   PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT,
+  PLACE_PICKER_VALIDATE_PLACES,
 } from './types';
 import { tickets, } from 'src/db/placePicker';
 
@@ -37,6 +38,16 @@ export const changeLuggageAmount = (amount, directionName) => {
     type: PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT,
     payload: {
       kg: amount,
+      directionName,
+    },
+  };
+};
+
+export const validatePlaces = (isValid, directionName) => {
+  return {
+    type: PLACE_PICKER_VALIDATE_PLACES,
+    payload: {
+      isValid,
       directionName,
     },
   };
