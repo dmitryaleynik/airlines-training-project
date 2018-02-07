@@ -12,9 +12,9 @@ import './styles.scss';
 const PlacePicker = (props) => {
   const PlacePickerJumbotronProps = {
     togglePlace: props.togglePlace,
-    toggleLuggage: props.toggleLuggage,
+    toggleLuggageRequirement: props.toggleLuggageRequirement,
     onLuggageChange: props.onLuggageChange,
-    validatePlaces: props.validatePlaces,
+    validate: props.validate,
   };
   return (
     <div className="place-picker">

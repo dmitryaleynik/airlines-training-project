@@ -4,24 +4,22 @@ import {
   PLACE_PICKER_TOGGLE_LUGGAGE_REQUIREMENT,
   PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT,
   PLACE_PICKER_VALIDATE_PLACES,
+  NEW_FLIGHT_PREV_STEP,
 } from 'src/actions/types';
 import { immutableSplice, immutablePush, } from 'src/utils/helpers';
 
+const initialPlaces = () => {
+  return {
+    places: [],
+    pickedPlaces: [],
+    isLuggageRequired: false,
+    luggageKg: 0,
+    isValid: false,
+  };
+};
 const initialState = {
-  straightPlaces: {
-    places: [],
-    pickedPlaces: [],
-    isLuggageRequired: false,
-    luggageKg: 0,
-    isValid: false,
-  },
-  reversePlaces: {
-    places: [],
-    pickedPlaces: [],
-    isLuggageRequired: false,
-    luggageKg: 0,
-    isValid: false,
-  },
+  straightPlaces: initialPlaces(),
+  reversePlaces: initialPlaces(),
 };
 
 const togglePlace = (state, payload) => {
@@ -84,6 +82,12 @@ export default (state = initialState, { type, payload, }) => {
           ...state[payload.directionName],
           isValid: payload.isValid,
         },
+      };
+    case NEW_FLIGHT_PREV_STEP:
+      return {
+        ...state,
+        straightPlaces: initialPlaces(),
+        reversePlaces: initialPlaces(),
       };
     default:
       return state;

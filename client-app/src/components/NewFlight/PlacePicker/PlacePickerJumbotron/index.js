@@ -10,8 +10,8 @@ class PlacePickerJumbotron extends React.Component {
     );
   };
 
-  toggleLuggage = (e) => {
-    this.props.toggleLuggage(this.props.directionName);
+  toggleLuggageRequirement = (e) => {
+    this.props.toggleLuggageRequirement(this.props.directionName);
   };
 
   handleLuggageChange = (e) => {
@@ -54,6 +54,7 @@ class PlacePickerJumbotron extends React.Component {
   componentWillUpdate(nextProps) {
     const cur = this.props.direction;
     const next = nextProps.direction;
+    const { validate, directionName, } = this.props;
     if (
       cur.pickedPlaces.length === next.pickedPlaces.length &&
       cur.isLuggageRequired === next.isLuggageRequired &&
@@ -65,15 +66,15 @@ class PlacePickerJumbotron extends React.Component {
     if (next.pickedPlaces.length) {
       if (next.isLuggageRequired) {
         if (next.luggageKg) {
-          this.props.validatePlaces(true, this.props.directionName);
+          validate(true, directionName);
         } else {
-          this.props.validatePlaces(false, this.props.directionName);
+          validate(false, directionName);
         }
       } else {
-        this.props.validatePlaces(true, this.props.directionName);
+        validate(true, directionName);
       }
     } else {
-      this.props.validatePlaces(false, this.props.directionName);
+      validate(false, directionName);
     }
   }
 
@@ -99,7 +100,7 @@ class PlacePickerJumbotron extends React.Component {
             type="checkbox"
             className="form-check-input"
             id="luggageCheck"
-            onChange={this.toggleLuggage}
+            onChange={this.toggleLuggageRequirement}
           />
           <label htmlFor="luggageCheck" className="form-check-label">
             Check if you have luggage

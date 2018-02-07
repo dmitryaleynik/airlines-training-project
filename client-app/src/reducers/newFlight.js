@@ -4,6 +4,7 @@ import {
   NEW_FLIGHT_SET_STEP_FULFILLMENT,
 } from 'src/actions/types';
 import { immutableSplice, } from 'src/utils/helpers';
+import { steps, } from 'src/imports';
 
 const initialState = {
   currentStep: 0,
@@ -34,6 +35,10 @@ export default (state = initialState, { type, payload, }) => {
           1,
           false
         ),
+        fulfilledSteps:
+          state.currentStep === steps.PICKER
+            ? immutableSplice(state.startedSteps, state.currentStep, 1, false)
+            : [...state.fulfilledSteps,],
       };
     case NEW_FLIGHT_SET_STEP_FULFILLMENT:
       return {

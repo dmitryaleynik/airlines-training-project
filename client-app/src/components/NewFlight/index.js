@@ -2,7 +2,6 @@ import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
-// import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
 import {
   steps,
@@ -65,18 +64,26 @@ class NewFlight extends Component<{}, State> {
   };
 
   selectFlight = (id, directionName) => {
-    this.props.selectFlight(id, directionName);
-    if (!this.props.fulfilledSteps[steps.FINDER]) {
+    const {
+      selectFlight,
+      fulfilledSteps,
+      isReverseRequired,
+      straightFlight,
+      reverseFlight,
+      setStepFulfillment,
+    } = this.props;
+    selectFlight(id, directionName);
+    if (!fulfilledSteps[steps.FINDER]) {
       if (directionName === STRAIGHT_FLIGHT) {
         if (
-          !this.props.isReverseRequired ||
-          (this.props.isReverseRequired && this.props.reverseFlight.selectedId)
+          !isReverseRequired ||
+          (isReverseRequired && reverseFlight.selectedId)
         ) {
-          this.props.setStepFulfillment(steps.FINDER, true);
+          setStepFulfillment(steps.FINDER, true);
         }
       } else if (directionName === REVERSE_FLIGHT) {
-        if (this.props.straightFlight.selectedId) {
-          this.props.setStepFulfillment(steps.FINDER, true);
+        if (straightFlight.selectedId) {
+          setStepFulfillment(steps.FINDER, true);
         }
       }
     }
@@ -84,33 +91,44 @@ class NewFlight extends Component<{}, State> {
   };
 
   toggleReversePath = () => {
-    this.props.toggleReversePath();
-    if (!this.props.isReverseRequired) {
-      this.props.setStepFulfillment(steps.FINDER, false);
+    const {
+      toggleReversePath,
+      isReverseRequired,
+      setStepFulfillment,
+      straightFlight,
+    } = this.props;
+    toggleReversePath();
+    if (!isReverseRequired) {
+      setStepFulfillment(steps.FINDER, false);
     } else {
-      if (this.props.straightFlight.selectedId) {
-        this.props.setStepFulfillment(steps.FINDER, true);
+      if (straightFlight.selectedId) {
+        setStepFulfillment(steps.FINDER, true);
       } else {
-        this.props.setStepFulfillment(steps.FINDER, false);
+        setStepFulfillment(steps.FINDER, false);
       }
     }
   };
 
   validatePlaces = (isValid, directionName) => {
-    this.props.validatePlaces(isValid, directionName);
+    const {
+      validatePlaces,
+      setStepFulfillment,
+      isReverseRequired,
+    } = this.props;
+    validatePlaces(isValid, directionName);
     if (directionName === STRAIGHT_PLACES) {
-      if (!this.props.isReverseRequired) {
-        this.props.setStepFulfillment(steps.PICKER, isValid);
+      if (!isReverseRequired) {
+        setStepFulfillment(steps.PICKER, isValid);
       } else if (this.props[REVERSE_PLACES].isValid && isValid) {
-        this.props.setStepFulfillment(steps.PICKER, true);
+        setStepFulfillment(steps.PICKER, true);
       } else {
-        this.props.setStepFulfillment(steps.PICKER, false);
+        setStepFulfillment(steps.PICKER, false);
       }
     } else if (directionName === REVERSE_PLACES) {
       if (this.props[STRAIGHT_PLACES].isValid && isValid) {
-        this.props.setStepFulfillment(steps.PICKER, true);
+        setStepFulfillment(steps.PICKER, true);
       } else {
-        this.props.setStepFulfillment(steps.PICKER, false);
+        setStepFulfillment(steps.PICKER, false);
       }
     }
   };
@@ -176,10 +194,10 @@ class NewFlight extends Component<{}, State> {
         straightPlaces={straightPlaces}
         reversePlaces={reversePlaces}
         togglePlace={togglePlace}
-        toggleLuggage={toggleLuggageRequirement}
+        toggleLuggageRequirement={toggleLuggageRequirement}
         luggageLimit={luggageLimit}
         onLuggageChange={changeLuggageAmount}
-        validatePlaces={validatePlaces}
+        validate={validatePlaces}
       />,
     ];
     return (
