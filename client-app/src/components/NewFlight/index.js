@@ -22,10 +22,10 @@ class NewFlight extends Component<{}, State> {
   componentWillUpdate(nextProps) {
     if (this.props.currentStep !== nextProps.currentStep) {
       switch (nextProps.currentStep) {
-        case 0:
+        case steps.FINDER:
           this.props.getCities();
           break;
-        case 1:
+        case steps.PICKER:
           this.props.getPlaces(
             this.props.straightFlight.selectedId,
             STRAIGHT_PLACES
@@ -38,7 +38,7 @@ class NewFlight extends Component<{}, State> {
           }
           break;
         default:
-          return;
+          break;
       }
     }
   }
@@ -119,9 +119,9 @@ class NewFlight extends Component<{}, State> {
       changeDateEnd,
       straightPlaces,
       reversePlaces,
-      togglePlace,
       toggleLuggageRequirement,
       changeLuggageAmount,
+      togglePlace,
     } = this.props;
     const { findFlights, selectFlight, toggleReversePath, } = this;
 

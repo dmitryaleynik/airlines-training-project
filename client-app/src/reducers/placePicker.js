@@ -23,10 +23,6 @@ const initialState = {
 
 const togglePlace = (state, payload) => {
   const { number, directionName, } = payload;
-  const index = state[directionName].places.findIndex(
-    (place) => place.number === number
-  );
-  const place = state[directionName].places[index];
   const pickedIndex = state[directionName].pickedPlaces.findIndex(
     (num) => num === number
   );
@@ -44,11 +40,6 @@ const togglePlace = (state, payload) => {
     ...state,
     [directionName]: {
       ...state[directionName],
-      places: immutableSplice(state[directionName].places, index, 1, {
-        number: payload.number,
-        type: place.type,
-        available: !place.available,
-      }),
       pickedPlaces: newPickedPlaces,
     },
   };
@@ -72,6 +63,7 @@ export default (state = initialState, { type, payload, }) => {
         [payload]: {
           ...state[payload],
           isLuggageRequired: !state[payload].isLuggageRequired,
+          luggageKg: 0,
         },
       };
     case PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT:

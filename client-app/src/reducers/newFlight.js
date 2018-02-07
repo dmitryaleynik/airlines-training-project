@@ -8,7 +8,7 @@ import { immutableSplice, } from 'src/utils/helpers';
 const initialState = {
   currentStep: 0,
   startedSteps: [true, false, false,],
-  fulfilledSteps: [false, true, true,],
+  fulfilledSteps: [false, false, true,],
 };
 
 export default (state = initialState, { type, payload, }) => {
