@@ -1,0 +1,22 @@
+.place-picker {
+  .available-place,
+  .booked-place {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .available-place {
+    color: #4c96e4 !important;
+    &:hover {
+      color: #ff6666 !important;
+    }
+  }
+
+  .booked-place {
+    text-decoration: underline !important;
+    &:hover {
+      color: #b2b2b2 !important;
+    }
+  }
+}
