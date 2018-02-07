@@ -80,21 +80,22 @@ class PlacePickerJumbotron extends React.Component {
 
   render() {
     const { places, isLuggageRequired, } = this.props.direction;
-    const economPlaces = places.filter((place) => place.type === 'econom');
-    const businessPlaces = places.filter((place) => place.type === 'business');
+    const ticketTypes = new Set(places.map((place) => place.type));
+    const placesByType = [];
+    ticketTypes.forEach((type) => {
+      placesByType.push(places.filter((place) => place.type === type));
+    });
     return (
       <div className="jumbotron">
         <p className="lead text-center">
           Pick places for flight #{this.props.selectedId}
         </p>
-        <div className="w-50">
-          <p>Econom places:</p>
-          {economPlaces.map(this.placeRenderer)}
-        </div>
-        <div>
-          <p>Business places:</p>
-          {businessPlaces.map(this.placeRenderer)}
-        </div>
+        {placesByType.map((places) => (
+          <div>
+            <p>{places[0].type} places:</p>
+            {places.map(this.placeRenderer)}
+          </div>
+        ))}
         <div className="form-check mt-4">
           <input
             type="checkbox"
