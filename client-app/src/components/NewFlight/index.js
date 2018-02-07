@@ -45,6 +45,9 @@ class NewFlight extends Component<{}, State> {
 
   findFlights = (e, directionName) => {
     const fields = e.target.elements;
+    if (this.props.fulfilledSteps[steps.FINDER]) {
+      this.props.setStepFulfillment(steps.FINDER, false);
+    }
     this.props.findFlights(
       {
         cities: {
@@ -63,16 +66,18 @@ class NewFlight extends Component<{}, State> {
 
   selectFlight = (id, directionName) => {
     this.props.selectFlight(id, directionName);
-    if (directionName === STRAIGHT_FLIGHT) {
-      if (
-        !this.props.isReverseRequired ||
-        (this.props.isReverseRequired && this.props.reverseFlight.selectedId)
-      ) {
-        this.props.setStepFulfillment(steps.FINDER, true);
-      }
-    } else if (directionName === REVERSE_FLIGHT) {
-      if (this.props.straightFlight.selectedId) {
-        this.props.setStepFulfillment(steps.FINDER, true);
+    if (!this.props.fulfilledSteps[steps.FINDER]) {
+      if (directionName === STRAIGHT_FLIGHT) {
+        if (
+          !this.props.isReverseRequired ||
+          (this.props.isReverseRequired && this.props.reverseFlight.selectedId)
+        ) {
+          this.props.setStepFulfillment(steps.FINDER, true);
+        }
+      } else if (directionName === REVERSE_FLIGHT) {
+        if (this.props.straightFlight.selectedId) {
+          this.props.setStepFulfillment(steps.FINDER, true);
+        }
       }
     }
     return;
