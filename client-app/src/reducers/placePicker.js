@@ -10,7 +10,11 @@ import { immutableSplice, immutablePush, } from 'src/utils/helpers';
 
 const initialPlaces = () => {
   return {
-    places: [],
+    places: {
+      rows: 0,
+      columns: 0,
+      seats: [],
+    },
     pickedPlaces: [],
     isLuggageRequired: false,
     luggageKg: 0,
