@@ -4,10 +4,7 @@ import cn from 'classnames';
 
 class PlacePickerJumbotron extends React.Component {
   togglePlace = (e) => {
-    this.props.togglePlace(
-      Number(e.target.innerHTML),
-      this.props.directionName
-    );
+    this.props.togglePlace(e.target.innerHTML, this.props.directionName);
   };
 
   toggleLuggageRequirement = (e) => {
@@ -21,34 +18,65 @@ class PlacePickerJumbotron extends React.Component {
     );
   };
 
-  placeRenderer = (place) => {
-    if (!place.isAvailable) {
-      return (
-        <span className="mx-1" key={place.number}>
-          {place.number}
-        </span>
-      );
-    } else {
-      const isPicked =
-        this.props.direction.pickedPlaces.indexOf(place.number) !== -1;
-      return (
-        <a
-          key={place.number}
-          className={cn(
-            'mx-1',
-            {
-              'available-place': !isPicked,
-            },
-            {
-              'booked-place': isPicked,
-            }
-          )}
-          onClick={this.togglePlace}
-        >
-          {place.number}
-        </a>
-      );
-    }
+  placeRenderer = (places, seatTypesSet) => {
+    let seatTypesObj = {};
+    seatTypesSet = Array.from(seatTypesSet).forEach((type, index) => {
+      Object.defineProperty(seatTypesObj, type, {
+        value: index,
+      });
+    });
+    const seatsRenderer = (i) => {
+      let seats = [];
+      for (let j = 0; j < places.rows; ++j) {
+        let seat = places.seats[i * places.rows + j];
+        if (seat.isAvailable) {
+          const isPicked =
+            this.props.direction.pickedPlaces.indexOf(seat.number) !== -1;
+          const cls = `available-place-${seatTypesObj[seat.type]}`;
+          seats.push(
+            <a
+              key={seat.number}
+              className={cn(
+                'mx-1',
+                {
+                  [cls]: !isPicked,
+                },
+                {
+                  'booked-place': isPicked,
+                }
+              )}
+              onClick={this.togglePlace}
+            >
+              {seat.number}
+            </a>
+          );
+        } else {
+          seats.push(
+            <span className="mx-1" key={seat.number}>
+              {seat.number}
+            </span>
+          );
+        }
+      }
+      return seats;
+    };
+    const rowsRenderer = () => {
+      let rows = [];
+      for (let i = 0; i < places.columns; ++i) {
+        rows.push(
+          <div key={i} className="d-flex flex-row justify-content-between">
+            {seatsRenderer(i)}
+          </div>
+        );
+      }
+      return rows;
+    };
+    const wrapper = (
+      <div className="d-flex flex-column-reverse justify-content-between">
+        {rowsRenderer()}
+      </div>
+    );
+    return wrapper;
   };
 
   componentWillUpdate(nextProps) {
@@ -80,22 +108,28 @@ class PlacePickerJumbotron extends React.Component {
 
   render() {
     const { places, isLuggageRequired, } = this.props.direction;
-    const ticketTypes = new Set(places.map((place) => place.type));
-    const placesByType = [];
-    ticketTypes.forEach((type) => {
-      placesByType.push(places.filter((place) => place.type === type));
-    });
+    const seatTypesSet = new Set(places.seats.map((place) => place.type));
     return (
       <div className="jumbotron">
         <p className="lead text-center">
           Pick places for flight #{this.props.selectedId}
         </p>
-        {placesByType.map((places) => (
-          <div>
-            <p>{places[0].type} places:</p>
-            {places.map(this.placeRenderer)}
-          </div>
-        ))}
+        {this.placeRenderer(places, seatTypesSet)}
+        {Array.from(seatTypesSet).map((type, index) => {
+          return (
+            <div className="d-flex flex-row mt-2" key={index}>
+              <div
+                className={cn(
+                  `available-type-${index % 7}`,
+                  'border',
+                  'border-dark',
+                  'mr-1'
+                )}
+              />
+              <span>{type}</span>
+            </div>
+          );
+        })}
         <div className="form-check mt-4">
           <input
             type="checkbox"

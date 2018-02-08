@@ -5,13 +5,15 @@ import {
   PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT,
   PLACE_PICKER_VALIDATE_PLACES,
 } from './types';
-import { tickets, } from 'src/db/placePicker';
+import seats from 'src/db/seats';
 
 export const getPlaces = (flightId, directionName) => {
   return async (dispatch) => {
-    let resolvedPlaces = await Promise.resolve(
-      tickets.find((item) => item.flightId === flightId).places
-    );
+    let resolvedPlaces = await Promise.resolve({
+      rows: seats[0].rows,
+      columns: seats[0].columns,
+      seats: seats[0].seats,
+    });
     dispatch({
       type: PLACE_PICKER_GET_ALL_PLACES,
       payload: { places: resolvedPlaces, directionName, },
