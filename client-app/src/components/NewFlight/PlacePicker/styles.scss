@@ -1,21 +1,74 @@
+@import "src/assets/imports";
+
+@mixin available-type($color) {
+  width: 24px;
+  height: 24px;
+  background-color: $color !important;
+}
+
 .place-picker {
-  .available-place,
-  .booked-place {
+  %available-place {
     &:hover {
       cursor: pointer;
+      color: #ff0000 !important;
     }
   }
 
-  .available-place {
-    color: #4c96e4 !important;
-    &:hover {
-      color: #ff6666 !important;
-    }
+  .available-type-0 {
+    @include available-type($available-0);
+  }
+  .available-type-1 {
+    @include available-type($available-1);
+  }
+  .available-type-2 {
+    @include available-type($available-2);
+  }
+  .available-type-3 {
+    @include available-type($available-3);
+  }
+  .available-type-4 {
+    @include available-type($available-4);
+  }
+  .available-type-5 {
+    @include available-type($available-5);
+  }
+  .available-type-6 {
+    @include available-type($available-6);
+  }
+
+  .available-place-0 {
+    @extend %available-place;
+    color: $available-0 !important;
+  }
+  .available-place-1 {
+    @extend %available-place;
+    color: $available-1 !important;
+  }
+  .available-place-2 {
+    @extend %available-place;
+    color: $available-2 !important;
+  }
+  .available-place-3 {
+    @extend %available-place;
+    color: $available-3 !important;
+  }
+  .available-place-4 {
+    @extend %available-place;
+    color: $available-4 !important;
+  }
+  .available-place-5 {
+    @extend %available-place;
+    color: $available-5 !important;
+  }
+  .available-place-6 {
+    @extend %available-place;
+    color: $available-6 !important;
   }
 
   .booked-place {
     text-decoration: underline !important;
     &:hover {
+      cursor: pointer;
       color: #b2b2b2 !important;
     }
   }
