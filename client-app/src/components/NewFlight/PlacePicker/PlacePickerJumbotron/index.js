@@ -72,7 +72,7 @@ class PlacePickerJumbotron extends React.Component {
       return rows;
     };
     const wrapper = (
-      <div className="d-flex flex-column-reverse justify-content-between">
+      <div className="d-flex flex-column-reverse justify-content-between border border-dark p-2">
         {rowsRenderer()}
       </div>
     );

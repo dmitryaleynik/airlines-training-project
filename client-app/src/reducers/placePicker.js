@@ -5,6 +5,7 @@ import {
   PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT,
   PLACE_PICKER_VALIDATE_PLACES,
   NEW_FLIGHT_PREV_STEP,
+  PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
 } from 'src/actions/types';
 import { immutableSplice, immutablePush, } from 'src/utils/helpers';
 
@@ -86,6 +87,11 @@ export default (state = initialState, { type, payload, }) => {
           ...state[payload.directionName],
           isValid: payload.isValid,
         },
+      };
+    case PLACE_PICKER_BOOK_PLACES_TEMPORARILY:
+      return {
+        ...state,
+        success: true,
       };
     case NEW_FLIGHT_PREV_STEP:
       return {

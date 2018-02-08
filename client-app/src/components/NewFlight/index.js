@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
+import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
 import {
   steps,
@@ -19,22 +20,39 @@ class NewFlight extends Component<{}, State> {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.currentStep !== nextProps.currentStep) {
+    const {
+      currentStep,
+      getCities,
+      getPlaces,
+      straightFlight,
+      reverseFlight,
+      straightPlaces,
+      reversePlaces,
+      isReverseRequired,
+      bookTemporarily,
+    } = this.props;
+    if (currentStep !== nextProps.currentStep) {
       switch (nextProps.currentStep) {
         case steps.FINDER:
-          this.props.getCities();
+          getCities();
           break;
         case steps.PICKER:
-          this.props.getPlaces(
-            this.props.straightFlight.selectedId,
-            STRAIGHT_PLACES
-          );
-          if (this.props.isReverseRequired) {
-            this.props.getPlaces(
-              this.props.reverseFlight.selectedId,
-              REVERSE_PLACES
-            );
+          getPlaces(straightFlight.selectedId, STRAIGHT_PLACES);
+          if (isReverseRequired) {
+            getPlaces(reverseFlight.selectedId, REVERSE_PLACES);
           }
+          break;
+        case steps.CONFIRMATOR:
+          const flightId = isReverseRequired
+            ? `${straightFlight.selectedId}&${reverseFlight.selectedId}`
+            : straightFlight.selectedId;
+          const placesToBeBooked = {
+            [STRAIGHT_FLIGHT]: straightPlaces.pickedPlaces,
+          };
+          if (isReverseRequired) {
+            placesToBeBooked[REVERSE_FLIGHT] = reversePlaces.pickedPlaces;
+          }
+          bookTemporarily(flightId, placesToBeBooked);
           break;
         default:
           break;
@@ -199,6 +217,7 @@ class NewFlight extends Component<{}, State> {
         onLuggageChange={changeLuggageAmount}
         validate={validatePlaces}
       />,
+      <PriceConfirmator />,
     ];
     return (
       <div className="new-flight">
