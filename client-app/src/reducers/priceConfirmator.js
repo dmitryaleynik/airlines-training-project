@@ -1,8 +1,12 @@
-import { PLACE_PICKER_BOOK_PLACES_TEMPORARILY, } from 'src/actions/types';
+import {
+  PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
+  PRICE_CONFIRMATOR_CONFIRM_ORDER,
+} from 'src/actions/types';
 
 const initialState = {
   orderId: '',
   total: 0,
+  isConfirmed: false,
 };
 
 export default (state = initialState, { type, payload, }) => {
@@ -12,6 +16,11 @@ export default (state = initialState, { type, payload, }) => {
         ...state,
         orderId: payload.orderId,
         total: payload.total,
+      };
+    case PRICE_CONFIRMATOR_CONFIRM_ORDER:
+      return {
+        ...state,
+        isConfirmed: true,
       };
     default:
       return state;

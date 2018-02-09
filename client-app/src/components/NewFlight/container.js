@@ -20,6 +20,7 @@ import {
   validatePlaces,
   bookTemporarily,
 } from 'src/actions/placePicker';
+import { confirmOrder, } from 'src/actions/priceConfirmator';
 import NewFlight from 'src/components/NewFlight';
 
 const mapStateToProps = (state) => {
@@ -31,7 +32,7 @@ const mapStateToProps = (state) => {
     isReverseRequired,
   } = state.flightFinder;
   const { straightPlaces, reversePlaces, } = state.placePicker;
-  const { orderId, total, } = state.priceConfirmator;
+  const { orderId, total, isConfirmed, } = state.priceConfirmator;
   return {
     currentStep,
     startedSteps,
@@ -44,6 +45,7 @@ const mapStateToProps = (state) => {
     reversePlaces,
     orderId,
     total,
+    isConfirmed,
   };
 };
 
@@ -63,6 +65,7 @@ const mapDispatchToProps = {
   changeLuggageAmount,
   validatePlaces,
   bookTemporarily,
+  confirmOrder,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);

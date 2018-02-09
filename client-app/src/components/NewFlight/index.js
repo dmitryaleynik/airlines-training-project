@@ -151,6 +151,11 @@ class NewFlight extends Component<{}, State> {
     }
   };
 
+  confirmOrder = (id) => {
+    this.props.confirmOrder(id);
+    this.props.history.push('/');
+  };
+
   getLuggageLimit = (directionName) => {
     return this.props[directionName].selectedId
       ? this.props[directionName].flights.find(
@@ -185,6 +190,7 @@ class NewFlight extends Component<{}, State> {
       selectFlight,
       toggleReversePath,
       validatePlaces,
+      confirmOrder,
     } = this;
 
     const luggageLimit = {
@@ -227,6 +233,7 @@ class NewFlight extends Component<{}, State> {
         reverseFlight={reverseFlight}
         straightPlaces={straightPlaces}
         reversePlaces={reversePlaces}
+        confirmOrder={confirmOrder}
       />,
     ];
     return (

@@ -13,16 +13,26 @@ const PriceConfirmator = (props) => {
           flightsInfo={props.straightFlight}
           placesInfo={props.straightPlaces}
         />
-        {props.isReverseRequired && <div className="flights-divider" />}
+        {props.isReverseRequired && <div className="flights-divider-y" />}
         {props.isReverseRequired && (
           <PriceConfirmatorFlightInfo
             flightsInfo={props.reverseFlight}
             placesInfo={props.reversePlaces}
           />
         )}
-        <div className="flights-divider">
-          <span className="mt-2 font-weight-bold">
+        <div className="flights-divider-top" />
+        <div className="d-flex justify-content-between mt-3">
+          <span className="font-weight-bold">
             GRAND TOTAL: {props.totalPrice}$
+          </span>
+          <span className="buttons">
+            <button className="btn btn-danger btn-sm mr-2">Cancel</button>
+            <button
+              className="btn btn-success btn-sm"
+              onClick={props.confirmOrder}
+            >
+              Confirm
+            </button>
           </span>
         </div>
       </div>
