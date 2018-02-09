@@ -3,7 +3,7 @@ import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { initializeTableProps, orderTableColumns, } from 'src/utils/tableProps';
-import data from './data';
+import { data, } from 'src/db/orderedItems';
 
 import type { OrderTableItem, OrderTableProps, } from 'src/types';
 
@@ -12,9 +12,7 @@ type Props = {
 };
 
 const OrderTable = (props: Props) => {
-  const tableProps: OrderTableProps = initializeTableProps(data);
-
-  tableProps.data = data.filter((item: OrderTableItem) => {
+  let filteredData = data.filter((item: OrderTableItem) => {
     switch (props.filter) {
       case 'future':
         return item.date.from > new Date();
@@ -25,6 +23,7 @@ const OrderTable = (props: Props) => {
         return true;
     }
   });
+  const tableProps: OrderTableProps = initializeTableProps(filteredData);
 
   tableProps.columns = orderTableColumns();
 

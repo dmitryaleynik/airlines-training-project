@@ -1,4 +1,6 @@
-const data = [
+import moment from 'moment';
+
+export const data = [
   {
     id: '1',
     airport: {
@@ -10,8 +12,8 @@ const data = [
       to: 'MG',
     },
     date: {
-      from: new Date('2018-01-31T13:00'),
-      to: new Date('2018-02-01T11:00'),
+      from: moment('2018-01-31T13:00'),
+      to: moment('2018-02-01T11:00'),
     },
     planeType: 'Boeing-787',
     places: {
@@ -40,8 +42,8 @@ const data = [
       to: 'Minsk',
     },
     date: {
-      from: new Date('2018-04-05T09:30'),
-      to: new Date('2018-04-05T15:10'),
+      from: moment('2018-04-05T09:30'),
+      to: moment('2018-04-05T15:10'),
     },
     planeType: 'Boeing-737',
     places: {
@@ -70,8 +72,8 @@ const data = [
       to: 'MG',
     },
     date: {
-      from: new Date('2018-05-31T13:00'),
-      to: new Date('2018-06-01T11:00'),
+      from: moment('2018-05-31T13:00'),
+      to: moment('2018-06-01T11:00'),
     },
     planeType: 'Boeing-787',
     places: {
@@ -90,5 +92,3 @@ const data = [
     },
   },
 ];
-
-export default data;
