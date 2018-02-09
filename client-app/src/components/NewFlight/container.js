@@ -20,7 +20,7 @@ import {
   validatePlaces,
   bookTemporarily,
 } from 'src/actions/placePicker';
-import { confirmOrder, } from 'src/actions/priceConfirmator';
+import { confirmOrder, cancelOrder, } from 'src/actions/priceConfirmator';
 import NewFlight from 'src/components/NewFlight';
 
 const mapStateToProps = (state) => {
@@ -66,6 +66,7 @@ const mapDispatchToProps = {
   validatePlaces,
   bookTemporarily,
   confirmOrder,
+  cancelOrder,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);

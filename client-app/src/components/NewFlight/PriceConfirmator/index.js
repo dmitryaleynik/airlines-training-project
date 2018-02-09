@@ -26,7 +26,12 @@ const PriceConfirmator = (props) => {
             GRAND TOTAL: {props.totalPrice}$
           </span>
           <span className="buttons">
-            <button className="btn btn-danger btn-sm mr-2">Cancel</button>
+            <button
+              className="btn btn-danger btn-sm mr-2"
+              onClick={props.cancelOrder}
+            >
+              Cancel
+            </button>
             <button
               className="btn btn-success btn-sm"
               onClick={props.confirmOrder}

@@ -1,6 +1,7 @@
 import {
   PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
   PRICE_CONFIRMATOR_CONFIRM_ORDER,
+  PRICE_CONFIRMATOR_CANCEL_ORDER,
 } from 'src/actions/types';
 
 const initialState = {
@@ -19,9 +20,11 @@ export default (state = initialState, { type, payload, }) => {
       };
     case PRICE_CONFIRMATOR_CONFIRM_ORDER:
       return {
-        ...state,
+        ...initialState,
         isConfirmed: true,
       };
+    case PRICE_CONFIRMATOR_CANCEL_ORDER:
+      return initialState;
     default:
       return state;
   }
