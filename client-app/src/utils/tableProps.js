@@ -1,3 +1,5 @@
+import { DATE_DISPLAY_PATTERN, } from 'src/imports';
+
 export const initializeTableProps = (data) => {
   const defaultPageSize = 5;
   return {
@@ -41,15 +43,13 @@ export const orderTableColumns = (isFinder) => {
           id: 'dateFrom',
           Header: 'From',
           width: 250,
-          accessor: (d) =>
-            `${d.date.from.toDateString()} ${d.date.from.toLocaleTimeString()}`,
+          accessor: (d) => d.date.from.format(DATE_DISPLAY_PATTERN),
         },
         {
           id: 'dateTo',
           Header: 'To',
           width: 250,
-          accessor: (d) =>
-            `${d.date.to.toDateString()} ${d.date.to.toLocaleTimeString()}`,
+          accessor: (d) => d.date.to.format(DATE_DISPLAY_PATTERN),
         },
       ],
     },
