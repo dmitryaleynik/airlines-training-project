@@ -58,11 +58,13 @@ export const validatePlaces = (isValid, directionName) => {
 
 export const bookTemporarily = (flightId, placesToBeBooked) => {
   return async (dispatch) => {
-    let response = await Promise.resolve('success');
-    if (response === 'success') {
-      dispatch({
-        type: PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
-      });
-    }
+    let response = await Promise.resolve({
+      orderId: '1',
+      total: 228,
+    });
+    dispatch({
+      type: PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
+      payload: response,
+    });
   };
 };

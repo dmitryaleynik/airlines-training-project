@@ -31,6 +31,7 @@ const mapStateToProps = (state) => {
     isReverseRequired,
   } = state.flightFinder;
   const { straightPlaces, reversePlaces, } = state.placePicker;
+  const { orderId, } = state.priceConfirmator;
   return {
     currentStep,
     startedSteps,
@@ -41,6 +42,7 @@ const mapStateToProps = (state) => {
     isReverseRequired,
     straightPlaces,
     reversePlaces,
+    orderId,
   };
 };
 

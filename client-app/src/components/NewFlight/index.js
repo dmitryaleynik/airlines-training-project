@@ -177,6 +177,7 @@ class NewFlight extends Component<{}, State> {
       toggleLuggageRequirement,
       changeLuggageAmount,
       togglePlace,
+      orderId,
     } = this.props;
     const {
       findFlights,
@@ -217,7 +218,13 @@ class NewFlight extends Component<{}, State> {
         onLuggageChange={changeLuggageAmount}
         validate={validatePlaces}
       />,
-      <PriceConfirmator />,
+      <PriceConfirmator
+        orderId={orderId}
+        straightFlight={straightFlight}
+        reverseFlight={reverseFlight}
+        straightPlaces={straightPlaces}
+        reversePlaces={reversePlaces}
+      />,
     ];
     return (
       <div className="new-flight">
