@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import FlightsTable from './FlightsTable';
+import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -50,7 +51,7 @@ const FlightFinderForm = (props) => {
         />
         <datalist id="city-to-hint">{props.citiesHints}</datalist>
         <DatePicker
-          className="form-control"
+          className="form-control data-picker"
           name="date-from"
           data-target="date-from"
           selected={props.direction.filters.dates.from}
@@ -58,9 +59,10 @@ const FlightFinderForm = (props) => {
           startDate={props.direction.filters.dates.from}
           endDate={props.direction.filters.dates.to}
           onChange={handleChangeDateStart}
+          dateFormat={DATE_DISPLAY_PATTERN}
         />
         <DatePicker
-          className="form-control"
+          className="form-control data-picker"
           name="date-to"
           data-target="date-to"
           selected={props.direction.filters.dates.to}
@@ -68,6 +70,7 @@ const FlightFinderForm = (props) => {
           startDate={props.direction.filters.dates.from}
           endDate={props.direction.filters.dates.to}
           onChange={handleChangeDateEnd}
+          dateFormat={DATE_DISPLAY_PATTERN}
         />
         <input
           name="tickets"

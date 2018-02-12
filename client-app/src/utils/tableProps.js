@@ -1,4 +1,4 @@
-import { DATE_DISPLAY_PATTERN, } from 'src/imports';
+import { DATETIME_DISPLAY_PATTERN, } from 'src/imports';
 
 export const initializeTableProps = (data) => {
   const defaultPageSize = 5;
@@ -43,13 +43,13 @@ export const orderTableColumns = (isFinder) => {
           id: 'dateFrom',
           Header: 'From',
           width: 250,
-          accessor: (d) => d.date.from.format(DATE_DISPLAY_PATTERN),
+          accessor: (d) => d.date.from.format(DATETIME_DISPLAY_PATTERN),
         },
         {
           id: 'dateTo',
           Header: 'To',
           width: 250,
-          accessor: (d) => d.date.to.format(DATE_DISPLAY_PATTERN),
+          accessor: (d) => d.date.to.format(DATETIME_DISPLAY_PATTERN),
         },
       ],
     },
