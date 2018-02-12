@@ -2,8 +2,7 @@ import {
   NEW_FLIGHT_NEXT_STEP,
   NEW_FLIGHT_PREV_STEP,
   NEW_FLIGHT_SET_STEP_FULFILLMENT,
-  PRICE_CONFIRMATOR_CONFIRM_ORDER,
-  PRICE_CONFIRMATOR_CANCEL_ORDER,
+  NEW_FLIGHT_UNMOUNT,
 } from 'src/actions/types';
 import { immutableSplice, } from 'src/utils/helpers';
 import { steps, } from 'src/imports';
@@ -52,8 +51,7 @@ export default (state = initialState, { type, payload, }) => {
           payload.value
         ),
       };
-    case PRICE_CONFIRMATOR_CONFIRM_ORDER:
-    case PRICE_CONFIRMATOR_CANCEL_ORDER:
+    case NEW_FLIGHT_UNMOUNT:
       return initialState;
     default:
       return state;

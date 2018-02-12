@@ -60,6 +60,10 @@ class NewFlight extends Component<{}, State> {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.resetNewFlight();
+  };
+
   findFlights = (e, directionName) => {
     const fields = e.target.elements;
     if (this.props.fulfilledSteps[steps.FINDER]) {

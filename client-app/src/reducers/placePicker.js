@@ -6,8 +6,7 @@ import {
   PLACE_PICKER_VALIDATE_PLACES,
   NEW_FLIGHT_PREV_STEP,
   PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
-  PRICE_CONFIRMATOR_CONFIRM_ORDER,
-  PRICE_CONFIRMATOR_CANCEL_ORDER,
+  NEW_FLIGHT_UNMOUNT,
 } from 'src/actions/types';
 import { immutableSplice, immutablePush, } from 'src/utils/helpers';
 
@@ -95,8 +94,7 @@ export default (state = initialState, { type, payload, }) => {
         ...state,
         success: true,
       };
-    case PRICE_CONFIRMATOR_CONFIRM_ORDER:
-    case PRICE_CONFIRMATOR_CANCEL_ORDER:
+    case NEW_FLIGHT_UNMOUNT:
       return initialState;
     case NEW_FLIGHT_PREV_STEP:
       return {

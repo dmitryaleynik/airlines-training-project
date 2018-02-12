@@ -3,6 +3,7 @@ import {
   handleNextClick,
   handleBackClick,
   setStepFulfillment,
+  resetNewFlight,
 } from 'src/actions/newFlight';
 import {
   getCities,
@@ -53,6 +54,7 @@ const mapDispatchToProps = {
   handleBackClick,
   handleNextClick,
   setStepFulfillment,
+  resetNewFlight,
   getCities,
   changeDateStart,
   changeDateEnd,

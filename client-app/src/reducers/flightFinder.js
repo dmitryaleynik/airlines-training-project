@@ -7,8 +7,7 @@ import {
   FLIGHT_FINDER_UPDATE_FLIGHTS,
   FLIGHT_FINDER_SELECT_FLIGHT,
   FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT,
-  PRICE_CONFIRMATOR_CONFIRM_ORDER,
-  PRICE_CONFIRMATOR_CANCEL_ORDER,
+  NEW_FLIGHT_UNMOUNT,
 } from 'src/actions/types';
 
 const currentMoment = moment();
@@ -131,8 +130,7 @@ export default (state = initialState, { type, payload, }) => {
           selectedId: payload.id,
         },
       };
-    case PRICE_CONFIRMATOR_CONFIRM_ORDER:
-    case PRICE_CONFIRMATOR_CANCEL_ORDER:
+    case NEW_FLIGHT_UNMOUNT:
       return initialState;
     default:
       return state;
