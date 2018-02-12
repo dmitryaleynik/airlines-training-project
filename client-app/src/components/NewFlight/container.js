@@ -19,6 +19,7 @@ import {
   changeLuggageAmount,
   validatePlaces,
 } from 'src/actions/placePicker';
+import { openModal, } from 'src/actions/modals';
 import NewFlight from 'src/components/NewFlight';
 
 const mapStateToProps = (state) => {
@@ -30,6 +31,7 @@ const mapStateToProps = (state) => {
     isReverseRequired,
   } = state.flightFinder;
   const { straightPlaces, reversePlaces, } = state.placePicker;
+  const { modal, } = state.modals;
   return {
     currentStep,
     startedSteps,
@@ -40,6 +42,7 @@ const mapStateToProps = (state) => {
     isReverseRequired,
     straightPlaces,
     reversePlaces,
+    modal,
   };
 };
 
@@ -58,6 +61,7 @@ const mapDispatchToProps = {
   toggleLuggageRequirement,
   changeLuggageAmount,
   validatePlaces,
+  openModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);

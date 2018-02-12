@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
 import ButtonPanel from './ButtonPanel';
+import Modal from 'src/components/Modal/container';
 import {
   steps,
   STRAIGHT_FLIGHT,
@@ -159,6 +160,8 @@ class NewFlight extends Component<{}, State> {
       toggleLuggageRequirement,
       changeLuggageAmount,
       togglePlace,
+      modal,
+      openModal,
     } = this.props;
     const {
       findFlights,
@@ -202,6 +205,7 @@ class NewFlight extends Component<{}, State> {
     ];
     return (
       <div className="new-flight">
+        {modal && <Modal />}
         <div className="row">
           {startedSteps.map((step, index) => {
             return (
