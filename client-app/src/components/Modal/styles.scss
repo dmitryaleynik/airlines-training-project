@@ -1,0 +1,19 @@
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+
+  .my-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    background-color: white;
+    z-index: 12;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px #191919;
+  }
+}

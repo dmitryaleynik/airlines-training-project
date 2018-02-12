@@ -21,7 +21,7 @@ import {
   validatePlaces,
   bookTemporarily,
 } from 'src/actions/placePicker';
-import { openModal, } from 'src/actions/modals';
+import { openModal, closeModal, } from 'src/actions/modals';
 import { confirmOrder, cancelOrder, } from 'src/actions/priceConfirmator';
 import NewFlight from 'src/components/NewFlight';
 
@@ -70,6 +70,7 @@ const mapDispatchToProps = {
   changeLuggageAmount,
   validatePlaces,
   openModal,
+  closeModal,
   bookTemporarily,
   confirmOrder,
   cancelOrder,

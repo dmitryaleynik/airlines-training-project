@@ -1,9 +1,30 @@
 import React from 'react';
 
+import './styles.scss';
+
 const Modal = (props) => {
+  const handleClose = () => {
+    props.closeModal();
+  };
+
   return (
     <div className="modal-wrapper">
-      <div className="modal">{props.children}</div>
+      <div className="my-modal p-2 rounded">
+        <div className="content my-2 text-center">{props.modal.content}</div>
+        {props.modal.buttons && (
+          <div className="d-flex justify-content-between">
+            <button className="btn btn-sm btn-secondary" onClick={handleClose}>
+              Wait!
+            </button>
+            <button
+              className="btn btn-sm btn-secondary"
+              onClick={props.modal.buttons.handlePositiveClick}
+            >
+              Proceed
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

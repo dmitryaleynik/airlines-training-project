@@ -1,9 +1,8 @@
 import { MODALS_OPEN, MODALS_CLOSE, } from './types';
 
-export const closeModal = (modal) => {
+export const closeModal = () => {
   return {
     type: MODALS_CLOSE,
-    payload: modal,
   };
 };
 

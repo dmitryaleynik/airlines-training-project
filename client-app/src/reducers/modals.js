@@ -1,7 +1,7 @@
 import { MODALS_OPEN, MODALS_CLOSE, } from 'src/actions/types';
 
 const initialState = {
-  modal: {},
+  modal: null,
 };
 
 export default (state = initialState, { type, payload, }) => {
@@ -14,7 +14,7 @@ export default (state = initialState, { type, payload, }) => {
     case MODALS_CLOSE:
       return {
         ...state,
-        modal: {},
+        modal: null,
       };
     default:
       return state;
