@@ -3,6 +3,7 @@ import {
   handleNextClick,
   handleBackClick,
   setStepFulfillment,
+  resetNewFlight,
 } from 'src/actions/newFlight';
 import {
   getCities,
@@ -18,8 +19,10 @@ import {
   toggleLuggageRequirement,
   changeLuggageAmount,
   validatePlaces,
+  bookTemporarily,
 } from 'src/actions/placePicker';
 import { openModal, } from 'src/actions/modals';
+import { confirmOrder, cancelOrder, } from 'src/actions/priceConfirmator';
 import NewFlight from 'src/components/NewFlight';
 
 const mapStateToProps = (state) => {
@@ -32,6 +35,7 @@ const mapStateToProps = (state) => {
   } = state.flightFinder;
   const { straightPlaces, reversePlaces, } = state.placePicker;
   const { modal, } = state.modals;
+  const { orderId, total, isConfirmed, } = state.priceConfirmator;
   return {
     currentStep,
     startedSteps,
@@ -43,6 +47,9 @@ const mapStateToProps = (state) => {
     straightPlaces,
     reversePlaces,
     modal,
+    orderId,
+    total,
+    isConfirmed,
   };
 };
 
@@ -50,6 +57,7 @@ const mapDispatchToProps = {
   handleBackClick,
   handleNextClick,
   setStepFulfillment,
+  resetNewFlight,
   getCities,
   changeDateStart,
   changeDateEnd,
@@ -62,6 +70,9 @@ const mapDispatchToProps = {
   changeLuggageAmount,
   validatePlaces,
   openModal,
+  bookTemporarily,
+  confirmOrder,
+  cancelOrder,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);
