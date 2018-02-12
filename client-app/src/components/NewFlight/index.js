@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
+import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
 import {
   steps,
@@ -19,28 +20,49 @@ class NewFlight extends Component<{}, State> {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.currentStep !== nextProps.currentStep) {
+    const {
+      currentStep,
+      getCities,
+      getPlaces,
+      straightFlight,
+      reverseFlight,
+      straightPlaces,
+      reversePlaces,
+      isReverseRequired,
+      bookTemporarily,
+    } = this.props;
+    if (currentStep !== nextProps.currentStep) {
       switch (nextProps.currentStep) {
         case steps.FINDER:
-          this.props.getCities();
+          getCities();
           break;
         case steps.PICKER:
-          this.props.getPlaces(
-            this.props.straightFlight.selectedId,
-            STRAIGHT_PLACES
-          );
-          if (this.props.isReverseRequired) {
-            this.props.getPlaces(
-              this.props.reverseFlight.selectedId,
-              REVERSE_PLACES
-            );
+          getPlaces(straightFlight.selectedId, STRAIGHT_PLACES);
+          if (isReverseRequired) {
+            getPlaces(reverseFlight.selectedId, REVERSE_PLACES);
           }
+          break;
+        case steps.CONFIRMATOR:
+          const flightId = isReverseRequired
+            ? `${straightFlight.selectedId}&${reverseFlight.selectedId}`
+            : straightFlight.selectedId;
+          const placesToBeBooked = {
+            [STRAIGHT_FLIGHT]: straightPlaces.pickedPlaces,
+          };
+          if (isReverseRequired) {
+            placesToBeBooked[REVERSE_FLIGHT] = reversePlaces.pickedPlaces;
+          }
+          bookTemporarily(flightId, placesToBeBooked);
           break;
         default:
           break;
       }
     }
   }
+
+  componentWillUnmount = () => {
+    this.props.resetNewFlight();
+  };
 
   findFlights = (e, directionName) => {
     const fields = e.target.elements;
@@ -133,6 +155,16 @@ class NewFlight extends Component<{}, State> {
     }
   };
 
+  confirmOrder = (id) => {
+    this.props.confirmOrder(id);
+    this.props.history.push('/');
+  };
+
+  cancelOrder = (id) => {
+    this.props.cancelOrder(id);
+    this.props.history.push('/user-page');
+  };
+
   getLuggageLimit = (directionName) => {
     return this.props[directionName].selectedId
       ? this.props[directionName].flights.find(
@@ -159,12 +191,16 @@ class NewFlight extends Component<{}, State> {
       toggleLuggageRequirement,
       changeLuggageAmount,
       togglePlace,
+      orderId,
+      total,
     } = this.props;
     const {
       findFlights,
       selectFlight,
       toggleReversePath,
       validatePlaces,
+      confirmOrder,
+      cancelOrder,
     } = this;
 
     const luggageLimit = {
@@ -198,6 +234,17 @@ class NewFlight extends Component<{}, State> {
         luggageLimit={luggageLimit}
         onLuggageChange={changeLuggageAmount}
         validate={validatePlaces}
+      />,
+      <PriceConfirmator
+        orderId={orderId}
+        totalPrice={total}
+        isReverseRequired={isReverseRequired}
+        straightFlight={straightFlight}
+        reverseFlight={reverseFlight}
+        straightPlaces={straightPlaces}
+        reversePlaces={reversePlaces}
+        confirmOrder={confirmOrder}
+        cancelOrder={cancelOrder}
       />,
     ];
     return (

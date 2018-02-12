@@ -4,6 +4,7 @@ import {
   PLACE_PICKER_TOGGLE_LUGGAGE_REQUIREMENT,
   PLACE_PICKER_CHANGE_LUGGAGE_AMOUNT,
   PLACE_PICKER_VALIDATE_PLACES,
+  PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
 } from './types';
 import seats from 'src/db/seats';
 
@@ -52,5 +53,18 @@ export const validatePlaces = (isValid, directionName) => {
       isValid,
       directionName,
     },
+  };
+};
+
+export const bookTemporarily = (flightId, placesToBeBooked) => {
+  return async (dispatch) => {
+    let response = await Promise.resolve({
+      orderId: '1',
+      total: 228,
+    });
+    dispatch({
+      type: PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
+      payload: response,
+    });
   };
 };

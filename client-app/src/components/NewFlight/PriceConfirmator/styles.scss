@@ -1,0 +1,25 @@
+.price-confirmator {
+  .td-empty {
+    height: 33px;
+  }
+
+  .total-wrapper {
+    border-top: 1px solid #dee2e6;
+  }
+
+  %flights-divider {
+    width: 100%;
+    height: 2px;
+    background-color: black;
+  }
+
+  .flights-divider-top {
+    @extend %flights-divider;
+    margin-top: 40px;
+  }
+
+  .flights-divider-y {
+    @extend %flights-divider;
+    margin: 40px 0;
+  }
+}

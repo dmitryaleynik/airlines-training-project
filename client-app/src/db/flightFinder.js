@@ -1,3 +1,4 @@
+import moment from 'moment';
 export const cities = ['Minsk', 'Vienna', 'Milan', 'Sofia', 'Warsaw', 'Munich',];
 export const flights = [
   {
@@ -11,8 +12,8 @@ export const flights = [
       to: 'MG',
     },
     date: {
-      from: new Date('2018-01-31T13:00'),
-      to: new Date('2018-02-01T11:00'),
+      from: moment('2018-03-10T09'),
+      to: moment('2018-03-10T18:30'),
     },
     planeType: 'Boeing-787',
     places: {
@@ -42,8 +43,8 @@ export const flights = [
       to: 'Minsk',
     },
     date: {
-      from: new Date('2018-02-05T09:30'),
-      to: new Date('2018-02-05T15:10'),
+      from: moment('2018-03-05T09:30'),
+      to: moment('2018-03-05T15:10'),
     },
     planeType: 'Boeing-737',
     places: {

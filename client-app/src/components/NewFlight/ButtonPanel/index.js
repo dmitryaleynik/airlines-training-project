@@ -7,7 +7,7 @@ const ButtonPanel = (props) => (
   <div className="new-flight button-panel position-relative">
     <button
       className={classNames('btn btn-dark btn-back', {
-        'd-none': props.currentStep === steps.FINDER,
+        'd-none': props.currentStep !== steps.PICKER,
       })}
       onClick={props.onBackClick}
     >
