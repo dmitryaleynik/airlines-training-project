@@ -3,3 +3,7 @@
 body {
   background-color: $primary-color;
 }
+
+.no-scroll {
+  overflow: hidden;
+}
