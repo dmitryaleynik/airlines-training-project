@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const data = [
+export default [
   {
     id: '1',
     airport: {

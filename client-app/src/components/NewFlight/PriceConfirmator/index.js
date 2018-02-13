@@ -1,23 +1,57 @@
 import React from 'react';
-import PriceConfirmatorFlightInfo from './PriceConfirmatorFlightInfo';
+import FlightInfo from 'src/components/FlightInfo';
 
 import './styles.scss';
 
+const prepareInfo = (flightsInfo, placesInfo) => {
+  // this information should be delivered with server
+  const selectedFlight = flightsInfo.flights.find(
+    (flight) => flight.id === flightsInfo.selectedId
+  );
+  const selectedPlaces = placesInfo.places.seats.filter(
+    (seat) => placesInfo.pickedPlaces.indexOf(seat.number) !== -1
+  );
+  const luggageInfo = {
+    isRequired: placesInfo.isLuggageRequired,
+    kg: placesInfo.luggageKg,
+    max: selectedFlight.luggage.maxKg * selectedPlaces.length,
+    free: selectedFlight.luggage.free * selectedPlaces.length,
+    price: selectedFlight.luggage.price,
+    paid:
+      placesInfo.luggageKg > selectedFlight.luggage.free * selectedPlaces.length
+        ? placesInfo.luggageKg -
+          selectedFlight.luggage.free * selectedPlaces.length
+        : 0,
+  };
+
+  return {
+    selectedFlight,
+    selectedPlaces,
+    luggageInfo,
+  };
+};
+
 const PriceConfirmator = (props) => {
+  const straightInfo = prepareInfo(props.straightFlight, props.straightPlaces);
+  const reverseInfo = props.isReverseRequired
+    ? prepareInfo(props.reverseFlight, props.reversePlaces)
+    : null;
   return (
     <div className="price-confirmator">
       <h2>Step 3: Confirm your order</h2>
       <div className="jumbotron">
         <h2 className="lead mb-5">Order #{props.orderId}</h2>
-        <PriceConfirmatorFlightInfo
-          flightsInfo={props.straightFlight}
-          placesInfo={props.straightPlaces}
+        <FlightInfo
+          flight={straightInfo.selectedFlight}
+          places={straightInfo.selectedPlaces}
+          luggage={straightInfo.luggageInfo}
         />
         {props.isReverseRequired && <div className="flights-divider-y" />}
         {props.isReverseRequired && (
-          <PriceConfirmatorFlightInfo
-            flightsInfo={props.reverseFlight}
-            placesInfo={props.reversePlaces}
+          <FlightInfo
+            flight={reverseInfo.selectedFlight}
+            places={reverseInfo.selectedPlaces}
+            luggage={reverseInfo.luggageInfo}
           />
         )}
         <div className="flights-divider-top" />
