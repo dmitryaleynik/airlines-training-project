@@ -49,10 +49,14 @@ class NewFlight extends Component<{}, State> {
           const placesToBeBooked = {
             [STRAIGHT_FLIGHT]: straightPlaces.pickedPlaces,
           };
+          const luggage = {
+            [STRAIGHT_FLIGHT]: straightPlaces.luggageKg,
+          };
           if (isReverseRequired) {
             placesToBeBooked[REVERSE_FLIGHT] = reversePlaces.pickedPlaces;
+            luggage[STRAIGHT_FLIGHT] = reversePlaces.luggageKg;
           }
-          bookTemporarily(flightId, placesToBeBooked);
+          bookTemporarily(flightId, placesToBeBooked, luggage);
           break;
         default:
           break;

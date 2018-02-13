@@ -1,70 +1,54 @@
 import React from 'react';
 import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
-const PriceConfirmatorFlightInfo = (props) => {
-  const { flightsInfo, placesInfo, } = props;
-  const selectedPlaces = {};
+import './styles.scss';
+
+const FlightInfo = (props) => {
+  const { flight, places, luggage, } = props;
+  const placesByType = {};
   const placePrices = {};
   let subTotal = 0;
 
-  const selectedFlight = flightsInfo.flights.find(
-    (flight) => flight.id === flightsInfo.selectedId
-  );
-  const luggageInfo = {
-    isRequired: placesInfo.isLuggageRequired,
-    kg: placesInfo.luggageKg,
-    max: selectedFlight.luggage.maxKg,
-    free: selectedFlight.luggage.free,
-    price: selectedFlight.luggage.price,
-    paid:
-      placesInfo.luggageKg > selectedFlight.luggage.free
-        ? placesInfo.luggageKg - selectedFlight.luggage.free
-        : 0,
-  };
-  placesInfo.places.seats.forEach((seat) => {
-    if (placesInfo.pickedPlaces.indexOf(seat.number) !== -1) {
-      if (!selectedPlaces[seat.type]) {
-        selectedPlaces[seat.type] = [];
-      }
-      selectedPlaces[seat.type].push(seat);
+  places.forEach((seat) => {
+    if (!placesByType[seat.type]) {
+      placesByType[seat.type] = [];
     }
+    placesByType[seat.type].push(seat);
   });
-  Object.keys(selectedPlaces).forEach((key) => {
-    placePrices[key] =
-      selectedPlaces[key].length * selectedFlight.places[key].price;
+  Object.keys(placesByType).forEach((key) => {
+    placePrices[key] = placesByType[key].length * flight.places[key].price;
   });
   for (const price in placePrices) {
     subTotal += placePrices[price];
   }
-  if (luggageInfo.isRequired) {
-    subTotal += luggageInfo.paid * luggageInfo.price;
+  if (luggage.isRequired) {
+    subTotal += luggage.paid * luggage.price;
   }
   return (
-    <div className="row">
+    <div className="flight-info row">
       <div className="col-6">
         <table className="table table-sm">
           <tbody>
             <tr>
-              <th>Flight #{selectedFlight.id}</th>
+              <th>Flight #{flight.id}</th>
               <th />
             </tr>
             <tr>
               <td>Departure from:</td>
               <td>
-                {selectedFlight.city.from} -{' '}
-                {selectedFlight.date.from.format(DATE_DISPLAY_PATTERN)}
+                {flight.city.from} -{' '}
+                {flight.date.from.format(DATE_DISPLAY_PATTERN)}
               </td>
             </tr>
             <tr>
               <td>Destination:</td>
               <td>
-                {selectedFlight.city.to} -{' '}
-                {selectedFlight.date.to.format(DATE_DISPLAY_PATTERN)}
+                {flight.city.to} - {flight.date.to.format(DATE_DISPLAY_PATTERN)}
               </td>
             </tr>
             <tr>
               <td>Plane type</td>
-              <td>{selectedFlight.planeType}</td>
+              <td>{flight.planeType}</td>
             </tr>
           </tbody>
         </table>
@@ -77,11 +61,11 @@ const PriceConfirmatorFlightInfo = (props) => {
               <th>Number(s)</th>
               <th>Subtotal</th>
             </tr>
-            {Object.keys(selectedPlaces).map((key, index) => (
+            {Object.keys(placesByType).map((key, index) => (
               <tr key={index}>
                 <td>{key}</td>
                 <td>
-                  {selectedPlaces[key].reduce((prev, next) => {
+                  {placesByType[key].reduce((prev, next) => {
                     return prev ? `${prev}, ${next.number}` : next.number;
                   }, '')}
                 </td>
@@ -91,7 +75,7 @@ const PriceConfirmatorFlightInfo = (props) => {
           </tbody>
         </table>
       </div>
-      {luggageInfo.isRequired ? (
+      {luggage.isRequired ? (
         <div className="col-6">
           <table className="table table-sm mt-5">
             <tbody>
@@ -101,15 +85,15 @@ const PriceConfirmatorFlightInfo = (props) => {
               </tr>
               <tr>
                 <td>Max weight:</td>
-                <td>{luggageInfo.max}kg</td>
+                <td>{luggage.max}kg</td>
               </tr>
               <tr>
                 <td>Your weight:</td>
-                <td>{luggageInfo.kg}kg</td>
+                <td>{luggage.kg}kg</td>
               </tr>
               <tr>
                 <td>Price for kg:</td>
-                <td>{luggageInfo.price}$</td>
+                <td>{luggage.price}$</td>
               </tr>
             </tbody>
           </table>
@@ -119,7 +103,7 @@ const PriceConfirmatorFlightInfo = (props) => {
           Luggage transporting is not required.
         </div>
       )}
-      {luggageInfo.isRequired && (
+      {luggage.isRequired && (
         <div className="col-6">
           <table className="table table-sm mt-5">
             <tbody>
@@ -129,15 +113,15 @@ const PriceConfirmatorFlightInfo = (props) => {
               </tr>
               <tr>
                 <td>Free weight:</td>
-                <td>{luggageInfo.free}kg</td>
+                <td>{luggage.free}kg</td>
               </tr>
               <tr>
                 <td>Paid weight:</td>
-                <td>{luggageInfo.paid}kg</td>
+                <td>{luggage.paid}kg</td>
               </tr>
               <tr>
                 <td>Subtotal:</td>
-                <td>{luggageInfo.paid * luggageInfo.price}$</td>
+                <td>{luggage.paid * luggage.price}$</td>
               </tr>
             </tbody>
           </table>
@@ -151,4 +135,4 @@ const PriceConfirmatorFlightInfo = (props) => {
   );
 };
 
-export default PriceConfirmatorFlightInfo;
+export default FlightInfo;

@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { initializeTableProps, orderTableColumns, } from 'src/utils/tableProps';
+import {
+  initializeTableProps,
+  flightsTableColumns,
+} from 'src/utils/tableProps';
 
 type Props = {
   trOptions: (
@@ -18,10 +21,10 @@ type Props = {
 
 const FlightsTable = (props: Props) => {
   const tableProps = initializeTableProps(props.data);
-  tableProps.columns = orderTableColumns(true);
+  tableProps.columns = flightsTableColumns(true);
   return (
     <ReactTable
-      className="table"
+      className="table -highlight"
       data={tableProps.data}
       columns={tableProps.columns}
       showPagination={tableProps.showPagination}

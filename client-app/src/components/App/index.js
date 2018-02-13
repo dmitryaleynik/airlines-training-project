@@ -6,6 +6,7 @@ import SignUp from 'src/components/SignUp';
 import SignIn from 'src/components/SignIn';
 import NewFlight from 'src/components/NewFlight/container';
 import UserPage from 'src/components/UserPage';
+import OrderInfo from 'src/components/OrderInfo/container';
 import './styles.scss';
 
 const App = () => (
@@ -26,9 +27,9 @@ const App = () => (
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/new-flight">
+          <Link className="nav-link" to="/orders">
             {/* Temporary added for development convenience */}
-            NF
+            UP
           </Link>
         </li>
       </ul>
@@ -38,7 +39,8 @@ const App = () => (
       <Route path="/sign-up" component={SignUp} />
       <Route path="/sign-in" component={SignIn} />
       <Route path="/new-flight" component={NewFlight} />
-      <Route path="/user-page" component={UserPage} />
+      <Route exact path="/orders" component={UserPage} />
+      <Route path="/orders/:id" component={OrderInfo} />
     </div>
   </div>
 );

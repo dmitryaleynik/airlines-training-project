@@ -2,6 +2,9 @@
 
 .user-page {
   .table {
-    background-color: $secondary-color;
+    background-color: #ffffff;
+    .rt-tr {
+      cursor: pointer;
+    }
   }
 }
