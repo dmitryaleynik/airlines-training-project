@@ -1,6 +1,8 @@
 import React from 'react';
 import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
+import './styles.scss';
+
 const FlightInfo = (props) => {
   const { flight, places, luggage, } = props;
   const placesByType = {};
@@ -23,7 +25,7 @@ const FlightInfo = (props) => {
     subTotal += luggage.paid * luggage.price;
   }
   return (
-    <div className="row">
+    <div className="flight-info row">
       <div className="col-6">
         <table className="table table-sm">
           <tbody>

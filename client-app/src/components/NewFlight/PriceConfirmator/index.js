@@ -4,6 +4,7 @@ import FlightInfo from 'src/components/FlightInfo';
 import './styles.scss';
 
 const prepareInfo = (flightsInfo, placesInfo) => {
+  // this information should be delivered with server
   const selectedFlight = flightsInfo.flights.find(
     (flight) => flight.id === flightsInfo.selectedId
   );
@@ -13,12 +14,13 @@ const prepareInfo = (flightsInfo, placesInfo) => {
   const luggageInfo = {
     isRequired: placesInfo.isLuggageRequired,
     kg: placesInfo.luggageKg,
-    max: selectedFlight.luggage.maxKg,
-    free: selectedFlight.luggage.free,
+    max: selectedFlight.luggage.maxKg * selectedPlaces.length,
+    free: selectedFlight.luggage.free * selectedPlaces.length,
     price: selectedFlight.luggage.price,
     paid:
-      placesInfo.luggageKg > selectedFlight.luggage.free
-        ? placesInfo.luggageKg - selectedFlight.luggage.free
+      placesInfo.luggageKg > selectedFlight.luggage.free * selectedPlaces.length
+        ? placesInfo.luggageKg -
+          selectedFlight.luggage.free * selectedPlaces.length
         : 0,
   };
 

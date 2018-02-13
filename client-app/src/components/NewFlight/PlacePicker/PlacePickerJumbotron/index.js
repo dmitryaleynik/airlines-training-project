@@ -107,7 +107,7 @@ class PlacePickerJumbotron extends React.Component {
   }
 
   render() {
-    const { places, isLuggageRequired, } = this.props.direction;
+    const { places, isLuggageRequired, pickedPlaces, } = this.props.direction;
     const seatTypesSet = new Set(places.seats.map((place) => place.type));
     return (
       <div className="jumbotron">
@@ -130,29 +130,33 @@ class PlacePickerJumbotron extends React.Component {
             </div>
           );
         })}
-        <div className="form-check mt-4">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="luggageCheck"
-            onChange={this.toggleLuggageRequirement}
-          />
-          <label htmlFor="luggageCheck" className="form-check-label">
-            Check if you have luggage
-          </label>
-        </div>
-        {isLuggageRequired && (
-          <div className="form-group">
-            <input
-              type="number"
-              min="0"
-              max={this.props.luggageLimit}
-              className="form-control"
-              placeholder="Input your luggage weight, kg"
-              onChange={this.handleLuggageChange}
-              required
-            />
-            Max amount: {this.props.luggageLimit}kg!!
+        {pickedPlaces.length > 0 && (
+          <div>
+            <div className="form-check mt-4">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="luggageCheck"
+                onChange={this.toggleLuggageRequirement}
+              />
+              <label htmlFor="luggageCheck" className="form-check-label">
+                Check if you have luggage
+              </label>
+            </div>
+            {isLuggageRequired && (
+              <div className="form-group">
+                <input
+                  type="number"
+                  min="0"
+                  max={this.props.luggageLimit * pickedPlaces.length}
+                  className="form-control"
+                  placeholder="Input your luggage weight, kg"
+                  onChange={this.handleLuggageChange}
+                  required
+                />
+                Max amount: {this.props.luggageLimit * pickedPlaces.length}kg!!
+              </div>
+            )}
           </div>
         )}
       </div>

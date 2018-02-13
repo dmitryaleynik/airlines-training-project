@@ -56,7 +56,7 @@ export const validatePlaces = (isValid, directionName) => {
   };
 };
 
-export const bookTemporarily = (flightId, placesToBeBooked) => {
+export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
   return async (dispatch) => {
     let response = await Promise.resolve({
       orderId: '1',
