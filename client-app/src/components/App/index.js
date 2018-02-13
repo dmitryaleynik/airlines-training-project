@@ -5,7 +5,7 @@ import Home from 'src/components/Home';
 import SignUp from 'src/components/SignUp';
 import SignIn from 'src/components/SignIn';
 import NewFlight from 'src/components/NewFlight/container';
-import UserPage from 'src/components/UserPage';
+import UserPage from 'src/components/UserPage/container';
 import OrderInfo from 'src/components/OrderInfo/container';
 import './styles.scss';
 
