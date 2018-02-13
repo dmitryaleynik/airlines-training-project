@@ -3,7 +3,6 @@ import cn from 'classnames';
 
 const BackButton = (props) => {
   const handleClick = () => {
-    console.log(props.history);
     props.history.goBack();
   };
 

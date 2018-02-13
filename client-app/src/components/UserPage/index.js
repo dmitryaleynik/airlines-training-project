@@ -26,30 +26,38 @@ const menuItems = [
 ];
 
 class UserPage extends Component<{}, State> {
-  state = {
-    dropdownIsToggled: false,
-    filter: 'future',
-  };
-
-  toggleDropdown = (e: SyntheticMouseEvent<HTMLButtonElement>) => {
-    this.setState({ dropdownIsToggled: !this.state.dropdownIsToggled, });
+  componentWillMount = () => {
+    const { getAllOrders, setFilter, } = this.props;
+    setFilter('future');
+    getAllOrders();
   };
 
   handleDropdownClick = (e: any) => {
-    this.setState({
-      filter: e.target.value,
-      dropdownIsToggled: false,
-    });
+    const { setFilter, toggleDropdown, } = this.props;
+    setFilter(e.target.value);
+    toggleDropdown();
   };
 
   render() {
+    const {
+      orders,
+      toggleDropdown,
+      isDropdownToggled,
+      filter,
+      history,
+    } = this.props;
+    const { handleDropdownClick, } = this;
+    if (!orders.length) {
+      return null;
+    }
+
     return (
       <div className="user-page">
         <div className="button-panel d-flex justify-content-between">
           <Dropdown
-            isToggled={this.state.dropdownIsToggled}
-            onDropdownClick={this.handleDropdownClick}
-            toggleDropdown={this.toggleDropdown}
+            isToggled={isDropdownToggled}
+            onDropdownClick={handleDropdownClick}
+            toggleDropdown={toggleDropdown}
             menuItems={menuItems}
           >
             Filter orders
@@ -58,7 +66,7 @@ class UserPage extends Component<{}, State> {
             New Flight
           </Link>
         </div>
-        <OrdersTable history={this.props.history} filter={this.state.filter} />
+        <OrdersTable data={orders} history={history} filter={filter} />
       </div>
     );
   }

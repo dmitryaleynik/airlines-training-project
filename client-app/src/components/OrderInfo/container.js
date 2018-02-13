@@ -4,8 +4,9 @@ import { cancelOrder, confirmOrder, } from 'src/actions/priceConfirmator';
 import OrderInfo from 'src/components/OrderInfo';
 
 const mapStateToProps = (state) => {
+  const { selectedOrder, } = state.orders;
   return {
-    order: state.orders.order,
+    order: selectedOrder,
   };
 };
 
