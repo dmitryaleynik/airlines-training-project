@@ -9,8 +9,21 @@ class OrderInfo extends Component {
     this.props.getOrderInfo(this.props.match.params.id);
   }
 
+  cancelOrder = () => {
+    const { order, cancelOrder, } = this.props;
+    cancelOrder(order.id);
+    this.props.history.push('/orders');
+  };
+
+  confirmOrder = () => {
+    const { order, confirmOrder, } = this.props;
+    confirmOrder(order.id);
+    this.props.history.push('/orders');
+  };
+
   render() {
     const { order, } = this.props;
+    const { cancelOrder, confirmOrder, } = this;
     if (!order) {
       return null;
     }
@@ -36,7 +49,22 @@ class OrderInfo extends Component {
           <h2 className="lead">Status: {order.status}</h2>
         </div>
         {children}
-        <span className="font-weight-bold">GRAND TOTAL: {order.total}$</span>
+        <div className="d-flex justify-content-between mt-3">
+          <span className="font-weight-bold">GRAND TOTAL: {order.total}$</span>
+          {order.status === 'Pending' && (
+            <span className="buttons">
+              <button
+                className="btn btn-danger btn-sm mr-2"
+                onClick={cancelOrder}
+              >
+                Cancel
+              </button>
+              <button className="btn btn-success btn-sm" onClick={confirmOrder}>
+                Confirm
+              </button>
+            </span>
+          )}
+        </div>
       </div>
     );
   }

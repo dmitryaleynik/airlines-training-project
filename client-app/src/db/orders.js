@@ -30,7 +30,7 @@ export default [
   {
     id: '2',
     leaveAt: moment('2018-04-05T09:30'),
-    status: 'Cancelled',
+    status: 'Pending',
     total: 228,
     flights: [orderedFlights[1],],
     places: [
