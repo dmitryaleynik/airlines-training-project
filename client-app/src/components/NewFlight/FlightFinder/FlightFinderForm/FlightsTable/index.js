@@ -24,7 +24,7 @@ const FlightsTable = (props: Props) => {
   tableProps.columns = flightsTableColumns(true);
   return (
     <ReactTable
-      className="table"
+      className="table -highlight"
       data={tableProps.data}
       columns={tableProps.columns}
       showPagination={tableProps.showPagination}

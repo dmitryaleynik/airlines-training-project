@@ -3,7 +3,6 @@ import moment from 'moment';
 import ReactTable from 'react-table';
 import { initializeTableProps, ordersTableColumns, } from 'src/utils/tableProps';
 import orders from 'src/db/orders';
-import flights from 'src/db/orderedFlights';
 
 import 'react-table/react-table.css';
 import type { OrderTableItem, OrderTableProps, } from 'src/types';
@@ -25,24 +24,25 @@ const OrderTable = (props: Props) => {
     }
   });
   const orderTableProps: OrderTableProps = initializeTableProps(filteredData);
-
   orderTableProps.columns = ordersTableColumns();
+
+  const trProps = (state, rowInfo, column) => {
+    return {
+      onClick: () => {
+        props.history.push(`/orders/${rowInfo.original.id}`);
+      },
+    };
+  };
 
   return (
     <ReactTable
-      className="table"
+      className="table -highlight"
       data={orderTableProps.data}
       columns={orderTableProps.columns}
       showPagination={orderTableProps.showPagination}
       minRows={orderTableProps.minRows}
       defaultPageSize={orderTableProps.defaultPageSize}
-      getTrProps={(state, rowInfo, column) => {
-        return {
-          onClick: () => {
-            props.history.push(`/orders/${rowInfo.original.id}`);
-          },
-        };
-      }}
+      getTrProps={trProps}
     />
   );
 };
