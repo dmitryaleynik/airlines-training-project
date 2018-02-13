@@ -3,29 +3,26 @@ import React, { Component, } from 'react';
 import { Link, } from 'react-router-dom';
 import OrdersTable from './OrdersTable';
 import Dropdown from 'src/components/Dropdown';
-import './styles.scss';
+import { ordersDropdown, } from 'src/imports';
 
-type State = {
-  dropdownIsToggled: boolean,
-  filter: string,
-};
+import './styles.scss';
 
 const menuItems = [
   {
-    key: 'Future',
-    value: 'future',
+    key: ordersDropdown.keys.FUTURE,
+    value: ordersDropdown.values.FUTURE,
   },
   {
-    key: 'Past',
-    value: 'past',
+    key: ordersDropdown.keys.PAST,
+    value: ordersDropdown.values.PAST,
   },
   {
-    key: 'All',
-    value: 'all',
+    key: ordersDropdown.keys.ALL,
+    value: ordersDropdown.values.ALL,
   },
 ];
 
-class UserPage extends Component<{}, State> {
+class UserPage extends Component<{}> {
   componentWillMount = () => {
     const { getAllOrders, setFilter, } = this.props;
     setFilter('future');
