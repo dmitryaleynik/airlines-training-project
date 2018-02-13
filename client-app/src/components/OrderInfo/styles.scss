@@ -1,4 +1,6 @@
 .order-info {
+  position: relative;
+
   %flights-divider {
     width: 100%;
     height: 2px;
@@ -8,5 +10,11 @@
   .flights-divider-both {
     @extend %flights-divider;
     margin: 40px 0;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 1%;
+    left: 1%;
   }
 }

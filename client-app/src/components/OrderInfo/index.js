@@ -1,5 +1,6 @@
 import React, { Component, } from 'react';
 import FlightInfo from 'src/components/FlightInfo';
+import BackButton from 'src/components/BackButton';
 
 import './styles.scss';
 
@@ -17,7 +18,7 @@ class OrderInfo extends Component {
     const children = [];
     order.flights.forEach((flight, i) => {
       children.push(
-        <div>
+        <div key={i}>
           <FlightInfo
             flight={flight}
             places={order.places[i]}
@@ -29,6 +30,7 @@ class OrderInfo extends Component {
     });
     return (
       <div className="order-info jumbotron">
+        <BackButton className="back-button" history={this.props.history} />
         <div className="d-flex justify-content-between mb-4">
           <h2 className="lead">Order #{order.id}</h2>
           <h2 className="lead">Status: {order.status}</h2>
