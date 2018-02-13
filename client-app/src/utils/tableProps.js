@@ -10,7 +10,7 @@ export const initializeTableProps = (data) => {
   };
 };
 
-export const orderTableColumns = (isFinder) => {
+export const flightsTableColumns = (isFinder) => {
   return [
     {
       id: 'id',
@@ -97,6 +97,25 @@ export const orderTableColumns = (isFinder) => {
           accessor: (d) => d.luggage.price,
         },
       ],
+    },
+  ];
+};
+
+export const ordersTableColumns = () => {
+  return [
+    {
+      Header: 'Order No',
+      id: 'id',
+      accessor: (d) => `#${d.id}`,
+    },
+    {
+      Header: 'Leaving date',
+      id: 'leaveAt',
+      accessor: (d) => d.leaveAt.format(DATETIME_DISPLAY_PATTERN),
+    },
+    {
+      Header: 'Status',
+      accessor: 'status',
     },
   ];
 };
