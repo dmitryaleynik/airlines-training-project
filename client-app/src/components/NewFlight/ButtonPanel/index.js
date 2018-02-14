@@ -1,9 +1,20 @@
+// @flow
 import React from 'react';
 import classNames from 'classnames';
 import { steps, } from 'src/imports';
+
 import './styles.scss';
 
-const ButtonPanel = (props) => (
+import { Action, } from '../../../types';
+
+type Props = {
+  onBackClick: () => Action,
+  onNextClick: () => Action,
+  currentStep: number,
+  fulfilledSteps: Array<boolean>,
+};
+
+const ButtonPanel = (props: Props) => (
   <div className="new-flight button-panel position-relative">
     <button
       className={classNames('btn btn-dark btn-back', {

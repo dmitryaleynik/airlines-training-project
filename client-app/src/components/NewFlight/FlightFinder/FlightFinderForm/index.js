@@ -1,9 +1,22 @@
+// @flow
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import FlightsTable from './FlightsTable';
 import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
 import 'react-datepicker/dist/react-datepicker.css';
+
+import { DirectionalFlight, Action, } from '../../../../types';
+
+type Props = {
+  directionName: string,
+  direction: DirectionalFlight,
+  citiesHints: Array<React.Element<'option'>>,
+  changeDateStart: props.changeDateStart,
+  changeDateEnd: props.changeDateEnd,
+  onSubmit: props.onSubmit,
+  selectFlight: props.selectFlight,
+};
 
 const FlightFinderForm = (props) => {
   const trOptions = (state: Object, rowInfo: Object, column: Object) => {
@@ -77,7 +90,7 @@ const FlightFinderForm = (props) => {
           className="form-control"
           type="number"
           min="1"
-          defaultValue={props.direction.filters.numberOfTickets}
+          defaultValue={props.direction.filters.numberOfSeats}
         />
         <div className="input-group-append">
           <button type="submit" className="btn btn-secondary">

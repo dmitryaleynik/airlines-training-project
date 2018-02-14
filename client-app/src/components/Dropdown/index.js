@@ -5,7 +5,7 @@ import classNames from 'classnames';
 type Props = {
   isToggled: boolean,
   onDropdownClick: (SyntheticMouseEvent<HTMLButtonElement>) => void,
-  toggleDropdown: (SyntheticMouseEvent<HTMLButtonElement>) => void,
+  toggleDropdown: (void) => void,
   menuItems: Array<{ key: string, value: string }>,
   children: string,
 };

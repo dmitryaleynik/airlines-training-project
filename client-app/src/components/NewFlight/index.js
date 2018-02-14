@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
@@ -14,12 +15,60 @@ import {
 
 import './styles.scss';
 
-class NewFlight extends Component<{}, State> {
+import {
+  FlightFinderFilters,
+  DirectionalFlight,
+  DirectionalPlaces,
+  Action,
+  ThunkAction,
+} from '../../types';
+
+type Props = {
+  currentStep: number,
+  startedSteps: Array<boolean>,
+  fulfilledSteps: Array<boolean>,
+  cities: Array<string>,
+  straightFlight: DirectionalFlight,
+  reverseFlight: DirectionalFlight,
+  isReverseRequired: boolean,
+  straightPlaces: DirectionalPlaces,
+  reversePlaces: DirectionalPlaces,
+  orderId: string,
+  total: number,
+  isConfirmed: boolean,
+  handleBackClick: () => Action,
+  handleNextClick: () => Action,
+  setStepFulfillment: (index: number, value: boolean) => Action,
+  resetNewFlight: () => Action,
+  getCities: () => ThunkAction,
+  changeDateStart: Function,
+  changeDateEnd: Function,
+  findFlights: (
+    filters: FlightFinderFilters,
+    directionName: string
+  ) => ThunkAction,
+  selectFlight: (id: string, directionName: string) => Action,
+  toggleReversePath: () => Action,
+  getPlaces: (flightId: string, directionName: string) => ThunkAction,
+  togglePlace: (number: number, directionName: string) => Action,
+  toggleLuggageRequirement: (directionName: string) => Action,
+  changeLuggageAmount: (amount: number, directionName: string) => Action,
+  validatePlaces: (isValid: boolean, directionName: string) => Action,
+  bookTemporarily: (
+    flightId: string,
+    placesToBeBooked: Array<number>,
+    luggage: number
+  ) => ThunkAction,
+  confirmOrder: (id: string) => ThunkAction,
+  cancelOrder: (id: string) => ThunkAction,
+};
+
+class NewFlight extends Component<Props> {
   componentWillMount() {
     this.props.getCities();
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillUpdate(nextProps: Props) {
     const {
       currentStep,
       getCities,
@@ -68,7 +117,7 @@ class NewFlight extends Component<{}, State> {
     this.props.resetNewFlight();
   };
 
-  findFlights = (e, directionName) => {
+  findFlights = (e: any, directionName: string) => {
     const fields = e.target.elements;
     if (this.props.fulfilledSteps[steps.FINDER]) {
       this.props.setStepFulfillment(steps.FINDER, false);
@@ -83,13 +132,13 @@ class NewFlight extends Component<{}, State> {
           from: this.props[directionName].filters.dates.from,
           to: this.props[directionName].filters.dates.to,
         },
-        numberOfTickets: fields['tickets'].value,
+        numberOfSeats: fields['tickets'].value,
       },
       directionName
     );
   };
 
-  selectFlight = (id, directionName) => {
+  selectFlight = (id: string, directionName: string) => {
     const {
       selectFlight,
       fulfilledSteps,
@@ -135,7 +184,7 @@ class NewFlight extends Component<{}, State> {
     }
   };
 
-  validatePlaces = (isValid, directionName) => {
+  validatePlaces = (isValid: boolean, directionName: string) => {
     const {
       validatePlaces,
       setStepFulfillment,
@@ -159,17 +208,17 @@ class NewFlight extends Component<{}, State> {
     }
   };
 
-  confirmOrder = (id) => {
+  confirmOrder = (id: string) => {
     this.props.confirmOrder(id);
     this.props.history.push('/');
   };
 
-  cancelOrder = (id) => {
+  cancelOrder = (id: string) => {
     this.props.cancelOrder(id);
     this.props.history.push('/user-page');
   };
 
-  getLuggageLimit = (directionName) => {
+  getLuggageLimit = (directionName: string) => {
     return this.props[directionName].selectedId
       ? this.props[directionName].flights.find(
           (flight) => flight.id === this.props[directionName].selectedId

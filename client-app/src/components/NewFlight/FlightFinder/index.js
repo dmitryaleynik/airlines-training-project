@@ -1,9 +1,24 @@
+// @flow
 import React from 'react';
 import FlightFinderForm from './FlightFinderForm';
 
 import './styles.scss';
 
-const FlightFinder = (props) => {
+import { DirectionalFlight, Action, } from '../../../types';
+
+type Props = {
+  cities: Array<string>,
+  straightFlight: DirectionalFlight,
+  reverseFlight: DirectionalFlight,
+  isReverseRequired: boolean,
+  changeDateStart: Function,
+  changeDateEnd: Function,
+  onReverseClick: () => Action,
+  onSubmit: (e: Event, directionName: string) => void,
+  selectFlight: (id: string, directionName: string) => void,
+};
+
+const FlightFinder = (props: Props) => {
   const matchedCities = props.cities;
   const citiesHints = matchedCities.map((city, index) => (
     <option key={index} value={city} />

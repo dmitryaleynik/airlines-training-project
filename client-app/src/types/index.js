@@ -1,4 +1,13 @@
 // @flow
+export type Action = {
+  type: string,
+  payload: any,
+};
+
+export type Dispatch = (action: Action | ThunkAction | Promise<Action>) => any;
+
+export type ThunkAction = (dispatch: Dispatch) => any;
+
 export type SignInFormFields = {
   email: string,
   password: string,
@@ -10,9 +19,22 @@ export type SignUpFormFields = {
   confirmPassword: string,
 };
 
-export type OrderTableItem = {
+export type PlacesCommonDescriptor = {
+  amount: number,
+  price: number,
+};
+
+export type LuggageDescriptor = {
+  isRequired?: boolean,
+  kg?: number,
+  max?: number,
+  free?: number,
+  price?: number,
+  paid?: number,
+};
+
+export type Flight = {
   id: string,
-  planeType: string,
   airport: {
     from: string,
     to: string,
@@ -22,28 +44,54 @@ export type OrderTableItem = {
     to: string,
   },
   date: {
-    from: Date,
-    to: Date,
+    from: moment,
+    to: moment,
   },
+  planeType: string,
   places: {
-    econom: {
-      amount: number,
-      price: number,
-    },
-    business: {
-      amount: number,
-      price: number,
-    },
+    [string]: PlacesCommonDescriptor,
   },
-  luggage: {
-    free?: number,
-    kg?: number,
-    price: number,
+  luggage: LuggageDescriptor,
+};
+
+export type SeatDescriptor = {
+  number: string,
+  type: string,
+  isAvailable?: boolean,
+};
+
+export type FlightFinderFilters = {
+  cities: {
+    from: string,
+    to: string,
+  },
+  dates: {
+    from: string,
+    to: string,
   },
 };
 
+export type DirectionalFlight = {
+  filters: FlightFinderFilters,
+  flights: Array<Flight>,
+  isSearched: boolean,
+  selectedId: string,
+};
+
+export type DirectionalPlaces = {
+  description: {
+    rows: number,
+    columns: number,
+    seats: Array<SeatDescriptor>,
+  },
+  pickedPlaces: Array<number>,
+  isLuggageRequired: boolean,
+  luggageKg: number,
+  isValid: boolean,
+};
+
 export type OrderTableProps = {
-  data: Array<OrderTableItem>,
+  data: Array<Flight>,
   columns: Array<any>,
   minRows: number,
   defaultPageSize: number,

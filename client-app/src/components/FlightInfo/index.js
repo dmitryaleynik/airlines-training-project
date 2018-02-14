@@ -1,21 +1,30 @@
+// @flow
 import React from 'react';
 import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
 import './styles.scss';
 
-const FlightInfo = (props) => {
-  const { flight, places, luggage, } = props;
-  const placesByType = {};
-  const placePrices = {};
-  let subTotal = 0;
+import { Flight, SeatDescriptor, LuggageDescriptor, } from '../../types';
 
-  places.forEach((seat) => {
+type Props = {
+  flight: Flight,
+  places: Array<SeatDescriptor>,
+  luggage: LuggageDescriptor,
+};
+
+const FlightInfo = (props: Props) => {
+  const { flight, places, luggage, } = props;
+  const placesByType: { [key: string]: Array<SeatDescriptor> } = {};
+  const placePrices: { [key: string]: number } = {};
+  let subTotal: number = 0;
+
+  places.forEach((seat: SeatDescriptor) => {
     if (!placesByType[seat.type]) {
       placesByType[seat.type] = [];
     }
     placesByType[seat.type].push(seat);
   });
-  Object.keys(placesByType).forEach((key) => {
+  Object.keys(placesByType).forEach((key: string) => {
     placePrices[key] = placesByType[key].length * flight.places[key].price;
   });
   for (const price in placePrices) {
@@ -61,13 +70,16 @@ const FlightInfo = (props) => {
               <th>Number(s)</th>
               <th>Subtotal</th>
             </tr>
-            {Object.keys(placesByType).map((key, index) => (
+            {Object.keys(placesByType).map((key: string, index: number) => (
               <tr key={index}>
                 <td>{key}</td>
                 <td>
-                  {placesByType[key].reduce((prev, next) => {
-                    return prev ? `${prev}, ${next.number}` : next.number;
-                  }, '')}
+                  {placesByType[key].reduce(
+                    (prev: string, next: SeatDescriptor) => {
+                      return prev ? `${prev}, ${next.number}` : next.number;
+                    },
+                    ''
+                  )}
                 </td>
                 <td>{placePrices[key]}$</td>
               </tr>

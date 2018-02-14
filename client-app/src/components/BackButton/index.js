@@ -1,7 +1,13 @@
+// @flow
 import React from 'react';
 import cn from 'classnames';
 
-const BackButton = (props) => {
+type Props = {
+  className: string,
+  history: Object,
+};
+
+const BackButton = (props: Props) => {
   const handleClick = () => {
     props.history.goBack();
   };
