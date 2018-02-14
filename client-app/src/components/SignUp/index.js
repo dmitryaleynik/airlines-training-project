@@ -1,11 +1,10 @@
 // @flow
 import React, { Component, } from 'react';
 import SignUpForm from './SignUpForm';
-import { SignUpFormFields, } from '../../types';
 import './styles.scss';
 
 class SignUp extends Component<{}, {}> {
-  handleSubmit(e: SignUpFormFields) {}
+  handleSubmit(values) {}
 
   render() {
     return (
