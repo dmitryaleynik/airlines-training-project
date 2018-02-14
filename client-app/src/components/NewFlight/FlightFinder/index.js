@@ -1,5 +1,7 @@
 import React from 'react';
 import FlightFinderForm from './FlightFinderForm';
+import FlightFinderTable from './FlightFinderTable';
+import { STRAIGHT_FLIGHT, REVERSE_FLIGHT, } from 'src/imports';
 
 import './styles.scss';
 
@@ -25,6 +27,14 @@ const FlightFinder = (props) => {
         {...FlightFinderFormProps}
       />
       {props.straightFlight.isSearched && (
+        <FlightFinderTable
+          directionName={STRAIGHT_FLIGHT}
+          selectedId={props.straightFlight.selectedId}
+          data={props.straightFlight.flights}
+          selectFlight={props.selectFlight}
+        />
+      )}
+      {props.straightFlight.isSearched && (
         <button
           className="btn btn-dark btn-small"
           onClick={props.onReverseClick}
@@ -37,6 +47,14 @@ const FlightFinder = (props) => {
           directionName="reverseFlight"
           direction={props.reverseFlight}
           {...FlightFinderFormProps}
+        />
+      )}
+      {props.reverseFlight.isSearched && (
+        <FlightFinderTable
+          directionName={REVERSE_FLIGHT}
+          selectedId={props.reverseFlight.selectedId}
+          data={props.reverseFlight.flights}
+          selectFlight={props.selectFlight}
         />
       )}
     </div>

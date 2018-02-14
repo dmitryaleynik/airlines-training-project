@@ -1,21 +1,10 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import FlightsTable from './FlightsTable';
 import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 const FlightFinderForm = (props) => {
-  const trOptions = (state: Object, rowInfo: Object, column: Object) => {
-    return {
-      className:
-        rowInfo.original.id === props.direction.selectedId ? 'picked-row' : '',
-      onClick: (e: Event) => {
-        props.selectFlight(rowInfo.original.id, props.directionName);
-      },
-    };
-  };
-
   const handleChangeDateStart = (date) => {
     return props.changeDateStart(date, props.directionName);
   };
@@ -85,9 +74,6 @@ const FlightFinderForm = (props) => {
           </button>
         </div>
       </form>
-      {props.direction.isSearched && (
-        <FlightsTable trOptions={trOptions} data={props.direction.flights} />
-      )}
     </div>
   );
 };
