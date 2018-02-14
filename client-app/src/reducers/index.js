@@ -1,4 +1,5 @@
 import { combineReducers, } from 'redux';
+import { reducer as formReducer, } from 'redux-form';
 import newFlight from './newFlight';
 import flightFinder from './flightFinder';
 import placePicker from './placePicker';
@@ -11,6 +12,7 @@ const clientApp = combineReducers({
   placePicker,
   priceConfirmator,
   orders,
+  form: formReducer,
 });
 
 export default clientApp;
