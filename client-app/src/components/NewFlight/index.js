@@ -68,22 +68,22 @@ class NewFlight extends Component<{}, State> {
     this.props.resetNewFlight();
   };
 
-  findFlights = (e, directionName) => {
-    const fields = e.target.elements;
+  findFlights = (values, foo, { directionName, }) => {
+    console.log(values, directionName);
     if (this.props.fulfilledSteps[steps.FINDER]) {
       this.props.setStepFulfillment(steps.FINDER, false);
     }
     this.props.findFlights(
       {
         cities: {
-          from: fields['city-from'].value,
-          to: fields['city-to'].value,
+          from: values['city-from'],
+          to: values['city-to'],
         },
         dates: {
           from: this.props[directionName].filters.dates.from,
           to: this.props[directionName].filters.dates.to,
         },
-        numberOfTickets: fields['tickets'].value,
+        numberOfTickets: values['seats'],
       },
       directionName
     );

@@ -1,4 +1,10 @@
-import { required, email, length, confirmation, } from 'redux-form-validators';
+import {
+  required,
+  email,
+  length,
+  confirmation,
+  numericality,
+} from 'redux-form-validators';
 
 const validations = {
   email: [required(), email(),],
@@ -6,6 +12,9 @@ const validations = {
   confirmPassword: [
     confirmation({ field: 'password', fieldLabel: 'Password', }),
   ],
+  'city-from': [required(),],
+  'city-to': [required(),],
+  seats: [numericality({ '>=': 1, }),],
 };
 
 export default (values) => {
