@@ -17,13 +17,23 @@ const FlightFinder = (props) => {
     onSubmit: props.onSubmit,
     selectFlight: props.selectFlight,
   };
+  const prepareFormInitialValues = (directionName) => {
+    const { cities, seats, } = props[directionName].filters;
+    return {
+      'city-from': cities.from,
+      'city-to': cities.to,
+      seats,
+    };
+  };
 
   return (
     <div className="flight-finder">
       <h2>Step 1: Find a flight</h2>
       <FlightFinderForm
+        form="flightFinderStraight"
         directionName="straightFlight"
         direction={props.straightFlight}
+        initialValues={prepareFormInitialValues(STRAIGHT_FLIGHT)}
         {...FlightFinderFormProps}
       />
       {props.straightFlight.isSearched && (
@@ -44,8 +54,10 @@ const FlightFinder = (props) => {
       )}
       {props.isReverseRequired && (
         <FlightFinderForm
+          form="flightFinderReverse"
           directionName="reverseFlight"
           direction={props.reverseFlight}
+          initialValues={prepareFormInitialValues(REVERSE_FLIGHT)}
           {...FlightFinderFormProps}
         />
       )}

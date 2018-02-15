@@ -32,16 +32,20 @@ export const renderInput = ({
   );
 };
 
-export const renderInputWithHints = ({
-  input,
-  list,
-  className,
-  type,
-  meta: { touched, error, warning, },
-}) => (
-  <div>
-    <input {...input} className={className} list={list} type={type} />
-    {touched &&
-      ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-  </div>
-);
+export const renderInputWithHints = (props) => {
+  const {
+    input,
+    list,
+    className,
+    type,
+    meta: { touched, error, warning, },
+  } = props;
+  return (
+    <div>
+      <input {...input} className={className} list={list} type={type} />
+      {touched &&
+        ((error && <span>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
+    </div>
+  );
+};

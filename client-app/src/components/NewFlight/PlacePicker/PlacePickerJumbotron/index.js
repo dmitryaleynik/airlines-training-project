@@ -136,10 +136,13 @@ class PlacePickerJumbotron extends React.Component {
               <input
                 type="checkbox"
                 className="form-check-input"
-                id="luggageCheck"
+                id={`luggageCheck-${this.props.directionName}`}
                 onChange={this.toggleLuggageRequirement}
               />
-              <label htmlFor="luggageCheck" className="form-check-label">
+              <label
+                htmlFor={`luggageCheck-${this.props.directionName}`}
+                className="form-check-label"
+              >
                 Check if you have luggage
               </label>
             </div>

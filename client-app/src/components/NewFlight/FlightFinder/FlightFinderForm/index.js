@@ -27,6 +27,7 @@ let FlightFinderForm = (props) => {
         type="text"
         list="city-from-hint"
         component={renderInputWithHints}
+        value={props.direction.filters.cities.from}
       />
       <datalist id="city-from-hint">{props.citiesHints}</datalist>
       <Field
@@ -75,7 +76,6 @@ let FlightFinderForm = (props) => {
 };
 
 FlightFinderForm = reduxForm({
-  form: 'flight-finder',
   validate,
 })(FlightFinderForm);
 
