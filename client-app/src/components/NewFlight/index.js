@@ -34,15 +34,18 @@ class NewFlight extends Component<{}, State> {
     if (currentStep !== nextProps.currentStep) {
       switch (nextProps.currentStep) {
         case steps.FINDER:
+          window.scroll(0, 0);
           getCities();
           break;
         case steps.PICKER:
+          window.scroll(0, 0);
           getPlaces(straightFlight.selectedId, STRAIGHT_PLACES);
           if (isReverseRequired) {
             getPlaces(reverseFlight.selectedId, REVERSE_PLACES);
           }
           break;
         case steps.CONFIRMATOR:
+          window.scroll(0, 0);
           const flightId = isReverseRequired
             ? `${straightFlight.selectedId}&${reverseFlight.selectedId}`
             : straightFlight.selectedId;
@@ -68,22 +71,21 @@ class NewFlight extends Component<{}, State> {
     this.props.resetNewFlight();
   };
 
-  findFlights = (e, directionName) => {
-    const fields = e.target.elements;
+  findFlights = (values, foo, { directionName, }) => {
     if (this.props.fulfilledSteps[steps.FINDER]) {
       this.props.setStepFulfillment(steps.FINDER, false);
     }
     this.props.findFlights(
       {
         cities: {
-          from: fields['city-from'].value,
-          to: fields['city-to'].value,
+          from: values['city-from'],
+          to: values['city-to'],
         },
         dates: {
           from: this.props[directionName].filters.dates.from,
           to: this.props[directionName].filters.dates.to,
         },
-        numberOfTickets: fields['tickets'].value,
+        seats: values['seats'],
       },
       directionName
     );
