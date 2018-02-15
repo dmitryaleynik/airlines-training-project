@@ -7,6 +7,8 @@ import SignIn from 'src/components/SignIn';
 import NewFlight from 'src/components/NewFlight/container';
 import UserPage from 'src/components/UserPage/container';
 import OrderInfo from 'src/components/OrderInfo/container';
+import UserProfile from 'src/components/UserProfile';
+
 import './styles.scss';
 
 const App = () => (
@@ -27,9 +29,9 @@ const App = () => (
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/orders">
+          <Link className="nav-link" to="/profile">
             {/* Temporary added for development convenience */}
-            UP
+            Prf
           </Link>
         </li>
       </ul>
@@ -41,6 +43,7 @@ const App = () => (
       <Route path="/new-flight" component={NewFlight} />
       <Route exact path="/orders" component={UserPage} />
       <Route path="/orders/:id" component={OrderInfo} />
+      <Route path="/profile" component={UserProfile} />
     </div>
   </div>
 );
