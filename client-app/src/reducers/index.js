@@ -5,14 +5,16 @@ import flightFinder from './flightFinder';
 import placePicker from './placePicker';
 import priceConfirmator from './priceConfirmator';
 import orders from './orders';
+import profile from './profile';
 
 const clientApp = combineReducers({
+  form: formReducer,
   newFlight,
   flightFinder,
   placePicker,
   priceConfirmator,
   orders,
-  form: formReducer,
+  profile,
 });
 
 export default clientApp;

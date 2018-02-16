@@ -20,6 +20,13 @@ let SignUpForm = (props: Props) => {
       />
       <Field
         className="form-control"
+        name="username"
+        type="text"
+        component={renderInputWithLabel}
+        label="Username"
+      />
+      <Field
+        className="form-control"
         name="password"
         type="password"
         component={renderInputWithLabel}

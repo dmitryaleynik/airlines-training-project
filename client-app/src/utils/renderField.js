@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink, } from 'react-router-dom';
 
 export const renderInputWithLabel = ({
   input,
@@ -49,3 +50,11 @@ export const renderInputWithHints = (props) => {
     </div>
   );
 };
+
+export const RenderredLink = ({ path, children, }) => (
+  <li className="nav-item">
+    <NavLink className="nav-link" activeClassName="nav-link-active" to={path}>
+      {children}
+    </NavLink>
+  </li>
+);
