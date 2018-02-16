@@ -1,0 +1,16 @@
+@import "src/assets/imports";
+
+.header {
+  background-color: $secondary-color;
+  margin-bottom: 20px;
+  .nav-link {
+    color: $link-color;
+    &:hover {
+      color: $link-color-hover;
+    }
+  }
+
+  .nav-link-active {
+    color: $link-color-hover;
+  }
+}

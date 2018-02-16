@@ -1,17 +1,1 @@
-@import "src/assets/imports";
 
-.root {
-  .navbar {
-    background-color: $secondary-color;
-    // background-image: $bkg-color;
-    margin-bottom: 20px;
-  }
-
-  .nav-link {
-    color: $link-color;
-    &:hover,
-    &:active {
-      color: $link-color-hover;
-    }
-  }
-}
