@@ -5,9 +5,11 @@ import {
   confirmation,
   numericality,
 } from 'redux-form-validators';
+import { USERNAME_MIN_LENGTH, } from 'src/imports';
 
 const validations = {
   email: [required(), email(),],
+  username: [required(), length({ min: USERNAME_MIN_LENGTH, }),],
   password: [required(), length({ min: 6, }),],
   confirmPassword: [
     confirmation({ field: 'password', fieldLabel: 'Password', }),

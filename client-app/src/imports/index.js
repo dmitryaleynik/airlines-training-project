@@ -24,3 +24,5 @@ export const ordersDropdown = {
     ALL: 'all',
   },
 };
+
+export const USERNAME_MIN_LENGTH = 6;

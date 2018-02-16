@@ -9,6 +9,7 @@ import {
   PROFILE_TOGGLE_AVATAR_OVERLAY,
   PROFILE_REMOVE_AVATAR,
 } from './types';
+import { USERNAME_MIN_LENGTH, } from 'src/imports';
 import profile from 'src/db/profile';
 
 export const getProfileInfo = () => {
@@ -41,7 +42,7 @@ export const cancelEditting = () => {
 };
 
 export const confirmEditting = (username) => {
-  if (username.length < 3) {
+  if (username.length < USERNAME_MIN_LENGTH) {
     return {
       type: PROFILE_REJECT_EDIT_CONFIRMATION,
       payload: 'Username is too short',
