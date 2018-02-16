@@ -4,6 +4,7 @@ import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
 import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
+import Modal from 'src/components/Modal/container';
 import {
   steps,
   STRAIGHT_FLIGHT,
@@ -69,6 +70,7 @@ class NewFlight extends Component<{}, State> {
 
   componentWillUnmount = () => {
     this.props.resetNewFlight();
+    this.props.closeModal();
   };
 
   findFlights = (values, foo, { directionName, }) => {
@@ -163,7 +165,9 @@ class NewFlight extends Component<{}, State> {
 
   confirmOrder = (id) => {
     this.props.confirmOrder(id);
-    this.props.history.push('/');
+    setTimeout(() => {
+      this.props.history.push('/');
+    }, 3000);
   };
 
   cancelOrder = (id) => {
@@ -197,6 +201,8 @@ class NewFlight extends Component<{}, State> {
       toggleLuggageRequirement,
       changeLuggageAmount,
       togglePlace,
+      modal,
+      openModal,
       orderId,
       total,
     } = this.props;
@@ -251,10 +257,12 @@ class NewFlight extends Component<{}, State> {
         reversePlaces={reversePlaces}
         confirmOrder={confirmOrder}
         cancelOrder={cancelOrder}
+        openModal={openModal}
       />,
     ];
     return (
       <div className="new-flight">
+        {modal && <Modal modal={modal} />}
         <div className="row">
           {startedSteps.map((step, index) => {
             return (

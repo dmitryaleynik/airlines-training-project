@@ -1,6 +1,7 @@
 import React, { Component, } from 'react';
 import FlightInfo from 'src/components/FlightInfo';
 import BackButton from 'src/components/BackButton';
+import Modal from 'src/components/Modal/container';
 
 import './styles.scss';
 
@@ -9,16 +10,32 @@ class OrderInfo extends Component {
     this.props.getOrderInfo(this.props.match.params.id);
   }
 
+  componentWillUnmount() {
+    this.props.closeModal();
+  }
+
   cancelOrder = () => {
-    const { order, cancelOrder, } = this.props;
-    cancelOrder(order.id);
-    this.props.history.push('/orders');
+    const modalScheme = {
+      content: 'Are you sure?',
+      handlePositiveClick: () => {
+        const { order, cancelOrder, } = this.props;
+        cancelOrder(order.id);
+        this.props.history.push('/orders');
+      },
+    };
+    this.props.openModal(modalScheme);
   };
 
   confirmOrder = () => {
+    const modalScheme = {
+      content: 'Thank you!',
+    };
+    this.props.openModal(modalScheme);
     const { order, confirmOrder, } = this.props;
     confirmOrder(order.id);
-    this.props.history.push('/orders');
+    setTimeout(() => {
+      this.props.history.push('/orders');
+    }, 3000);
   };
 
   render() {
@@ -43,6 +60,7 @@ class OrderInfo extends Component {
     });
     return (
       <div className="order-info jumbotron">
+        {this.props.modal && <Modal modal={this.props.modal} />}
         <BackButton className="back-button" history={this.props.history} />
         <div className="d-flex justify-content-between mb-4">
           <h2 className="lead">Order #{order.id}</h2>
