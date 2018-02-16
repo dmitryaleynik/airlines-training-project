@@ -12,7 +12,7 @@ import UserProfile from 'src/components/UserProfile/container';
 
 import './styles.scss';
 
-const isAuthorized = false;
+const isAuthorized = true;
 
 const App = () => (
   <div className="root container">
@@ -33,21 +33,21 @@ const App = () => (
       />
       <Route
         path="/new-flight"
-        render={() =>
-          !isAuthorized ? <Redirect to="/sign-in" /> : <NewFlight />
+        render={(props) =>
+          !isAuthorized ? <Redirect to="/sign-in" /> : <NewFlight {...props} />
         }
       />
       <Route
         exact
         path="/orders"
-        render={() =>
-          !isAuthorized ? <Redirect to="/sign-in" /> : <UserPage />
+        render={(props) =>
+          !isAuthorized ? <Redirect to="/sign-in" /> : <UserPage {...props} />
         }
       />
       <Route
         path="/orders/:id"
-        render={() =>
-          !isAuthorized ? <Redirect to="/sign-in" /> : <OrderInfo />
+        render={(props) =>
+          !isAuthorized ? <Redirect to="/sign-in" /> : <OrderInfo {...props} />
         }
       />
       <Route
