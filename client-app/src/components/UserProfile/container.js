@@ -5,6 +5,9 @@ import {
   handleUsernameChange,
   cancelEditting,
   confirmEditting,
+  uploadAvatar,
+  toggleAvatarOverlay,
+  removeAvatar,
 } from 'src/actions/profile';
 import UserProfile from 'src/components/UserProfile';
 
@@ -15,6 +18,8 @@ const mapStateToProps = (state) => {
     isEditting,
     editableUsername,
     usernameError,
+    isAvatarUploaded,
+    isOverlay,
   } = state.profile;
 
   return {
@@ -25,6 +30,8 @@ const mapStateToProps = (state) => {
     editableUsername,
     isEditting,
     usernameError,
+    isAvatarUploaded,
+    isOverlay,
   };
 };
 
@@ -34,6 +41,9 @@ const mapDispatchToProps = {
   handleUsernameChange,
   cancelEditting,
   confirmEditting,
+  uploadAvatar,
+  toggleAvatarOverlay,
+  removeAvatar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

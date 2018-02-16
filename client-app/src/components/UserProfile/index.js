@@ -3,6 +3,7 @@ import React, { Component, } from 'react';
 import check from 'src/assets/icons/check.svg';
 import x from 'src/assets/icons/x.svg';
 import pencil from 'src/assets/icons/pencil.svg';
+import avatar from 'src/assets/avatar.png';
 import './styles.scss';
 
 class UserProfile extends Component {
@@ -18,6 +19,10 @@ class UserProfile extends Component {
     this.props.confirmEditting(this.props.editableUsername);
   };
 
+  handleAvatarChange = (e) => {
+    this.props.uploadAvatar(e.target.files[0].name, e.target.value);
+  };
+
   render() {
     const {
       profile,
@@ -26,25 +31,38 @@ class UserProfile extends Component {
       editUsername,
       editableUsername,
       cancelEditting,
+      isAvatarUploaded,
+      isOverlay,
+      toggleAvatarOverlay,
+      removeAvatar,
     } = this.props;
-    const { handleUsernameChange, handleUsernameSubmit, } = this;
+    const {
+      handleUsernameChange,
+      handleUsernameSubmit,
+      handleAvatarChange,
+    } = this;
     return (
       <div>
         <h2>Your profile</h2>
         <div className="user-profile jumbotron container">
           <div className="row align-items-center justify-content-around">
             <div className="col-5 d-flex justify-content-between align-items-center">
-              <div className="avatar-wrapper">
-                {/* <div className="remove-overlay">
-                <img
-                  className="remove"
-                  src={x}
-                  onClick={() => {
-                    console.log('kek');
-                  }}
-                  alt="remove"
-                />
-              </div> */}
+              <div
+                className="avatar-wrapper"
+                onMouseEnter={toggleAvatarOverlay}
+                onMouseLeave={toggleAvatarOverlay}
+              >
+                <img className="avatar" src={avatar} alt="avatar" />
+                {isOverlay && (
+                  <div className="remove-overlay">
+                    <img
+                      className="remove"
+                      src={x}
+                      onClick={removeAvatar}
+                      alt="remove"
+                    />
+                  </div>
+                )}
               </div>
               <div className="input-group upload-avatar">
                 <div className="custom-file">
@@ -52,13 +70,16 @@ class UserProfile extends Component {
                     type="file"
                     className="custom-file-input"
                     id="inputGroupFile"
-                    onChange={(e) => {
-                      console.log(e.target.files[0].name);
-                    }}
+                    onChange={handleAvatarChange}
                   />
                   <label className="custom-file-label" htmlFor="inputGroupFile">
-                    Upload new image
+                    {profile.avatar.name || 'Upload new image'}
                   </label>
+                  {isAvatarUploaded && (
+                    <span className="text-success avatar-success">
+                      Uploaded successfully!
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

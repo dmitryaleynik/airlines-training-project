@@ -3,7 +3,11 @@ import {
   PROFILE_EDIT_USERNAME,
   PROFILE_CHANGE_USERNAME,
   PROFILE_CANCEL_EDITTING,
+  PROFILE_REJECT_EDIT_CONFIRMATION,
   PROFILE_CONFIRM_EDITTING,
+  PROFILE_UPLOAD_AVATAR,
+  PROFILE_TOGGLE_AVATAR_OVERLAY,
+  PROFILE_REMOVE_AVATAR,
 } from './types';
 import profile from 'src/db/profile';
 
@@ -37,13 +41,51 @@ export const cancelEditting = () => {
 };
 
 export const confirmEditting = (username) => {
+  if (username.length < 3) {
+    return {
+      type: PROFILE_REJECT_EDIT_CONFIRMATION,
+      payload: 'Username is too short',
+    };
+  }
   return async (dispatch) => {
-    const isUnique = await Promise.resolve(true);
-    if (isUnique) {
+    const error = await Promise.resolve(false);
+    if (!error) {
       dispatch({
         type: PROFILE_CONFIRM_EDITTING,
         payload: username,
       });
+    } else {
+      dispatch({
+        type: PROFILE_REJECT_EDIT_CONFIRMATION,
+        payload: error,
+      });
     }
+  };
+};
+
+export const uploadAvatar = (name, path) => {
+  return async (dispatch) => {
+    await Promise.resolve(true);
+    dispatch({
+      type: PROFILE_UPLOAD_AVATAR,
+      payload: {
+        name,
+        path,
+      },
+    });
+  };
+};
+
+export const toggleAvatarOverlay = () => {
+  return {
+    type: PROFILE_TOGGLE_AVATAR_OVERLAY,
+  };
+};
+
+export const removeAvatar = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: PROFILE_REMOVE_AVATAR,
+    });
   };
 };
