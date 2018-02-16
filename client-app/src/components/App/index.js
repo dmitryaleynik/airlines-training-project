@@ -7,7 +7,7 @@ import SignIn from 'src/components/SignIn';
 import NewFlight from 'src/components/NewFlight/container';
 import UserPage from 'src/components/UserPage/container';
 import OrderInfo from 'src/components/OrderInfo/container';
-import UserProfile from 'src/components/UserProfile';
+import UserProfile from 'src/components/UserProfile/container';
 
 import './styles.scss';
 
