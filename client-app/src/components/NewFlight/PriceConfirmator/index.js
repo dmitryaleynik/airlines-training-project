@@ -35,9 +35,7 @@ const PriceConfirmator = (props) => {
   const handleCancelClick = () => {
     const modalScheme = {
       content: 'Are you sure? All changes will be discarded.',
-      buttons: {
-        handlePositiveClick: props.cancelOrder,
-      },
+      handlePositiveClick: props.cancelOrder,
     };
     props.openModal(modalScheme);
   };

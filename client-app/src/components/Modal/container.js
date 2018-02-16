@@ -1,5 +1,5 @@
 import { connect, } from 'react-redux';
-import { closeModal, } from 'src/actions/modals';
+import { closeModal, } from 'src/actions/modal';
 import Modal from 'src/components/Modal';
 
 const mapDispatchToProps = {

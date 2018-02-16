@@ -4,7 +4,7 @@ import newFlight from './newFlight';
 import flightFinder from './flightFinder';
 import placePicker from './placePicker';
 import priceConfirmator from './priceConfirmator';
-import modals from './modals';
+import modal from './modal';
 import orders from './orders';
 import profile from './profile';
 
@@ -14,7 +14,7 @@ const clientApp = combineReducers({
   flightFinder,
   placePicker,
   priceConfirmator,
-  modals,
+  modal,
   orders,
   profile,
 });
