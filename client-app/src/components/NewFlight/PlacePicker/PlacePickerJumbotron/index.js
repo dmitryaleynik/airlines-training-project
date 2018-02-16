@@ -94,7 +94,14 @@ class PlacePickerJumbotron extends React.Component {
     if (next.pickedPlaces.length) {
       if (next.isLuggageRequired) {
         if (next.luggageKg) {
-          validate(true, directionName);
+          if (
+            !Number(next.luggageKg) ||
+            (next.luggageKg < 0 || next.luggageKg > this.props.luggageLimit)
+          ) {
+            validate(false, directionName);
+          } else {
+            validate(true, directionName);
+          }
         } else {
           validate(false, directionName);
         }
@@ -107,7 +114,12 @@ class PlacePickerJumbotron extends React.Component {
   }
 
   render() {
-    const { places, isLuggageRequired, } = this.props.direction;
+    const {
+      places,
+      isLuggageRequired,
+      pickedPlaces,
+      luggageKg,
+    } = this.props.direction;
     const seatTypesSet = new Set(places.seats.map((place) => place.type));
     return (
       <div className="jumbotron">
@@ -130,29 +142,39 @@ class PlacePickerJumbotron extends React.Component {
             </div>
           );
         })}
-        <div className="form-check mt-4">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="luggageCheck"
-            onChange={this.toggleLuggageRequirement}
-          />
-          <label htmlFor="luggageCheck" className="form-check-label">
-            Check if you have luggage
-          </label>
-        </div>
-        {isLuggageRequired && (
-          <div className="form-group">
-            <input
-              type="number"
-              min="0"
-              max={this.props.luggageLimit}
-              className="form-control"
-              placeholder="Input your luggage weight, kg"
-              onChange={this.handleLuggageChange}
-              required
-            />
-            Max amount: {this.props.luggageLimit}kg!!
+        {pickedPlaces.length > 0 && (
+          <div>
+            <div className="form-check mt-4">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={`luggageCheck-${this.props.directionName}`}
+                onChange={this.toggleLuggageRequirement}
+              />
+              <label
+                htmlFor={`luggageCheck-${this.props.directionName}`}
+                className="form-check-label"
+              >
+                Check if you have luggage
+              </label>
+            </div>
+            {isLuggageRequired && (
+              <div className="form-group">
+                <input
+                  type="number"
+                  min="0"
+                  max={this.props.luggageLimit * pickedPlaces.length}
+                  className="form-control"
+                  placeholder="Input your luggage weight, kg"
+                  onChange={this.handleLuggageChange}
+                  required
+                />
+                Max amount: {this.props.luggageLimit * pickedPlaces.length}kg!!
+                {(luggageKg < 0 || luggageKg > this.props.luggageLimit) && (
+                  <span className="text-danger ml-4">Wrong input!</span>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>

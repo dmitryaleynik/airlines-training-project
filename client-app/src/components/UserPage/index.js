@@ -1,8 +1,10 @@
 // @flow
 import React, { Component, } from 'react';
 import { Link, } from 'react-router-dom';
-import OrderTable from './OrderTable';
+import OrdersTable from './OrdersTable';
 import Dropdown from 'src/components/Dropdown';
+import { ordersDropdown, } from 'src/imports';
+
 import './styles.scss';
 
 type State = {
@@ -12,53 +14,61 @@ type State = {
 
 const menuItems = [
   {
-    key: 'Future',
-    value: 'future',
+    key: ordersDropdown.keys.FUTURE,
+    value: ordersDropdown.values.FUTURE,
   },
   {
-    key: 'Past',
-    value: 'past',
+    key: ordersDropdown.keys.PAST,
+    value: ordersDropdown.values.PAST,
   },
   {
-    key: 'All',
-    value: 'all',
+    key: ordersDropdown.keys.ALL,
+    value: ordersDropdown.values.ALL,
   },
 ];
 
 class UserPage extends Component<{}, State> {
-  state = {
-    dropdownIsToggled: false,
-    filter: 'future',
-  };
-
-  toggleDropdown = (e: SyntheticMouseEvent<HTMLButtonElement>) => {
-    this.setState({ dropdownIsToggled: !this.state.dropdownIsToggled, });
+  componentWillMount = () => {
+    const { getAllOrders, setFilter, } = this.props;
+    setFilter(ordersDropdown.values.FUTURE);
+    getAllOrders();
   };
 
   handleDropdownClick = (e: any) => {
-    this.setState({
-      filter: e.target.value,
-      dropdownIsToggled: false,
-    });
+    const { setFilter, toggleDropdown, } = this.props;
+    setFilter(e.target.value);
+    toggleDropdown();
   };
 
   render() {
+    const {
+      orders,
+      toggleDropdown,
+      isDropdownToggled,
+      filter,
+      history,
+    } = this.props;
+    const { handleDropdownClick, } = this;
+    if (!orders.length) {
+      return null;
+    }
+
     return (
       <div className="user-page">
         <div className="button-panel d-flex justify-content-between">
           <Dropdown
-            isToggled={this.state.dropdownIsToggled}
-            onDropdownClick={this.handleDropdownClick}
-            toggleDropdown={this.toggleDropdown}
+            isToggled={isDropdownToggled}
+            onDropdownClick={handleDropdownClick}
+            toggleDropdown={toggleDropdown}
             menuItems={menuItems}
           >
-            Filter flights
+            Filter orders
           </Dropdown>
           <Link className="btn btn-secondary btn-sm" to="/new-flight">
             New Flight
           </Link>
         </div>
-        <OrderTable filter={this.state.filter} />
+        <OrdersTable data={orders} history={history} filter={filter} />
       </div>
     );
   }

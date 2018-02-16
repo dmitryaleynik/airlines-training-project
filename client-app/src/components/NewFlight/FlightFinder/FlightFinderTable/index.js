@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { initializeTableProps, orderTableColumns, } from 'src/utils/tableProps';
+import {
+  initializeTableProps,
+  flightsTableColumns,
+} from 'src/utils/tableProps';
 
 type Props = {
   trOptions: (
@@ -16,9 +19,18 @@ type Props = {
   },
 };
 
-const FlightsTable = (props: Props) => {
+const FlightFinderTable = (props: Props) => {
+  const trOptions = (state: Object, rowInfo: Object, column: Object) => {
+    return {
+      className:
+        rowInfo.original.id === props.selectedId ? 'picked-row' : 'highlight',
+      onClick: (e: Event) => {
+        props.selectFlight(rowInfo.original.id, props.directionName);
+      },
+    };
+  };
   const tableProps = initializeTableProps(props.data);
-  tableProps.columns = orderTableColumns(true);
+  tableProps.columns = flightsTableColumns(true);
   return (
     <ReactTable
       className="table"
@@ -27,9 +39,9 @@ const FlightsTable = (props: Props) => {
       showPagination={tableProps.showPagination}
       minRows={tableProps.minRows}
       defaultPageSize={tableProps.defaultPageSize}
-      getTrProps={props.trOptions}
+      getTrProps={trOptions}
     />
   );
 };
 
-export default FlightsTable;
+export default FlightFinderTable;
