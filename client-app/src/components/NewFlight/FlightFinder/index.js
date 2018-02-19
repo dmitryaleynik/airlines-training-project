@@ -1,6 +1,7 @@
 import React from 'react';
 import FlightFinderForm from './FlightFinderForm';
 import FlightFinderTable from './FlightFinderTable';
+import Loader from 'src/components/Loader';
 import { STRAIGHT_FLIGHT, REVERSE_FLIGHT, } from 'src/imports';
 
 import './styles.scss';
@@ -36,6 +37,7 @@ const FlightFinder = (props) => {
         initialValues={prepareFormInitialValues(STRAIGHT_FLIGHT)}
         {...FlightFinderFormProps}
       />
+      {props.straightFlight.isFetching && <Loader />}
       {props.straightFlight.isSearched && (
         <FlightFinderTable
           directionName={STRAIGHT_FLIGHT}
@@ -48,6 +50,7 @@ const FlightFinder = (props) => {
         <button
           className="btn btn-dark btn-small"
           onClick={props.onReverseClick}
+          disabled={props.reverseFlight.isFetching}
         >
           Find a way back
         </button>
@@ -61,6 +64,7 @@ const FlightFinder = (props) => {
           {...FlightFinderFormProps}
         />
       )}
+      {props.reverseFlight.isFetching && <Loader />}
       {props.reverseFlight.isSearched && (
         <FlightFinderTable
           directionName={REVERSE_FLIGHT}

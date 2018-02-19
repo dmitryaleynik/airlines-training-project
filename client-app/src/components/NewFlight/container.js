@@ -40,6 +40,7 @@ const mapStateToProps = (state) => {
     currentStep,
     startedSteps,
     fulfilledSteps,
+    isFlightFinderFetchng: state.flightFinder.isFetching,
     cities,
     straightFlight,
     reverseFlight,
