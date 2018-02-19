@@ -3,6 +3,7 @@ import React, { Component, } from 'react';
 import { Link, } from 'react-router-dom';
 import OrdersTable from './OrdersTable';
 import Dropdown from 'src/components/Dropdown';
+import Loader from 'src/components/Loader';
 import { ordersDropdown, } from 'src/imports';
 
 import './styles.scss';
@@ -45,30 +46,36 @@ class UserPage extends Component<{}, State> {
       orders,
       toggleDropdown,
       isDropdownToggled,
+      isFetching,
       filter,
       history,
     } = this.props;
     const { handleDropdownClick, } = this;
     if (!orders.length) {
-      return null;
+      return <Loader />;
     }
 
     return (
       <div className="user-page">
-        <div className="button-panel d-flex justify-content-between">
-          <Dropdown
-            isToggled={isDropdownToggled}
-            onDropdownClick={handleDropdownClick}
-            toggleDropdown={toggleDropdown}
-            menuItems={menuItems}
-          >
-            Filter orders
-          </Dropdown>
-          <Link className="btn btn-secondary btn-sm" to="/new-flight">
-            New Flight
-          </Link>
-        </div>
-        <OrdersTable data={orders} history={history} filter={filter} />
+        {isFetching && <Loader />}
+        {!isFetching && (
+          <div>
+            <div className="button-panel d-flex justify-content-between">
+              <Dropdown
+                isToggled={isDropdownToggled}
+                onDropdownClick={handleDropdownClick}
+                toggleDropdown={toggleDropdown}
+                menuItems={menuItems}
+              >
+                Filter orders
+              </Dropdown>
+              <Link className="btn btn-secondary btn-sm" to="/new-flight">
+                New Flight
+              </Link>
+            </div>
+            <OrdersTable data={orders} history={history} filter={filter} />
+          </div>
+        )}
       </div>
     );
   }

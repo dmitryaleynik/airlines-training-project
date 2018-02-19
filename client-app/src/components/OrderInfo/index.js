@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import FlightInfo from 'src/components/FlightInfo';
 import BackButton from 'src/components/BackButton';
 import Modal from 'src/components/Modal/container';
+import Loader from 'src/components/Loader';
 
 import './styles.scss';
 
@@ -39,10 +40,10 @@ class OrderInfo extends Component {
   };
 
   render() {
-    const { order, } = this.props;
+    const { order, modal, isFetching, history, } = this.props;
     const { cancelOrder, confirmOrder, } = this;
     if (!order) {
-      return null;
+      return <Loader />;
     }
 
     const children = [];
@@ -59,30 +60,40 @@ class OrderInfo extends Component {
       );
     });
     return (
-      <div className="order-info jumbotron">
-        {this.props.modal && <Modal modal={this.props.modal} />}
-        <BackButton className="back-button" history={this.props.history} />
-        <div className="d-flex justify-content-between mb-4">
-          <h2 className="lead">Order #{order.id}</h2>
-          <h2 className="lead">Status: {order.status}</h2>
-        </div>
-        {children}
-        <div className="d-flex justify-content-between mt-3">
-          <span className="font-weight-bold">GRAND TOTAL: {order.total}$</span>
-          {order.status === 'Pending' && (
-            <span className="buttons">
-              <button
-                className="btn btn-danger btn-sm mr-2"
-                onClick={cancelOrder}
-              >
-                Cancel
-              </button>
-              <button className="btn btn-success btn-sm" onClick={confirmOrder}>
-                Confirm
-              </button>
-            </span>
-          )}
-        </div>
+      <div className="order-info">
+        {isFetching && <Loader />}
+        {modal && <Modal modal={modal} />}
+        {!isFetching && (
+          <div className="jumbotron">
+            <BackButton className="back-button" history={history} />
+            <div className="d-flex justify-content-between mb-4">
+              <h2 className="lead">Order #{order.id}</h2>
+              <h2 className="lead">Status: {order.status}</h2>
+            </div>
+            {children}
+            <div className="d-flex justify-content-between mt-3">
+              <span className="font-weight-bold">
+                GRAND TOTAL: {order.total}$
+              </span>
+              {order.status === 'Pending' && (
+                <span className="buttons">
+                  <button
+                    className="btn btn-danger btn-sm mr-2"
+                    onClick={cancelOrder}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={confirmOrder}
+                  >
+                    Confirm
+                  </button>
+                </span>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
