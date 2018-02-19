@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import moment from 'moment';
 import ReactTable from 'react-table';
@@ -6,25 +7,29 @@ import { ordersDropdown, } from 'src/imports';
 
 import 'react-table/react-table.css';
 
-import type { OrderTableItem, OrderTableProps, } from 'src/types';
+import type { RouterHistory, } from 'react-router-dom';
+import type { Order, } from 'src/types';
 
 type Props = {
+  data: Array<Order>,
   filter: string,
+  history: RouterHistory,
 };
 
 const OrderTable = (props: Props) => {
-  const filteredData = props.data.filter((item: OrderTableItem) => {
+  const filteredData = props.data.filter((item: Order) => {
+    const now = moment();
     switch (props.filter) {
       case ordersDropdown.values.FUTURE:
-        return item.leaveAt > moment();
+        return item.leaveAt.isAfter(now);
       case ordersDropdown.values.PAST:
-        return item.leaveAt <= moment();
+        return item.leaveAt.isSameOrBefore(now);
       case ordersDropdown.values.ALL:
       default:
         return true;
     }
   });
-  const orderTableProps: OrderTableProps = initializeTableProps(filteredData);
+  const orderTableProps = initializeTableProps(filteredData);
   orderTableProps.columns = ordersTableColumns();
 
   const trProps = (state, rowInfo, column) => {

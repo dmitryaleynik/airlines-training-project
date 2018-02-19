@@ -2,23 +2,23 @@
 import React from 'react';
 import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
+import type { FlightInfoType, SeatInfo, LuggageInfo, } from '../../types';
+
 import './styles.scss';
 
-import { Flight, SeatDescriptor, LuggageDescriptor, } from '../../types';
-
 type Props = {
-  flight: Flight,
-  places: Array<SeatDescriptor>,
-  luggage: LuggageDescriptor,
+  flight: FlightInfoType,
+  places: Array<SeatInfo>,
+  luggage: LuggageInfo,
 };
 
 const FlightInfo = (props: Props) => {
   const { flight, places, luggage, } = props;
-  const placesByType: { [key: string]: Array<SeatDescriptor> } = {};
+  const placesByType: { [key: string]: Array<SeatInfo> } = {};
   const placePrices: { [key: string]: number } = {};
   let subTotal: number = 0;
 
-  places.forEach((seat: SeatDescriptor) => {
+  places.forEach((seat: SeatInfo) => {
     if (!placesByType[seat.type]) {
       placesByType[seat.type] = [];
     }
@@ -31,7 +31,9 @@ const FlightInfo = (props: Props) => {
     subTotal += placePrices[price];
   }
   if (luggage.isRequired) {
-    subTotal += luggage.paid * luggage.price;
+    if (luggage.paid && luggage.price) {
+      subTotal += luggage.paid * luggage.price;
+    }
   }
   return (
     <div className="flight-info row">
@@ -74,12 +76,9 @@ const FlightInfo = (props: Props) => {
               <tr key={index}>
                 <td>{key}</td>
                 <td>
-                  {placesByType[key].reduce(
-                    (prev: string, next: SeatDescriptor) => {
-                      return prev ? `${prev}, ${next.number}` : next.number;
-                    },
-                    ''
-                  )}
+                  {placesByType[key].reduce((prev: string, next: SeatInfo) => {
+                    return prev ? `${prev}, ${next.number}` : next.number;
+                  }, '')}
                 </td>
                 <td>{placePrices[key]}$</td>
               </tr>
@@ -133,7 +132,11 @@ const FlightInfo = (props: Props) => {
               </tr>
               <tr>
                 <td>Subtotal:</td>
-                <td>{luggage.paid * luggage.price}$</td>
+                <td>
+                  {luggage.paid &&
+                    luggage.price &&
+                    luggage.paid * luggage.price}$
+                </td>
               </tr>
             </tbody>
           </table>

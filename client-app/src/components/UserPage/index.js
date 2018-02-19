@@ -5,9 +5,21 @@ import OrdersTable from './OrdersTable';
 import Dropdown from 'src/components/Dropdown';
 import { ordersDropdown, } from 'src/imports';
 
-import './styles.scss';
+import type { RouterHistory, Match, } from 'react-router-dom';
+import type { Order, } from 'src/types';
 
 import './styles.scss';
+
+type Props = {
+  orders: Array<Order>,
+  filter: string,
+  isDropdownToggled: boolean,
+  getAllOrders: Function,
+  toggleDropdown: Function,
+  setFilter: Function,
+  history: RouterHistory,
+  match: Match,
+};
 
 const menuItems = [
   {
@@ -24,16 +36,16 @@ const menuItems = [
   },
 ];
 
-class UserPage extends Component<{}> {
+class UserPage extends Component<Props> {
   componentWillMount = () => {
     const { getAllOrders, setFilter, } = this.props;
     setFilter(ordersDropdown.values.FUTURE);
     getAllOrders();
   };
 
-  handleDropdownClick = (e: any) => {
+  handleDropdownClick = (e: SyntheticMouseEvent<HTMLButtonElement>) => {
     const { setFilter, toggleDropdown, } = this.props;
-    setFilter(e.target.value);
+    setFilter(e.currentTarget.value);
     toggleDropdown();
   };
 

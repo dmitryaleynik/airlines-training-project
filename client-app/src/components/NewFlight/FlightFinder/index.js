@@ -6,17 +6,17 @@ import { STRAIGHT_FLIGHT, REVERSE_FLIGHT, } from 'src/imports';
 
 import './styles.scss';
 
-import { DirectionalFlight, Action, } from '../../../types';
+import type { FlightFinderResult, FlightFinderFormFields, } from 'src/types';
 
 type Props = {
   cities: Array<string>,
-  straightFlight: DirectionalFlight,
-  reverseFlight: DirectionalFlight,
+  straightFlight: FlightFinderResult,
+  reverseFlight: FlightFinderResult,
   isReverseRequired: boolean,
   changeDateStart: Function,
   changeDateEnd: Function,
-  onReverseClick: () => Action,
-  onSubmit: (e: Event, directionName: string) => void,
+  onReverseClick: () => void,
+  onSubmit: (values: FlightFinderFormFields, foo: any, obj: any) => void,
   selectFlight: (id: string, directionName: string) => void,
 };
 

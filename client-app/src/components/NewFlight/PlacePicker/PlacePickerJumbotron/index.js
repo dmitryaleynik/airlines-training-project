@@ -1,26 +1,47 @@
-import React from 'react';
+// @flow
+import React, { Component, } from 'react';
+
+import type { PlacePickerResult, Action, SeatInfo, } from 'src/types';
 
 import cn from 'classnames';
 
-class PlacePickerJumbotron extends React.Component {
-  togglePlace = (e) => {
-    this.props.togglePlace(e.target.innerHTML, this.props.directionName);
+type Props = {
+  directionName: string,
+  direction: PlacePickerResult,
+  selectedId: string,
+  luggageLimit: number,
+  togglePlace: (number: string, directionName: string) => Action,
+  toggleLuggageRequirement: (directionName: string) => Action,
+  onLuggageChange: (amount: number, directionName: string) => Action,
+  validate: (isValid: boolean, directionName: string) => void,
+};
+
+class PlacePickerJumbotron extends Component<Props> {
+  togglePlace = (e: SyntheticMouseEvent<HTMLElement>) => {
+    this.props.togglePlace(e.currentTarget.innerHTML, this.props.directionName);
   };
 
-  toggleLuggageRequirement = (e) => {
+  toggleLuggageRequirement = () => {
     this.props.toggleLuggageRequirement(this.props.directionName);
   };
 
-  handleLuggageChange = (e) => {
+  handleLuggageChange = (e: SyntheticMouseEvent<HTMLInputElement>) => {
     this.props.onLuggageChange(
-      Number(e.target.value),
+      Number(e.currentTarget.value),
       this.props.directionName
     );
   };
 
-  placeRenderer = (places, seatTypesSet) => {
+  placeRenderer = (
+    places: {
+      rows: number,
+      columns: number,
+      seats: Array<SeatInfo>,
+    },
+    seatTypesSet: Set<string>
+  ) => {
     let seatTypesObj = {};
-    seatTypesSet = Array.from(seatTypesSet).forEach((type, index) => {
+    Array.from(seatTypesSet).forEach((type, index) => {
       Object.defineProperty(seatTypesObj, type, {
         value: index,
       });
@@ -79,7 +100,7 @@ class PlacePickerJumbotron extends React.Component {
     return wrapper;
   };
 
-  componentWillUpdate(nextProps) {
+  componentWillUpdate(nextProps: Props) {
     const cur = this.props.direction;
     const next = nextProps.direction;
     const { validate, directionName, } = this.props;

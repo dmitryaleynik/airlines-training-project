@@ -1,11 +1,13 @@
 // @flow
+import moment from 'moment';
+
 export type Action = {
   type: string,
   payload: any,
 };
 
-export type Dispatch = (action: Action | ThunkAction | Promise<Action>) => any;
-
+export type PromiseAction = Promise<Action>;
+export type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
 export type ThunkAction = (dispatch: Dispatch) => any;
 
 export type SignInFormFields = {
@@ -15,30 +17,34 @@ export type SignInFormFields = {
 
 export type SignUpFormFields = {
   email: string,
+  username: string,
   password: string,
   confirmPassword: string,
 };
 
-export type PlacesCommonDescriptor = {
+export type LuggageInfo = {
+  isRequired: ?boolean,
+  free: ?number,
+  kg: ?number,
+  max: ?number,
+  paid: ?number,
+  price: ?number,
+};
+
+export type GeneralPlacesInfo = {
   amount: number,
   price: number,
 };
 
-export type LuggageDescriptor = {
-  isRequired?: boolean,
-  kg?: number,
-  max?: number,
-  free?: number,
-  price?: number,
-  paid?: number,
+export type SeatInfo = {
+  number: string,
+  type: string,
+  isAvailable: ?boolean,
 };
 
-export type Flight = {
+export type FlightInfoType = {
   id: string,
-  airport: {
-    from: string,
-    to: string,
-  },
+  planeType: string,
   city: {
     from: string,
     to: string,
@@ -47,17 +53,20 @@ export type Flight = {
     from: moment,
     to: moment,
   },
-  planeType: string,
   places: {
-    [string]: PlacesCommonDescriptor,
+    [key: string]: GeneralPlacesInfo,
   },
-  luggage: LuggageDescriptor,
+  luggage: LuggageInfo,
 };
 
-export type SeatDescriptor = {
-  number: string,
-  type: string,
-  isAvailable?: boolean,
+export type Order = {
+  id: string,
+  leaveAt: moment,
+  luggage: Array<LuggageInfo>,
+  places: Array<Array<SeatInfo>>,
+  flights: Array<FlightInfoType>,
+  status: string,
+  total: number,
 };
 
 export type FlightFinderFilters = {
@@ -66,34 +75,40 @@ export type FlightFinderFilters = {
     to: string,
   },
   dates: {
-    from: string,
-    to: string,
+    from: moment,
+    to: moment,
   },
+  seats: number,
 };
 
-export type DirectionalFlight = {
+export type FlightFinderFormFields = {
+  'city-from': string,
+  'city-to': string,
+  'date-from': moment,
+  'date-to': moment,
+  seats: number,
+};
+
+export type FlightFinderResult = {
   filters: FlightFinderFilters,
-  flights: Array<Flight>,
+  flights: Array<FlightInfoType>,
   isSearched: boolean,
   selectedId: string,
 };
 
-export type DirectionalPlaces = {
-  description: {
+export type PlacePickerResult = {
+  places: {
     rows: number,
     columns: number,
-    seats: Array<SeatDescriptor>,
+    seats: Array<SeatInfo>,
   },
   pickedPlaces: Array<number>,
-  isLuggageRequired: boolean,
   luggageKg: number,
+  isLuggageRequired: false,
   isValid: boolean,
 };
 
-export type OrderTableProps = {
-  data: Array<Flight>,
-  columns: Array<any>,
-  minRows: number,
-  defaultPageSize: number,
-  showPagination: boolean,
+export type ModalType = {
+  content: string,
+  handlePositiveClick: Function,
 };

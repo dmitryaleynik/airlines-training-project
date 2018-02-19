@@ -6,9 +6,11 @@ import { renderInputWithHints, renderInput, } from 'src/utils/renderField';
 import validate from 'src/utils/validate';
 import { DATE_DISPLAY_PATTERN, } from 'src/imports';
 
+import type { FormProps, } from 'redux-form';
+
 import 'react-datepicker/dist/react-datepicker.css';
 
-let FlightFinderForm = (props) => {
+let FlightFinderForm = (props: FormProps) => {
   const handleChangeDateStart = (date) => {
     return props.changeDateStart(date, props.directionName);
   };

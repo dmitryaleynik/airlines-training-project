@@ -4,11 +4,9 @@ import { Field, reduxForm, } from 'redux-form';
 import validate from 'src/utils/validate';
 import { renderInputWithLabel, } from 'src/utils/renderField';
 
-type Props = {
-  onSubmit: Function,
-};
+import type { FormProps, } from 'redux-form';
 
-let SignUpForm = (props: Props) => {
+let SignUpForm = (props: FormProps) => {
   return (
     <form onSubmit={props.handleSubmit} noValidate="true">
       <Field

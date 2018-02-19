@@ -3,10 +3,12 @@ import React, { Component, } from 'react';
 import { Link, } from 'react-router-dom';
 import SignInForm from './SignInForm';
 
+import type { SignInFormFields, } from 'src/types';
+
 import './styles.scss';
 
 class SignIn extends Component<{}, {}> {
-  handleSubmit(values) {
+  handleSubmit(values: SignInFormFields) {
     // window.location.href = `${window.location.origin}`;
   }
 

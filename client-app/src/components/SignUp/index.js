@@ -2,10 +2,13 @@
 import React, { Component, } from 'react';
 import { Link, } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
+
+import type { SignUpFormFields, } from 'src/types';
+
 import './styles.scss';
 
 class SignUp extends Component<{}, {}> {
-  handleSubmit(values) {}
+  handleSubmit(values: SignUpFormFields) {}
 
   render() {
     return (

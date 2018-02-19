@@ -3,9 +3,9 @@ import React from 'react';
 import classNames from 'classnames';
 import { steps, } from 'src/imports';
 
-import './styles.scss';
+import type { Action, } from 'src/types';
 
-import { Action, } from '../../../types';
+import './styles.scss';
 
 type Props = {
   onBackClick: () => Action,

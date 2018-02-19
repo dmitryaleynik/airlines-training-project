@@ -14,26 +14,29 @@ import {
   REVERSE_PLACES,
 } from 'src/imports';
 
-import './styles.scss';
-
-import {
+import type { RouterHistory, } from 'react-router-dom';
+import type {
   FlightFinderFilters,
-  DirectionalFlight,
-  DirectionalPlaces,
+  FlightFinderFormFields,
+  FlightFinderResult,
+  PlacePickerResult,
   Action,
   ThunkAction,
-} from '../../types';
+  ModalType,
+} from 'src/types';
+
+import './styles.scss';
 
 type Props = {
   currentStep: number,
   startedSteps: Array<boolean>,
   fulfilledSteps: Array<boolean>,
   cities: Array<string>,
-  straightFlight: DirectionalFlight,
-  reverseFlight: DirectionalFlight,
+  straightFlight: FlightFinderResult,
+  reverseFlight: FlightFinderResult,
   isReverseRequired: boolean,
-  straightPlaces: DirectionalPlaces,
-  reversePlaces: DirectionalPlaces,
+  straightPlaces: PlacePickerResult,
+  reversePlaces: PlacePickerResult,
   orderId: string,
   total: number,
   isConfirmed: boolean,
@@ -51,17 +54,25 @@ type Props = {
   selectFlight: (id: string, directionName: string) => Action,
   toggleReversePath: () => Action,
   getPlaces: (flightId: string, directionName: string) => ThunkAction,
-  togglePlace: (number: number, directionName: string) => Action,
+  togglePlace: (number: string, directionName: string) => Action,
   toggleLuggageRequirement: (directionName: string) => Action,
   changeLuggageAmount: (amount: number, directionName: string) => Action,
   validatePlaces: (isValid: boolean, directionName: string) => Action,
   bookTemporarily: (
     flightId: string,
-    placesToBeBooked: Array<number>,
-    luggage: number
+    placesToBeBooked: {
+      [key: string]: Array<number>,
+    },
+    luggage: {
+      [key: string]: number,
+    }
   ) => ThunkAction,
   confirmOrder: (id: string) => ThunkAction,
   cancelOrder: (id: string) => ThunkAction,
+  closeModal: () => Action,
+  openModal: () => Action,
+  modal: ModalType,
+  history: RouterHistory,
 };
 
 class NewFlight extends Component<Props> {
@@ -122,7 +133,11 @@ class NewFlight extends Component<Props> {
     this.props.closeModal();
   };
 
-  findFlights = (values, foo, { directionName, }) => {
+  findFlights = (
+    values: FlightFinderFormFields,
+    foo: any,
+    { directionName, }: any
+  ) => {
     if (this.props.fulfilledSteps[steps.FINDER]) {
       this.props.setStepFulfillment(steps.FINDER, false);
     }

@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import PlacePickerJumbotron from './PlacePickerJumbotron';
 import {
@@ -7,9 +8,27 @@ import {
   REVERSE_PLACES,
 } from 'src/imports';
 
+import type { PlacePickerResult, Action, } from 'src/types';
+
 import './styles.scss';
 
-const PlacePicker = (props) => {
+type Props = {
+  isReverseRequired: boolean,
+  selectedIds: {
+    [key: string]: string,
+  },
+  straightPlaces: PlacePickerResult,
+  reversePlaces: PlacePickerResult,
+  togglePlace: (number: string, directionName: string) => Action,
+  toggleLuggageRequirement: (directionName: string) => Action,
+  luggageLimit: {
+    [key: string]: number,
+  },
+  onLuggageChange: (amount: number, directionName: string) => Action,
+  validate: (isValid: boolean, directionName: string) => void,
+};
+
+const PlacePicker = (props: Props) => {
   const PlacePickerJumbotronProps = {
     togglePlace: props.togglePlace,
     toggleLuggageRequirement: props.toggleLuggageRequirement,
