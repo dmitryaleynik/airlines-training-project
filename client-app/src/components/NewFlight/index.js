@@ -5,6 +5,7 @@ import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
 import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
+import Modal from 'src/components/Modal/container';
 import {
   steps,
   STRAIGHT_FLIGHT,
@@ -83,15 +84,18 @@ class NewFlight extends Component<Props> {
     if (currentStep !== nextProps.currentStep) {
       switch (nextProps.currentStep) {
         case steps.FINDER:
+          window.scroll(0, 0);
           getCities();
           break;
         case steps.PICKER:
+          window.scroll(0, 0);
           getPlaces(straightFlight.selectedId, STRAIGHT_PLACES);
           if (isReverseRequired) {
             getPlaces(reverseFlight.selectedId, REVERSE_PLACES);
           }
           break;
         case steps.CONFIRMATOR:
+          window.scroll(0, 0);
           const flightId = isReverseRequired
             ? `${straightFlight.selectedId}&${reverseFlight.selectedId}`
             : straightFlight.selectedId;
@@ -115,24 +119,24 @@ class NewFlight extends Component<Props> {
 
   componentWillUnmount = () => {
     this.props.resetNewFlight();
+    this.props.closeModal();
   };
 
-  findFlights = (e: any, directionName: string) => {
-    const fields = e.target.elements;
+  findFlights = (values, foo, { directionName, }) => {
     if (this.props.fulfilledSteps[steps.FINDER]) {
       this.props.setStepFulfillment(steps.FINDER, false);
     }
     this.props.findFlights(
       {
         cities: {
-          from: fields['city-from'].value,
-          to: fields['city-to'].value,
+          from: values['city-from'],
+          to: values['city-to'],
         },
         dates: {
           from: this.props[directionName].filters.dates.from,
           to: this.props[directionName].filters.dates.to,
         },
-        numberOfSeats: fields['tickets'].value,
+        seats: values['seats'],
       },
       directionName
     );
@@ -210,7 +214,9 @@ class NewFlight extends Component<Props> {
 
   confirmOrder = (id: string) => {
     this.props.confirmOrder(id);
-    this.props.history.push('/');
+    setTimeout(() => {
+      this.props.history.push('/');
+    }, 3000);
   };
 
   cancelOrder = (id: string) => {
@@ -244,6 +250,8 @@ class NewFlight extends Component<Props> {
       toggleLuggageRequirement,
       changeLuggageAmount,
       togglePlace,
+      modal,
+      openModal,
       orderId,
       total,
     } = this.props;
@@ -298,10 +306,12 @@ class NewFlight extends Component<Props> {
         reversePlaces={reversePlaces}
         confirmOrder={confirmOrder}
         cancelOrder={cancelOrder}
+        openModal={openModal}
       />,
     ];
     return (
       <div className="new-flight">
+        {modal && <Modal modal={modal} />}
         <div className="row">
           {startedSteps.map((step, index) => {
             return (

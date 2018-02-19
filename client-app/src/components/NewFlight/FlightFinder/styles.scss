@@ -1,4 +1,5 @@
 .flight-finder {
+  min-height: 150px;
   .filter-panel {
     margin-bottom: 20px;
   }
@@ -12,8 +13,22 @@
     .picked-row {
       background-color: #ff7f7f;
     }
+
+    .highlight:hover {
+      background-color: #e5e5e5;
+    }
   }
-  .data-picker {
-    border-radius: 0;
+  .flight-finder-form {
+    .inner {
+      border-radius: 0;
+    }
+
+    .edged-left {
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    .edged-right {
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
   }
 }

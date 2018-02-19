@@ -12,3 +12,11 @@ export const immutableSplice = (array, start, deleteCount, ...values) => {
 export const immutablePush = (array, ...values) => {
   return [...array, ...values,];
 };
+
+export const disableScroll = () => {
+  document.body.className = 'no-scroll';
+};
+
+export const enableScroll = () => {
+  document.body.className = '';
+};

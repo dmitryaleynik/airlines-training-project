@@ -25,7 +25,7 @@ const initialState = {
         from: '',
         to: '',
       },
-      numberOfSeats: 1,
+      seats: 1,
     },
     isSearched: false,
     selectedId: '',

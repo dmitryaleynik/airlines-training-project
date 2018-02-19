@@ -1,50 +1,54 @@
 // @flow
 import React from 'react';
-import { Form, StyledText, } from 'react-form';
-import { SignUpFormFields, } from '../../../types';
+import { Field, reduxForm, } from 'redux-form';
+import validate from 'src/utils/validate';
+import { renderInputWithLabel, } from 'src/utils/renderField';
 
 type Props = {
   onSubmit: Function,
-  validator: (value: SignUpFormFields) => SignUpFormFields,
 };
 
-const SignUpForm = (props: Props) => {
+let SignUpForm = (props: Props) => {
   return (
-    <Form
-      onSubmit={props.onSubmit}
-      dontValidateOnMount
-      validateOnSubmit
-      validateError={props.validator}
-    >
-      {(formApi) => (
-        <form onSubmit={formApi.submitForm} name="signInForm">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <StyledText field="email" className="form-control" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <StyledText
-              type="password"
-              field="password"
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm password</label>
-            <StyledText
-              type="password"
-              field="confirmPassword"
-              className="form-control"
-            />
-          </div>
-          <button type="submit" className="btn btn-dark">
-            Submit
-          </button>
-        </form>
-      )}
-    </Form>
+    <form onSubmit={props.handleSubmit} noValidate="true">
+      <Field
+        className="form-control"
+        name="email"
+        type="email"
+        component={renderInputWithLabel}
+        label="Email"
+      />
+      <Field
+        className="form-control"
+        name="username"
+        type="text"
+        component={renderInputWithLabel}
+        label="Username"
+      />
+      <Field
+        className="form-control"
+        name="password"
+        type="password"
+        component={renderInputWithLabel}
+        label="Password"
+      />
+      <Field
+        className="form-control"
+        name="confirmPassword"
+        type="confirmPassword"
+        component={renderInputWithLabel}
+        label="Confirm Password"
+      />
+      <button className="btn btn-dark mt-3" type="submit">
+        Submit
+      </button>
+    </form>
   );
 };
+
+SignUpForm = reduxForm({
+  form: 'sign-up',
+  validate,
+})(SignUpForm);
 
 export default SignUpForm;

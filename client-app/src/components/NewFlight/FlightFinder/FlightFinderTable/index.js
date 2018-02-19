@@ -19,20 +19,29 @@ type Props = {
   },
 };
 
-const FlightsTable = (props: Props) => {
+const FlightFinderTable = (props: Props) => {
+  const trOptions = (state: Object, rowInfo: Object, column: Object) => {
+    return {
+      className:
+        rowInfo.original.id === props.selectedId ? 'picked-row' : 'highlight',
+      onClick: (e: Event) => {
+        props.selectFlight(rowInfo.original.id, props.directionName);
+      },
+    };
+  };
   const tableProps = initializeTableProps(props.data);
   tableProps.columns = flightsTableColumns(true);
   return (
     <ReactTable
-      className="table -highlight"
+      className="table"
       data={tableProps.data}
       columns={tableProps.columns}
       showPagination={tableProps.showPagination}
       minRows={tableProps.minRows}
       defaultPageSize={tableProps.defaultPageSize}
-      getTrProps={props.trOptions}
+      getTrProps={trOptions}
     />
   );
 };
 
-export default FlightsTable;
+export default FlightFinderTable;

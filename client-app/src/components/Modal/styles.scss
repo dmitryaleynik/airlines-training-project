@@ -1,0 +1,23 @@
+.modal-wrapper {
+  background: rgba(28, 33, 38, 0.6);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 200;
+}
+
+.my-modal {
+  position: fixed;
+  display: block;
+  font-size: 14px;
+  font-weight: normal;
+  z-index: 100;
+  padding: 20px 20px 10px;
+  background-color: white;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 290px;
+}

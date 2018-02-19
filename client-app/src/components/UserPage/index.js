@@ -7,6 +7,8 @@ import { ordersDropdown, } from 'src/imports';
 
 import './styles.scss';
 
+import './styles.scss';
+
 const menuItems = [
   {
     key: ordersDropdown.keys.FUTURE,
@@ -25,7 +27,7 @@ const menuItems = [
 class UserPage extends Component<{}> {
   componentWillMount = () => {
     const { getAllOrders, setFilter, } = this.props;
-    setFilter('future');
+    setFilter(ordersDropdown.values.FUTURE);
     getAllOrders();
   };
 
