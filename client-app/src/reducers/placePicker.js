@@ -1,4 +1,5 @@
 import {
+  PLACE_PICKER_REQUEST_ALL_PLACES,
   PLACE_PICKER_GET_ALL_PLACES,
   PLACE_PICKER_TOGGLE_PLACE,
   PLACE_PICKER_TOGGLE_LUGGAGE_REQUIREMENT,
@@ -26,6 +27,7 @@ const initialPlaces = () => {
 const initialState = {
   straightPlaces: initialPlaces(),
   reversePlaces: initialPlaces(),
+  isFetching: false,
 };
 
 const togglePlace = (state, payload) => {
@@ -54,6 +56,11 @@ const togglePlace = (state, payload) => {
 
 export default (state = initialState, { type, payload, }) => {
   switch (type) {
+    case PLACE_PICKER_REQUEST_ALL_PLACES:
+      return {
+        ...state,
+        isFetching: true,
+      };
     case PLACE_PICKER_GET_ALL_PLACES:
       return {
         ...state,
@@ -61,6 +68,7 @@ export default (state = initialState, { type, payload, }) => {
           ...state[payload.directionName],
           places: payload.places,
         },
+        isFetching: false,
       };
     case PLACE_PICKER_TOGGLE_PLACE:
       return togglePlace(state, payload);

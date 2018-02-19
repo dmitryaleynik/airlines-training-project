@@ -173,7 +173,7 @@ class NewFlight extends Component<{}, State> {
 
   cancelOrder = (id) => {
     this.props.cancelOrder(id);
-    this.props.history.push('/user-page');
+    this.props.history.push('/orders');
   };
 
   getLuggageLimit = (directionName) => {
@@ -207,6 +207,8 @@ class NewFlight extends Component<{}, State> {
       orderId,
       total,
       isFlightFinderFetching,
+      isPlacePickerFetching,
+      isPriceConfirmatorFetching,
     } = this.props;
     const {
       findFlights,
@@ -226,7 +228,11 @@ class NewFlight extends Component<{}, State> {
       [REVERSE_FLIGHT]: reverseFlight.selectedId,
     };
 
-    const isFetching = isFlightFinderFetching || false;
+    const isFetching =
+      isFlightFinderFetching ||
+      isPlacePickerFetching ||
+      isPriceConfirmatorFetching ||
+      false;
 
     const renderredComponents = [
       <FlightFinder
