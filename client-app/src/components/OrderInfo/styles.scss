@@ -1,6 +1,10 @@
 .order-info {
   position: relative;
 
+  .jumbotron {
+    margin: 0;
+  }
+
   %flights-divider {
     width: 100%;
     height: 2px;

@@ -1,3 +1,7 @@
 # airlines-training-project
 
-Node.js v 9.4.0
+This project includes three smaller:
+
+* [client-app](client-app/README.md)
+* admin-app
+* server-app

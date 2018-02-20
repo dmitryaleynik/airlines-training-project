@@ -10,7 +10,7 @@ const Modal = (props) => {
   return (
     <div className="modal-wrapper">
       <div className="my-modal p-2 rounded d-flex flex-column justify-content-between">
-        <div className="content my-2 text-center">{props.modal.content}</div>
+        <div className="my-2 text-center">{props.modal.content}</div>
         {props.modal.handlePositiveClick && (
           <div className="d-flex justify-content-between">
             <button className="btn btn-sm btn-secondary" onClick={handleClose}>
