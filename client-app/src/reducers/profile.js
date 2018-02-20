@@ -1,4 +1,5 @@
 import {
+  PROFILE_REQUEST_INFO,
   PROFILE_GET_INFO,
   PROFILE_EDIT_USERNAME,
   PROFILE_CHANGE_USERNAME,
@@ -18,6 +19,7 @@ const initialState = {
     path: '',
   },
   isEditting: false,
+  isFetching: true,
   usernameError: '',
   isAvatarUploaded: false,
   isOverlay: false,
@@ -25,12 +27,18 @@ const initialState = {
 
 export default (state = initialState, { type, payload, }) => {
   switch (type) {
+    case PROFILE_REQUEST_INFO:
+      return {
+        ...state,
+        isFetching: true,
+      };
     case PROFILE_GET_INFO:
       return {
         ...state,
         username: payload.username,
         editableUsername: payload.username,
         avatar: payload.avatar,
+        isFetching: false,
       };
     case PROFILE_EDIT_USERNAME:
       return {

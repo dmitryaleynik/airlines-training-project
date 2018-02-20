@@ -5,11 +5,12 @@ import { openModal, closeModal, } from 'src/actions/modal';
 import OrderInfo from 'src/components/OrderInfo';
 
 const mapStateToProps = (state) => {
-  const { selectedOrder, } = state.orders;
+  const { selectedOrder, isFetching, } = state.orders;
   const { modal, } = state.modal;
   return {
     order: selectedOrder,
     modal,
+    isFetching,
   };
 };
 

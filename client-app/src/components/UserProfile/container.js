@@ -20,6 +20,7 @@ const mapStateToProps = (state) => {
     usernameError,
     isAvatarUploaded,
     isOverlay,
+    isFetching,
   } = state.profile;
 
   return {
@@ -32,6 +33,7 @@ const mapStateToProps = (state) => {
     usernameError,
     isAvatarUploaded,
     isOverlay,
+    isFetching,
   };
 };
 

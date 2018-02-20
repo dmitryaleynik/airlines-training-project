@@ -5,6 +5,7 @@ import PlacePicker from './PlacePicker';
 import PriceConfirmator from './PriceConfirmator';
 import ButtonPanel from './ButtonPanel';
 import Modal from 'src/components/Modal/container';
+import Loader from 'src/components/Loader';
 import {
   steps,
   STRAIGHT_FLIGHT,
@@ -172,7 +173,7 @@ class NewFlight extends Component<{}, State> {
 
   cancelOrder = (id) => {
     this.props.cancelOrder(id);
-    this.props.history.push('/user-page');
+    this.props.history.push('/orders');
   };
 
   getLuggageLimit = (directionName) => {
@@ -205,6 +206,9 @@ class NewFlight extends Component<{}, State> {
       openModal,
       orderId,
       total,
+      isFlightFinderFetching,
+      isPlacePickerFetching,
+      isPriceConfirmatorFetching,
     } = this.props;
     const {
       findFlights,
@@ -223,6 +227,12 @@ class NewFlight extends Component<{}, State> {
       [STRAIGHT_FLIGHT]: straightFlight.selectedId,
       [REVERSE_FLIGHT]: reverseFlight.selectedId,
     };
+
+    const isFetching =
+      isFlightFinderFetching ||
+      isPlacePickerFetching ||
+      isPriceConfirmatorFetching ||
+      false;
 
     const renderredComponents = [
       <FlightFinder
@@ -263,26 +273,31 @@ class NewFlight extends Component<{}, State> {
     return (
       <div className="new-flight">
         {modal && <Modal modal={modal} />}
-        <div className="row">
-          {startedSteps.map((step, index) => {
-            return (
-              <div
-                key={index}
-                className={classNames('col-sm-4 status-bar', {
-                  'prev-step': step,
-                  'following-step': !step,
-                })}
-              />
-            );
-          })}
-        </div>
-        {renderredComponents[currentStep]}
-        <ButtonPanel
-          onBackClick={handleBackClick}
-          onNextClick={handleNextClick}
-          currentStep={currentStep}
-          fulfilledSteps={fulfilledSteps}
-        />
+        {isFetching && <Loader />}
+        {!isFetching && (
+          <div>
+            <div className="row">
+              {startedSteps.map((step, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={classNames('col-sm-4 status-bar', {
+                      'prev-step': step,
+                      'following-step': !step,
+                    })}
+                  />
+                );
+              })}
+            </div>
+            {renderredComponents[currentStep]}
+            <ButtonPanel
+              onBackClick={handleBackClick}
+              onNextClick={handleNextClick}
+              currentStep={currentStep}
+              fulfilledSteps={fulfilledSteps}
+            />
+          </div>
+        )}
       </div>
     );
   }

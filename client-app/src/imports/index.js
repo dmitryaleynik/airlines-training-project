@@ -26,3 +26,9 @@ export const ordersDropdown = {
 };
 
 export const USERNAME_MIN_LENGTH = 6;
+
+export const orderStatuses = {
+  PENDING: 'Pending',
+  COMPLETED: 'Completed',
+  CANCELLED: 'Cancelled',
+}

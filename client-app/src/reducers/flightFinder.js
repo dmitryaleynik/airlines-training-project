@@ -1,10 +1,12 @@
 import moment from 'moment';
 import {
+  FLIGHT_FINDER_REQUEST_CITIES,
   FLIGHT_FINDER_GET_CITIES,
   FLIGHT_FINDER_CHANGE_DATE_START,
   FLIGHT_FINDER_CHANGE_DATE_END,
   FLIGHT_FINDER_UPDATE_FILTERS,
-  FLIGHT_FINDER_UPDATE_FLIGHTS,
+  FLIGHT_FINDER_REQUEST_FLIGHTS,
+  FLIGHT_FINDER_RECEIVE_FLIGHTS,
   FLIGHT_FINDER_SELECT_FLIGHT,
   FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT,
   NEW_FLIGHT_UNMOUNT,
@@ -13,6 +15,7 @@ import {
 const currentMoment = moment();
 const initialState = {
   cities: [],
+  isFetching: false,
   isReverseRequired: false,
   straightFlight: {
     flights: [],
@@ -27,6 +30,7 @@ const initialState = {
       },
       seats: 1,
     },
+    isFetching: false,
     isSearched: false,
     selectedId: '',
   },
@@ -38,6 +42,7 @@ const toggleReverse = (state, payload) => {
     ? {
         ...state.straightFlight,
         flights: [],
+        isFetching: false,
         isSearched: false,
         selectedId: '',
         filters: {
@@ -62,10 +67,16 @@ export default (state = initialState, { type, payload, }) => {
     dName = payload.directionName;
   }
   switch (type) {
+    case FLIGHT_FINDER_REQUEST_CITIES:
+      return {
+        ...state,
+        isFetching: true,
+      };
     case FLIGHT_FINDER_GET_CITIES:
       return {
         ...state,
         cities: payload,
+        isFetching: false,
       };
     case FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT:
       return toggleReverse(state, payload);
@@ -112,12 +123,21 @@ export default (state = initialState, { type, payload, }) => {
           filters: payload.filters,
         },
       };
-    case FLIGHT_FINDER_UPDATE_FLIGHTS:
+    case FLIGHT_FINDER_REQUEST_FLIGHTS:
+      return {
+        ...state,
+        [dName]: {
+          ...state[dName],
+          isFetching: true,
+        },
+      };
+    case FLIGHT_FINDER_RECEIVE_FLIGHTS:
       return {
         ...state,
         [dName]: {
           ...state[dName],
           flights: payload.flights,
+          isFetching: false,
           isSearched: true,
           selectedId: '',
         },

@@ -1,4 +1,5 @@
 import {
+  PROFILE_REQUEST_INFO,
   PROFILE_GET_INFO,
   PROFILE_EDIT_USERNAME,
   PROFILE_CHANGE_USERNAME,
@@ -14,11 +15,14 @@ import profile from 'src/db/profile';
 
 export const getProfileInfo = () => {
   return async (dispatch) => {
+    dispatch({ type: PROFILE_REQUEST_INFO, });
     const resolvedProfile = await Promise.resolve(profile);
-    dispatch({
-      type: PROFILE_GET_INFO,
-      payload: resolvedProfile,
-    });
+    setTimeout(() => {
+      dispatch({
+        type: PROFILE_GET_INFO,
+        payload: resolvedProfile,
+      });
+    }, 2000);
   };
 };
 

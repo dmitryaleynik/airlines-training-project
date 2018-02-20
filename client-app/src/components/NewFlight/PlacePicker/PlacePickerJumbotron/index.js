@@ -96,7 +96,9 @@ class PlacePickerJumbotron extends React.Component {
         if (next.luggageKg) {
           if (
             !Number(next.luggageKg) ||
-            (next.luggageKg < 0 || next.luggageKg > this.props.luggageLimit)
+            (next.luggageKg < 0 ||
+              next.luggageKg >
+                this.props.luggageLimit * next.pickedPlaces.length)
           ) {
             validate(false, directionName);
           } else {
@@ -120,6 +122,7 @@ class PlacePickerJumbotron extends React.Component {
       pickedPlaces,
       luggageKg,
     } = this.props.direction;
+    const luggageLimit = this.props.luggageLimit * pickedPlaces.length;
     const seatTypesSet = new Set(places.seats.map((place) => place.type));
     return (
       <div className="jumbotron">
@@ -163,14 +166,14 @@ class PlacePickerJumbotron extends React.Component {
                 <input
                   type="number"
                   min="0"
-                  max={this.props.luggageLimit * pickedPlaces.length}
+                  max={luggageLimit}
                   className="form-control"
                   placeholder="Input your luggage weight, kg"
                   onChange={this.handleLuggageChange}
                   required
                 />
-                Max amount: {this.props.luggageLimit * pickedPlaces.length}kg!!
-                {(luggageKg < 0 || luggageKg > this.props.luggageLimit) && (
+                Max amount: {luggageLimit}kg!!
+                {(luggageKg < 0 || luggageKg > luggageLimit) && (
                   <span className="text-danger ml-4">Wrong input!</span>
                 )}
               </div>
