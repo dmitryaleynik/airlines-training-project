@@ -1,1 +1,17 @@
+@import "src/assets/imports";
 
+.root {
+  .content {
+    min-height: calc(100vh - 76px - 60px);
+  }
+
+  .footer {
+    margin-top: 20px;
+    padding: 10px 15px 0;
+    height: 40px;
+    background: $secondary-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
