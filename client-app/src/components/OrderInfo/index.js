@@ -3,6 +3,7 @@ import FlightInfo from 'src/components/FlightInfo';
 import BackButton from 'src/components/BackButton';
 import Modal from 'src/components/Modal/container';
 import Loader from 'src/components/Loader';
+import { orderStatuses, } from 'src/imports';
 
 import './styles.scss';
 
@@ -75,7 +76,7 @@ class OrderInfo extends Component {
               <span className="font-weight-bold">
                 GRAND TOTAL: {order.total}$
               </span>
-              {order.status === 'Pending' && (
+              {order.status === orderStatuses.PENDING && (
                 <span className="buttons">
                   <button
                     className="btn btn-danger btn-sm mr-2"
