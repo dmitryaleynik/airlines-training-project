@@ -1,10 +1,10 @@
 const Router = require('koa-router');
-const { getAllOrders } = require('./handlers/orders');
+const ordersHandler = require('../handlers/orders');
 
 const ordersRouter = new Router({
   prefix: '/orders'
 });
 
-ordersRouter.get('/', getAllOrders);
+ordersRouter.get('/', ordersHandler.getAllOrders);
 
 module.exports = ordersRouter;

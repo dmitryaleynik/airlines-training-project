@@ -1,10 +1,10 @@
+require('dotenv').config();
 const Koa = require('koa');
-const config = require('../config');
 const RouterMiddleware = require('./routes');
 
 const app = new Koa();
 app.use(RouterMiddleware);
 
-app.listen(config.port, () => {
-  console.log(`Your server is alive at port ${config.port}.`);
+app.listen(process.env.PORT, () => {
+  console.log(`Your server is alive on port ${process.env.PORT}.`);
 });
