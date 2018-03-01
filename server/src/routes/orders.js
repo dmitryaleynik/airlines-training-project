@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const ordersHandler = require('../handlers/orders');
+const ordersHandler = require('./handlers/orders');
 
 const ordersRouter = new Router({
   prefix: '/orders'

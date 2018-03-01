@@ -1,8 +1,7 @@
-const orders = require('../db/orders');
+const ordersDb = require('../db/orders');
 
 const getAllOrders = async () => {
-  const res = await orders.getAllOrders();
-  console.log(res);
+  const res = await ordersDb.getAllOrders();
   return res;
 }
 

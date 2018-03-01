@@ -1,7 +1,9 @@
 const client = require('./setup/postgres');
 
 const getAllOrders = async () => {
-  return await client.query('SELECT * FROM orders');
+  const query = 'SELECT * FROM orders';
+  const result = await client.query(query);
+  return result;
 }
 
 module.exports = {
