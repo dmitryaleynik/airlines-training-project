@@ -6,8 +6,8 @@ const getAllOrders = async () => {
   return ordersToBeMapped.rows.map(row => {
     return new Order(row.id, row.leave_at, row.status, row.total);
   });
-}
+};
 
 module.exports = {
   getAllOrders,
-}
+};

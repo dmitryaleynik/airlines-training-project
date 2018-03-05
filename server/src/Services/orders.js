@@ -5,9 +5,9 @@ const getAllOrders = async () => {
   const orders = await ordersConnector.getAllOrders();
   return orders.map(order => {
     return new Order(order);
-  })
-}
+  });
+};
 
 module.exports = {
   getAllOrders,
-}
+};

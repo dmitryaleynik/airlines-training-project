@@ -1,5 +1,5 @@
-const orders = require('./orders');
+const { getAllOrders, } = require('./orders');
 
 module.exports = {
-  ...orders
-}
+  getAllOrders,
+};
