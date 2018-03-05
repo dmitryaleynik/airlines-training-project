@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Koa = require('koa');
-const RouterMiddleware = require('./routes');
+const RouterMiddleware = require('./Routes');
 
 const app = new Koa();
 app.use(RouterMiddleware);

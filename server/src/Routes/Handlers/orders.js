@@ -1,8 +1,8 @@
-const ordersController = require('../../BusinessLayer/orders');
+const ordersService = require('../../Services/orders');
 
 // get request, send response from BL
 const getAllOrders = async (ctx) => {
-  const res = await ordersController.getAllOrders();
+  const res = await ordersService.getAllOrders();
   ctx.body = res;
 };
 
