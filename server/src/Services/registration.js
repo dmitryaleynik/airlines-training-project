@@ -4,7 +4,7 @@ const dbConnector = require('../Connectors/psql');
 const register = async body => {
   const isEmailUnique = await dbConnector.checkEmailUniqueness(body.email);
   if (!isEmailUnique) {
-    return 'BB';
+    throw ERRORS.CONFLICT;
   }
   const passwordData = sha512(body.password);
   const result = await dbConnector.register(body.email, passwordData);

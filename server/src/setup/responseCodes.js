@@ -1,0 +1,12 @@
+const ERRORS = {
+  CONFLICT: 409,
+  INTERNAL_SERVER_ERROR: 500,
+};
+
+const RESPONSES = {
+  CREATED: 201,
+  NO_CONTENT: 204,
+};
+
+global.ERRORS = ERRORS;
+global.RESPONSES = RESPONSES;
