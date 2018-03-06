@@ -1,19 +1,28 @@
 {
   "name": "airlines-server",
   "version": "1.0.0",
+  "engines": {
+    "node": "=9.7.1"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index",
+    "start": "nodemon src/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.17.1"
+    "eslint": "^4.18.2",
+    "eslint-plugin-node": "^6.0.1",
+    "nodemon": "^1.17.1",
+    "prettier-eslint": "^8.8.1"
   },
   "dependencies": {
+    "dotenv": "^5.0.1",
     "koa": "^2.5.0",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "pg": "^7.4.1",
+    "winston": "^3.0.0-rc1"
   }
 }
