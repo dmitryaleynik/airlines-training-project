@@ -2,8 +2,8 @@
 
 ## Requirements
 
-* [Node.js v >= 9.7.1](https://nodejs.org/en/)
-* [PostgreSQL v 9.6](https://www.postgresql.org/download/)
+* [Node.js v9.7.1](https://nodejs.org/en/)
+* [PostgreSQL v9.6](https://www.postgresql.org/download/)
 
 ## Installation
 
