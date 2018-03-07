@@ -1,5 +1,5 @@
 const dbConnector = require('../Connectors/psql');
-const Order = require('../Contracts/ServiceToHandler/Order');
+const Order = require('../Contracts/ServiceWithHandler/Order');
 
 const getAllOrders = async () => {
   const orders = await dbConnector.getAllOrders();

@@ -2,9 +2,7 @@
   "plugins": ["node"],
   "extends": ["eslint:recommended", "plugin:node/recommended"],
   "globals": {
-    "logger": true,
-    "ERRORS": true,
-    "RESPONSES": true
+    "logger": true
   },
   "rules": {
     "node/exports-style": ["error", "module.exports"],
