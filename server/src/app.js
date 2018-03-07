@@ -1,15 +1,22 @@
 require('dotenv').config();
-require('./logger');
+require('./setup/logger');
 const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
+const HttpCodes = require('http-status-codes');
 const RouterMiddleware = require('./Routes');
 
 const app = new Koa();
-
+app.use(bodyParser());
 app.use(async (ctx, next) => {
   try {
     await next();
-  } catch (err) {
-    logger.log(12345, err);
+  } catch (error) {
+    logger.error(error.stack);
+    ctx.status = HttpCodes.INTERNAL_SERVER_ERROR;
+    ctx.body = {
+      id: error.code || 'Internal server error',
+      description: error.message || 'Internal server error',
+    };
   }
 });
 

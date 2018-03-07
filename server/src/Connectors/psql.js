@@ -1,5 +1,5 @@
 const db = require('../DataAccess/PostgreSQL');
-const Order = require('../Contracts/ConnectorToService/Order');
+const Order = require('../Contracts/ConnectorWithService/Order');
 
 const getAllOrders = async () => {
   const ordersToBeMapped = await db.getAllOrders();
@@ -8,6 +8,18 @@ const getAllOrders = async () => {
   });
 };
 
+const checkEmailUniqueness = async email => {
+  const result = await db.getUserByEmail(email);
+  return result.rows[0].user_id ? false : true;
+};
+
+const register = async ({ email, passwordData, }) => {
+  await db.register(email, passwordData);
+  return true;
+};
+
 module.exports = {
   getAllOrders,
+  checkEmailUniqueness,
+  register,
 };
