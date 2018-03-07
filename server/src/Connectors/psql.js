@@ -10,7 +10,7 @@ const getAllOrders = async () => {
 
 const checkEmailUniqueness = async email => {
   const result = await db.getUserByEmail(email);
-  return result.rows[0].id ? false : true;
+  return result.rows[0].user_id ? false : true;
 };
 
 const register = async (email, passwordData) => {
