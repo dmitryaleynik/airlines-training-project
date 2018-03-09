@@ -3,6 +3,6 @@ const regHandler = require('./Handlers/registration');
 
 const RegRouter = new Router();
 
-RegRouter.post('/sign-in', regHandler);
+RegRouter.post('/sign-up', regHandler);
 
 module.exports = RegRouter;

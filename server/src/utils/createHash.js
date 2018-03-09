@@ -7,8 +7,8 @@ const getRandomString = length => {
     .slice(0, length);
 };
 
-const sha512 = password => {
-  const salt = getRandomString(16);
+const sha512 = (password, salt) => {
+  salt = salt || getRandomString(16);
   const hash = crypto.createHmac('sha512', salt);
   hash.update(password);
   const result = hash.digest('hex');

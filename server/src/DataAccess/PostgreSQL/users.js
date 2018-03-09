@@ -13,7 +13,15 @@ const register = async (email, { hash, salt, }) => {
   return result;
 };
 
+const getUserPasswordData = async id => {
+  const queryText = 'SELECT * from get_password_data($1)';
+  const values = [id,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getUserByEmail,
   register,
+  getUserPasswordData,
 };

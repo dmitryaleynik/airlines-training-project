@@ -9,8 +9,8 @@ const {
 const EmailUsedException = require('../Exceptions/EmailUsedException');
 
 const register = async ({ email, password, }) => {
-  const isEmailUnique = await dbConnector.checkEmailUniqueness(email);
-  if (!isEmailUnique) {
+  const user = await dbConnector.getUserByEmail(email);
+  if (user.id) {
     throw new EmailUsedException();
   }
   const passwordData = sha512(password);
