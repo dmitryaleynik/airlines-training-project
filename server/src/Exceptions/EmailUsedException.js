@@ -2,7 +2,7 @@ const Exception = require('./Exception');
 
 class EmailUsedException extends Exception {
   constructor() {
-    super('Email is already used.');
+    super('Registration failed. Email is already used.');
   }
 }
 

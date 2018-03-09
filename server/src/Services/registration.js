@@ -6,6 +6,7 @@ const {
 const {
   RegistrationRequest,
 } = require('../Contracts/ConnectorWithService/registration');
+
 const EmailUsedException = require('../Exceptions/EmailUsedException');
 
 const register = async ({ email, password, }) => {
