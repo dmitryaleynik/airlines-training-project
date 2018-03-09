@@ -5,13 +5,6 @@ class RegistrationRequest {
   }
 }
 
-class RegistrationResponse {
-  constructor(result) {
-    this.result = result;
-  }
-}
-
 module.exports = {
   RegistrationRequest,
-  RegistrationResponse,
 };

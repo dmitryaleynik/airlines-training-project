@@ -1,9 +1,10 @@
 const db = require('../DataAccess/PostgreSQL');
 const Order = require('../Contracts/ConnectorWithService/Order');
-const User = require('../Contracts/User');
+
 const {
+  UserResponse,
   PasswordDataResponse,
-} = require('../Contracts/ConnectorWithService/authorization');
+} = require('../Contracts/ConnectorWithService/users');
 
 const getAllOrders = async () => {
   const ordersToBeMapped = await db.getAllOrders();
@@ -12,9 +13,9 @@ const getAllOrders = async () => {
   });
 };
 
-const getUserByEmail = async email => {
+const getUserByEmail = async ({ email, }) => {
   const result = (await db.getUserByEmail(email)).rows[0];
-  return new User(result.user_id, result.email, result);
+  return new UserResponse(result.user_id, result.email);
 };
 
 const register = async ({ email, passwordData, }) => {
@@ -22,7 +23,7 @@ const register = async ({ email, passwordData, }) => {
   return true;
 };
 
-const getUserPasswordData = async id => {
+const getUserPasswordData = async ({ id, }) => {
   const result = (await db.getUserPasswordData(id)).rows[0];
   return new PasswordDataResponse(result.password_hash, result.password_salt);
 };

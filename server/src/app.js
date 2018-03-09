@@ -14,8 +14,8 @@ app.use(async (ctx, next) => {
     logger.error(error.stack);
     ctx.status = HttpCodes.INTERNAL_SERVER_ERROR;
     ctx.body = {
-      id: error.code || 'Internal server error',
-      description: error.message || 'Internal server error',
+      timestamp: new Date().toUTCString(),
+      message: error.message || 'Internal server error',
     };
   }
 });

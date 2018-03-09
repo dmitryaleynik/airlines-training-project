@@ -5,6 +5,13 @@ class AuthRequest {
   }
 }
 
+class AuthResponse {
+  constructor(token) {
+    this.token = token;
+  }
+}
+
 module.exports = {
   AuthRequest,
+  AuthResponse,
 };
