@@ -1,10 +1,9 @@
 -- types --
-create type "order" as
-(
+create type "order" as (
   order_id integer,
-  leave_at date,
-  status varchar(255),
-  total integer
+  status order_status,
+  total integer,
+  expires_at date
 );
 
 create type user_main_info as (
@@ -13,19 +12,32 @@ create type user_main_info as (
 	nickname varchar(255)
 );
 
-create type password_data as 
-(
+create type password_data as (
   password_hash text, 
   password_salt text
 );
 
+create type order_status as enum (
+  'Cancelled', 
+  'Confirmed', 
+  'Pending'
+);
+
 -- tables --
-create table orders
-(
-  order_id serial primary key,
-  leave_at date not null,
-  status varchar(255) not null,
-  total integer not null
+create table orders (
+	order_id serial primary key,
+	user_id integer references users,
+	status order_status not null,
+	total integer not null,
+	expires_at date
+);
+
+create table flights (
+	flight_id serial primary key,
+	city_from varchar(255) not null,
+	city_to varchar(255) not null,
+	date_from date not null,
+	date_to date not null
 );
 
 create table users (
@@ -38,12 +50,10 @@ create table users (
 );
 
 -- functions --
-create function get_all_orders()
-returns table (o "order") as $$
+create function get_orders_for_user(id integer)
+returns table (order "order") as $$
 begin
-  return query
-  select *
-  from orders;
+  return query select order_id, status, total, expires_at from orders where user_id=id;
 end;
 $$ language plpgsql;
 
