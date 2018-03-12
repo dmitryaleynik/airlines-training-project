@@ -15,12 +15,7 @@ const getAllOrders = async () => {
 
 const getUserByEmail = async ({ email, }) => {
   const result = (await db.getUserByEmail(email)).rows[0];
-  return new UserResponse(
-    result.user_id,
-    result.email,
-    result.nickname,
-    result.avatar
-  );
+  return new UserResponse(result.user_id, result.email, result.nickname);
 };
 
 const register = async ({ email, passwordData, }) => {

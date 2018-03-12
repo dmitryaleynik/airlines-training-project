@@ -10,8 +10,7 @@ create type "order" as
 create type user_main_info as (
 	user_id integer,
 	email varchar(255),
-	nickname varchar(255),
-	avatar bytea
+	nickname varchar(255)
 );
 
 create type password_data as 
