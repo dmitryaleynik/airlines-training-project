@@ -18,9 +18,11 @@ class PasswordDataRequest {
 }
 
 class UserResponse {
-  constructor(id, email) {
+  constructor(id, email, nickname, avatar) {
     this.id = id;
     this.email = email;
+    this.nickname = nickname;
+    this.avatar = avatar;
   }
 }
 
