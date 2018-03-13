@@ -1,4 +1,10 @@
 -- types --
+create type order_status as enum (
+  'Cancelled', 
+  'Confirmed', 
+  'Pending'
+);
+
 create type "order" as (
   order_id integer,
   status order_status,
@@ -17,13 +23,16 @@ create type password_data as (
   password_salt text
 );
 
-create type order_status as enum (
-  'Cancelled', 
-  'Confirmed', 
-  'Pending'
+-- tables --
+create table users (
+	user_id serial primary key,
+	email varchar(255) not null,
+	password_hash text not null,
+	password_salt text not null,
+	nickname varchar(255),
+	avatar bytea not null
 );
 
--- tables --
 create table orders (
 	order_id serial primary key,
 	user_id integer references users,
@@ -40,18 +49,9 @@ create table flights (
 	date_to date not null
 );
 
-create table users (
-	user_id serial primary key,
-	email varchar(255) not null,
-	password_hash text not null,
-	password_salt text not null,
-	nickname varchar(255) not null,
-	avatar bytea not null
-);
-
 -- functions --
 create function get_orders_for_user(id integer)
-returns table (order "order") as $$
+returns table (o "order") as $$
 begin
   return query select order_id, status, total, expires_at from orders where user_id=id;
 end;
