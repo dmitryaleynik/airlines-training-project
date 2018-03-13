@@ -1,7 +1,10 @@
 require('dotenv').config();
 require('./setup/logger');
+require('./strategies/jwt');
+
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const passport = require('koa-passport');
 const HttpCodes = require('http-status-codes');
 const RouterMiddleware = require('./Routes');
 
@@ -19,7 +22,7 @@ app.use(async (ctx, next) => {
     };
   }
 });
-
+app.use(passport.initialize());
 app.use(RouterMiddleware);
 
 app.listen(process.env.PORT, () => {
