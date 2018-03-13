@@ -6,8 +6,13 @@ class AuthRequest {
 }
 
 class AuthResponse {
-  constructor(token) {
+  constructor(token, failures) {
     this.token = token;
+    if (failures) {
+      for (let failure in failures) {
+        this[failure] = failures[failure];
+      }
+    }
   }
 }
 
