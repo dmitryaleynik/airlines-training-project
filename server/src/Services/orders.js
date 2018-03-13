@@ -1,13 +1,17 @@
 const dbConnector = require('../Connectors/psql');
-const Order = require('../Contracts/ServiceWithHandler/Order');
 
-const getAllOrders = async () => {
-  const orders = await dbConnector.getAllOrders();
-  return orders.map(order => {
-    return new Order(order);
-  });
+const {
+  OrdersByIdRequest,
+} = require('../Contracts/ConnectorWithService/orders');
+const {
+  OrdersByIdResponse,
+} = require('../Contracts/ServiceWithHandler/orders');
+
+const getOrdersByUserId = async ({ id, }) => {
+  const orders = await dbConnector.getOrdersByUserId(new OrdersByIdRequest(id));
+  return new OrdersByIdResponse(orders);
 };
 
 module.exports = {
-  getAllOrders,
+  getOrdersByUserId,
 };

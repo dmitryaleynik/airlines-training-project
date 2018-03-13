@@ -1,8 +1,8 @@
-const { getAllOrders, } = require('./orders');
+const { getOrdersByUserId, } = require('./orders');
 const { register, getUserByEmail, getUserPasswordData, } = require('./users');
 
 module.exports = {
-  getAllOrders,
+  getOrdersByUserId,
   getUserByEmail,
   register,
   getUserPasswordData,

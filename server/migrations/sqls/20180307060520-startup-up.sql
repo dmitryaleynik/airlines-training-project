@@ -50,7 +50,7 @@ create table flights (
 );
 
 -- functions --
-create function get_orders_for_user(id integer)
+create function get_orders_by_user_id(id integer)
 returns table (o "order") as $$
 begin
   return query select order_id, status, total, expires_at from orders where user_id=id;

@@ -1,10 +1,19 @@
+const HttpCodes = require('http-status-codes');
 const ordersService = require('../../Services/orders');
 
-const getAllOrders = async ctx => {
-  // const res = await ordersService.getAllOrders();
-  ctx.body = 'cool';
+const {
+  OrdersByIdRequest,
+} = require('../../Contracts/ServiceWithHandler/orders');
+
+const getOrders = async ctx => {
+  const { user, } = ctx.state;
+  const res = await ordersService.getOrdersByUserId(
+    new OrdersByIdRequest(user.id)
+  );
+  ctx.status = HttpCodes.OK;
+  ctx.body = res;
 };
 
 module.exports = {
-  getAllOrders,
+  getOrders,
 };

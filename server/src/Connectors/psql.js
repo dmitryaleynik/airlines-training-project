@@ -1,15 +1,20 @@
 const db = require('../DataAccess/PostgreSQL');
-const Order = require('../Contracts/ConnectorWithService/Order');
 
+const { OrderResponse, } = require('../Contracts/ConnectorWithService/orders');
 const {
   UserResponse,
   PasswordDataResponse,
 } = require('../Contracts/ConnectorWithService/users');
 
-const getAllOrders = async () => {
-  const ordersToBeMapped = await db.getAllOrders();
+const getOrdersByUserId = async ({ id, }) => {
+  const ordersToBeMapped = await db.getOrdersByUserId(id);
   return ordersToBeMapped.rows.map(row => {
-    return new Order(row.id, row.leave_at, row.status, row.total);
+    return new OrderResponse(
+      row.order_id,
+      row.status,
+      row.total,
+      row.expires_at
+    );
   });
 };
 
@@ -29,7 +34,7 @@ const getUserPasswordData = async ({ id, }) => {
 };
 
 module.exports = {
-  getAllOrders,
+  getOrdersByUserId,
   getUserByEmail,
   register,
   getUserPasswordData,
