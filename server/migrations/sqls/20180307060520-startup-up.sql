@@ -1,64 +1,77 @@
 -- types --
-CREATE TYPE "order" AS
+create type "order" as
 (
-  order_id INTEGER,
-  leave_at DATE,
-  status VARCHAR(255),
-  total INTEGER
+  order_id integer,
+  leave_at date,
+  status varchar(255),
+  total integer
 );
 
-CREATE TYPE user_main_info AS
+create type user_main_info as (
+	user_id integer,
+	email varchar(255),
+	nickname varchar(255)
+);
+
+create type password_data as 
 (
-  user_id integer,
-  email character varying(255)
+  password_hash text, 
+  password_salt text
 );
 
 -- tables --
-CREATE TABLE orders
+create table orders
 (
-  order_id SERIAL PRIMARY KEY,
-  leave_at DATE NOT NULL,
-  status VARCHAR(255) NOT NULL,
-  total INTEGER NOT NULL
+  order_id serial primary key,
+  leave_at date not null,
+  status varchar(255) not null,
+  total integer not null
 );
 
-CREATE TABLE users
-(
-  user_id SERIAL PRIMARY KEY,
-  email VARCHAR(255) NOT NULL,
-  password_hash TEXT NOT NULL,
-  password_salt TEXT NOT NULL
+create table users (
+	user_id serial primary key,
+	email varchar(255) not null,
+	password_hash text not null,
+	password_salt text not null,
+	nickname varchar(255) not null,
+	avatar bytea not null
 );
 
 -- functions --
-CREATE FUNCTION get_all_orders()
-RETURNS TABLE (o "order") AS $$
-BEGIN
-  RETURN QUERY
-  SELECT *
-  FROM orders;
-END;
-$$ LANGUAGE plpgsql;
+create function get_all_orders()
+returns table (o "order") as $$
+begin
+  return query
+  select *
+  from orders;
+end;
+$$ language plpgsql;
 
-CREATE FUNCTION get_user_by_email(user_email VARCHAR(255))
-RETURNS INTEGER AS $$
-BEGIN
-  return (SELECT user_id FROM users WHERE user_email=email);
-END;
-$$ LANGUAGE plpgsql;
+create function insert_user(user_email varchar(255), user_hash text, user_salt text, user_avatar bytea)
+returns void as $$
+declare temp integer;
+begin
+  insert into users(email, password_hash, password_salt, avatar) 
+    values(user_email, user_hash, user_salt, user_avatar);
+  update users set nickname='User#' || user_id where email=user_email;
+  return;
+end;
+$$ language plpgsql;
 
-CREATE FUNCTION insert_user(user_email VARCHAR(255), user_hash TEXT, user_salt TEXT)
-RETURNS VOID AS $$
-BEGIN
-  INSERT INTO users(email, password_hash, password_salt) VALUES(user_email, user_hash, user_salt);
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE FUNCTION get_user_by_email(user_email character varying)
-  RETURNS user_main_info AS $$
+create function get_user_by_email(user_email character varying)
+  returns user_main_info as $$
 declare ret user_main_info;
-BEGIN
-  SELECT user_id, email into ret FROM users WHERE user_email=email;
+begin
+  select user_id, email, nickname, avatar into ret from users where user_email=email;
   return ret;
-END;
-$$ LANGUAGE plpgsql;
+end;
+$$ language plpgsql;
+
+create function get_password_data(id integer)
+  returns password_data as $$
+declare ret password_data;
+begin
+  select password_hash, password_salt into ret from users where user_id=id;
+  return ret;
+end;
+$$ language plpgsql;

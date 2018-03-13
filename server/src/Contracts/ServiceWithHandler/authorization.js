@@ -1,13 +1,13 @@
-class RegistrationRequest {
+class AuthRequest {
   constructor(email, password) {
     this.email = email;
     this.password = password;
   }
 }
 
-class RegistrationResponse {
-  constructor(result, failures) {
-    this.result = result;
+class AuthResponse {
+  constructor(token, failures) {
+    this.token = token;
     if (failures) {
       for (let failure in failures) {
         this[failure] = failures[failure];
@@ -17,6 +17,6 @@ class RegistrationResponse {
 }
 
 module.exports = {
-  RegistrationRequest,
-  RegistrationResponse,
+  AuthRequest,
+  AuthResponse,
 };
