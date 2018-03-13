@@ -25,7 +25,7 @@ const authorize = async ({ email, password, }) => {
 
   const token = jwt.sign({ id: user.id, email, }, process.env.AUTH_KEY, {
     algorithm: 'HS512',
-    expiresIn: '2h',
+    expiresIn: '1m',
   });
   return new AuthResponse(token);
 };

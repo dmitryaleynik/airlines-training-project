@@ -1,6 +1,5 @@
 const HttpCodes = require('http-status-codes');
 const authService = require('../../Services/authorization');
-const fetchResponse = require('../../utils/response');
 
 const {
   AuthRequest,
@@ -10,23 +9,15 @@ const authHandler = async ctx => {
   const { body, } = ctx.request;
   const request = new AuthRequest(body.email, body.password);
   const response = await authService.authorize(request);
-  if (response.userNotFound) {
-    fetchResponse(
-      ctx,
-      HttpCodes.CONFLICT,
-      'Authorization failed. User not found.'
-    );
+  if (response.userNotFound || response.wrongPassword) {
+    ctx.status = HttpCodes.CONFLICT;
+    ctx.body = {
+      message: 'Authorization failed. Email or password are invalid.',
+    };
     return;
   }
-  if (response.wrongPassword) {
-    fetchResponse(
-      ctx,
-      HttpCodes.CONFLICT,
-      'Authorization failed. Wrong password.'
-    );
-    return;
-  }
-  fetchResponse(ctx, HttpCodes.OK, response);
+  ctx.status = HttpCodes.OK;
+  ctx.body = response;
 };
 
 module.exports = authHandler;
