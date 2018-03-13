@@ -1,5 +1,4 @@
-const fs = require('fs');
-const { promisify, } = require('util');
+const { readFilePromise, } = require('../../utils/promises');
 const client = require('./setup');
 
 const defaultAvatarPath = `${__dirname}/../../assets/default_avatar.png`;
@@ -11,7 +10,6 @@ const getUserByEmail = async email => {
 };
 
 const register = async (email, { hash, salt, }) => {
-  const readFilePromise = promisify(fs.readFile);
   const avatar = await readFilePromise(defaultAvatarPath);
   const queryText = 'SELECT insert_user($1, $2, $3, $4);';
   const values = [email, hash, salt, avatar,];
