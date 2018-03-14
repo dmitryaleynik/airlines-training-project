@@ -11,11 +11,12 @@ class OrderByIdRequest {
 }
 
 class OrderResponse {
-  constructor(id, status, total, expires_at) {
-    this.id = id;
+  constructor({ order_id, number, date_from, status, expires_at, }) {
+    this.id = order_id;
+    this.number = number;
+    this.dateFrom = date_from;
     this.status = status;
-    this.total = total;
-    this.expires_at = expires_at;
+    this.expiresAt = expires_at;
   }
 }
 

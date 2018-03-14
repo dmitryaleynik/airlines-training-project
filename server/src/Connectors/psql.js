@@ -9,23 +9,13 @@ const {
 const getOrdersByUserId = async ({ id, }) => {
   const ordersToBeMapped = await db.getOrdersByUserId(id);
   return ordersToBeMapped.rows.map(row => {
-    return new OrderResponse(
-      row.order_id,
-      row.status,
-      row.total,
-      row.expires_at
-    );
+    return new OrderResponse(row);
   });
 };
 
 const getOrderById = async ({ id, }) => {
   const result = (await db.getOrderById(id)).rows[0];
-  return new OrderResponse(
-    result.order_id,
-    result.status,
-    result.total,
-    result.expires_at
-  );
+  return new OrderResponse(result);
 };
 
 const getUserByEmail = async ({ email, }) => {
