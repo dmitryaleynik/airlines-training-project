@@ -1,3 +1,15 @@
+class OrdersByUserIdRequest {
+  constructor(id) {
+    this.id = id;
+  }
+}
+
+class OrderByIdRequest {
+  constructor(id) {
+    this.id = id;
+  }
+}
+
 class OrderResponse {
   constructor(id, status, total, expires_at) {
     this.id = id;
@@ -7,13 +19,8 @@ class OrderResponse {
   }
 }
 
-class OrdersByIdRequest {
-  constructor(id) {
-    this.id = id;
-  }
-}
-
 module.exports = {
-  OrdersByIdRequest,
+  OrdersByUserIdRequest,
+  OrderByIdRequest,
   OrderResponse,
 };

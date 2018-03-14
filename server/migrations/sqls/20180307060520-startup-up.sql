@@ -7,6 +7,7 @@ create type order_status as enum (
 
 create type "order" as (
   order_id integer,
+  number integer,
   status order_status,
   total integer,
   expires_at date
@@ -36,6 +37,7 @@ create table users (
 create table orders (
 	order_id serial primary key,
 	user_id integer references users,
+  number integer not null,
 	status order_status not null,
 	total integer not null,
 	expires_at date
@@ -53,7 +55,16 @@ create table flights (
 create function get_orders_by_user_id(id integer)
 returns table (o "order") as $$
 begin
-  return query select order_id, status, total, expires_at from orders where user_id=id;
+  return query select order_id, number, status, total, expires_at from orders where user_id=id;
+end;
+$$ language plpgsql;
+
+create function get_order_by_id(id integer)
+returns "order" as $$
+declare ret "order";
+begin
+	select order_id, number, status, total, expires_at into ret from orders where id=order_id;
+	return ret;
 end;
 $$ language plpgsql;
 

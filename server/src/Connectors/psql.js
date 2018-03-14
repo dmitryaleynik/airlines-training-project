@@ -18,6 +18,16 @@ const getOrdersByUserId = async ({ id, }) => {
   });
 };
 
+const getOrderById = async ({ id, }) => {
+  const result = (await db.getOrderById(id)).rows[0];
+  return new OrderResponse(
+    result.order_id,
+    result.status,
+    result.total,
+    result.expires_at
+  );
+};
+
 const getUserByEmail = async ({ email, }) => {
   const result = (await db.getUserByEmail(email)).rows[0];
   return new UserResponse(result.user_id, result.email, result.nickname);
@@ -35,6 +45,7 @@ const getUserPasswordData = async ({ id, }) => {
 
 module.exports = {
   getOrdersByUserId,
+  getOrderById,
   getUserByEmail,
   register,
   getUserPasswordData,

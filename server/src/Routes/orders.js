@@ -12,4 +12,10 @@ ordersRouter.get(
   ordersHandler.getOrders
 );
 
+ordersRouter.get(
+  '/:orderId',
+  passport.authenticate('jwt', { session: false, }),
+  ordersHandler.getOrderById
+);
+
 module.exports = ordersRouter;
