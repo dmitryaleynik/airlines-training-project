@@ -1,21 +1,21 @@
 const Router = require('koa-router');
 const passport = require('koa-passport');
-const ordersHandler = require('./Handlers/orders');
+const profileHandler = require('./Handlers/profile');
 
-const ordersRouter = new Router({
+const profileRouter = new Router({
   prefix: '/orders',
 });
 
-ordersRouter.get(
+profileRouter.get(
   '/',
   passport.authenticate('jwt', { session: false, }),
-  ordersHandler.getOrders
+  profileHandler.getOrders
 );
 
-ordersRouter.get(
+profileRouter.get(
   '/:orderId',
   passport.authenticate('jwt', { session: false, }),
-  ordersHandler.getOrderById
+  profileHandler.getOrderById
 );
 
-module.exports = ordersRouter;
+module.exports = profileRouter;

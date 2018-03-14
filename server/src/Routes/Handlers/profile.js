@@ -1,10 +1,10 @@
 const HttpCodes = require('http-status-codes');
-const ordersService = require('../../Services/orders');
+const ordersService = require('../../Services/profile');
 
 const {
   OrdersByUserIdRequest,
   OrderByIdRequest,
-} = require('../../Contracts/ServiceWithHandler/orders');
+} = require('../../Contracts/ServiceWithHandler/profile');
 
 const getOrders = async ctx => {
   const { user, } = ctx.state;

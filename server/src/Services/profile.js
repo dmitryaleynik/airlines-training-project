@@ -7,7 +7,7 @@ const {
 const {
   OrdersByUserIdResponse,
   OrderByIdResponse,
-} = require('../Contracts/ServiceWithHandler/orders');
+} = require('../Contracts/ServiceWithHandler/profile');
 const {
   OrderedFlightRequest,
 } = require('../Contracts/ConnectorWithService/flights');
