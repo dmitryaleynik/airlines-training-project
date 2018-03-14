@@ -132,10 +132,12 @@ end;
 $$ language plpgsql;
 
 create function get_order_by_id(id integer)
-returns table(ord order_with_total) as $$
+returns order_with_total as $$
+declare ret order_with_total;
 begin
-	return query select order_id, order_number, status, expires_at, total 
-  from orders where id=order_id;
+	select order_id, order_number, status, expires_at, total 
+  into ret from orders where id=order_id;
+  return ret;
 end;
 $$ language plpgsql;
 
