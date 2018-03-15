@@ -13,7 +13,21 @@ const getAllCities = async () => {
   return result;
 };
 
+const getFlightsByFilters = async ({
+  cityFrom,
+  cityTo,
+  dateFrom,
+  dateTo,
+  seats,
+}) => {
+  const queryText = 'SELECT * FROM get_flights_by_filters($1, $2, $3, $4, $5);';
+  const values = [cityFrom, cityTo, dateFrom, dateTo, seats,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrderedFlights,
   getAllCities,
+  getFlightsByFilters,
 };

@@ -4,6 +4,12 @@ class OrderedFlightRequest {
   }
 }
 
+class FlightByFiltersRequest {
+  constructor(filters) {
+    this.filters = filters;
+  }
+}
+
 class FlightResponse {
   constructor({
     flight_id,
@@ -49,6 +55,7 @@ class CitiesResponse {
 
 module.exports = {
   OrderedFlightRequest,
+  FlightByFiltersRequest,
   FlightResponse,
   CitiesResponse,
 };

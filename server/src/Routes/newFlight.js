@@ -10,4 +10,10 @@ newFlightRouter.get(
   flightFinderHandler.getAllCities
 );
 
+newFlightRouter.get(
+  '/flights',
+  passport.authenticate('jwt', { session: false, }),
+  flightFinderHandler.getFlights
+);
+
 module.exports = newFlightRouter;

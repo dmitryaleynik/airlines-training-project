@@ -28,6 +28,19 @@ create type place as (
 	price integer
 );
 
+create type flight_brief as (
+	flight_id integer,
+	city_from varchar(255),
+	city_to varchar(255),
+	date_from timestamp,
+	date_to timestamp,
+	plane_id integer,
+	plane_type varchar(255),
+	free_kg integer,
+	max_kg integer,
+	price_for_kg integer
+);
+
 create type flight_expanded as (
 	flight_id integer,
 	city_from varchar(255),
@@ -198,5 +211,24 @@ begin
 		(select city_from from flights
 		union all
 		select city_to from flights) as t1;
+end;
+$$ language plpgsql;
+
+create function get_available_places(pl_id integer, fl_id integer)
+	returns table (place_id integer) as $$
+begin
+	return query select places.place_id from places 
+	where plane_id=pl_id and places.place_id not in 
+	(select ordered_places.place_id from ordered_places where flight_id=fl_id);
+end;
+$$ language plpgsql;
+
+create function get_flights_by_filters(c_from varchar(255), c_to varchar(255), d_from timestamp, d_to timestamp, seats integer)
+	returns table (fs flight_brief) as $$
+begin
+	return query select f.*, type as plane_type, free_kg, max_kg, price_for_kg 
+	from flights f natural join planes natural join luggage_schemas
+	where f.city_from=c_from and f.city_to=c_to and f.date_from>=d_from and f.date_to<=d_to and
+	seats<=(select count(*) from get_available_places(f.plane_id, f.flight_id));
 end;
 $$ language plpgsql;

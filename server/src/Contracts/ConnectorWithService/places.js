@@ -1,3 +1,16 @@
+class OrderedPlacesRequest {
+  constructor(id) {
+    this.id = id;
+  }
+}
+
+class AvailablePlacesStatisticsRequest {
+  constructor(planeId, flightId) {
+    this.planeId = planeId;
+    this.flightId = flightId;
+  }
+}
+
 class PlaceResponse {
   constructor({ place_id, place_number, type_name, price, }) {
     this.id = place_id;
@@ -7,6 +20,17 @@ class PlaceResponse {
   }
 }
 
+class AvailablePlacesStatisticsResponse {
+  constructor({ amount, type_name, price, }) {
+    this.amount = Number(amount);
+    this.type = type_name;
+    this.price = price;
+  }
+}
+
 module.exports = {
   PlaceResponse,
+  OrderedPlacesRequest,
+  AvailablePlacesStatisticsRequest,
+  AvailablePlacesStatisticsResponse,
 };
