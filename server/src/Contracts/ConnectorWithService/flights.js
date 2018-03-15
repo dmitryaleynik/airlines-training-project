@@ -38,7 +38,17 @@ class FlightResponse {
   }
 }
 
+class CitiesResponse {
+  constructor(cities) {
+    this.cities = [];
+    for (let city of cities) {
+      this.cities.push(city.city);
+    }
+  }
+}
+
 module.exports = {
   OrderedFlightRequest,
   FlightResponse,
+  CitiesResponse,
 };

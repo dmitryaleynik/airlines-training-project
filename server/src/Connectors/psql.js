@@ -5,7 +5,10 @@ const {
   UserResponse,
   PasswordDataResponse,
 } = require('../Contracts/ConnectorWithService/users');
-const { FlightResponse, } = require('../Contracts/ConnectorWithService/flights');
+const {
+  FlightResponse,
+  CitiesResponse,
+} = require('../Contracts/ConnectorWithService/flights');
 const { PlaceResponse, } = require('../Contracts/ConnectorWithService/places');
 
 const getOrdersByUserId = async ({ id, }) => {
@@ -49,6 +52,11 @@ const getUserPasswordData = async ({ id, }) => {
   return new PasswordDataResponse(result.password_hash, result.password_salt);
 };
 
+const getAllCities = async () => {
+  const result = (await db.getAllCities()).rows;
+  return new CitiesResponse(result);
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -57,4 +65,5 @@ module.exports = {
   getUserPasswordData,
   getOrderedFlights,
   getOrderedPlaces,
+  getAllCities,
 };

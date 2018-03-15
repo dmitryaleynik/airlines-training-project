@@ -123,7 +123,7 @@ create table luggage_schemas (
 
 -- functions --
 create function get_orders_by_user_id(id integer)
-returns table (ord order_with_date_from) as $$
+	returns table (ord order_with_date_from) as $$
 begin
   return query select o.order_id, o.order_number, o.status, o.expires_at, f.date_from 
   from orders o natural join ordered_flights natural join flights f 
@@ -132,7 +132,7 @@ end;
 $$ language plpgsql;
 
 create function get_order_by_id(id integer)
-returns order_with_total as $$
+	returns order_with_total as $$
 declare ret order_with_total;
 begin
 	select order_id, order_number, status, expires_at, total 
@@ -142,7 +142,7 @@ end;
 $$ language plpgsql;
 
 create function get_ordered_flights(ord_id integer)
-returns table (flgt flight_expanded) as $$
+	returns table (flgt flight_expanded) as $$
 begin
   return query 
     select f.*, p.type as plane_type, of.luggage_kg, 
@@ -154,7 +154,7 @@ end;
 $$ language plpgsql;
 
 create function get_ordered_places(fl_id integer)
-returns table (plc place) as $$
+	returns table (plc place) as $$
 begin
   return query select p.place_id, p.place_number, pt.type_name, pt.price 
   from ordered_places natural join places p natural join place_types pt 
@@ -163,7 +163,7 @@ end;
 $$ language plpgsql;
 
 create function insert_user(user_email varchar(255), user_hash text, user_salt text, user_avatar bytea)
-returns void as $$
+	returns void as $$
 declare temp integer;
 begin
   insert into users(email, password_hash, password_salt, avatar) 
@@ -188,5 +188,15 @@ declare ret password_data;
 begin
   select password_hash, password_salt into ret from users where user_id=id;
   return ret;
+end;
+$$ language plpgsql;
+
+create function get_all_cities()
+	returns table(city varchar(255)) as $$
+begin
+	return query select distinct city_from as city from 
+		(select city_from from flights
+		union all
+		select city_to from flights) as t1;
 end;
 $$ language plpgsql;

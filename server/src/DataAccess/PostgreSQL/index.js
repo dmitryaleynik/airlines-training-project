@@ -1,6 +1,6 @@
 const { getOrdersByUserId, getOrderById, } = require('./orders');
 const { register, getUserByEmail, getUserPasswordData, } = require('./users');
-const { getOrderedFlights, } = require('./flights');
+const { getOrderedFlights, getAllCities, } = require('./flights');
 const { getOrderedPlaces, } = require('./places');
 
 module.exports = {
@@ -11,4 +11,5 @@ module.exports = {
   getUserPasswordData,
   getOrderedFlights,
   getOrderedPlaces,
+  getAllCities,
 };
