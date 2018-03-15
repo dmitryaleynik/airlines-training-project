@@ -1,15 +1,36 @@
 const db = require('../DataAccess/PostgreSQL');
-const Order = require('../Contracts/ConnectorWithService/Order');
 
+const { OrderResponse, } = require('../Contracts/ConnectorWithService/orders');
 const {
   UserResponse,
   PasswordDataResponse,
 } = require('../Contracts/ConnectorWithService/users');
+const { FlightResponse, } = require('../Contracts/ConnectorWithService/flights');
+const { PlaceResponse, } = require('../Contracts/ConnectorWithService/places');
 
-const getAllOrders = async () => {
-  const ordersToBeMapped = await db.getAllOrders();
-  return ordersToBeMapped.rows.map(row => {
-    return new Order(row.id, row.leave_at, row.status, row.total);
+const getOrdersByUserId = async ({ id, }) => {
+  const ordersToBeMapped = (await db.getOrdersByUserId(id)).rows;
+  return ordersToBeMapped.map(order => {
+    return new OrderResponse(order);
+  });
+};
+
+const getOrderById = async ({ id, }) => {
+  const result = (await db.getOrderById(id)).rows[0];
+  return new OrderResponse(result);
+};
+
+const getOrderedFlights = async ({ id, }) => {
+  const flightsToBeMapped = (await db.getOrderedFlights(id)).rows;
+  return flightsToBeMapped.map(flight => {
+    return new FlightResponse(flight);
+  });
+};
+
+const getOrderedPlaces = async ({ id, }) => {
+  const placesToBeMapped = (await db.getOrderedPlaces(id)).rows;
+  return placesToBeMapped.map(place => {
+    return new PlaceResponse(place);
   });
 };
 
@@ -29,8 +50,11 @@ const getUserPasswordData = async ({ id, }) => {
 };
 
 module.exports = {
-  getAllOrders,
+  getOrdersByUserId,
+  getOrderById,
   getUserByEmail,
   register,
   getUserPasswordData,
+  getOrderedFlights,
+  getOrderedPlaces,
 };

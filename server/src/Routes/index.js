@@ -1,10 +1,10 @@
 const Router = require('koa-router');
-const ordersRouter = require('./orders');
+const profileRouter = require('./profile');
 const regRouter = require('./registration');
 const authRouter = require('./authorization');
 
 const router = new Router();
-router.use(ordersRouter.routes());
+router.use(profileRouter.routes());
 router.use(regRouter.routes());
 router.use(authRouter.routes());
 router.all('*', async ctx => {

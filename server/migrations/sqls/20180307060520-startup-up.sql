@@ -1,10 +1,45 @@
 -- types --
-create type "order" as
-(
-  order_id integer,
-  leave_at date,
-  status varchar(255),
+create type order_status as enum (
+  'Cancelled', 
+  'Confirmed', 
+  'Pending'
+);
+
+create type order_with_total as (
+	order_id integer,
+	order_number integer,
+	status order_status,
+	expires_at timestamp,
   total integer
+);
+
+create type order_with_date_from as (
+	order_id integer,
+	order_number integer,
+	status order_status,
+	expires_at timestamp,
+  date_from timestamp
+);
+
+create type place as (
+	place_id integer,
+	place_number varchar(255),
+	type_name varchar(255),
+	price integer
+);
+
+create type flight_expanded as (
+	flight_id integer,
+	city_from varchar(255),
+	city_to varchar(255),
+	date_from timestamp,
+	date_to timestamp,
+	plane_id integer,
+	plane_type varchar(255),
+	luggage_kg integer,
+	max_kg integer,
+	free_kg integer,
+	price_for_kg integer
 );
 
 create type user_main_info as (
@@ -13,37 +48,117 @@ create type user_main_info as (
 	nickname varchar(255)
 );
 
-create type password_data as 
-(
+create type password_data as (
   password_hash text, 
   password_salt text
 );
 
 -- tables --
-create table orders
-(
-  order_id serial primary key,
-  leave_at date not null,
-  status varchar(255) not null,
-  total integer not null
-);
-
 create table users (
 	user_id serial primary key,
 	email varchar(255) not null,
 	password_hash text not null,
 	password_salt text not null,
-	nickname varchar(255) not null,
+	nickname varchar(255),
 	avatar bytea not null
 );
 
+create table planes (
+  plane_id serial primary key,
+  type varchar(255) not null
+);
+
+create table place_types (
+	type_id serial primary key,
+	plane_id integer references planes not null,
+	type_name varchar(255) not null,
+	price integer not null
+);
+
+create table places (
+	place_id serial primary key,
+	type_id integer references place_types not null,
+	plane_id integer references planes not null,
+	place_number varchar(255) not null,
+	availability boolean not null
+);
+
+create table orders (
+	order_id serial primary key,
+	user_id integer references users not null,
+  order_number integer not null,
+	status order_status not null,
+	total integer not null,
+	expires_at timestamp
+);
+
+create table flights (
+	flight_id serial primary key,
+	city_from varchar(255) not null,
+	city_to varchar(255) not null,
+	date_from timestamp not null,
+	date_to date timestamp null,
+  plane_id integer references planes not null
+);
+
+create table ordered_flights (
+  ordered_flight_id serial primary key,
+  flight_id integer references flights not null,
+  order_id integer references orders not null,
+  luggage_kg integer
+);
+
+create table ordered_places (
+	ordered_flight_id integer references ordered_flights not null,
+	place_id integer references places not null
+);
+
+create table luggage_schemas (
+	luggage_schema_id serial primary key,
+	plane_id integer references planes not null,
+	max_kg integer not null,
+	free_kg integer not null,
+	price_for_kg integer not null
+)
+
 -- functions --
-create function get_all_orders()
-returns table (o "order") as $$
+create function get_orders_by_user_id(id integer)
+returns table (ord order_with_date_from) as $$
 begin
-  return query
-  select *
-  from orders;
+  return query select o.order_id, o.order_number, o.status, o.expires_at, f.date_from 
+  from orders o natural join ordered_flights natural join flights f 
+  where o.user_id=id;
+end;
+$$ language plpgsql;
+
+create function get_order_by_id(id integer)
+returns order_with_total as $$
+declare ret order_with_total;
+begin
+	select order_id, order_number, status, expires_at, total 
+  into ret from orders where id=order_id;
+  return ret;
+end;
+$$ language plpgsql;
+
+create function get_ordered_flights(ord_id integer)
+returns table (flgt flight_expanded) as $$
+begin
+  return query 
+    select f.*, p.type as plane_type, of.luggage_kg, 
+    lsc.max_kg, lsc.free_kg, lsc.price_for_kg
+  from ordered_flights of natural join flights f 
+    natural join planes p natural join luggage_schemas lsc 
+  where of.order_id=ord_id;
+end;
+$$ language plpgsql;
+
+create function get_ordered_places(fl_id integer)
+returns table (plc place) as $$
+begin
+  return query select p.place_id, p.place_number, pt.type_name, pt.price 
+  from ordered_places natural join places p natural join place_types pt 
+  where flight_id=fl_id;
 end;
 $$ language plpgsql;
 
