@@ -4,6 +4,7 @@ const authService = require('../../Services/authorization');
 const {
   AuthRequest,
 } = require('../../Contracts/ServiceWithHandler/authorization');
+const { AuthResponse, } = require('../../Contracts/Responses/authorization');
 
 const authHandler = async ctx => {
   const { body, } = ctx.request;
@@ -17,7 +18,7 @@ const authHandler = async ctx => {
     return;
   }
   ctx.status = HttpCodes.OK;
-  ctx.body = response;
+  ctx.body = new AuthResponse(response);
 };
 
 module.exports = authHandler;

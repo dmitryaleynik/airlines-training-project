@@ -5,6 +5,10 @@ const {
   OrdersByUserIdRequest,
   OrderByIdRequest,
 } = require('../../Contracts/ServiceWithHandler/profile');
+const {
+  GetOrdersResponse,
+  GetOrderByIdResponse,
+} = require('../../Contracts/Responses/profile');
 
 const getOrders = async ctx => {
   const { user, } = ctx.state;
@@ -12,7 +16,7 @@ const getOrders = async ctx => {
     new OrdersByUserIdRequest(user.id)
   );
   ctx.status = HttpCodes.OK;
-  ctx.body = res;
+  ctx.body = new GetOrdersResponse(res);
 };
 
 const getOrderById = async ctx => {
@@ -21,14 +25,14 @@ const getOrderById = async ctx => {
     new OrderByIdRequest(Number(orderId))
   );
   if (res.orderNotExist) {
-    ctx.status = HttpCodes.BAD_REQUEST;
+    ctx.status = HttpCodes.NOT_FOUND;
     ctx.body = {
       message: 'Order not found.',
     };
     return;
   }
   ctx.status = HttpCodes.OK;
-  ctx.body = res;
+  ctx.body = new GetOrderByIdResponse(res);
 };
 
 module.exports = {
