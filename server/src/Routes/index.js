@@ -9,9 +9,5 @@ router.use(profileRouter.routes());
 router.use(regRouter.routes());
 router.use(authRouter.routes());
 router.use(newFlightRouter.routes());
-router.all('*', async ctx => {
-  ctx.status = 404;
-  ctx.body = '404';
-});
 
-module.exports = router.routes();
+module.exports = router;

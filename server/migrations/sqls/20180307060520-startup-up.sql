@@ -5,6 +5,11 @@ create type order_status as enum (
   'Pending'
 );
 
+create type roles as enum (
+	'user', 
+	'admin'
+);
+
 create type order_with_total as (
 	order_id integer,
 	order_number integer,
@@ -58,7 +63,8 @@ create type flight_expanded as (
 create type user_main_info as (
 	user_id integer,
 	email varchar(255),
-	nickname varchar(255)
+	nickname varchar(255),
+	role roles
 );
 
 create type password_data as (
@@ -73,7 +79,8 @@ create table users (
 	password_hash text not null,
 	password_salt text not null,
 	nickname varchar(255),
-	avatar bytea not null
+	avatar bytea not null,
+	role roles not null
 );
 
 create table planes (
@@ -179,18 +186,18 @@ create function insert_user(user_email varchar(255), user_hash text, user_salt t
 	returns void as $$
 declare temp integer;
 begin
-  insert into users(email, password_hash, password_salt, avatar) 
-    values(user_email, user_hash, user_salt, user_avatar);
+  insert into users(email, password_hash, password_salt, avatar, role) 
+    values(user_email, user_hash, user_salt, user_avatar, 'user');
   update users set nickname='User#' || user_id where email=user_email;
   return;
 end;
 $$ language plpgsql;
 
-create function get_user_by_email(user_email character varying)
+create function get_user_by_email(user_email varchar(255))
   returns user_main_info as $$
 declare ret user_main_info;
 begin
-  select user_id, email, nickname, avatar into ret from users where user_email=email;
+  select user_id, email, nickname, role into ret from users where user_email=email;
   return ret;
 end;
 $$ language plpgsql;
