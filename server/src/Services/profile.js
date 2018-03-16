@@ -11,6 +11,9 @@ const {
 const {
   OrderedFlightRequest,
 } = require('../Contracts/ConnectorWithService/flights');
+const {
+  OrderedPlacesRequest,
+} = require('../Contracts/ConnectorWithService/places');
 
 const getOrdersByUserId = async ({ id, }) => {
   const orders = await dbConnector.getOrdersByUserId(
@@ -29,7 +32,9 @@ const getOrderById = async ({ id, }) => {
   );
   for (let i = 0; i < flights.length; ++i) {
     const flight = flights[i];
-    const places = await dbConnector.getOrderedPlaces({ id: flight.id, });
+    const places = await dbConnector.getOrderedPlaces(
+      new OrderedPlacesRequest(flight.id)
+    );
     const mappedPlaces = {};
     for (let j = 0; j < places.length; ++j) {
       const place = places[j];

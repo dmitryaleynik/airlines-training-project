@@ -4,6 +4,12 @@ class OrderedFlightRequest {
   }
 }
 
+class FlightByFiltersRequest {
+  constructor(filters) {
+    this.filters = filters;
+  }
+}
+
 class FlightResponse {
   constructor({
     flight_id,
@@ -38,7 +44,18 @@ class FlightResponse {
   }
 }
 
+class CitiesResponse {
+  constructor(cities) {
+    this.cities = [];
+    for (let city of cities) {
+      this.cities.push(city.city);
+    }
+  }
+}
+
 module.exports = {
   OrderedFlightRequest,
+  FlightByFiltersRequest,
   FlightResponse,
+  CitiesResponse,
 };
