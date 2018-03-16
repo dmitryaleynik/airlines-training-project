@@ -1,6 +1,7 @@
 class OrderedPlacesRequest {
-  constructor(id) {
-    this.id = id;
+  constructor(flightId, orderId) {
+    this.flightId = flightId;
+    this.orderId = orderId;
   }
 }
 

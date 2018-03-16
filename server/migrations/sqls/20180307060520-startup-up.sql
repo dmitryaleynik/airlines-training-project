@@ -99,8 +99,7 @@ create table places (
 	place_id serial primary key,
 	type_id integer references place_types not null,
 	plane_id integer references planes not null,
-	place_number varchar(255) not null,
-	availability boolean not null
+	place_number varchar(255) not null
 );
 
 create table orders (
@@ -122,15 +121,16 @@ create table flights (
 );
 
 create table ordered_flights (
-  ordered_flight_id serial primary key,
   flight_id integer references flights not null,
   order_id integer references orders not null,
   luggage_kg integer
 );
 
 create table ordered_places (
-	ordered_flight_id integer references ordered_flights not null,
-	place_id integer references places not null
+	flight_id integer references ordered_flights not null,
+	place_id integer references places not null,
+	order_id integer not null
+	cancelled boolean not null,
 );
 
 create table luggage_schemas (
@@ -139,7 +139,7 @@ create table luggage_schemas (
 	max_kg integer not null,
 	free_kg integer not null,
 	price_for_kg integer not null
-)
+);
 
 -- functions --
 create function get_orders_by_user_id(id integer)
@@ -151,12 +151,12 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_order_by_id(id integer)
+create function get_order_by_id(uid integer, oid integer)
 	returns order_with_total as $$
 declare ret order_with_total;
 begin
 	select order_id, order_number, status, expires_at, total 
-  into ret from orders where id=order_id;
+  into ret from orders where oid=order_id and uid=user_id;
   return ret;
 end;
 $$ language plpgsql;
@@ -173,12 +173,12 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_ordered_places(fl_id integer)
+create function get_ordered_places(fl_id integer, ord_id integer)
 	returns table (plc place) as $$
 begin
   return query select p.place_id, p.place_number, pt.type_name, pt.price 
   from ordered_places natural join places p natural join place_types pt 
-  where flight_id=fl_id;
+  where flight_id=fl_id and order_id=ord_id;
 end;
 $$ language plpgsql;
 

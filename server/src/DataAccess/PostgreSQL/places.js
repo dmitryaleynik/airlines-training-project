@@ -1,8 +1,8 @@
 const client = require('./setup');
 
-const getOrderedPlaces = async flight_id => {
-  const queryText = 'SELECT * FROM get_ordered_places($1);';
-  const values = [flight_id,];
+const getOrderedPlaces = async ({ flightId, orderId, }) => {
+  const queryText = 'SELECT * FROM get_ordered_places($1, $2);';
+  const values = [flightId, orderId,];
   const result = await client.query(queryText, values);
   return result;
 };

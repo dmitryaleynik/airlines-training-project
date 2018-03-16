@@ -21,8 +21,8 @@ const getOrdersByUserId = async ({ id, }) => {
   });
 };
 
-const getOrderById = async ({ id, }) => {
-  const result = (await db.getOrderById(id)).rows[0];
+const getOrderById = async ids => {
+  const result = (await db.getOrderById(ids)).rows[0];
   return new OrderResponse(result);
 };
 
@@ -33,8 +33,8 @@ const getOrderedFlights = async ({ id, }) => {
   });
 };
 
-const getOrderedPlaces = async ({ id, }) => {
-  const placesToBeMapped = (await db.getOrderedPlaces(id)).rows;
+const getOrderedPlaces = async ids => {
+  const placesToBeMapped = (await db.getOrderedPlaces(ids)).rows;
   return placesToBeMapped.map(place => {
     return new PlaceResponse(place);
   });

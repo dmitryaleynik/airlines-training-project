@@ -21,8 +21,9 @@ const getOrders = async ctx => {
 
 const getOrderById = async ctx => {
   const { orderId, } = ctx.params;
+  const { user, } = ctx.state;
   const res = await ordersService.getOrderById(
-    new OrderByIdRequest(Number(orderId))
+    new OrderByIdRequest(user.id, Number(orderId))
   );
   if (res.orderNotExist) {
     ctx.status = HttpCodes.NOT_FOUND;

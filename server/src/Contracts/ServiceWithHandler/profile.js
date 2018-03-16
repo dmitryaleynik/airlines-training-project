@@ -5,8 +5,9 @@ class OrdersByUserIdRequest {
 }
 
 class OrderByIdRequest {
-  constructor(id) {
-    this.id = id;
+  constructor(userId, orderId) {
+    this.userId = userId;
+    this.orderId = orderId;
   }
 }
 

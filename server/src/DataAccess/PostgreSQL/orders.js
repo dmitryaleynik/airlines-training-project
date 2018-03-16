@@ -7,9 +7,9 @@ const getOrdersByUserId = async id => {
   return result;
 };
 
-const getOrderById = async id => {
-  const queryText = 'SELECT * FROM get_order_by_id($1);';
-  const values = [id,];
+const getOrderById = async ({ userId, orderId, }) => {
+  const queryText = 'SELECT * FROM get_order_by_id($1, $2);';
+  const values = [userId, orderId,];
   const result = await client.query(queryText, values);
   return result;
 };

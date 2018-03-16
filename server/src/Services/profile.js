@@ -22,8 +22,10 @@ const getOrdersByUserId = async ({ id, }) => {
   return new OrdersByUserIdResponse(orders);
 };
 
-const getOrderById = async ({ id, }) => {
-  const order = await dbConnector.getOrderById(new OrderByIdRequest(id));
+const getOrderById = async ({ userId, orderId, }) => {
+  const order = await dbConnector.getOrderById(
+    new OrderByIdRequest(userId, orderId)
+  );
   if (!order.id) {
     return new OrderByIdResponse(null, { orderNotExist: true, });
   }
@@ -33,7 +35,7 @@ const getOrderById = async ({ id, }) => {
   for (let i = 0; i < flights.length; ++i) {
     const flight = flights[i];
     const places = await dbConnector.getOrderedPlaces(
-      new OrderedPlacesRequest(flight.id)
+      new OrderedPlacesRequest(flight.id, orderId)
     );
     const mappedPlaces = {};
     for (let j = 0; j < places.length; ++j) {
