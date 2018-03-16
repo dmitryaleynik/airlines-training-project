@@ -7,6 +7,7 @@ const bodyParser = require('koa-bodyparser');
 const passport = require('koa-passport');
 const HttpCodes = require('http-status-codes');
 const RouterMiddleware = require('./Routes');
+const { Roles, } = require('./setup/roles');
 
 const app = new Koa();
 app.use(bodyParser());
@@ -23,7 +24,9 @@ app.use(async (ctx, next) => {
   }
 });
 app.use(passport.initialize());
-app.use(RouterMiddleware);
+app.use(Roles.middleware());
+app.use(RouterMiddleware.routes());
+app.use(RouterMiddleware.allowedMethods());
 
 app.listen(process.env.PORT, () => {
   logger.info(`Your server is alive on port ${process.env.PORT}.`);

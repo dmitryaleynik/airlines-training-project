@@ -18,10 +18,11 @@ class PasswordDataRequest {
 }
 
 class UserResponse {
-  constructor(id, email, nickname) {
-    this.id = id;
+  constructor({ user_id, email, nickname, role, }) {
+    this.id = user_id;
     this.email = email;
     this.nickname = nickname;
+    this.role = role;
   }
 }
 
