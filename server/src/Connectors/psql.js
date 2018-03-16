@@ -5,8 +5,14 @@ const {
   UserResponse,
   PasswordDataResponse,
 } = require('../Contracts/ConnectorWithService/users');
-const { FlightResponse, } = require('../Contracts/ConnectorWithService/flights');
-const { PlaceResponse, } = require('../Contracts/ConnectorWithService/places');
+const {
+  FlightResponse,
+  CitiesResponse,
+} = require('../Contracts/ConnectorWithService/flights');
+const {
+  PlaceResponse,
+  AvailablePlacesStatisticsResponse,
+} = require('../Contracts/ConnectorWithService/places');
 
 const getOrdersByUserId = async ({ id, }) => {
   const ordersToBeMapped = (await db.getOrdersByUserId(id)).rows;
@@ -49,6 +55,25 @@ const getUserPasswordData = async ({ id, }) => {
   return new PasswordDataResponse(result.password_hash, result.password_salt);
 };
 
+const getAllCities = async () => {
+  const result = (await db.getAllCities()).rows;
+  return new CitiesResponse(result);
+};
+
+const getFlightsByFilters = async ({ filters, }) => {
+  const flightsToBeMapped = (await db.getFlightsByFilters(filters)).rows;
+  return flightsToBeMapped.map(flight => {
+    return new FlightResponse(flight);
+  });
+};
+
+const countAvailablePlaces = async ids => {
+  const stat = (await db.countAvailablePlaces(ids)).rows;
+  return stat.map(row => {
+    return new AvailablePlacesStatisticsResponse(row);
+  });
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -57,4 +82,7 @@ module.exports = {
   getUserPasswordData,
   getOrderedFlights,
   getOrderedPlaces,
+  getAllCities,
+  getFlightsByFilters,
+  countAvailablePlaces,
 };

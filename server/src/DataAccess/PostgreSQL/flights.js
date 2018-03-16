@@ -7,6 +7,27 @@ const getOrderedFlights = async order_id => {
   return result;
 };
 
+const getAllCities = async () => {
+  const queryText = 'SELECT * FROM get_all_cities();';
+  const result = await client.query(queryText);
+  return result;
+};
+
+const getFlightsByFilters = async ({
+  cityFrom,
+  cityTo,
+  dateFrom,
+  dateTo,
+  seats,
+}) => {
+  const queryText = 'SELECT * FROM get_flights_by_filters($1, $2, $3, $4, $5);';
+  const values = [cityFrom, cityTo, dateFrom, dateTo, seats,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrderedFlights,
+  getAllCities,
+  getFlightsByFilters,
 };
