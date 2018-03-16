@@ -5,6 +5,11 @@ create type order_status as enum (
   'Pending'
 );
 
+create type roles as enum (
+	'user', 
+	'admin'
+);
+
 create type order_with_total as (
 	order_id integer,
 	order_number integer,
@@ -18,7 +23,7 @@ create type order_with_date_from as (
 	order_number integer,
 	status order_status,
 	expires_at timestamp,
-  date_from timestamp
+  date_from timestamp[]
 );
 
 create type place as (
@@ -26,6 +31,19 @@ create type place as (
 	place_number varchar(255),
 	type_name varchar(255),
 	price integer
+);
+
+create type flight_brief as (
+	flight_id integer,
+	city_from varchar(255),
+	city_to varchar(255),
+	date_from timestamp,
+	date_to timestamp,
+	plane_id integer,
+	plane_type varchar(255),
+	free_kg integer,
+	max_kg integer,
+	price_for_kg integer
 );
 
 create type flight_expanded as (
@@ -45,7 +63,8 @@ create type flight_expanded as (
 create type user_main_info as (
 	user_id integer,
 	email varchar(255),
-	nickname varchar(255)
+	nickname varchar(255),
+	role roles
 );
 
 create type password_data as (
@@ -60,7 +79,8 @@ create table users (
 	password_hash text not null,
 	password_salt text not null,
 	nickname varchar(255),
-	avatar bytea not null
+	avatar bytea not null,
+	role roles not null
 );
 
 create table planes (
@@ -123,16 +143,16 @@ create table luggage_schemas (
 
 -- functions --
 create function get_orders_by_user_id(id integer)
-returns table (ord order_with_date_from) as $$
+	returns table (ord order_with_date_from) as $$
 begin
-  return query select o.order_id, o.order_number, o.status, o.expires_at, f.date_from 
+  return query select o.order_id, o.order_number, o.status, o.expires_at, array_agg(f.date_from) 
   from orders o natural join ordered_flights natural join flights f 
-  where o.user_id=id;
+  where o.user_id=id group by order_id;
 end;
 $$ language plpgsql;
 
 create function get_order_by_id(id integer)
-returns order_with_total as $$
+	returns order_with_total as $$
 declare ret order_with_total;
 begin
 	select order_id, order_number, status, expires_at, total 
@@ -142,7 +162,7 @@ end;
 $$ language plpgsql;
 
 create function get_ordered_flights(ord_id integer)
-returns table (flgt flight_expanded) as $$
+	returns table (flgt flight_expanded) as $$
 begin
   return query 
     select f.*, p.type as plane_type, of.luggage_kg, 
@@ -154,7 +174,7 @@ end;
 $$ language plpgsql;
 
 create function get_ordered_places(fl_id integer)
-returns table (plc place) as $$
+	returns table (plc place) as $$
 begin
   return query select p.place_id, p.place_number, pt.type_name, pt.price 
   from ordered_places natural join places p natural join place_types pt 
@@ -163,21 +183,21 @@ end;
 $$ language plpgsql;
 
 create function insert_user(user_email varchar(255), user_hash text, user_salt text, user_avatar bytea)
-returns void as $$
+	returns void as $$
 declare temp integer;
 begin
-  insert into users(email, password_hash, password_salt, avatar) 
-    values(user_email, user_hash, user_salt, user_avatar);
+  insert into users(email, password_hash, password_salt, avatar, role) 
+    values(user_email, user_hash, user_salt, user_avatar, 'user');
   update users set nickname='User#' || user_id where email=user_email;
   return;
 end;
 $$ language plpgsql;
 
-create function get_user_by_email(user_email character varying)
+create function get_user_by_email(user_email varchar(255))
   returns user_main_info as $$
 declare ret user_main_info;
 begin
-  select user_id, email, nickname, avatar into ret from users where user_email=email;
+  select user_id, email, nickname, role into ret from users where user_email=email;
   return ret;
 end;
 $$ language plpgsql;
@@ -188,5 +208,34 @@ declare ret password_data;
 begin
   select password_hash, password_salt into ret from users where user_id=id;
   return ret;
+end;
+$$ language plpgsql;
+
+create function get_all_cities()
+	returns table(city varchar(255)) as $$
+begin
+	return query select distinct city_from as city from 
+		(select city_from from flights
+		union all
+		select city_to from flights) as t1;
+end;
+$$ language plpgsql;
+
+create function get_available_places(pl_id integer, fl_id integer)
+	returns table (place_id integer) as $$
+begin
+	return query select places.place_id from places 
+	where plane_id=pl_id and places.place_id not in 
+	(select ordered_places.place_id from ordered_places where flight_id=fl_id);
+end;
+$$ language plpgsql;
+
+create function get_flights_by_filters(c_from varchar(255), c_to varchar(255), d_from timestamp, d_to timestamp, seats integer)
+	returns table (fs flight_brief) as $$
+begin
+	return query select f.*, type as plane_type, free_kg, max_kg, price_for_kg 
+	from flights f natural join planes natural join luggage_schemas
+	where f.city_from=c_from and f.city_to=c_to and f.date_from>=d_from and f.date_to<=d_to and
+	seats<=(select count(*) from get_available_places(f.plane_id, f.flight_id));
 end;
 $$ language plpgsql;
