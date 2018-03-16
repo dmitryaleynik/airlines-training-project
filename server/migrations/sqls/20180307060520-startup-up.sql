@@ -18,7 +18,7 @@ create type order_with_date_from as (
 	order_number integer,
 	status order_status,
 	expires_at timestamp,
-  date_from timestamp
+  date_from timestamp[]
 );
 
 create type place as (
@@ -138,9 +138,9 @@ create table luggage_schemas (
 create function get_orders_by_user_id(id integer)
 	returns table (ord order_with_date_from) as $$
 begin
-  return query select o.order_id, o.order_number, o.status, o.expires_at, f.date_from 
+  return query select o.order_id, o.order_number, o.status, o.expires_at, array_agg(f.date_from) 
   from orders o natural join ordered_flights natural join flights f 
-  where o.user_id=id;
+  where o.user_id=id group by order_id;
 end;
 $$ language plpgsql;
 
