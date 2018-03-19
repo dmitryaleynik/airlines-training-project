@@ -5,7 +5,12 @@ const {
   getAllCities,
   getFlightsByFilters,
 } = require('./flights');
-const { getOrderedPlaces, countAvailablePlaces, } = require('./places');
+const {
+  getOrderedPlaces,
+  countAvailablePlaces,
+  getPlaneSizes,
+  getPlacesWithAvailability,
+} = require('./places');
 
 module.exports = {
   getOrdersByUserId,
@@ -18,4 +23,6 @@ module.exports = {
   getAllCities,
   getFlightsByFilters,
   countAvailablePlaces,
+  getPlaneSizes,
+  getPlacesWithAvailability,
 };

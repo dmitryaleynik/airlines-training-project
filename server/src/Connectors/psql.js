@@ -12,6 +12,7 @@ const {
 const {
   PlaceResponse,
   AvailablePlacesStatisticsResponse,
+  PlaneSizesResponse,
 } = require('../Contracts/ConnectorWithService/places');
 
 const getOrdersByUserId = async ({ id, }) => {
@@ -74,6 +75,18 @@ const countAvailablePlaces = async ids => {
   });
 };
 
+const getPlaneSizes = async ({ flightId, }) => {
+  const res = (await db.getPlaneSizes(flightId)).rows[0];
+  return new PlaneSizesResponse(res);
+};
+
+const getPlacesWithAvailability = async ({ flightId, }) => {
+  const res = (await db.getPlacesWithAvailability(flightId)).rows;
+  return res.map(row => {
+    return new PlaceResponse(row);
+  });
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -85,4 +98,6 @@ module.exports = {
   getAllCities,
   getFlightsByFilters,
   countAvailablePlaces,
+  getPlaneSizes,
+  getPlacesWithAvailability,
 };

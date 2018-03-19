@@ -14,7 +14,23 @@ const countAvailablePlaces = async ({ flightId, planeId, }) => {
   return result;
 };
 
+const getPlaneSizes = async flightId => {
+  const queryText = 'SELECT * FROM get_plane_sizes($1);';
+  const values = [flightId,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
+const getPlacesWithAvailability = async flightId => {
+  const queryText = 'SELECT * FROM get_places_with_availability($1);';
+  const values = [flightId,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrderedPlaces,
   countAvailablePlaces,
+  getPlaneSizes,
+  getPlacesWithAvailability,
 };

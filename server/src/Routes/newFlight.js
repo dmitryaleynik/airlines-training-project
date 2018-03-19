@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const passport = require('koa-passport');
 const flightFinderHandler = require('./Handlers/newFlight/flightFinder');
+const placePickerHandler = require('./Handlers/newFlight/placePicker');
 const { Roles, access, } = require('../setup/roles');
 
 const newFlightRouter = new Router();
@@ -17,6 +18,13 @@ newFlightRouter.get(
   passport.authenticate('jwt', { session: false, }),
   Roles.can(access.user),
   flightFinderHandler.getFlights
+);
+
+newFlightRouter.get(
+  '/places',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  placePickerHandler.getPlaces
 );
 
 module.exports = newFlightRouter;

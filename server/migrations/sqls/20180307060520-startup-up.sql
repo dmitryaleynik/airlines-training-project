@@ -33,6 +33,14 @@ create type place as (
 	price integer
 );
 
+create type place_with_availability as (
+	place_id integer,
+	place_number varchar(255),
+	type_name varchar(255),
+	price integer,
+	availability boolean
+);
+
 create type flight_brief as (
 	flight_id integer,
 	city_from varchar(255),
@@ -85,7 +93,9 @@ create table users (
 
 create table planes (
   plane_id serial primary key,
-  type varchar(255) not null
+  type varchar(255) not null,
+	places_rows integer not null,
+	places_columns integer not null
 );
 
 create table place_types (
@@ -221,12 +231,12 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_available_places(pl_id integer, fl_id integer)
+create function get_available_places_ids(pl_id integer, fl_id integer)
 	returns table (place_id integer) as $$
 begin
 	return query select places.place_id from places 
 	where plane_id=pl_id and places.place_id not in 
-	(select ordered_places.place_id from ordered_places where flight_id=fl_id);
+	(select ordered_places.place_id from ordered_places where flight_id=fl_id and cancelled=false);
 end;
 $$ language plpgsql;
 
@@ -237,5 +247,27 @@ begin
 	from flights f natural join planes natural join luggage_schemas
 	where f.city_from=c_from and f.city_to=c_to and f.date_from>=d_from and f.date_to<=d_to and
 	seats<=(select count(*) from get_available_places(f.plane_id, f.flight_id));
+end;
+$$ language plpgsql;
+
+create function get_places_with_availability(fl_id integer)
+	returns table(pwa place_with_availability) as $$
+begin
+	return query select place_id, place_number, type_name, price, 
+	case 
+		when cancelled=false then false 
+		else true 
+	end as is_available
+	from flights natural join planes natural join places natural join place_types 
+	left join ordered_places using(flight_id, place_id) 
+	where flights.flight_id=fl_id order by place_number;
+end;
+$$ language plpgsql;
+
+create function get_plane_sizes(fl_id integer)
+	returns table(rows integer, columns integer) as $$
+begin
+	return query select places_rows as rows, places_columns as columns 
+	from flights natural join planes where flight_id=fl_id;
 end;
 $$ language plpgsql;
