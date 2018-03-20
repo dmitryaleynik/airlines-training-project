@@ -231,12 +231,15 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_available_places_ids(pl_id integer, fl_id integer)
+create function get_available_places_ids(fl_id integer)
 	returns table (place_id integer) as $$
+declare pl_id integer;
 begin
+	select plane_id into pl_id from flights where flight_id=fl_id;
 	return query select places.place_id from places 
 	where plane_id=pl_id and places.place_id not in 
-	(select ordered_places.place_id from ordered_places where flight_id=fl_id and cancelled=false);
+	(select ordered_places.place_id from ordered_places natural join orders 
+	where flight_id=fl_id and (status='Confirmed' or expires_at>current_timestamp));
 end;
 $$ language plpgsql;
 
@@ -246,7 +249,7 @@ begin
 	return query select f.*, type as plane_type, free_kg, max_kg, price_for_kg 
 	from flights f natural join planes natural join luggage_schemas
 	where f.city_from=c_from and f.city_to=c_to and f.date_from>=d_from and f.date_to<=d_to and
-	seats<=(select count(*) from get_available_places(f.plane_id, f.flight_id));
+	seats<=(select count(*) from get_available_places_ids(f.flight_id));
 end;
 $$ language plpgsql;
 
@@ -255,11 +258,11 @@ create function get_places_with_availability(fl_id integer)
 begin
 	return query select place_id, place_number, type_name, price, 
 	case 
-		when cancelled=false then false 
-		else true 
-	end as is_available
+		when status='Confirmed' then false 
+		when expires_at>current_timestamp then false
+		else true end as is_available
 	from flights natural join planes natural join places natural join place_types 
-	left join ordered_places using(flight_id, place_id) 
+	left join ordered_places using(flight_id, place_id) left join orders using(order_id)
 	where flights.flight_id=fl_id order by place_number;
 end;
 $$ language plpgsql;
@@ -269,5 +272,14 @@ create function get_plane_sizes(fl_id integer)
 begin
 	return query select places_rows as rows, places_columns as columns 
 	from flights natural join planes where flight_id=fl_id;
+end;
+$$ language plpgsql;
+
+create function count_places_by_type(fl_id integer)
+  returns table(amount bigint, type_name varchar(255), price integer) as $$
+begin
+	return query select count(place_id) as amount, pt.type_name, pt.price 
+	from get_available_places_ids(fl_id) natural join places natural join place_types pt 
+	group by pt.type_name, pt.price;
 end;
 $$ language plpgsql;

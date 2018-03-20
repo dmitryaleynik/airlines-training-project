@@ -7,9 +7,9 @@ const getOrderedPlaces = async ({ flightId, orderId, }) => {
   return result;
 };
 
-const countAvailablePlaces = async ({ flightId, planeId, }) => {
-  const queryText = 'SELECT * FROM count_places_by_type($1, $2);';
-  const values = [planeId, flightId,];
+const countAvailablePlaces = async flightId => {
+  const queryText = 'SELECT * FROM count_places_by_type($1);';
+  const values = [flightId,];
   const result = await client.query(queryText, values);
   return result;
 };

@@ -6,8 +6,7 @@ class OrderedPlacesRequest {
 }
 
 class AvailablePlacesStatisticsRequest {
-  constructor(planeId, flightId) {
-    this.planeId = planeId;
+  constructor(flightId) {
     this.flightId = flightId;
   }
 }

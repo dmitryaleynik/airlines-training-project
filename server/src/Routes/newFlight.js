@@ -27,4 +27,11 @@ newFlightRouter.get(
   placePickerHandler.getPlaces
 );
 
+newFlightRouter.post(
+  '/orders/book',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  placePickerHandler.bookTemporarily
+);
+
 module.exports = newFlightRouter;

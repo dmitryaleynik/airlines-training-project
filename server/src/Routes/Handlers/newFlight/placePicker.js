@@ -24,6 +24,9 @@ const getPlaces = async ctx => {
   ctx.body = new GetPlacesResponse(res);
 };
 
+const bookTemporarily = async ctx => {};
+
 module.exports = {
   getPlaces,
+  bookTemporarily,
 };

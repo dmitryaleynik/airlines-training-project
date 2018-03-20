@@ -68,8 +68,8 @@ const getFlightsByFilters = async ({ filters, }) => {
   });
 };
 
-const countAvailablePlaces = async ids => {
-  const stat = (await db.countAvailablePlaces(ids)).rows;
+const countAvailablePlaces = async ({ flightId, }) => {
+  const stat = (await db.countAvailablePlaces(flightId)).rows;
   return stat.map(row => {
     return new AvailablePlacesStatisticsResponse(row);
   });
