@@ -28,9 +28,17 @@ const getPlacesWithAvailability = async flightId => {
   return result;
 };
 
+const linkPlaceWithOrder = async ({ placeId, flightId, orderId, }) => {
+  const queryText = 'SELECT * FROM link_place_with_order($1, $2, $3);';
+  const values = [placeId, flightId, orderId,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrderedPlaces,
   countAvailablePlaces,
   getPlaneSizes,
   getPlacesWithAvailability,
+  linkPlaceWithOrder,
 };

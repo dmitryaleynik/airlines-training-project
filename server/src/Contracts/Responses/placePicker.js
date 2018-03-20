@@ -7,6 +7,13 @@ class GetPlacesResponse {
   }
 }
 
+class OrderIdResponse {
+  constructor({ id, }) {
+    this.orderId = id;
+  }
+}
+
 module.exports = {
   GetPlacesResponse,
+  OrderIdResponse,
 };

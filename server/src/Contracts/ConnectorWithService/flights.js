@@ -10,6 +10,14 @@ class FlightByFiltersRequest {
   }
 }
 
+class LinkFlightWithOrderRequest {
+  constructor(flightId, orderId, luggageKg) {
+    this.flightId = flightId;
+    this.orderId = orderId;
+    this.luggageKg = luggageKg;
+  }
+}
+
 class FlightResponse {
   constructor({
     flight_id,
@@ -58,4 +66,5 @@ module.exports = {
   FlightByFiltersRequest,
   FlightResponse,
   CitiesResponse,
+  LinkFlightWithOrderRequest,
 };

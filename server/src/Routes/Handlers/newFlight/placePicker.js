@@ -3,9 +3,11 @@ const placePickerService = require('../../../Services/newFlight/placePicker');
 
 const {
   GetPlacesRequest,
+  BookTemporarilyRequest,
 } = require('../../../Contracts/ServiceWithHandler/placePicker');
 const {
   GetPlacesResponse,
+  OrderIdResponse,
 } = require('../../../Contracts/Responses/placePicker');
 
 const getPlaces = async ctx => {
@@ -24,7 +26,13 @@ const getPlaces = async ctx => {
   ctx.body = new GetPlacesResponse(res);
 };
 
-const bookTemporarily = async ctx => {};
+const bookTemporarily = async ctx => {
+  const res = await placePickerService.bookTemporarily(
+    new BookTemporarilyRequest(ctx.request.body, ctx.state.user.id)
+  );
+  ctx.status = HttpCodes.CREATED;
+  ctx.body = new OrderIdResponse(res);
+};
 
 module.exports = {
   getPlaces,

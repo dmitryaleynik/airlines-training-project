@@ -23,6 +23,14 @@ class PlacesWithAvailabilityRequest {
   }
 }
 
+class LinkPlaceWithOrderRequest {
+  constructor(placeId, flightId, orderId) {
+    this.placeId = placeId;
+    this.flightId = flightId;
+    this.orderId = orderId;
+  }
+}
+
 class PlaceResponse {
   constructor({ place_id, place_number, type_name, price, availability, }) {
     this.id = place_id;
@@ -56,4 +64,5 @@ module.exports = {
   PlaneSizesRequest,
   PlaneSizesResponse,
   PlacesWithAvailabilityRequest,
+  LinkPlaceWithOrderRequest,
 };

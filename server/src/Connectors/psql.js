@@ -1,6 +1,9 @@
 const db = require('../DataAccess/PostgreSQL');
 
-const { OrderResponse, } = require('../Contracts/ConnectorWithService/orders');
+const {
+  OrderResponse,
+  OrderIdResponse,
+} = require('../Contracts/ConnectorWithService/orders');
 const {
   UserResponse,
   PasswordDataResponse,
@@ -87,6 +90,26 @@ const getPlacesWithAvailability = async ({ flightId, }) => {
   });
 };
 
+const createOrder = async params => {
+  const res = (await db.createOrder(params)).rows[0];
+  return new OrderIdResponse(res.create_order);
+};
+
+const linkFlightWithOrderWithLuggage = async params => {
+  await db.linkFlightWithOrderWithLuggage(params);
+  return true;
+};
+
+const linkFlightWithOrder = async params => {
+  await db.linkFlightWithOrder(params);
+  return true;
+};
+
+const linkPlaceWithOrder = async params => {
+  await db.linkPlaceWithOrder(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -100,4 +123,8 @@ module.exports = {
   countAvailablePlaces,
   getPlaneSizes,
   getPlacesWithAvailability,
+  createOrder,
+  linkFlightWithOrderWithLuggage,
+  linkFlightWithOrder,
+  linkPlaceWithOrder,
 };

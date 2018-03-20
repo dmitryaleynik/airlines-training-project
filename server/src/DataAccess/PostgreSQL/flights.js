@@ -26,8 +26,28 @@ const getFlightsByFilters = async ({
   return result;
 };
 
+const linkFlightWithOrderWithLuggage = async ({
+  flightId,
+  orderId,
+  luggageKg,
+}) => {
+  const queryText = 'SELECT * FROM link_flight_with_order($1, $2, $3);';
+  const values = [flightId, orderId, luggageKg,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
+const linkFlightWithOrder = async ({ flightId, orderId, }) => {
+  const queryText = 'SELECT * FROM link_flight_with_order($1, $2);';
+  const values = [flightId, orderId,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrderedFlights,
   getAllCities,
   getFlightsByFilters,
+  linkFlightWithOrder,
+  linkFlightWithOrderWithLuggage,
 };

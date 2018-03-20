@@ -10,12 +10,11 @@ create type roles as enum (
 	'admin'
 );
 
-create type order_with_total as (
+create type "order" as (
 	order_id integer,
 	order_number integer,
 	status order_status,
-	expires_at timestamp,
-  total integer
+	expires_at timestamp
 );
 
 create type order_with_date_from as (
@@ -117,7 +116,6 @@ create table orders (
 	user_id integer references users not null,
   order_number integer not null,
 	status order_status not null,
-	total integer not null,
 	expires_at timestamp
 );
 
@@ -162,10 +160,10 @@ end;
 $$ language plpgsql;
 
 create function get_order_by_id(uid integer, oid integer)
-	returns order_with_total as $$
-declare ret order_with_total;
+	returns "order" as $$
+declare ret "order";
 begin
-	select order_id, order_number, status, expires_at, total 
+	select order_id, order_number, status, expires_at
   into ret from orders where oid=order_id and uid=user_id;
   return ret;
 end;
@@ -281,5 +279,40 @@ begin
 	return query select count(place_id) as amount, pt.type_name, pt.price 
 	from get_available_places_ids(fl_id) natural join places natural join place_types pt 
 	group by pt.type_name, pt.price;
+end;
+$$ language plpgsql;
+
+create or replace function create_order(fid integer, uid integer, exp timestamp)
+returns integer as $$
+declare onum integer;
+declare oid integer;
+begin
+select order_number into onum from orders where user_id=uid order by order_number desc limit 1;
+insert into orders(user_id, status, expires_at, order_number) values(uid, 'Pending', exp, onum+1) returning order_id into oid;
+return oid;
+end;
+$$ language plpgsql;
+
+create function link_flight_with_order(fid integer, oid integer, lug integer)
+returns void as $$
+begin
+insert into ordered_flights values(fid, oid, lug);
+return;
+end;
+$$ language plpgsql;
+
+create function link_flight_with_order(fid integer, oid integer)
+returns void as $$
+begin
+insert into ordered_flights(flight_id, order_id) values(fid, oid);
+return;
+end;
+$$ language plpgsql;
+
+create function link_place_with_order(plsid integer, fid integer, oid integer)
+returns void as $$
+begin
+insert into ordered_places values(plsid, fid, oid);
+return;
 end;
 $$ language plpgsql;

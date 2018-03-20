@@ -11,6 +11,14 @@ class OrderByIdRequest {
   }
 }
 
+class NewOrderRequest {
+  constructor(flightId, userId, expiresAt) {
+    this.flightId = flightId;
+    this.userId = userId;
+    this.expiresAt = expiresAt;
+  }
+}
+
 class OrderResponse {
   constructor({
     order_id,
@@ -29,8 +37,16 @@ class OrderResponse {
   }
 }
 
+class OrderIdResponse {
+  constructor(id) {
+    this.id = id;
+  }
+}
+
 module.exports = {
   OrdersByUserIdRequest,
   OrderByIdRequest,
   OrderResponse,
+  NewOrderRequest,
+  OrderIdResponse,
 };

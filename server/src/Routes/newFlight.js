@@ -28,7 +28,7 @@ newFlightRouter.get(
 );
 
 newFlightRouter.post(
-  '/orders/book',
+  '/orders/book/temp',
   passport.authenticate('jwt', { session: false, }),
   Roles.can(access.user),
   placePickerHandler.bookTemporarily
