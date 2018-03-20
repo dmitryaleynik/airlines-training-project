@@ -16,7 +16,7 @@ const getPlaces = async ctx => {
 
   if (flight_id === undefined) {
     ctx.status = HttpCodes.BAD_REQUEST;
-    ctx.body = { message: 'Invalid query.', };
+    ctx.body = { message: 'Invalid query. flight_id parameter is required.', };
     return;
   }
 

@@ -129,9 +129,9 @@ create table flights (
 );
 
 create table ordered_flights (
-  flight_id integer references flights not null,
-  order_id integer references orders not null,
-  luggage_kg integer
+	flight_id integer references flights not null,
+	order_id integer references orders not null,
+	luggage_kg integer
 );
 
 create table ordered_places (
