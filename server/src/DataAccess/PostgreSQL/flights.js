@@ -44,10 +44,18 @@ const linkFlightWithOrder = async ({ flightId, orderId, }) => {
   return result;
 };
 
+const checkFlightLinkage = async ({ flightId, orderId, }) => {
+  const queryText = 'SELECT * FROM check_flight_linkage($1, $2);';
+  const values = [flightId, orderId,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrderedFlights,
   getAllCities,
   getFlightsByFilters,
   linkFlightWithOrder,
   linkFlightWithOrderWithLuggage,
+  checkFlightLinkage,
 };

@@ -6,6 +6,7 @@ const {
   getFlightsByFilters,
   linkFlightWithOrderWithLuggage,
   linkFlightWithOrder,
+  checkFlightLinkage,
 } = require('./flights');
 const {
   getOrderedPlaces,
@@ -34,4 +35,5 @@ module.exports = {
   linkFlightWithOrderWithLuggage,
   linkFlightWithOrder,
   linkPlaceWithOrder,
+  checkFlightLinkage,
 };

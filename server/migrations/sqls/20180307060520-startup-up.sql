@@ -283,36 +283,45 @@ end;
 $$ language plpgsql;
 
 create or replace function create_order(fid integer, uid integer, exp timestamp)
-returns integer as $$
+	returns integer as $$
 declare onum integer;
 declare oid integer;
 begin
-select order_number into onum from orders where user_id=uid order by order_number desc limit 1;
-insert into orders(user_id, status, expires_at, order_number) values(uid, 'Pending', exp, onum+1) returning order_id into oid;
+	select order_number into onum from orders where user_id=uid order by order_number desc limit 1;
+	insert into orders(user_id, status, expires_at, order_number) values(uid, 'Pending', exp, onum+1) returning order_id into oid;
 return oid;
 end;
 $$ language plpgsql;
 
 create function link_flight_with_order(fid integer, oid integer, lug integer)
-returns void as $$
+	returns void as $$
 begin
-insert into ordered_flights values(fid, oid, lug);
+	insert into ordered_flights values(fid, oid, lug);
 return;
 end;
 $$ language plpgsql;
 
 create function link_flight_with_order(fid integer, oid integer)
-returns void as $$
+	returns void as $$
 begin
-insert into ordered_flights(flight_id, order_id) values(fid, oid);
+	insert into ordered_flights(flight_id, order_id) values(fid, oid);
 return;
 end;
 $$ language plpgsql;
 
 create function link_place_with_order(plsid integer, fid integer, oid integer)
-returns void as $$
+	returns void as $$
 begin
-insert into ordered_places values(plsid, fid, oid);
+	insert into ordered_places values(plsid, fid, oid);
 return;
+end;
+$$ language plpgsql;
+
+create function check_flight_linkage(fid integer, oid integer)
+	returns integer as $$
+declare ret integer;
+begin
+	select flight_id into ret from ordered_flights where flight_id=fid and order_id=oid;
+	return ret;
 end;
 $$ language plpgsql;

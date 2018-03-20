@@ -11,6 +11,7 @@ const {
 const {
   FlightResponse,
   CitiesResponse,
+  CheckFlightLinkageResponse,
 } = require('../Contracts/ConnectorWithService/flights');
 const {
   PlaceResponse,
@@ -110,6 +111,11 @@ const linkPlaceWithOrder = async params => {
   return true;
 };
 
+const checkFlightLinkage = async ids => {
+  const res = (await db.checkFlightLinkage(ids)).rows[0];
+  return new CheckFlightLinkageResponse(res.check_flight_linkage);
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -127,4 +133,5 @@ module.exports = {
   linkFlightWithOrderWithLuggage,
   linkFlightWithOrder,
   linkPlaceWithOrder,
+  checkFlightLinkage,
 };
