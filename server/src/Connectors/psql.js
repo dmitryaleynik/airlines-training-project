@@ -80,8 +80,11 @@ const countAvailablePlaces = async ({ flightId, }) => {
 };
 
 const getPlaneSizes = async ({ flightId, }) => {
-  const res = (await db.getPlaneSizes(flightId)).rows[0];
-  return new PlaneSizesResponse(res);
+  const res = (await db.getPlaneSizes(flightId)).rows;
+  if (!res.length) {
+    return new PlaneSizesResponse({});
+  }
+  return new PlaneSizesResponse(res[0]);
 };
 
 const getPlacesWithAvailability = async ({ flightId, }) => {

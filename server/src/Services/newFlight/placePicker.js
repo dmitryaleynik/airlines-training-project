@@ -23,6 +23,9 @@ const getPlaces = async ({ flightId, }) => {
   const sizes = await dbConnector.getPlaneSizes(
     new PlaneSizesRequest(flightId)
   );
+  if (!sizes.rows) {
+    return new GetPlacesResponse({ flightNotFound: true, });
+  }
   const seats = await dbConnector.getPlacesWithAvailability(
     new PlacesWithAvailabilityRequest(flightId)
   );

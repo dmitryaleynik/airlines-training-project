@@ -8,7 +8,7 @@ class BookTemporarilyRequest {
   constructor({ flightId, placeIds, luggageKg, }, userId) {
     this.flightId = flightId;
     this.placeIds = placeIds;
-    this.luggageKg = luggageKg;
+    this.luggageKg = luggageKg || 0;
     this.userId = userId;
   }
 }
@@ -23,10 +23,16 @@ class AddToBookingRequest {
 }
 
 class GetPlacesResponse {
-  constructor({ rows, columns, seats, }) {
-    this.rows = rows;
-    this.columns = columns;
-    this.seats = seats;
+  constructor(failures, params) {
+    if (failures) {
+      for (let failure in failures) {
+        this[failure] = failures[failure];
+      }
+      return;
+    }
+    this.rows = params.rows;
+    this.columns = params.columns;
+    this.seats = params.seats;
   }
 }
 
