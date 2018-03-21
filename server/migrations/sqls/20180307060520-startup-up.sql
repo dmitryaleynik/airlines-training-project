@@ -392,13 +392,10 @@ create or replace function create_order(fid integer, uid integer, exp timestamp)
 declare onum integer;
 declare oid integer;
 begin
-	select order_number
+	select count(*)
 	into onum
 	from orders
-	where user_id = uid
-	order by order_number
-		desc
-	limit 1;
+	where user_id = uid;
 	
 	insert into orders(user_id, status, expires_at, order_number)
 		values(uid, 'Pending', exp, onum+1)
@@ -450,5 +447,20 @@ begin
 		and order_id = oid;
 	
 	return ret;
+end;
+$$ language plpgsql;
+
+create or replace function confirm_order(oid integer)
+	returns void as $$
+begin
+	update orders
+		set status = 'Confirmed'
+	where order_id = oid;
+
+	update orders
+		set expires_at = null
+	where order_id = oid;
+
+	return;
 end;
 $$ language plpgsql;

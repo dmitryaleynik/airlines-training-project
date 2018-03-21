@@ -19,6 +19,18 @@ class NewOrderRequest {
   }
 }
 
+class ConfirmOrderRequest {
+  constructor(orderId) {
+    this.orderId = orderId;
+  }
+}
+
+class CancelOrderRequest {
+  constructor(orderId) {
+    this.orderId = orderId;
+  }
+}
+
 class OrderResponse {
   constructor({
     order_id,
@@ -49,4 +61,6 @@ module.exports = {
   OrderResponse,
   NewOrderRequest,
   OrderIdResponse,
+  ConfirmOrderRequest,
+  CancelOrderRequest,
 };

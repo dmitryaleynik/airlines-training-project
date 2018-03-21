@@ -1,4 +1,9 @@
-const { getOrdersByUserId, getOrderById, createOrder, } = require('./orders');
+const {
+  getOrdersByUserId,
+  getOrderById,
+  createOrder,
+  confirmOrder,
+} = require('./orders');
 const { register, getUserByEmail, getUserPasswordData, } = require('./users');
 const {
   getOrderedFlights,
@@ -36,4 +41,5 @@ module.exports = {
   linkFlightWithOrder,
   linkPlaceWithOrder,
   checkFlightLinkage,
+  confirmOrder,
 };
