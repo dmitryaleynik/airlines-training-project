@@ -4,6 +4,7 @@ const {
   createOrder,
   confirmOrder,
   cancelOrder,
+  checkOrdersStatuses,
 } = require('./orders');
 const { register, getUserByEmail, getUserPasswordData, } = require('./users');
 const {
@@ -44,4 +45,5 @@ module.exports = {
   checkFlightLinkage,
   confirmOrder,
   cancelOrder,
+  checkOrdersStatuses,
 };

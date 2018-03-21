@@ -129,6 +129,11 @@ const cancelOrder = async ({ orderId, }) => {
   return true;
 };
 
+const checkOrdersStatuses = async ({ flightIds, }) => {
+  await db.checkOrdersStatuses(flightIds);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -149,4 +154,5 @@ module.exports = {
   checkFlightLinkage,
   confirmOrder,
   cancelOrder,
+  checkOrdersStatuses,
 };

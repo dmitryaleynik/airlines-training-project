@@ -6,6 +6,7 @@ const {
 } = require('../../Contracts/ServiceWithHandler/flightFinder');
 const {
   FlightByFiltersRequest,
+  CheckOrderStatusesRequest,
 } = require('../../Contracts/ConnectorWithService/flights');
 const {
   AvailablePlacesStatisticsRequest,
@@ -20,6 +21,12 @@ const getFlights = async filters => {
   const flights = await dbConnector.getFlightsByFilters(
     new FlightByFiltersRequest(filters)
   );
+
+  const flightIds = flights.map(flight => flight.id);
+  await dbConnector.checkOrdersStatuses(
+    new CheckOrderStatusesRequest(flightIds)
+  );
+
   for (let flight of flights) {
     const placesStat = await dbConnector.countAvailablePlaces(
       new AvailablePlacesStatisticsRequest(flight.id)

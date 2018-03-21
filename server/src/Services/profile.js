@@ -1,9 +1,11 @@
 const dbConnector = require('../Connectors/psql');
 const mapPlaces = require('../utils/placesMapper');
+const { orderStatus, } = require('../utils/constants');
 
 const {
   OrdersByUserIdRequest,
   OrderByIdRequest,
+  CancelOrderRequest,
 } = require('../Contracts/ConnectorWithService/orders');
 const {
   OrdersByUserIdResponse,
@@ -20,6 +22,14 @@ const getOrdersByUserId = async ({ id, }) => {
   const orders = await dbConnector.getOrdersByUserId(
     new OrdersByUserIdRequest(id)
   );
+
+  const curDate = new Date();
+  for (let order of orders) {
+    if (order.expiresAt < curDate) {
+      await dbConnector.cancelOrder(new CancelOrderRequest(order.id));
+      order.status = orderStatus.CANCELLED;
+    }
+  }
   return new OrdersByUserIdResponse(orders);
 };
 
@@ -38,16 +48,15 @@ const getOrderById = async ({ userId, orderId, }) => {
       new OrderedPlacesRequest(flight.id, orderId)
     );
     flight.places = mapPlaces(places);
-    if (!flight.luggage.kg) {
-      flight.luggage.isRequired = false;
-    } else {
-      flight.luggage.paid =
-        flight.luggage.kg > flight.luggage.free
-          ? (flight.luggage.kg = flight.luggage.free)
-          : 0;
-    }
+    flight.luggage.isRequired = !!flight.luggage.luggageKg;
   }
   order.flights = flights;
+
+  const curDate = new Date();
+  if (order.expiresAt < curDate) {
+    await dbConnector.cancelOrder(new CancelOrderRequest(order.id));
+    order.status = orderStatus.CANCELLED;
+  }
   return new OrderByIdResponse(order);
 };
 
