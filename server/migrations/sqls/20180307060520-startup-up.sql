@@ -489,7 +489,8 @@ begin
     from orders
       natural join ordered_flights
     where array_position(fids, flight_id) is not null
-      and expires_at < current_timestamp);
+      and expires_at < current_timestamp
+    );
 
 return;
 end;
