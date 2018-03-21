@@ -454,11 +454,9 @@ create or replace function confirm_order(oid integer)
   returns void as $$
 begin
   update orders
-  set status = 'Confirmed'
-  where order_id = oid;
-
-  update orders
-  set expires_at = null
+  set 
+    status = 'Cancelled',
+    expires_at = null
   where order_id = oid;
 
   return;
@@ -469,13 +467,31 @@ create function cancel_order(oid integer)
   returns void as $$
 begin
   update orders
-  set status = 'Cancelled'
+  set 
+    status = 'Cancelled',
+    expires_at = null
   where order_id = oid;
 
-  update orders
-  set expires_at = null
-  where order_id = oid;
 
   return;
+end;
+$$ language plpgsql;
+
+create or replace function update_orders_statuses(fids integer[]) 
+  returns void as $$
+begin
+  update orders
+  set 
+    status = 'Cancelled',
+    expires_at = null
+  where order_id in
+    (select order_id
+    from orders
+      natural join ordered_flights
+    where array_position(fids, flight_id) is not null
+      and expires_at < current_timestamp
+    );
+
+return;
 end;
 $$ language plpgsql;

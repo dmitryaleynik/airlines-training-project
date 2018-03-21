@@ -34,8 +34,9 @@ const getPlaces = async ({ flightId, }) => {
 };
 
 const bookTemporarily = async ({ flightId, placeIds, luggageKg, userId, }) => {
+  const expirationTime = new Date(Date.now() + 15 * 60000);
   const orderId = (await dbConnector.createOrder(
-    new NewOrderRequest(flightId, userId, new Date())
+    new NewOrderRequest(flightId, userId, expirationTime)
   )).id;
   if (luggageKg) {
     await dbConnector.linkFlightWithOrderWithLuggage(

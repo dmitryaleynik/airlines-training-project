@@ -25,6 +25,12 @@ class CheckFlightLinkageRequest {
   }
 }
 
+class CheckOrderStatusesRequest {
+  constructor(flightIds) {
+    this.flightIds = flightIds;
+  }
+}
+
 class FlightResponse {
   constructor({
     flight_id,
@@ -82,4 +88,5 @@ module.exports = {
   LinkFlightWithOrderRequest,
   CheckFlightLinkageRequest,
   CheckFlightLinkageResponse,
+  CheckOrderStatusesRequest,
 };

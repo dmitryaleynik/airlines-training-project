@@ -51,6 +51,7 @@ const bookTemporarily = async ctx => {
     ctx.body = {
       message: 'Invalid body. You must pick at least one place.',
     };
+    return;
   }
 
   const res = await placePickerService.bookTemporarily(req);
@@ -76,6 +77,7 @@ const addToBooking = async ctx => {
     ctx.body = {
       message: 'Invalid body. You must pick at least one place.',
     };
+    return;
   }
 
   const res = await placePickerService.addToBooking(req);

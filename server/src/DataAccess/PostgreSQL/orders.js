@@ -35,10 +35,18 @@ const cancelOrder = async id => {
   return result;
 };
 
+const checkOrdersStatuses = async flightIds => {
+  const queryText = 'SELECT * FROM update_orders_statuses($1);';
+  const values = [flightIds,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
   createOrder,
   confirmOrder,
   cancelOrder,
+  checkOrdersStatuses,
 };
