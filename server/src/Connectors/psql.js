@@ -119,6 +119,16 @@ const checkFlightLinkage = async ids => {
   return new CheckFlightLinkageResponse(res.check_flight_linkage);
 };
 
+const confirmOrder = async ({ orderId, }) => {
+  await db.confirmOrder(orderId);
+  return true;
+};
+
+const cancelOrder = async ({ orderId, }) => {
+  await db.cancelOrder(orderId);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -137,4 +147,6 @@ module.exports = {
   linkFlightWithOrder,
   linkPlaceWithOrder,
   checkFlightLinkage,
+  confirmOrder,
+  cancelOrder,
 };

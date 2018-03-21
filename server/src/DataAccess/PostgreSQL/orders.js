@@ -21,8 +21,24 @@ const createOrder = async ({ flightId, userId, expiresAt, }) => {
   return result;
 };
 
+const confirmOrder = async id => {
+  const queryText = 'SELECT * FROM confirm_order($1);';
+  const values = [id,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
+const cancelOrder = async id => {
+  const queryText = 'SELECT * FROM cancel_order($1);';
+  const values = [id,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
   createOrder,
+  confirmOrder,
+  cancelOrder,
 };
