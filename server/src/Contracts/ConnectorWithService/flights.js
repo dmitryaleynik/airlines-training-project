@@ -10,6 +10,21 @@ class FlightByFiltersRequest {
   }
 }
 
+class LinkFlightWithOrderRequest {
+  constructor(flightId, orderId, luggageKg) {
+    this.flightId = flightId;
+    this.orderId = orderId;
+    this.luggageKg = luggageKg;
+  }
+}
+
+class CheckFlightLinkageRequest {
+  constructor(flightId, orderId) {
+    this.flightId = flightId;
+    this.orderId = orderId;
+  }
+}
+
 class FlightResponse {
   constructor({
     flight_id,
@@ -53,9 +68,18 @@ class CitiesResponse {
   }
 }
 
+class CheckFlightLinkageResponse {
+  constructor(flightId) {
+    this.isLinked = flightId ? true : false;
+  }
+}
+
 module.exports = {
   OrderedFlightRequest,
   FlightByFiltersRequest,
   FlightResponse,
   CitiesResponse,
+  LinkFlightWithOrderRequest,
+  CheckFlightLinkageRequest,
+  CheckFlightLinkageResponse,
 };

@@ -22,7 +22,7 @@ const getFlights = async filters => {
   );
   for (let flight of flights) {
     const placesStat = await dbConnector.countAvailablePlaces(
-      new AvailablePlacesStatisticsRequest(flight.planeId, flight.id)
+      new AvailablePlacesStatisticsRequest(flight.id)
     );
     const mappedStat = {};
     for (let stat of placesStat) {

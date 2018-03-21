@@ -7,6 +7,13 @@ const {
 
 const regHandler = async ctx => {
   const { body, } = ctx.request;
+  if (!body.email || !body.password) {
+    ctx.status = HttpStatus.BAD_REQUEST;
+    ctx.body = {
+      message: 'Email and(or) password is absent.',
+    };
+    return;
+  }
   const request = new RegistrationRequest(body.email, body.password);
   const response = await regService.register(request);
   if (response.emailUsed) {

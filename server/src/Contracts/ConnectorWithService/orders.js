@@ -5,15 +5,31 @@ class OrdersByUserIdRequest {
 }
 
 class OrderByIdRequest {
-  constructor(id) {
-    this.id = id;
+  constructor(userId, orderId) {
+    this.userId = userId;
+    this.orderId = orderId;
+  }
+}
+
+class NewOrderRequest {
+  constructor(flightId, userId, expiresAt) {
+    this.flightId = flightId;
+    this.userId = userId;
+    this.expiresAt = expiresAt;
   }
 }
 
 class OrderResponse {
-  constructor({ order_id, number, date_from, status, expires_at, total, }) {
+  constructor({
+    order_id,
+    order_number,
+    date_from,
+    status,
+    expires_at,
+    total,
+  }) {
     this.id = order_id;
-    this.number = number;
+    this.number = order_number;
     this.dateFrom = date_from;
     this.status = status;
     this.expiresAt = expires_at;
@@ -21,8 +37,16 @@ class OrderResponse {
   }
 }
 
+class OrderIdResponse {
+  constructor(id) {
+    this.id = id;
+  }
+}
+
 module.exports = {
   OrdersByUserIdRequest,
   OrderByIdRequest,
   OrderResponse,
+  NewOrderRequest,
+  OrderIdResponse,
 };

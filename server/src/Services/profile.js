@@ -1,4 +1,5 @@
 const dbConnector = require('../Connectors/psql');
+const mapPlaces = require('../utils/placesMapper');
 
 const {
   OrdersByUserIdRequest,
@@ -22,32 +23,21 @@ const getOrdersByUserId = async ({ id, }) => {
   return new OrdersByUserIdResponse(orders);
 };
 
-const getOrderById = async ({ id, }) => {
-  const order = await dbConnector.getOrderById(new OrderByIdRequest(id));
+const getOrderById = async ({ userId, orderId, }) => {
+  const order = await dbConnector.getOrderById(
+    new OrderByIdRequest(userId, orderId)
+  );
   if (!order.id) {
     return new OrderByIdResponse(null, { orderNotExist: true, });
   }
   const flights = await dbConnector.getOrderedFlights(
     new OrderedFlightRequest(order.id)
   );
-  for (let i = 0; i < flights.length; ++i) {
-    const flight = flights[i];
+  for (let flight of flights) {
     const places = await dbConnector.getOrderedPlaces(
-      new OrderedPlacesRequest(flight.id)
+      new OrderedPlacesRequest(flight.id, orderId)
     );
-    const mappedPlaces = {};
-    for (let j = 0; j < places.length; ++j) {
-      const place = places[j];
-      if (!mappedPlaces[place.type]) {
-        mappedPlaces[place.type] = [];
-      }
-      mappedPlaces[place.type].push({
-        id: place.id,
-        number: place.number,
-        price: place.price,
-      });
-    }
-    flight.places = mappedPlaces;
+    flight.places = mapPlaces(places);
     if (!flight.luggage.kg) {
       flight.luggage.isRequired = false;
     } else {

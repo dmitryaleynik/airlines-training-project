@@ -1,6 +1,9 @@
 const db = require('../DataAccess/PostgreSQL');
 
-const { OrderResponse, } = require('../Contracts/ConnectorWithService/orders');
+const {
+  OrderResponse,
+  OrderIdResponse,
+} = require('../Contracts/ConnectorWithService/orders');
 const {
   UserResponse,
   PasswordDataResponse,
@@ -8,10 +11,12 @@ const {
 const {
   FlightResponse,
   CitiesResponse,
+  CheckFlightLinkageResponse,
 } = require('../Contracts/ConnectorWithService/flights');
 const {
   PlaceResponse,
   AvailablePlacesStatisticsResponse,
+  PlaneSizesResponse,
 } = require('../Contracts/ConnectorWithService/places');
 
 const getOrdersByUserId = async ({ id, }) => {
@@ -21,8 +26,8 @@ const getOrdersByUserId = async ({ id, }) => {
   });
 };
 
-const getOrderById = async ({ id, }) => {
-  const result = (await db.getOrderById(id)).rows[0];
+const getOrderById = async ids => {
+  const result = (await db.getOrderById(ids)).rows[0];
   return new OrderResponse(result);
 };
 
@@ -33,8 +38,8 @@ const getOrderedFlights = async ({ id, }) => {
   });
 };
 
-const getOrderedPlaces = async ({ id, }) => {
-  const placesToBeMapped = (await db.getOrderedPlaces(id)).rows;
+const getOrderedPlaces = async ids => {
+  const placesToBeMapped = (await db.getOrderedPlaces(ids)).rows;
   return placesToBeMapped.map(place => {
     return new PlaceResponse(place);
   });
@@ -67,11 +72,51 @@ const getFlightsByFilters = async ({ filters, }) => {
   });
 };
 
-const countAvailablePlaces = async ids => {
-  const stat = (await db.countAvailablePlaces(ids)).rows;
+const countAvailablePlaces = async ({ flightId, }) => {
+  const stat = (await db.countAvailablePlaces(flightId)).rows;
   return stat.map(row => {
     return new AvailablePlacesStatisticsResponse(row);
   });
+};
+
+const getPlaneSizes = async ({ flightId, }) => {
+  const res = (await db.getPlaneSizes(flightId)).rows;
+  if (!res.length) {
+    return new PlaneSizesResponse({});
+  }
+  return new PlaneSizesResponse(res[0]);
+};
+
+const getPlacesWithAvailability = async ({ flightId, }) => {
+  const res = (await db.getPlacesWithAvailability(flightId)).rows;
+  return res.map(row => {
+    return new PlaceResponse(row);
+  });
+};
+
+const createOrder = async params => {
+  const res = (await db.createOrder(params)).rows[0];
+  return new OrderIdResponse(res.create_order);
+};
+
+const linkFlightWithOrderWithLuggage = async params => {
+  await db.linkFlightWithOrderWithLuggage(params);
+  return true;
+};
+
+const linkFlightWithOrder = async params => {
+  await db.linkFlightWithOrder(params);
+  return true;
+};
+
+const linkPlaceWithOrder = async params => {
+  await db.linkPlaceWithOrder(params);
+  return true;
+};
+
+const checkFlightLinkage = async ids => {
+  const res = (await db.checkFlightLinkage(ids)).rows[0];
+  return new CheckFlightLinkageResponse(res.check_flight_linkage);
 };
 
 module.exports = {
@@ -85,4 +130,11 @@ module.exports = {
   getAllCities,
   getFlightsByFilters,
   countAvailablePlaces,
+  getPlaneSizes,
+  getPlacesWithAvailability,
+  createOrder,
+  linkFlightWithOrderWithLuggage,
+  linkFlightWithOrder,
+  linkPlaceWithOrder,
+  checkFlightLinkage,
 };

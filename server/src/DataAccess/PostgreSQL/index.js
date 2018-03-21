@@ -1,11 +1,21 @@
-const { getOrdersByUserId, getOrderById, } = require('./orders');
+const { getOrdersByUserId, getOrderById, createOrder, } = require('./orders');
 const { register, getUserByEmail, getUserPasswordData, } = require('./users');
 const {
   getOrderedFlights,
   getAllCities,
   getFlightsByFilters,
+  linkFlightWithOrderWithLuggage,
+  linkFlightWithOrder,
+  checkFlightLinkage,
 } = require('./flights');
-const { getOrderedPlaces, countAvailablePlaces, } = require('./places');
+const {
+  getOrderedPlaces,
+  countAvailablePlaces,
+  getPlaneSizes,
+  getPlacesWithAvailability,
+  getPlacesByNumbers,
+  linkPlaceWithOrder,
+} = require('./places');
 
 module.exports = {
   getOrdersByUserId,
@@ -18,4 +28,12 @@ module.exports = {
   getAllCities,
   getFlightsByFilters,
   countAvailablePlaces,
+  getPlaneSizes,
+  getPlacesWithAvailability,
+  getPlacesByNumbers,
+  createOrder,
+  linkFlightWithOrderWithLuggage,
+  linkFlightWithOrder,
+  linkPlaceWithOrder,
+  checkFlightLinkage,
 };

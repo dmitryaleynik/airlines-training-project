@@ -29,7 +29,7 @@ const getFlights = async ctx => {
   const filters = ctx.query;
   if (!validateQuery(filters)) {
     ctx.status = HttpCodes.BAD_REQUEST;
-    ctx.body = { message: 'Invalid query.', };
+    ctx.body = { message: 'Invalid query. All params are required.', };
     return;
   }
   const req = new GetFlightsRequest(filters);
