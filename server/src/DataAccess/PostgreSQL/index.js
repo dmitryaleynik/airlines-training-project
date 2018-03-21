@@ -3,6 +3,7 @@ const {
   getOrderById,
   createOrder,
   confirmOrder,
+  cancelOrder,
 } = require('./orders');
 const { register, getUserByEmail, getUserPasswordData, } = require('./users');
 const {
@@ -42,4 +43,5 @@ module.exports = {
   linkPlaceWithOrder,
   checkFlightLinkage,
   confirmOrder,
+  cancelOrder,
 };

@@ -29,4 +29,11 @@ bookingRouter.put(
   confirmatorHandler.confirmBooking
 );
 
+bookingRouter.put(
+  '/cancel',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  confirmatorHandler.cancelBooking
+);
+
 module.exports = bookingRouter;

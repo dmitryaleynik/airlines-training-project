@@ -124,6 +124,11 @@ const confirmOrder = async ({ orderId, }) => {
   return true;
 };
 
+const cancelOrder = async ({ orderId, }) => {
+  await db.cancelOrder(orderId);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -143,4 +148,5 @@ module.exports = {
   linkPlaceWithOrder,
   checkFlightLinkage,
   confirmOrder,
+  cancelOrder,
 };

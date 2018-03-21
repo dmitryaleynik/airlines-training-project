@@ -6,8 +6,9 @@ class ConfirmBookingRequest {
 }
 
 class CancelBookingRequest {
-  constructor({ orderId, }) {
+  constructor({ orderId, }, userId) {
     this.orderId = orderId;
+    this.userId = userId;
   }
 }
 
@@ -21,8 +22,19 @@ class ConfirmBookingResponse {
   }
 }
 
+class CancelBookingResponse {
+  constructor(failures) {
+    if (failures) {
+      for (let failure in failures) {
+        this[failure] = failures[failure];
+      }
+    }
+  }
+}
+
 module.exports = {
   ConfirmBookingRequest,
   CancelBookingRequest,
   ConfirmBookingResponse,
+  CancelBookingResponse,
 };

@@ -464,3 +464,18 @@ begin
 	return;
 end;
 $$ language plpgsql;
+
+create function cancel_order(oid integer)
+returns void as $$
+begin
+	update orders
+		set status = 'Cancelled'
+	where order_id = oid;
+
+	update orders
+		set expires_at = null
+	where order_id = oid;
+
+	return;
+end;
+$$ language plpgsql;
