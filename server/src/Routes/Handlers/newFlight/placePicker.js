@@ -46,6 +46,12 @@ const bookTemporarily = async ctx => {
       return;
     }
   }
+  if (!req.placeIds.length) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    ctx.body = {
+      message: 'Invalid body. You must pick at least one place.',
+    };
+  }
 
   const res = await placePickerService.bookTemporarily(req);
   ctx.status = HttpCodes.CREATED;
@@ -64,6 +70,12 @@ const addToBooking = async ctx => {
       };
       return;
     }
+  }
+  if (!req.placeIds.length) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    ctx.body = {
+      message: 'Invalid body. You must pick at least one place.',
+    };
   }
 
   const res = await placePickerService.addToBooking(req);

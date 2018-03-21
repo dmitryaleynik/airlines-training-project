@@ -35,7 +35,7 @@ const confirmBooking = async ctx => {
 const cancelBooking = async ctx => {
   const { body, } = ctx.request;
   const { user, } = ctx.state;
-  const res = await confirmatorService.confirmBooking(
+  const res = await confirmatorService.cancelBooking(
     new CancelBookingRequest(body, user.id)
   );
 
