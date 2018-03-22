@@ -124,7 +124,7 @@ create table flights (
   city_from varchar(255) not null,
   city_to varchar(255) not null,
   date_from timestamp not null,
-  date_to date timestamp null,
+  date_to timestamp not null,
   plane_id integer references planes not null
 );
 
@@ -135,10 +135,9 @@ create table ordered_flights (
 );
 
 create table ordered_places (
-  flight_id integer references ordered_flights not null,
+  flight_id integer references flights not null,
   place_id integer references places not null,
-  order_id integer not null
-  cancelled boolean not null,
+  order_id integer references orders not null
 );
 
 create table luggage_schemas (
@@ -492,6 +491,6 @@ begin
       and expires_at < current_timestamp
     );
 
-return;
+  return;
 end;
 $$ language plpgsql;
