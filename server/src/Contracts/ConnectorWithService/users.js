@@ -69,7 +69,6 @@ module.exports = {
   PasswordDataRequest,
   PasswordDataResponse,
   RegistrationRequest,
-  GetUserByNicknameRequest,
   ChangeNicknameRequest,
   UserWithAvatarResponse,
   UserByIdRequest,
