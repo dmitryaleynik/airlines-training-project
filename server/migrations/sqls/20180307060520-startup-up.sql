@@ -505,23 +505,6 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_user_by_nickname(nick varchar(255))
-returns user_main_info as $$
-declare ret user_main_info;
-begin
-  select
-    user_id,
-    email,
-    nickname,
-    role
-  into ret
-  from users
-  where nickname = nick;
-
-  return ret;
-end;
-$$ language plpgsql;
-
 create function change_nickname(uid integer, nick varchar(255))
 returns void as $$
 begin

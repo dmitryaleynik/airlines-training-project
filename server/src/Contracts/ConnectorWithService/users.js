@@ -17,12 +17,6 @@ class PasswordDataRequest {
   }
 }
 
-class GetUserByNicknameRequest {
-  constructor(nickname) {
-    this.nickname = nickname;
-  }
-}
-
 class ChangeNicknameRequest {
   constructor(id, nickname) {
     this.id = id;

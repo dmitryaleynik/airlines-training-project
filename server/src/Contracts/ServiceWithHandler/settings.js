@@ -18,16 +18,6 @@ class ChangeAvatarRequest {
   }
 }
 
-class ChangeNicknameResponse {
-  constructor(failures) {
-    if (failures) {
-      for (let failure in failures) {
-        this[failure] = failures[failure];
-      }
-    }
-  }
-}
-
 class UserInfoResponse {
   constructor({ id, email, nickname, role, avatar, }) {
     this.id = id;
@@ -40,7 +30,6 @@ class UserInfoResponse {
 
 module.exports = {
   ChangeNicknameRequest,
-  ChangeNicknameResponse,
   UserInfoRequest,
   UserInfoResponse,
   ChangeAvatarRequest,
