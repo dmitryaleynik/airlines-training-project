@@ -12,6 +12,7 @@ const {
   getUserPasswordData,
   getUserByNickname,
   changeNickname,
+  getUserWithAvatar,
 } = require('./users');
 const {
   getOrderedFlights,
@@ -54,4 +55,5 @@ module.exports = {
   checkOrdersStatuses,
   getUserByNickname,
   changeNickname,
+  getUserWithAvatar,
 };

@@ -76,6 +76,14 @@ create type user_main_info as (
   role roles
 );
 
+create type user_with_avatar as (
+  user_id integer,
+  email varchar(255),
+  nickname varchar(255),
+  avatar bytea,
+  role roles
+);
+
 create type password_data as (
   password_hash text, 
   password_salt text
@@ -524,3 +532,21 @@ begin
   return;
  end;
  $$ language plpgsql;
+
+create function get_user_with_avatar_by_id(uid integer)
+returns user_with_avatar as $$
+declare ret user_with_avatar;
+begin
+  select 
+    user_id,
+    email,
+    nickname,
+    avatar,
+    role
+  into ret
+  from users
+  where user_id = uid;
+
+  return ret;
+end;
+$$ language plpgsql;

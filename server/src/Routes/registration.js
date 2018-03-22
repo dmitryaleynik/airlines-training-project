@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const regHandler = require('./Handlers/registration');
+const regHandler = require('../Handlers/registration');
 
 const RegRouter = new Router();
 

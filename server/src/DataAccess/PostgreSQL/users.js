@@ -38,10 +38,18 @@ const changeNickname = async ({ id, nickname, }) => {
   return result;
 };
 
+const getUserWithAvatar = async id => {
+  const queryText = 'SELECT * FROM get_user_with_avatar_by_id($1)';
+  const values = [id,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getUserByEmail,
   register,
   getUserPasswordData,
   getUserByNickname,
   changeNickname,
+  getUserWithAvatar,
 };

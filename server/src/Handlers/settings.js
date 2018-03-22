@@ -1,10 +1,12 @@
 const HttpCodes = require('http-status-codes');
-const settingsService = require('../../Services/settings');
-const { NICKNAME_MIN_LENGTH, } = require('../../utils/constants');
+const settingsService = require('../Services/settings');
+const { NICKNAME_MIN_LENGTH, } = require('../utils/constants');
 
 const {
   ChangeNicknameRequest,
-} = require('../../Contracts/ServiceWithHandler/settings');
+  UserInfoRequest,
+} = require('../Contracts/ServiceWithHandler/settings');
+const { UserInfoResponse, } = require('../Contracts/Responses/settings');
 
 const changeNickname = async ctx => {
   const { user, } = ctx.state;
@@ -38,6 +40,16 @@ const changeNickname = async ctx => {
   ctx.status = HttpCodes.NO_CONTENT;
 };
 
+const getUserInfo = async ctx => {
+  const { id, } = ctx.state.user;
+
+  const res = await settingsService.getUserInfo(new UserInfoRequest(id));
+
+  ctx.status = HttpCodes.OK;
+  ctx.body = new UserInfoResponse(res);
+};
+
 module.exports = {
   changeNickname,
+  getUserInfo,
 };

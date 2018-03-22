@@ -3,9 +3,11 @@ const dbConnector = require('../Connectors/psql');
 const {
   GetUserByNicknameRequest,
   ChangeNicknameRequest,
+  UserByIdRequest,
 } = require('../Contracts/ConnectorWithService/users');
 const {
   ChangeNicknameResponse,
+  UserInfoResponse,
 } = require('../Contracts/ServiceWithHandler/settings');
 
 const changeNickname = async ({ id, nickname, }) => {
@@ -20,6 +22,12 @@ const changeNickname = async ({ id, nickname, }) => {
   return true;
 };
 
+const getUserInfo = async ({ id, }) => {
+  const user = await dbConnector.getUserWithAvatar(new UserByIdRequest(id));
+  return new UserInfoResponse(user);
+};
+
 module.exports = {
   changeNickname,
+  getUserInfo,
 };

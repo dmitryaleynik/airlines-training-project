@@ -1,13 +1,13 @@
 const HttpCodes = require('http-status-codes');
-const flightFinderService = require('../../../Services/newFlight/flightFinder');
+const flightFinderService = require('../../Services/newFlight/flightFinder');
 
 const {
   GetFlightsRequest,
-} = require('../../../Contracts/ServiceWithHandler/flightFinder');
+} = require('../../Contracts/ServiceWithHandler/flightFinder');
 const {
   GetAllCitiesResponse,
   GetFlightsResponse,
-} = require('../../../Contracts/Responses/flightFinder');
+} = require('../../Contracts/Responses/flightFinder');
 
 const getAllCities = async ctx => {
   const res = await flightFinderService.getAllCities();

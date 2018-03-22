@@ -5,6 +5,12 @@ class ChangeNicknameRequest {
   }
 }
 
+class UserInfoRequest {
+  constructor(id) {
+    this.id = id;
+  }
+}
+
 class ChangeNicknameResponse {
   constructor(failures) {
     if (failures) {
@@ -15,7 +21,19 @@ class ChangeNicknameResponse {
   }
 }
 
+class UserInfoResponse {
+  constructor({ id, email, nickname, role, avatar, }) {
+    this.id = id;
+    this.email = email;
+    this.nickname = nickname;
+    this.role = role;
+    this.avatar = avatar;
+  }
+}
+
 module.exports = {
   ChangeNicknameRequest,
   ChangeNicknameResponse,
+  UserInfoRequest,
+  UserInfoResponse,
 };

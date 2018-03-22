@@ -1,8 +1,8 @@
 const Router = require('koa-router');
 const passport = require('koa-passport');
-const placePickerHandler = require('./Handlers/newFlight/placePicker');
+const placePickerHandler = require('../Handlers/newFlight/placePicker');
 const { Roles, access, } = require('../setup/roles');
-const confirmatorHandler = require('./Handlers/newFlight/confirmator');
+const confirmatorHandler = require('../Handlers/newFlight/confirmator');
 
 const bookingRouter = new Router({
   prefix: '/booking',

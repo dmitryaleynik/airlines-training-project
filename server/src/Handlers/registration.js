@@ -1,9 +1,9 @@
 const HttpStatus = require('http-status-codes');
-const regService = require('../../Services/registration');
+const regService = require('../Services/registration');
 
 const {
   RegistrationRequest,
-} = require('../../Contracts/ServiceWithHandler/registration');
+} = require('../Contracts/ServiceWithHandler/registration');
 
 const regHandler = async ctx => {
   const { body, } = ctx.request;
