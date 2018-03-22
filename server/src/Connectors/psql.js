@@ -7,6 +7,7 @@ const {
 const {
   UserResponse,
   PasswordDataResponse,
+  UserWithAvatarResponse,
 } = require('../Contracts/ConnectorWithService/users');
 const {
   FlightResponse,
@@ -134,6 +135,21 @@ const checkOrdersStatuses = async ({ flightIds, }) => {
   return true;
 };
 
+const changeNickname = async params => {
+  await db.changeNickname(params);
+  return true;
+};
+
+const getUserWithAvatar = async ({ id, }) => {
+  const user = (await db.getUserWithAvatar(id)).rows[0];
+  return new UserWithAvatarResponse(user);
+};
+
+const changeAvatar = async params => {
+  await db.changeAvatar(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -155,4 +171,7 @@ module.exports = {
   confirmOrder,
   cancelOrder,
   checkOrdersStatuses,
+  changeNickname,
+  getUserWithAvatar,
+  changeAvatar,
 };

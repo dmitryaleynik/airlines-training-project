@@ -6,7 +6,14 @@ const {
   cancelOrder,
   checkOrdersStatuses,
 } = require('./orders');
-const { register, getUserByEmail, getUserPasswordData, } = require('./users');
+const {
+  register,
+  getUserByEmail,
+  getUserPasswordData,
+  changeNickname,
+  getUserWithAvatar,
+  changeAvatar,
+} = require('./users');
 const {
   getOrderedFlights,
   getAllCities,
@@ -46,4 +53,7 @@ module.exports = {
   confirmOrder,
   cancelOrder,
   checkOrdersStatuses,
+  changeNickname,
+  getUserWithAvatar,
+  changeAvatar,
 };

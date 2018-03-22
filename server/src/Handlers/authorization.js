@@ -1,10 +1,10 @@
 const HttpCodes = require('http-status-codes');
-const authService = require('../../Services/authorization');
+const authService = require('../Services/authorization');
 
 const {
   AuthRequest,
-} = require('../../Contracts/ServiceWithHandler/authorization');
-const { AuthResponse, } = require('../../Contracts/Responses/authorization');
+} = require('../Contracts/ServiceWithHandler/authorization');
+const { AuthResponse, } = require('../Contracts/Responses/authorization');
 
 const authHandler = async ctx => {
   const { body, } = ctx.request;

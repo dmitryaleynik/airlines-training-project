@@ -1,15 +1,15 @@
 const HttpCodes = require('http-status-codes');
-const placePickerService = require('../../../Services/newFlight/placePicker');
+const placePickerService = require('../../Services/newFlight/placePicker');
 
 const {
   GetPlacesRequest,
   BookTemporarilyRequest,
   AddToBookingRequest,
-} = require('../../../Contracts/ServiceWithHandler/placePicker');
+} = require('../../Contracts/ServiceWithHandler/placePicker');
 const {
   GetPlacesResponse,
   OrderIdResponse,
-} = require('../../../Contracts/Responses/placePicker');
+} = require('../../Contracts/Responses/placePicker');
 
 const getPlaces = async ctx => {
   const { flight_id, } = ctx.query;

@@ -1,10 +1,10 @@
 const HttpCodes = require('http-status-codes');
-const confirmatorService = require('../../../Services/newFlight/confirmator');
+const confirmatorService = require('../../Services/newFlight/confirmator');
 
 const {
   ConfirmBookingRequest,
   CancelBookingRequest,
-} = require('../../../Contracts/ServiceWithHandler/confirmator');
+} = require('../../Contracts/ServiceWithHandler/confirmator');
 
 const confirmBooking = async ctx => {
   const { body, } = ctx.request;

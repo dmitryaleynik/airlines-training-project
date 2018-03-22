@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const passport = require('koa-passport');
-const profileHandler = require('./Handlers/profile');
+const profileHandler = require('../Handlers/profile');
 const { Roles, access, } = require('../setup/roles');
 
 const profileRouter = new Router({

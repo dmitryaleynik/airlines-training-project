@@ -17,6 +17,26 @@ class PasswordDataRequest {
   }
 }
 
+class ChangeNicknameRequest {
+  constructor(id, nickname) {
+    this.id = id;
+    this.nickname = nickname;
+  }
+}
+
+class ChangeAvatarRequest {
+  constructor(id, avatar) {
+    this.id = id;
+    this.avatar = avatar;
+  }
+}
+
+class UserByIdRequest {
+  constructor(id) {
+    this.id = id;
+  }
+}
+
 class UserResponse {
   constructor({ user_id, email, nickname, role, }) {
     this.id = user_id;
@@ -33,10 +53,24 @@ class PasswordDataResponse {
   }
 }
 
+class UserWithAvatarResponse {
+  constructor({ user_id, email, nickname, role, avatar, }) {
+    this.id = user_id;
+    this.email = email;
+    this.nickname = nickname;
+    this.role = role;
+    this.avatar = avatar;
+  }
+}
+
 module.exports = {
   UserByEmailRequest,
   UserResponse,
   PasswordDataRequest,
   PasswordDataResponse,
   RegistrationRequest,
+  ChangeNicknameRequest,
+  UserWithAvatarResponse,
+  UserByIdRequest,
+  ChangeAvatarRequest,
 };

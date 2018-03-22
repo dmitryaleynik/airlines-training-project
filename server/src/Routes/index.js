@@ -4,6 +4,7 @@ const regRouter = require('./registration');
 const authRouter = require('./authorization');
 const newFlightRouter = require('./newFlight');
 const bookingRouter = require('./booking');
+const settingsRouter = require('./settings');
 
 const router = new Router();
 router.use(profileRouter.routes());
@@ -11,5 +12,6 @@ router.use(regRouter.routes());
 router.use(authRouter.routes());
 router.use(newFlightRouter.routes());
 router.use(bookingRouter.routes());
+router.use(settingsRouter.routes());
 
 module.exports = router;

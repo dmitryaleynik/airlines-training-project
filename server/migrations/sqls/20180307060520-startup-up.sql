@@ -1,3 +1,5 @@
+set time zone 'UTC';
+
 -- types --
 create type order_status as enum (
   'Cancelled', 
@@ -74,6 +76,14 @@ create type user_main_info as (
   role roles
 );
 
+create type user_with_avatar as (
+  user_id integer,
+  email varchar(255),
+  nickname varchar(255),
+  avatar bytea,
+  role roles
+);
+
 create type password_data as (
   password_hash text, 
   password_salt text
@@ -124,7 +134,7 @@ create table flights (
   city_from varchar(255) not null,
   city_to varchar(255) not null,
   date_from timestamp not null,
-  date_to date timestamp null,
+  date_to timestamp not null,
   plane_id integer references planes not null
 );
 
@@ -135,10 +145,9 @@ create table ordered_flights (
 );
 
 create table ordered_places (
-  flight_id integer references ordered_flights not null,
+  flight_id integer references flights not null,
   place_id integer references places not null,
-  order_id integer not null
-  cancelled boolean not null,
+  order_id integer references orders not null
 );
 
 create table luggage_schemas (
@@ -492,6 +501,46 @@ begin
       and expires_at < current_timestamp
     );
 
-return;
+  return;
+end;
+$$ language plpgsql;
+
+create function change_nickname(uid integer, nick varchar(255))
+returns void as $$
+begin
+  update users
+  set nickname = nick
+  where user_id = uid;
+
+  return;
+ end;
+ $$ language plpgsql;
+
+create function get_user_with_avatar_by_id(uid integer)
+returns user_with_avatar as $$
+declare ret user_with_avatar;
+begin
+  select 
+    user_id,
+    email,
+    nickname,
+    avatar,
+    role
+  into ret
+  from users
+  where user_id = uid;
+
+  return ret;
+end;
+$$ language plpgsql;
+
+create function change_avatar(uid integer, av bytea)
+returns void as $$
+begin
+  update users
+  set avatar = av
+  where uid = user_id;
+
+  return;
 end;
 $$ language plpgsql;
