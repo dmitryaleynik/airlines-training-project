@@ -550,3 +550,14 @@ begin
   return ret;
 end;
 $$ language plpgsql;
+
+create function change_avatar(uid integer, av bytea)
+returns void as $$
+begin
+  update users
+  set avatar = av
+  where uid = user_id;
+
+  return;
+end;
+$$ language plpgsql;

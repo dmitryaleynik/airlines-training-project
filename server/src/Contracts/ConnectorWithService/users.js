@@ -30,6 +30,13 @@ class ChangeNicknameRequest {
   }
 }
 
+class ChangeAvatarRequest {
+  constructor(id, avatar) {
+    this.id = id;
+    this.avatar = avatar;
+  }
+}
+
 class UserByIdRequest {
   constructor(id) {
     this.id = id;
@@ -72,4 +79,5 @@ module.exports = {
   ChangeNicknameRequest,
   UserWithAvatarResponse,
   UserByIdRequest,
+  ChangeAvatarRequest,
 };

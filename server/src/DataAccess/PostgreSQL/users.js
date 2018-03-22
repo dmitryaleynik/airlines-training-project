@@ -45,6 +45,13 @@ const getUserWithAvatar = async id => {
   return result;
 };
 
+const changeAvatar = async ({ id, avatar, }) => {
+  const queryText = 'SELECT * FROM change_avatar($1, $2)';
+  const values = [id, avatar,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getUserByEmail,
   register,
@@ -52,4 +59,5 @@ module.exports = {
   getUserByNickname,
   changeNickname,
   getUserWithAvatar,
+  changeAvatar,
 };

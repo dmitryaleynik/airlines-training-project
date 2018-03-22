@@ -19,4 +19,11 @@ settingsRouter.get(
   settingsHandler.getUserInfo
 );
 
+settingsRouter.put(
+  '/avatar/change',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  settingsHandler.changeAvatar
+);
+
 module.exports = settingsRouter;

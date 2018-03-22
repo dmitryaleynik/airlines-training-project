@@ -11,6 +11,13 @@ class UserInfoRequest {
   }
 }
 
+class ChangeAvatarRequest {
+  constructor(id, avatar) {
+    this.id = id;
+    this.avatar = avatar;
+  }
+}
+
 class ChangeNicknameResponse {
   constructor(failures) {
     if (failures) {
@@ -36,4 +43,5 @@ module.exports = {
   ChangeNicknameResponse,
   UserInfoRequest,
   UserInfoResponse,
+  ChangeAvatarRequest,
 };

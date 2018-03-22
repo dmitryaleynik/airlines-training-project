@@ -4,6 +4,7 @@ const {
   GetUserByNicknameRequest,
   ChangeNicknameRequest,
   UserByIdRequest,
+  ChangeAvatarRequest,
 } = require('../Contracts/ConnectorWithService/users');
 const {
   ChangeNicknameResponse,
@@ -27,7 +28,13 @@ const getUserInfo = async ({ id, }) => {
   return new UserInfoResponse(user);
 };
 
+const changeAvatar = async ({ id, avatar, }) => {
+  await dbConnector.changeAvatar(new ChangeAvatarRequest(id, avatar));
+  return true;
+};
+
 module.exports = {
   changeNickname,
   getUserInfo,
+  changeAvatar,
 };

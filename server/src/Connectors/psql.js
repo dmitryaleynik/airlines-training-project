@@ -150,6 +150,11 @@ const getUserWithAvatar = async ({ id, }) => {
   return new UserWithAvatarResponse(user);
 };
 
+const changeAvatar = async params => {
+  await db.changeAvatar(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -174,4 +179,5 @@ module.exports = {
   getUserByNickname,
   changeNickname,
   getUserWithAvatar,
+  changeAvatar,
 };

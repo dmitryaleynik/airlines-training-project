@@ -13,6 +13,7 @@ const {
   getUserByNickname,
   changeNickname,
   getUserWithAvatar,
+  changeAvatar,
 } = require('./users');
 const {
   getOrderedFlights,
@@ -56,4 +57,5 @@ module.exports = {
   getUserByNickname,
   changeNickname,
   getUserWithAvatar,
+  changeAvatar,
 };

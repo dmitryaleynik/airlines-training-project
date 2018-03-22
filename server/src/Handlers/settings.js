@@ -5,6 +5,7 @@ const { NICKNAME_MIN_LENGTH, } = require('../utils/constants');
 const {
   ChangeNicknameRequest,
   UserInfoRequest,
+  ChangeAvatarRequest,
 } = require('../Contracts/ServiceWithHandler/settings');
 const { UserInfoResponse, } = require('../Contracts/Responses/settings');
 
@@ -49,7 +50,24 @@ const getUserInfo = async ctx => {
   ctx.body = new UserInfoResponse(res);
 };
 
+const changeAvatar = async ctx => {
+  const { id, } = ctx.state.user;
+  const { avatar, } = ctx.request.body;
+
+  if (!avatar) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    ctx.body = {
+      message: 'Avatar is required.',
+    };
+    return;
+  }
+
+  await settingsService.changeAvatar(new ChangeAvatarRequest(id, avatar));
+  ctx.status = HttpCodes.NO_CONTENT;
+};
+
 module.exports = {
   changeNickname,
   getUserInfo,
+  changeAvatar,
 };
