@@ -1,3 +1,5 @@
+set time zone 'UTC';
+
 -- types --
 create type order_status as enum (
   'Cancelled', 
@@ -494,3 +496,31 @@ begin
   return;
 end;
 $$ language plpgsql;
+
+create function get_user_by_nickname(nick varchar(255))
+returns user_main_info as $$
+declare ret user_main_info;
+begin
+  select
+    user_id,
+    email,
+    nickname,
+    role
+  into ret
+  from users
+  where nickname = nick;
+
+  return ret;
+end;
+$$ language plpgsql;
+
+create function change_nickname(uid integer, nick varchar(255))
+returns void as $$
+begin
+  update users
+  set nickname = nick
+  where user_id = uid;
+
+  return;
+ end;
+ $$ language plpgsql;

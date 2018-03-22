@@ -17,6 +17,19 @@ class PasswordDataRequest {
   }
 }
 
+class GetUserByNicknameRequest {
+  constructor(nickname) {
+    this.nickname = nickname;
+  }
+}
+
+class ChangeNicknameRequest {
+  constructor(id, nickname) {
+    this.id = id;
+    this.nickname = nickname;
+  }
+}
+
 class UserResponse {
   constructor({ user_id, email, nickname, role, }) {
     this.id = user_id;
@@ -39,4 +52,6 @@ module.exports = {
   PasswordDataRequest,
   PasswordDataResponse,
   RegistrationRequest,
+  GetUserByNicknameRequest,
+  ChangeNicknameRequest,
 };

@@ -134,6 +134,16 @@ const checkOrdersStatuses = async ({ flightIds, }) => {
   return true;
 };
 
+const getUserByNickname = async ({ nickname, }) => {
+  const user = (await db.getUserByNickname(nickname)).rows[0];
+  return new UserResponse(user);
+};
+
+const changeNickname = async params => {
+  await db.changeNickname(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -155,4 +165,6 @@ module.exports = {
   confirmOrder,
   cancelOrder,
   checkOrdersStatuses,
+  getUserByNickname,
+  changeNickname,
 };
