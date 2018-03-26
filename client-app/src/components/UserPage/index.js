@@ -8,11 +8,6 @@ import { ordersDropdown, } from 'src/imports';
 
 import './styles.scss';
 
-type State = {
-  dropdownIsToggled: boolean,
-  filter: string,
-};
-
 const menuItems = [
   {
     key: ordersDropdown.keys.FUTURE,
@@ -28,7 +23,7 @@ const menuItems = [
   },
 ];
 
-class UserPage extends Component<{}, State> {
+class UserPage extends Component {
   componentWillMount = () => {
     const { getAllOrders, setFilter, } = this.props;
     setFilter(ordersDropdown.values.FUTURE);

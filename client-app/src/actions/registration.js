@@ -1,0 +1,18 @@
+import signUp from 'src/requests/sign-up';
+import {
+  REGISTRATION_REQUEST,
+  REGISTRATION_SUCCESS,
+  REGISTRATION_FAILURE,
+} from './types';
+
+export const register = (values) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: REGISTRATION_REQUEST, });
+      await signUp(values);
+      dispatch({ type: REGISTRATION_SUCCESS, });
+    } catch ({ response, }) {
+      dispatch({ type: REGISTRATION_FAILURE, payload: response.data.message, });
+    }
+  };
+};

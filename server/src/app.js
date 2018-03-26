@@ -3,6 +3,7 @@ require('./setup/logger');
 require('./strategies/jwt');
 
 const Koa = require('koa');
+const cors = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
 const passport = require('koa-passport');
 const HttpCodes = require('http-status-codes');
@@ -23,6 +24,7 @@ app.use(async (ctx, next) => {
     };
   }
 });
+app.use(cors());
 app.use(passport.initialize());
 app.use(Roles.middleware());
 app.use(RouterMiddleware.routes());

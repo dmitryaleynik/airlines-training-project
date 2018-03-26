@@ -31,4 +31,16 @@ export const orderStatuses = {
   PENDING: 'Pending',
   COMPLETED: 'Completed',
   CANCELLED: 'Cancelled',
-}
+};
+
+export const methods = {
+  GET: 'get',
+  POST: 'post',
+  PUT: 'put',
+};
+
+export const BASE_URL = 'http://localhost:3001';
+
+export const routes = {
+  SIGN_IN: '/sign-in',
+};

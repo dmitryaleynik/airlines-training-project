@@ -7,6 +7,7 @@ import priceConfirmator from './priceConfirmator';
 import modal from './modal';
 import orders from './orders';
 import profile from './profile';
+import signUp from './signUp';
 
 const clientApp = combineReducers({
   form: formReducer,
@@ -17,6 +18,7 @@ const clientApp = combineReducers({
   modal,
   orders,
   profile,
+  signUp,
 });
 
 export default clientApp;

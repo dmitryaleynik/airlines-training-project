@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Redirect, Switch, } from 'react-router-dom';
 import Header from 'src/components/Header';
 import Home from 'src/components/Home';
-import SignUp from 'src/components/SignUp';
+import SignUp from 'src/components/SignUp/container';
 import SignIn from 'src/components/SignIn';
 import NewFlight from 'src/components/NewFlight/container';
 import UserPage from 'src/components/UserPage/container';
@@ -13,7 +13,7 @@ import ErrorPage from 'src/components/ErrorPage';
 
 import './styles.scss';
 
-const isAuthorized = true;
+const isAuthorized = false;
 
 const App = () => (
   <div className="root">
@@ -27,7 +27,9 @@ const App = () => (
         />
         <Route
           path="/sign-up"
-          render={() => (isAuthorized ? <Redirect to="/orders" /> : <SignUp />)}
+          render={(props) =>
+            isAuthorized ? <Redirect to="/orders" /> : <SignUp {...props} />
+          }
         />
         <Route
           path="/sign-in"
