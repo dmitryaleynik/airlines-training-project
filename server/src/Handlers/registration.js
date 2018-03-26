@@ -7,7 +7,6 @@ const {
 
 const regHandler = async ctx => {
   const { body, } = ctx.request;
-  console.log(body);
   if (!body.email || !body.password) {
     ctx.status = HttpStatus.BAD_REQUEST;
     ctx.body = {

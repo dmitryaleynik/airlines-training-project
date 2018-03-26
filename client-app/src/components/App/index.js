@@ -2,15 +2,7 @@
 import React from 'react';
 import { Route, Redirect, Switch, } from 'react-router-dom';
 import Header from 'src/components/Header';
-import Home from 'src/components/Home';
-import SignUp from 'src/components/SignUp/container';
-import SignIn from 'src/components/SignIn';
-import NewFlight from 'src/components/NewFlight/container';
-import UserPage from 'src/components/UserPage/container';
-import OrderInfo from 'src/components/OrderInfo/container';
-import UserProfile from 'src/components/UserProfile/container';
-import ErrorPage from 'src/components/ErrorPage';
-
+import Routes from './routes';
 import './styles.scss';
 
 const isAuthorized = false;
@@ -19,7 +11,8 @@ const App = () => (
   <div className="root">
     <Header isAuthorized={isAuthorized} />
     <div className="content container">
-      <Switch>
+      <Routes />
+      {/* <Switch>
         <Route
           exact
           path="/"
@@ -69,7 +62,7 @@ const App = () => (
           }
         />
         <Route component={ErrorPage} />
-      </Switch>
+      </Switch> */}
     </div>
     <footer className="footer">
       <span>iTechArt 2018</span>
