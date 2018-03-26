@@ -8,7 +8,7 @@ import { createLogger, } from 'redux-logger';
 import { Provider, } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import clientApp from 'src/reducers';
-import App from 'src/components/App';
+import App from 'src/components/App/container';
 import './index.scss';
 
 const loggerMiddleware = createLogger();

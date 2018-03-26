@@ -3,7 +3,7 @@ import { Redirect, Route, } from 'react-router-dom';
 import { routes, } from 'src/imports';
 
 const AuthRoute = (props) => {
-  const { component, token, noAuthRequired, userAuthRequired, } = props;
+  const { token, noAuthRequired, userAuthRequired, } = props;
   let redirectTo = props.redirectTo;
 
   if (userAuthRequired && !token) {
@@ -16,7 +16,7 @@ const AuthRoute = (props) => {
     return <Redirect to={redirectTo} push />;
   }
 
-  return <Route {...props} component={component} />;
+  return <Route {...props} />;
 };
 
 export default AuthRoute;

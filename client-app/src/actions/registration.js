@@ -5,11 +5,11 @@ import {
   REGISTRATION_FAILURE,
 } from './types';
 
-export const register = (values) => {
+export const register = ({ email, password, }) => {
   return async (dispatch) => {
     try {
       dispatch({ type: REGISTRATION_REQUEST, });
-      await signUp(values);
+      await signUp(email, password);
       dispatch({ type: REGISTRATION_SUCCESS, });
     } catch ({ response, }) {
       dispatch({ type: REGISTRATION_FAILURE, payload: response.data.message, });

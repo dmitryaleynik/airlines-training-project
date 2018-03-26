@@ -8,6 +8,7 @@ import modal from './modal';
 import orders from './orders';
 import profile from './profile';
 import signUp from './signUp';
+import signIn from './signIn';
 import user from './user';
 
 const clientApp = combineReducers({
@@ -20,6 +21,7 @@ const clientApp = combineReducers({
   orders,
   profile,
   signUp,
+  signIn,
   user,
 });
 

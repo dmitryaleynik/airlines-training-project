@@ -3,7 +3,7 @@ import { Switch, withRouter, } from 'react-router-dom';
 import AuthRoute from 'src/components/AuthRoute/container';
 import Home from 'src/components/Home';
 import SignUp from 'src/components/SignUp/container';
-import SignIn from 'src/components/SignIn';
+import SignIn from 'src/components/SignIn/container';
 import NewFlight from 'src/components/NewFlight/container';
 import UserPage from 'src/components/UserPage/container';
 import OrderInfo from 'src/components/OrderInfo/container';
@@ -16,6 +16,7 @@ const Routes = () => {
     <Switch>
       <AuthRoute path={routes.SIGN_UP} component={SignUp} noAuthRequired />
       <AuthRoute path={routes.SIGN_IN} component={SignIn} noAuthRequired />
+      <AuthRoute path={routes.PROFILE} component={UserPage} userAuthRequired />
       <AuthRoute path={routes.HOME} component={Home} noAuthRequired />
     </Switch>
   );

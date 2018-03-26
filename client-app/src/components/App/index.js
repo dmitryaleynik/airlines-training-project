@@ -1,15 +1,12 @@
 // @flow
 import React from 'react';
-import { Route, Redirect, Switch, } from 'react-router-dom';
 import Header from 'src/components/Header';
 import Routes from './routes';
 import './styles.scss';
 
-const isAuthorized = false;
-
-const App = () => (
+const App = (props) => (
   <div className="root">
-    <Header isAuthorized={isAuthorized} />
+    <Header isAuthorized={props.token} />
     <div className="content container">
       <Routes />
       {/* <Switch>
