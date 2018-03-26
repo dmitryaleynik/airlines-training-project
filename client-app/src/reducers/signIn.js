@@ -2,6 +2,7 @@ import {
   AUTHORIZATION_REQUEST,
   AUTHORIZATION_SUCCESS,
   AUTHORIZATION_FAILURE,
+  AUTHORIZATION_DESTROY,
 } from 'src/actions/types';
 
 const initialState = {
@@ -26,11 +27,14 @@ export default (state = initialState, { type, payload, }) => {
         isSuccess: true,
       };
     case AUTHORIZATION_FAILURE:
+      console.log(payload);
       return {
         ...state,
         isFetching: false,
         errorMessage: payload,
       };
+    case AUTHORIZATION_DESTROY:
+      return initialState;
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import { connect, } from 'react-redux';
-import { authorize, } from 'src/actions/authorization';
+import { authorize, destroy, } from 'src/actions/authorization';
 import SignIn from 'src/components/SignIn';
 
 const mapStateToProps = (state) => {
@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   authorize,
+  destroy,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

@@ -8,13 +8,13 @@ export const renderInputWithLabel = ({
   type,
   meta: { touched, error, warning, },
 }) => (
-  <div className="form-group">
-    <label>{label}</label>
-    <input {...input} className={className} type={type} />
-    {touched &&
-      ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-  </div>
-);
+    <div className="form-group">
+      <label>{label}</label>
+      <input {...input} className={className} type={type} />
+      {touched &&
+        ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+    </div>
+  );
 
 export const renderInput = ({
   input,

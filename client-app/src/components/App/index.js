@@ -6,25 +6,10 @@ import './styles.scss';
 
 const App = (props) => (
   <div className="root">
-    <Header isAuthorized={props.token} />
+    <Header isAuthorized={false} />
     <div className="content container">
       <Routes />
-      {/* <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => (isAuthorized ? <Redirect to="/orders" /> : <Home />)}
-        />
-        <Route
-          path="/sign-up"
-          render={(props) =>
-            isAuthorized ? <Redirect to="/orders" /> : <SignUp {...props} />
-          }
-        />
-        <Route
-          path="/sign-in"
-          render={() => (isAuthorized ? <Redirect to="/orders" /> : <SignIn />)}
-        />
+      {/*
         <Route
           path="/new-flight"
           render={(props) =>

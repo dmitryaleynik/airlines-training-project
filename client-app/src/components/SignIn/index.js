@@ -10,11 +10,17 @@ class SignIn extends Component {
     this.props.authorize(values);
   };
 
-  render() {
-    if (this.props.isSuccess) {
-      this.props.history.push(routes.PROFILE);
-      return null;
+  componentWillUpdate = (nextProps) => {
+    if (nextProps.isSuccess) {
+      this.props.history.push(routes.HOME);
     }
+  }
+
+  componentWillUnmount = () => {
+    this.props.destroy();
+  }
+
+  render() {
     return (
       <div className="d-flex flex-row justify-content-center sign-in">
         {this.props.isFetching && <Loader />}
@@ -22,6 +28,7 @@ class SignIn extends Component {
           <div className="content">
             <h2>Sign in</h2>
             <SignInForm onSubmit={this.handleSubmit} />
+            {this.props.errorMessage}
             <div className="mt-4">
               Are you new?{' '}
               <Link className="text-dark" to="/sign-up">

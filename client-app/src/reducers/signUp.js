@@ -2,6 +2,7 @@ import {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAILURE,
+  REGISTRATION_DESTROY,
 } from 'src/actions/types';
 
 const initialState = {
@@ -31,6 +32,8 @@ export default (state = initialState, { type, payload, }) => {
         isFetching: false,
         errorMessage: payload,
       };
+    case REGISTRATION_DESTROY:
+      return initialState;
     default:
       return state;
   }

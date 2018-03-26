@@ -1,5 +1,5 @@
 import { connect, } from 'react-redux';
-import { register, } from 'src/actions/registration';
+import { register, destroy, } from 'src/actions/registration';
 import SignUp from 'src/components/SignUp';
 
 const mapStateToProps = (state) => {
@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   register,
+  destroy,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -11,10 +11,17 @@ class SignUp extends Component {
     this.props.register(values);
   };
 
-  render() {
-    if (this.props.isSuccess) {
+  componentWillUpdate = (nextProps) => {
+    if (nextProps.isSuccess) {
       this.props.history.push(routes.SIGN_IN);
     }
+  }
+
+  componentWillUnmount = () => {
+    this.props.destroy();
+  }
+
+  render() {
     return (
       <div>
         {this.props.isFetching && <Loader />}

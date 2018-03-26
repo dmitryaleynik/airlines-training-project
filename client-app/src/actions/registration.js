@@ -3,6 +3,7 @@ import {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCESS,
   REGISTRATION_FAILURE,
+  REGISTRATION_DESTROY,
 } from './types';
 
 export const register = ({ email, password, }) => {
@@ -16,3 +17,9 @@ export const register = ({ email, password, }) => {
     }
   };
 };
+
+export const destroy = () => {
+  return {
+    type: REGISTRATION_DESTROY,
+  }
+}
