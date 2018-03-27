@@ -4,8 +4,9 @@ import {
   ORDERS_RECEIVE_ALL,
   ORDERS_REQUEST_ALL,
 } from './types';
+import { getToken, } from 'src/utils/helpers';
+import getOrders from 'src/requests/orders';
 import fetchedInfo from 'src/db/orders';
-import orders from 'src/db/orders';
 
 export const getOrderInfo = (id) => {
   return async (dispatch) => {
@@ -25,16 +26,15 @@ export const getOrderInfo = (id) => {
 };
 
 export const getAllOrders = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getToken(getState);
     dispatch({
       type: ORDERS_REQUEST_ALL,
     });
-    const resolvedOrders = await Promise.resolve(orders);
-    setTimeout(() => {
-      dispatch({
-        type: ORDERS_RECEIVE_ALL,
-        payload: resolvedOrders,
-      });
-    }, 2000);
+    const res = await getOrders(token);
+    dispatch({
+      type: ORDERS_RECEIVE_ALL,
+      payload: res.data.orders,
+    });
   };
 };

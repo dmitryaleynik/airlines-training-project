@@ -20,3 +20,7 @@ export const disableScroll = () => {
 export const enableScroll = () => {
   document.body.className = '';
 };
+
+export const getToken = (getState) => {
+  return getState().user.token;
+};

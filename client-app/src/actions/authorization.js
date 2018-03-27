@@ -5,6 +5,7 @@ import {
   AUTHORIZATION_DESTROY,
   AUTHORIZATION_LOGOUT,
 } from './types';
+import { TOKEN, } from 'src/imports';
 import signIn from 'src/requests/sign-in';
 
 export const authorize = ({ email, password, }) => {
@@ -12,6 +13,7 @@ export const authorize = ({ email, password, }) => {
     try {
       dispatch({ type: AUTHORIZATION_REQUEST, });
       const res = await signIn(email, password);
+      localStorage.setItem(TOKEN, res.data.token);
       dispatch({
         type: AUTHORIZATION_SUCCESS,
         payload: {

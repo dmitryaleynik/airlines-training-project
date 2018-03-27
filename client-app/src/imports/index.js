@@ -39,14 +39,16 @@ export const methods = {
   PUT: 'put',
 };
 
-export const BASE_URL = 'http://localhost:3001';
+export const SERVER_URL = 'http://localhost:3001';
 
 export const routes = {
   HOME: '/',
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
-  PROFILE: '/orders',
-  SETTINGS: '/profile',
+  PROFILE: '/profile',
+  SETTINGS: '/settings',
+  ORDER: '/profile/orders/:id',
+  NEW_FLIGHT: '/new-flight',
 };
 
 export const TOKEN = 'authToken';

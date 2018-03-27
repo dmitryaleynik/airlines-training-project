@@ -9,7 +9,6 @@ const initialState = {
 export default (state = initialState, { type, payload, }) => {
   switch (type) {
     case AUTHORIZATION_SUCCESS:
-      localStorage.setItem(TOKEN, payload.token);
       return {
         ...state,
         email: payload.email,

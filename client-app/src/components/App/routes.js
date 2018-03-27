@@ -17,7 +17,19 @@ const Routes = () => {
       <AuthRoute path={routes.SIGN_UP} component={SignUp} noAuthRequired />
       <AuthRoute path={routes.SIGN_IN} component={SignIn} noAuthRequired />
       <AuthRoute path={routes.PROFILE} component={UserPage} userAuthRequired />
-      <AuthRoute path={routes.HOME} component={Home} noAuthRequired />
+      <AuthRoute path={routes.ORDER} component={OrderInfo} userAuthRequired />
+      <AuthRoute
+        path={routes.NEW_FLIGHT}
+        component={NewFlight}
+        userAuthRequired
+      />
+      <AuthRoute
+        path={routes.SETTINGS}
+        component={UserProfile}
+        userAuthRequired
+      />
+      <AuthRoute exact path={routes.HOME} component={Home} noAuthRequired />
+      <AuthRoute component={ErrorPage} />
     </Switch>
   );
 };

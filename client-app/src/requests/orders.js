@@ -1,13 +1,12 @@
 import sendRequest from './sendRequest';
 import { methods, SERVER_URL, } from 'src/imports';
 
-export default (email, password) => {
+export default (token) => {
   const config = {
-    method: methods.POST,
-    url: `${SERVER_URL}/sign-in`,
-    data: {
-      email,
-      password,
+    method: methods.GET,
+    url: `${SERVER_URL}/orders`,
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
   };
 

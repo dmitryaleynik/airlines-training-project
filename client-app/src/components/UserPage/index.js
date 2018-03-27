@@ -46,9 +46,9 @@ class UserPage extends Component {
       history,
     } = this.props;
     const { handleDropdownClick, } = this;
-    if (!orders.length) {
-      return <Loader />;
-    }
+    // if (!orders.length) {
+    //   return <Loader />;
+    // }
 
     return (
       <div className="user-page">
