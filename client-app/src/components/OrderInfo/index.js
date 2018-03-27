@@ -51,11 +51,7 @@ class OrderInfo extends Component {
     order.flights.forEach((flight, i) => {
       children.push(
         <div key={i}>
-          <FlightInfo
-            flight={flight}
-            places={order.places[i]}
-            luggage={order.luggage[i]}
-          />
+          <FlightInfo flight={flight} />
           <div className="flights-divider-both" />
         </div>
       );

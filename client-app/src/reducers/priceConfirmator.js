@@ -7,7 +7,6 @@ import {
 
 const initialState = {
   orderId: '',
-  total: 0,
   isConfirmed: false,
   isFetching: false,
 };
@@ -22,8 +21,7 @@ export default (state = initialState, { type, payload, }) => {
     case PLACE_PICKER_BOOK_PLACES_TEMPORARILY:
       return {
         ...state,
-        orderId: payload.orderId,
-        total: payload.total,
+        orderId: payload,
         isFetching: false,
       };
     case PRICE_CONFIRMATOR_CONFIRM_ORDER:

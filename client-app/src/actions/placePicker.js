@@ -9,6 +9,8 @@ import {
   PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
 } from './types';
 import places from 'src/requests/places';
+import postBooking from 'src/requests/postBooking';
+import putBooking from 'src/requests/putBooking';
 import { getToken, } from 'src/utils/helpers';
 
 export const getPlaces = (flightId, directionName) => {
@@ -60,19 +62,37 @@ export const validatePlaces = (isValid, directionName) => {
 };
 
 export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({
       type: PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
     });
-    let response = await Promise.resolve({
-      orderId: '1',
-      total: 228,
+
+    const token = getToken(getState);
+    const directions = Object.keys(flightId);
+    const orderId = (await postBooking(
+      {
+        flightId: flightId[directions[0]],
+        placeIds: placesToBeBooked[directions[0]],
+        luggageKg: luggage[directions[0]],
+      },
+      token
+    )).data.orderId;
+
+    if (directions.length === 2) {
+      await putBooking(
+        {
+          orderId,
+          flightId: flightId[directions[1]],
+          placeIds: placesToBeBooked[directions[1]],
+          luggageKg: luggage[directions[1]],
+        },
+        token
+      );
+    }
+
+    dispatch({
+      type: PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
+      payload: orderId,
     });
-    setTimeout(() => {
-      dispatch({
-        type: PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
-        payload: response,
-      });
-    }, 2000);
   };
 };

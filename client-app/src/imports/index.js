@@ -48,7 +48,7 @@ export const routes = {
   SIGN_UP: '/sign-up',
   PROFILE: '/profile',
   SETTINGS: '/settings',
-  ORDER: '/profile/orders/:id',
+  ORDER: '/orders/:id',
   NEW_FLIGHT: '/new-flight',
 };
 

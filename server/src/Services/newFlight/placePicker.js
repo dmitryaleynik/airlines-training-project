@@ -1,5 +1,4 @@
 const dbConnector = require('../../Connectors/psql');
-const mapPlaces = require('../../utils/placesMapper');
 
 const {
   PlaneSizesRequest,

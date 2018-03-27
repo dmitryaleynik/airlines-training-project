@@ -4,23 +4,23 @@ import FlightInfo from 'src/components/FlightInfo';
 import './styles.scss';
 
 const prepareInfo = (flightsInfo, placesInfo) => {
-  // this information should be delivered with server
   const selectedFlight = flightsInfo.flights.find(
     (flight) => flight.id === flightsInfo.selectedId
   );
   const selectedPlaces = placesInfo.places.seats.filter(
-    (seat) => placesInfo.pickedPlaces.indexOf(seat.number) !== -1
+    (seat) => placesInfo.pickedPlaces.indexOf(seat.id) !== -1
   );
   const luggageInfo = {
     isRequired: placesInfo.isLuggageRequired,
     kg: placesInfo.luggageKg,
     max: selectedFlight.luggage.maxKg * selectedPlaces.length,
-    free: selectedFlight.luggage.free * selectedPlaces.length,
+    free: selectedFlight.luggage.freeKg * selectedPlaces.length,
     price: selectedFlight.luggage.price,
     paid:
-      placesInfo.luggageKg > selectedFlight.luggage.free * selectedPlaces.length
+      placesInfo.luggageKg >
+      selectedFlight.luggage.freeKg * selectedPlaces.length
         ? placesInfo.luggageKg -
-          selectedFlight.luggage.free * selectedPlaces.length
+          selectedFlight.luggage.freeKg * selectedPlaces.length
         : 0,
   };
 

@@ -90,7 +90,7 @@ export const flightsTableColumns = (isFinder) => {
         {
           id: (d) => (isFinder ? 'luggageFree' : 'luggageKg'),
           Header: (d) => (isFinder ? 'Free' : 'KG'),
-          accessor: (d) => (isFinder ? d.luggage.free : d.luggage.kg),
+          accessor: (d) => (isFinder ? d.luggage.freeKg : d.luggage.kg),
         },
         {
           id: 'luggagePrice',

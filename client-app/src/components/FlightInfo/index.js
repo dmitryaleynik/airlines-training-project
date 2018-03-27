@@ -1,22 +1,25 @@
 import React from 'react';
-import { DATE_DISPLAY_PATTERN, } from 'src/imports';
+import moment from 'moment';
+import { DATETIME_DISPLAY_PATTERN, } from 'src/imports';
 
 import './styles.scss';
 
 const FlightInfo = (props) => {
-  const { flight, places, luggage, } = props;
+  const { flight, } = props;
+  const { places, luggage, } = flight;
+  console.log(props);
   const placesByType = {};
   const placePrices = {};
   let subTotal = 0;
 
-  places.forEach((seat) => {
-    if (!placesByType[seat.type]) {
-      placesByType[seat.type] = [];
-    }
-    placesByType[seat.type].push(seat);
-  });
-  Object.keys(placesByType).forEach((key) => {
-    placePrices[key] = placesByType[key].length * flight.places[key].price;
+  // places.forEach((seat) => {
+  //   if (!placesByType[seat.type]) {
+  //     placesByType[seat.type] = [];
+  //   }
+  //   placesByType[seat.type].push(seat);
+  // });
+  Object.keys(places).forEach((key) => {
+    placePrices[key] = places[key].length * flight.places[key].price;
   });
   for (const price in placePrices) {
     subTotal += placePrices[price];
@@ -37,13 +40,14 @@ const FlightInfo = (props) => {
               <td>Departure from:</td>
               <td>
                 {flight.city.from} -{' '}
-                {flight.date.from.format(DATE_DISPLAY_PATTERN)}
+                {moment(flight.date.from).format(DATETIME_DISPLAY_PATTERN)}
               </td>
             </tr>
             <tr>
               <td>Destination:</td>
               <td>
-                {flight.city.to} - {flight.date.to.format(DATE_DISPLAY_PATTERN)}
+                {flight.city.to} -{' '}
+                {moment(flight.date.to).format(DATETIME_DISPLAY_PATTERN)}
               </td>
             </tr>
             <tr>
@@ -61,11 +65,11 @@ const FlightInfo = (props) => {
               <th>Number(s)</th>
               <th>Subtotal</th>
             </tr>
-            {Object.keys(placesByType).map((key, index) => (
+            {Object.keys(places).map((key, index) => (
               <tr key={index}>
                 <td>{key}</td>
                 <td>
-                  {placesByType[key].reduce((prev, next) => {
+                  {places[key].reduce((prev, next) => {
                     return prev ? `${prev}, ${next.number}` : next.number;
                   }, '')}
                 </td>

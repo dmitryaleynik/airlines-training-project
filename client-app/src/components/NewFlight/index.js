@@ -48,9 +48,9 @@ class NewFlight extends Component<{}, State> {
           break;
         case steps.CONFIRMATOR:
           window.scroll(0, 0);
-          const flightId = isReverseRequired
-            ? `${straightFlight.selectedId}&${reverseFlight.selectedId}`
-            : straightFlight.selectedId;
+          const flightId = {
+            [STRAIGHT_FLIGHT]: straightFlight.selectedId,
+          };
           const placesToBeBooked = {
             [STRAIGHT_FLIGHT]: straightPlaces.pickedPlaces,
           };
@@ -58,8 +58,9 @@ class NewFlight extends Component<{}, State> {
             [STRAIGHT_FLIGHT]: straightPlaces.luggageKg,
           };
           if (isReverseRequired) {
+            flightId[REVERSE_FLIGHT] = reverseFlight.selectedId;
             placesToBeBooked[REVERSE_FLIGHT] = reversePlaces.pickedPlaces;
-            luggage[STRAIGHT_FLIGHT] = reversePlaces.luggageKg;
+            luggage[REVERSE_FLIGHT] = reversePlaces.luggageKg;
           }
           bookTemporarily(flightId, placesToBeBooked, luggage);
           break;

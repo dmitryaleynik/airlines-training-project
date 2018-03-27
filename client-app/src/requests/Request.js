@@ -40,6 +40,18 @@ class Request {
 
     return axios(config);
   };
+
+  put = (payload, params) => {
+    const config = {
+      method: methods.PUT,
+      url: `${SERVER_URL}${this.url}`,
+      data: payload,
+      params,
+    };
+    config.headers = this.setAuthHeaderIfNeeded(config.headers);
+
+    return axios(config);
+  };
 }
 
 export default Request;
