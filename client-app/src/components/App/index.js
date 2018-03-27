@@ -1,12 +1,12 @@
 // @flow
 import React from 'react';
-import Header from 'src/components/Header';
+import Header from 'src/components/Header/container';
 import Routes from './routes';
 import './styles.scss';
 
-const App = (props) => (
+const App = () => (
   <div className="root">
-    <Header isAuthorized={false} />
+    <Header />
     <div className="content container">
       <Routes />
       {/*

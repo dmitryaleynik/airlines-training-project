@@ -27,7 +27,6 @@ export default (state = initialState, { type, payload, }) => {
         isSuccess: true,
       };
     case AUTHORIZATION_FAILURE:
-      console.log(payload);
       return {
         ...state,
         isFetching: false,

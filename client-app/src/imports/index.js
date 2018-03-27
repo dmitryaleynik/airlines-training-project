@@ -46,4 +46,7 @@ export const routes = {
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
   PROFILE: '/orders',
+  SETTINGS: '/profile',
 };
+
+export const TOKEN = 'authToken';

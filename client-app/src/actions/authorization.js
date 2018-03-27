@@ -3,6 +3,7 @@ import {
   AUTHORIZATION_SUCCESS,
   AUTHORIZATION_FAILURE,
   AUTHORIZATION_DESTROY,
+  AUTHORIZATION_LOGOUT,
 } from './types';
 import signIn from 'src/requests/sign-in';
 
@@ -18,8 +19,8 @@ export const authorize = ({ email, password, }) => {
           token: res.data.token,
         },
       });
-    } catch ({ response }) {
-      dispatch({ type: AUTHORIZATION_FAILURE, payload: response.data.message })
+    } catch ({ response, }) {
+      dispatch({ type: AUTHORIZATION_FAILURE, payload: response.data.message, });
     }
   };
 };
@@ -27,5 +28,9 @@ export const authorize = ({ email, password, }) => {
 export const destroy = () => {
   return {
     type: AUTHORIZATION_DESTROY,
-  }
-}
+  };
+};
+
+export const logout = () => {
+  return { type: AUTHORIZATION_LOGOUT, };
+};
