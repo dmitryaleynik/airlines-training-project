@@ -14,7 +14,7 @@ export default (store) => (next) => async (action) => {
     }
   } else {
     if (action.type === AUTHORIZATION_SUCCESS) {
-      handleAuthSuccess(action.payload);
+      handleAuthSuccess(action.payload.token);
     }
     return next(action);
   }

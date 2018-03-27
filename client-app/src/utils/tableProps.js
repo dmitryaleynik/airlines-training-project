@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { DATETIME_DISPLAY_PATTERN, } from 'src/imports';
 
 export const initializeTableProps = (data) => {
@@ -43,13 +44,13 @@ export const flightsTableColumns = (isFinder) => {
           id: 'dateFrom',
           Header: 'From',
           width: 250,
-          accessor: (d) => d.date.from.format(DATETIME_DISPLAY_PATTERN),
+          accessor: (d) => moment(d.date.from).format(DATETIME_DISPLAY_PATTERN),
         },
         {
           id: 'dateTo',
           Header: 'To',
           width: 250,
-          accessor: (d) => d.date.to.format(DATETIME_DISPLAY_PATTERN),
+          accessor: (d) => moment(d.date.to).format(DATETIME_DISPLAY_PATTERN),
         },
       ],
     },
@@ -111,7 +112,7 @@ export const ordersTableColumns = () => {
     {
       Header: 'Leaving date',
       id: 'leaveAt',
-      accessor: (d) => d.leaveAt.format(DATETIME_DISPLAY_PATTERN),
+      accessor: (d) => moment(d.leaveAt).format(DATETIME_DISPLAY_PATTERN),
     },
     {
       Header: 'Status',

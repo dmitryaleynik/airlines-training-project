@@ -1,4 +1,6 @@
-import { cities, flights, } from 'src/db/flightFinder';
+import cities from 'src/requests/cities';
+import flights from 'src/requests/flights';
+import { getToken, } from 'src/utils/helpers';
 import {
   FLIGHT_FINDER_REQUEST_CITIES,
   FLIGHT_FINDER_GET_CITIES,
@@ -12,17 +14,16 @@ import {
 } from './types';
 
 export const getCities = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({
       type: FLIGHT_FINDER_REQUEST_CITIES,
     });
-    let resolvedCities = await Promise.resolve(cities);
-    setTimeout(() => {
-      dispatch({
-        type: FLIGHT_FINDER_GET_CITIES,
-        payload: resolvedCities,
-      });
-    }, 2000);
+    const token = getToken(getState);
+    let resolvedCities = (await cities(token)).data.cities;
+    dispatch({
+      type: FLIGHT_FINDER_GET_CITIES,
+      payload: resolvedCities,
+    });
   };
 };
 
@@ -41,7 +42,7 @@ export const changeDateEnd = (date, directionName) => {
 };
 
 export const findFlights = (filters, directionName) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({
       type: FLIGHT_FINDER_UPDATE_FILTERS,
       payload: { filters, directionName, },
@@ -50,13 +51,12 @@ export const findFlights = (filters, directionName) => {
       type: FLIGHT_FINDER_REQUEST_FLIGHTS,
       payload: { directionName, },
     });
-    let resolvedFlights = await Promise.resolve(flights);
-    setTimeout(() => {
-      dispatch({
-        type: FLIGHT_FINDER_RECEIVE_FLIGHTS,
-        payload: { flights: resolvedFlights, directionName, },
-      });
-    }, 2000);
+    const token = getToken(getState);
+    let resolvedFlights = (await flights(filters, token)).data.flights;
+    dispatch({
+      type: FLIGHT_FINDER_RECEIVE_FLIGHTS,
+      payload: { flights: resolvedFlights, directionName, },
+    });
   };
 };
 

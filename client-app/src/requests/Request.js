@@ -18,21 +18,23 @@ class Request {
     }
   };
 
-  get = () => {
+  get = (params) => {
     const config = {
       method: methods.GET,
       url: `${SERVER_URL}${this.url}`,
+      params,
     };
     config.headers = this.setAuthHeaderIfNeeded(config.headers);
 
     return axios(config);
   };
 
-  post = (payload) => {
+  post = (payload, params) => {
     const config = {
       method: methods.POST,
       url: `${SERVER_URL}${this.url}`,
       data: payload,
+      params,
     };
     config.headers = this.setAuthHeaderIfNeeded(config.headers);
 

@@ -21,6 +21,9 @@ type Props = {
 
 const FlightFinderTable = (props: Props) => {
   const trOptions = (state: Object, rowInfo: Object, column: Object) => {
+    if (!rowInfo) {
+      return {};
+    }
     return {
       className:
         rowInfo.original.id === props.selectedId ? 'picked-row' : 'highlight',
