@@ -6,31 +6,28 @@ import {
 } from './types';
 import { getToken, } from 'src/utils/helpers';
 import getOrders from 'src/requests/orders';
-import fetchedInfo from 'src/db/orders';
+import getOrderById from 'src/requests/orderById';
 
 export const getOrderInfo = (id) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({
       type: ORDERS_REQUEST_ORDER_INFO,
     });
-    const orderInfo = await Promise.resolve(
-      fetchedInfo.find((item) => item.id === id)
-    );
-    setTimeout(() => {
-      dispatch({
-        type: ORDERS_GET_ORDER_INFO,
-        payload: orderInfo,
-      });
-    }, 2000);
+    const token = getToken(getState);
+    const orderInfo = (await getOrderById(id, token)).data.order;
+    dispatch({
+      type: ORDERS_GET_ORDER_INFO,
+      payload: orderInfo,
+    });
   };
 };
 
 export const getAllOrders = () => {
   return async (dispatch, getState) => {
-    const token = getToken(getState);
     dispatch({
       type: ORDERS_REQUEST_ALL,
     });
+    const token = getToken(getState);
     const res = await getOrders(token);
     dispatch({
       type: ORDERS_RECEIVE_ALL,
