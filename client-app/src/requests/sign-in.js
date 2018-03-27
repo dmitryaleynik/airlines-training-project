@@ -1,15 +1,5 @@
-import sendRequest from './sendRequest';
-import { methods, SERVER_URL, } from 'src/imports';
+import Request from './Request';
 
 export default (email, password) => {
-  const config = {
-    method: methods.POST,
-    url: `${SERVER_URL}/sign-in`,
-    data: {
-      email,
-      password,
-    },
-  };
-
-  return sendRequest(config);
+  return new Request('/sign-in').post({ email, password, });
 };
