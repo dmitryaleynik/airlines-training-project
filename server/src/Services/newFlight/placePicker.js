@@ -29,7 +29,7 @@ const getPlaces = async ({ flightId, }) => {
   const seats = await dbConnector.getPlacesWithAvailability(
     new PlacesWithAvailabilityRequest(flightId)
   );
-  sizes.seats = mapPlaces(seats);
+  sizes.seats = seats;
   return new GetPlacesResponse(sizes);
 };
 

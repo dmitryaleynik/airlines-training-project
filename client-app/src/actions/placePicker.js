@@ -8,24 +8,20 @@ import {
   PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
   PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
 } from './types';
-import seats from 'src/db/seats';
+import places from 'src/requests/places';
+import { getToken, } from 'src/utils/helpers';
 
 export const getPlaces = (flightId, directionName) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({
       type: PLACE_PICKER_REQUEST_ALL_PLACES,
     });
-    let resolvedPlaces = await Promise.resolve({
-      rows: seats[0].rows,
-      columns: seats[0].columns,
-      seats: seats[0].seats,
+    const token = getToken(getState);
+    let resolvedPlaces = (await places(flightId, token)).data;
+    dispatch({
+      type: PLACE_PICKER_GET_ALL_PLACES,
+      payload: { places: resolvedPlaces, directionName, },
     });
-    setTimeout(() => {
-      dispatch({
-        type: PLACE_PICKER_GET_ALL_PLACES,
-        payload: { places: resolvedPlaces, directionName, },
-      });
-    }, 2000);
   };
 };
 
