@@ -10,7 +10,12 @@ import './styles.scss';
 
 class OrderInfo extends Component {
   componentWillMount() {
-    this.props.getOrderInfo(this.props.match.params.id);
+    let { orderId, getOrderInfo, match, } = this.props;
+    orderId = orderId || match.params.id;
+    if (!orderId) {
+      return null;
+    }
+    getOrderInfo(orderId);
   }
 
   componentWillUnmount() {

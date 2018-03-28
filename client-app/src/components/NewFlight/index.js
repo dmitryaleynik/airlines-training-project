@@ -2,7 +2,7 @@ import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
-import PriceConfirmator from './PriceConfirmator';
+import OrderInfo from 'src/components/OrderInfo/container';
 import ButtonPanel from './ButtonPanel';
 import Modal from 'src/components/Modal/container';
 import Loader from 'src/components/Loader';
@@ -204,20 +204,18 @@ class NewFlight extends Component<{}, State> {
       changeLuggageAmount,
       togglePlace,
       modal,
-      openModal,
       orderId,
-      total,
       isFlightFinderFetching,
       isPlacePickerFetching,
       isPriceConfirmatorFetching,
+      match,
+      history,
     } = this.props;
     const {
       findFlights,
       selectFlight,
       toggleReversePath,
       validatePlaces,
-      confirmOrder,
-      cancelOrder,
     } = this;
 
     const luggageLimit = {
@@ -258,19 +256,9 @@ class NewFlight extends Component<{}, State> {
         onLuggageChange={changeLuggageAmount}
         validate={validatePlaces}
       />,
-      <PriceConfirmator
-        orderId={orderId}
-        totalPrice={total}
-        isReverseRequired={isReverseRequired}
-        straightFlight={straightFlight}
-        reverseFlight={reverseFlight}
-        straightPlaces={straightPlaces}
-        reversePlaces={reversePlaces}
-        confirmOrder={confirmOrder}
-        cancelOrder={cancelOrder}
-        openModal={openModal}
-      />,
+      <OrderInfo orderId={orderId} match={match} history={history} />,
     ];
+
     return (
       <div className="new-flight">
         {modal && <Modal modal={modal} />}
