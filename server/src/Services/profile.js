@@ -26,7 +26,7 @@ const getOrdersByUserId = async ({ id, }) => {
 
   const curDate = new Date();
   for (let order of orders) {
-    if (order.expiresAt < curDate) {
+    if (order.status === orderStatus.PENDING && order.expiresAt < curDate) {
       await dbConnector.cancelOrder(new CancelOrderRequest(order.id));
       order.status = orderStatus.CANCELLED;
     }
@@ -54,7 +54,7 @@ const getOrderById = async ({ userId, orderId, }) => {
   order.flights = flights;
 
   const curDate = new Date();
-  if (order.expiresAt < curDate) {
+  if (order.status === orderStatus.PENDING && order.expiresAt < curDate) {
     await dbConnector.cancelOrder(new CancelOrderRequest(order.id));
     order.status = orderStatus.CANCELLED;
   }

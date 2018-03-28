@@ -16,7 +16,7 @@ const confirmBooking = async ctx => {
   if (res.orderNotFound) {
     ctx.status = HttpCodes.NOT_FOUND;
     ctx.body = {
-      message: 'Order is not found.',
+      message: 'Order not found.',
     };
     return;
   }

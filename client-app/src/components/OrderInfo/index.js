@@ -5,6 +5,7 @@ import Modal from 'src/components/Modal/container';
 import Loader from 'src/components/Loader';
 import { orderStatuses, } from 'src/imports';
 import { calculatePrices, } from 'src/utils/helpers';
+import { routes, } from 'src/imports';
 
 import './styles.scss';
 
@@ -28,7 +29,7 @@ class OrderInfo extends Component {
       handlePositiveClick: () => {
         const { order, cancelOrder, } = this.props;
         cancelOrder(order.id);
-        this.props.history.push('/orders');
+        this.props.history.push(routes.PROFILE);
       },
     };
     this.props.openModal(modalScheme);
@@ -42,7 +43,7 @@ class OrderInfo extends Component {
     const { order, confirmOrder, } = this.props;
     confirmOrder(order.id);
     setTimeout(() => {
-      this.props.history.push('/orders');
+      this.props.history.push(routes.PROFILE);
     }, 3000);
   };
 
