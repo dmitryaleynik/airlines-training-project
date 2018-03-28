@@ -40,7 +40,6 @@ const getFlights = async filters => {
     }
     flight.places = mappedStat;
   }
-  console.log(flights);
   return new GetFlightsResponse(flights);
 };
 

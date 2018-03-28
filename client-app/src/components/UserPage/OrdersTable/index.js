@@ -8,8 +8,20 @@ import 'react-table/react-table.css';
 
 const OrderTable = (props) => {
   let orderTableProps;
+  const data = props.data.map((item) => {
+    let leaveAt;
+    if (item.dateFrom.length === 1) {
+      leaveAt = item.dateFrom[0];
+    } else {
+      leaveAt = item.dateFrom.filter((date) => moment(date) > moment())[0];
+    }
+    return {
+      ...item,
+      leaveAt: moment(leaveAt),
+    };
+  });
   if (props.data.length) {
-    const filteredData = props.data.filter((item) => {
+    const filteredData = data.filter((item) => {
       switch (props.filter) {
         case ordersDropdown.values.FUTURE:
           return item.leaveAt > moment();
@@ -22,7 +34,7 @@ const OrderTable = (props) => {
     });
     orderTableProps = initializeTableProps(filteredData);
   } else {
-    orderTableProps = initializeTableProps(props.data);
+    orderTableProps = initializeTableProps(data);
   }
   orderTableProps.columns = ordersTableColumns();
 
@@ -37,11 +49,6 @@ const OrderTable = (props) => {
   return (
     <ReactTable
       className="table -highlight"
-      // data={orderTableProps.data}
-      // columns={orderTableProps.columns}
-      // showPagination={orderTableProps.showPagination}
-      // minRows={orderTableProps.minRows}
-      // defaultPageSize={orderTableProps.defaultPageSize}
       getTrProps={trProps}
       {...orderTableProps}
     />

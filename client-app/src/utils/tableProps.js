@@ -2,11 +2,19 @@ import moment from 'moment';
 import { DATETIME_DISPLAY_PATTERN, } from 'src/imports';
 
 export const initializeTableProps = (data) => {
-  const defaultPageSize = 5;
+  const defaultPageSize = 9;
+  const minRows = data.length > defaultPageSize ? defaultPageSize : data.length;
   return {
     data: data,
-    minRows: data.length || 1,
+    minRows: minRows || 1,
     defaultPageSize,
+    showPageSizeOptions: false,
+    sorted: [
+      {
+        id: 'id',
+        desc: true,
+      },
+    ],
     showPagination: data.length > defaultPageSize,
   };
 };

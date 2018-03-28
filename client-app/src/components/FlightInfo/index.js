@@ -5,28 +5,10 @@ import { DATETIME_DISPLAY_PATTERN, } from 'src/imports';
 import './styles.scss';
 
 const FlightInfo = (props) => {
-  const { flight, } = props;
+  const { flight, prices, } = props;
   const { places, luggage, } = flight;
-  console.log(props);
-  const placesByType = {};
-  const placePrices = {};
-  let subTotal = 0;
+  const { placePrices, luggagePrice, subtotal, } = prices;
 
-  // places.forEach((seat) => {
-  //   if (!placesByType[seat.type]) {
-  //     placesByType[seat.type] = [];
-  //   }
-  //   placesByType[seat.type].push(seat);
-  // });
-  Object.keys(places).forEach((key) => {
-    placePrices[key] = places[key].length * flight.places[key].price;
-  });
-  for (const price in placePrices) {
-    subTotal += placePrices[price];
-  }
-  if (luggage.isRequired) {
-    subTotal += luggage.paid * luggage.price;
-  }
   return (
     <div className="flight-info row">
       <div className="col-6">
@@ -89,11 +71,11 @@ const FlightInfo = (props) => {
               </tr>
               <tr>
                 <td>Max weight:</td>
-                <td>{luggage.max}kg</td>
+                <td>{luggage.maxKg}kg</td>
               </tr>
               <tr>
                 <td>Your weight:</td>
-                <td>{luggage.kg}kg</td>
+                <td>{luggage.luggageKg}kg</td>
               </tr>
               <tr>
                 <td>Price for kg:</td>
@@ -117,15 +99,15 @@ const FlightInfo = (props) => {
               </tr>
               <tr>
                 <td>Free weight:</td>
-                <td>{luggage.free}kg</td>
+                <td>{luggage.freeKg}kg</td>
               </tr>
               <tr>
                 <td>Paid weight:</td>
-                <td>{luggage.paid}kg</td>
+                <td>{luggage.paidKg}kg</td>
               </tr>
               <tr>
                 <td>Subtotal:</td>
-                <td>{luggage.paid * luggage.price}$</td>
+                <td>{luggagePrice}$</td>
               </tr>
             </tbody>
           </table>
@@ -133,7 +115,7 @@ const FlightInfo = (props) => {
       )}
       <div className="col-12 text-right mt-2 pt-2 total-wrapper">
         <span className="font-weight-bold">Total:</span>
-        <span className="ml-2">{subTotal}$</span>
+        <span className="ml-2">{subtotal}$</span>
       </div>
     </div>
   );

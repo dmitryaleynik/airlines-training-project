@@ -1,5 +1,6 @@
 const dbConnector = require('../Connectors/psql');
 const mapPlaces = require('../utils/placesMapper');
+const mapLuggage = require('../utils/luggageMapper');
 const { orderStatus, } = require('../utils/constants');
 
 const {
@@ -48,7 +49,7 @@ const getOrderById = async ({ userId, orderId, }) => {
       new OrderedPlacesRequest(flight.id, orderId)
     );
     flight.places = mapPlaces(places);
-    flight.luggage.isRequired = !!flight.luggage.luggageKg;
+    flight.luggage = mapLuggage(places, flight.luggage);
   }
   order.flights = flights;
 

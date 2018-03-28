@@ -4,6 +4,7 @@ import BackButton from 'src/components/BackButton';
 import Modal from 'src/components/Modal/container';
 import Loader from 'src/components/Loader';
 import { orderStatuses, } from 'src/imports';
+import { calculatePrices, } from 'src/utils/helpers';
 
 import './styles.scss';
 
@@ -43,15 +44,18 @@ class OrderInfo extends Component {
   render() {
     const { order, modal, isFetching, history, } = this.props;
     const { cancelOrder, confirmOrder, } = this;
+    let total = 0;
     if (!order) {
       return <Loader />;
     }
 
     const children = [];
     order.flights.forEach((flight, i) => {
+      const prices = calculatePrices(flight);
+      total += prices.subtotal;
       children.push(
         <div key={i}>
-          <FlightInfo flight={flight} />
+          <FlightInfo flight={flight} prices={prices} />
           <div className="flights-divider-both" />
         </div>
       );
@@ -69,9 +73,7 @@ class OrderInfo extends Component {
             </div>
             {children}
             <div className="d-flex justify-content-between mt-3">
-              <span className="font-weight-bold">
-                GRAND TOTAL: {order.total}$
-              </span>
+              <span className="font-weight-bold">GRAND TOTAL: {total}$</span>
               {order.status === orderStatuses.PENDING && (
                 <span className="buttons">
                   <button
