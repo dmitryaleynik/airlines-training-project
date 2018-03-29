@@ -42,6 +42,13 @@ const deletePlaceBooking = async ({ placeId, flightId, orderId, }) => {
   return result;
 };
 
+const addLuggageToBooking = async ({ luggageKg, flightId, orderId, }) => {
+  const queryText = 'SELECT * FROM add_luggage_to_booking($1, $2, $3);';
+  const values = [orderId, flightId, luggageKg,];
+  const result = await client.query(queryText, values);
+  return result;
+};
+
 module.exports = {
   getOrderedPlaces,
   countAvailablePlaces,
@@ -49,4 +56,5 @@ module.exports = {
   getPlacesWithAvailability,
   linkPlaceWithOrder,
   deletePlaceBooking,
+  addLuggageToBooking,
 };

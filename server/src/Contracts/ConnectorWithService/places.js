@@ -39,6 +39,15 @@ class DeletePlaceBookingRequest {
   }
 }
 
+class AddLuggageToBookingRequest {
+  constructor({ orderId, flightId, luggageKg, userId, }) {
+    this.orderId = orderId;
+    this.flightId = flightId;
+    this.luggageKg = luggageKg;
+    this.userId = userId;
+  }
+}
+
 class PlaceResponse {
   constructor({ place_id, place_number, type_name, price, availability, }) {
     this.id = place_id;
@@ -74,4 +83,5 @@ module.exports = {
   PlacesWithAvailabilityRequest,
   LinkPlaceWithOrderRequest,
   DeletePlaceBookingRequest,
+  AddLuggageToBookingRequest,
 };

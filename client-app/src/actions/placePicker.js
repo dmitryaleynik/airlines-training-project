@@ -7,12 +7,14 @@ import {
   PLACE_PICKER_VALIDATE_PLACES,
   PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
   PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
+  BOOKING_ADD_LUGGAGE,
 } from './types';
 import places from 'src/requests/places';
 import postBooking from 'src/requests/postBooking';
 import putBooking from 'src/requests/putBooking';
 import bookPlace from 'src/requests/bookPlace';
 import unbookPlace from 'src/requests/unbookPlace';
+import addLuggage from 'src/requests/addLuggage';
 import { getToken, } from 'src/utils/helpers';
 
 export const getPlaces = (flightId, directionName) => {
@@ -109,5 +111,13 @@ export const bookTemporarily = (flightId) => {
       type: PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
       payload: orderId,
     });
+  };
+};
+
+export const addLuggageToBooking = (orderId, flightId, luggageKg) => {
+  return async (dispatch, getState) => {
+    const token = getToken(getState);
+    await addLuggage({ orderId, flightId, luggageKg, }, token);
+    dispatch({ type: BOOKING_ADD_LUGGAGE, });
   };
 };

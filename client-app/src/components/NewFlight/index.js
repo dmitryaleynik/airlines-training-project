@@ -21,8 +21,11 @@ class NewFlight extends Component<{}, State> {
       getCities,
       getPlaces,
       flights,
+      places,
       isReverseRequired,
       bookTemporarily,
+      orderId,
+      addLuggageToBooking,
     } = this.props;
     if (currentStep !== nextProps.currentStep) {
       switch (nextProps.currentStep) {
@@ -36,9 +39,7 @@ class NewFlight extends Component<{}, State> {
           for (let key in flights) {
             flightId[key] = flights[key].selectedId;
           }
-
           bookTemporarily(flightId);
-
           getPlaces(
             flights[directions.STRAIGHT].selectedId,
             directions.STRAIGHT
@@ -52,6 +53,15 @@ class NewFlight extends Component<{}, State> {
           break;
         case steps.CONFIRMATOR:
           window.scroll(0, 0);
+          for (let key in places) {
+            if (places[key].isLuggageRequired) {
+              addLuggageToBooking(
+                orderId,
+                flights[key].selectedId,
+                places[key].luggageKg
+              );
+            }
+          }
           break;
         default:
           break;

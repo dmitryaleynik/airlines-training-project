@@ -155,6 +155,11 @@ const deletePlaceBooking = async params => {
   return true;
 };
 
+const addLuggageToBooking = async params => {
+  await db.addLuggageToBooking(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -180,4 +185,5 @@ module.exports = {
   getUserWithAvatar,
   changeAvatar,
   deletePlaceBooking,
+  addLuggageToBooking,
 };

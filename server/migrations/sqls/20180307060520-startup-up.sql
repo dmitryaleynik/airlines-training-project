@@ -557,3 +557,15 @@ begin
   return;
 end;
 $$ language plpgsql;
+
+create function add_luggage_to_booking(oid integer, fid integer, lug integer)
+  returns void as $$
+begin
+  update ordered_flights
+  set luggage_kg = lug
+  where flight_id = fid
+    and order_id = oid;
+
+  return;
+end;
+$$ language plpgsql;

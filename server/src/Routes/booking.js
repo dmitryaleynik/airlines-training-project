@@ -50,4 +50,11 @@ bookingRouter.put(
   confirmatorHandler.cancelBooking
 );
 
+bookingRouter.put(
+  '/luggage',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  placePickerHandler.addLuggageToBooking
+);
+
 module.exports = bookingRouter;

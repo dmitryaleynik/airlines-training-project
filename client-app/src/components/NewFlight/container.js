@@ -20,6 +20,7 @@ import {
   changeLuggageAmount,
   validatePlaces,
   bookTemporarily,
+  addLuggageToBooking,
 } from 'src/actions/placePicker';
 import { openModal, closeModal, } from 'src/actions/modal';
 import { directions, } from 'src/imports';
@@ -73,6 +74,7 @@ const mapDispatchToProps = {
   openModal,
   closeModal,
   bookTemporarily,
+  addLuggageToBooking,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewFlight);

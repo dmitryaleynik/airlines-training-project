@@ -1,19 +1,23 @@
 const dbConnector = require('../../Connectors/psql');
+const { orderStatus, } = require('../../utils/constants');
 
 const {
   PlaneSizesRequest,
   PlacesWithAvailabilityRequest,
   LinkPlaceWithOrderRequest,
   DeletePlaceBookingRequest,
+  AddLuggageToBookingRequest,
 } = require('../../Contracts/ConnectorWithService/places');
 const {
   GetPlacesResponse,
   OrderIdResponse,
   AddToBookingResponse,
   BookPlaceResponse,
+  AddLuggageToBookingResponse,
 } = require('../../Contracts/ServiceWithHandler/placePicker');
 const {
   NewOrderRequest,
+  OrderByIdRequest,
 } = require('../../Contracts/ConnectorWithService/orders');
 const {
   LinkFlightWithOrderRequest,
@@ -80,10 +84,22 @@ const deletePlaceBooking = async ({ orderId, flightId, placeId, }) => {
   return true;
 };
 
+const addLuggageToBooking = async params => {
+  const order = await dbConnector.getOrderById(
+    new OrderByIdRequest(params.userId, params.orderId)
+  );
+  if (order.status !== orderStatus.PENDING) {
+    return new AddLuggageToBookingResponse({ unavailableToProcess: true, });
+  }
+  await dbConnector.addLuggageToBooking(new AddLuggageToBookingRequest(params));
+  return true;
+};
+
 module.exports = {
   getPlaces,
   bookTemporarily,
   addToBooking,
   bookPlace,
   deletePlaceBooking,
+  addLuggageToBooking,
 };

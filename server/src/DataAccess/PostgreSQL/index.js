@@ -30,6 +30,7 @@ const {
   getPlacesByNumbers,
   linkPlaceWithOrder,
   deletePlaceBooking,
+  addLuggageToBooking,
 } = require('./places');
 
 module.exports = {
@@ -58,4 +59,5 @@ module.exports = {
   getUserWithAvatar,
   changeAvatar,
   deletePlaceBooking,
+  addLuggageToBooking,
 };

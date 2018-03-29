@@ -7,6 +7,7 @@ const {
   AddToBookingRequest,
   BookPlaceRequest,
   DeletePlaceBookingRequest,
+  AddLuggageToBookingRequest,
 } = require('../../Contracts/ServiceWithHandler/placePicker');
 const {
   GetPlacesResponse,
@@ -100,9 +101,28 @@ const placeBooking = async ctx => {
   }
 };
 
+const addLuggageToBooking = async ctx => {
+  const { body, } = ctx.request;
+  const req = new AddLuggageToBookingRequest(body, ctx.state.user.id);
+  for (let key in req) {
+    if (!req[key]) {
+      ctx.status = HttpCodes.BAD_REQUEST;
+      return;
+    }
+  }
+
+  const res = await placePickerService.addLuggageToBooking(req);
+  if (res.unavailableToProcess) {
+    ctx.status = HttpCodes.CONFLICT;
+    return;
+  }
+  ctx.status = HttpCodes.NO_CONTENT;
+};
+
 module.exports = {
   getPlaces,
   bookTemporarily,
   addToBooking,
   placeBooking,
+  addLuggageToBooking,
 };

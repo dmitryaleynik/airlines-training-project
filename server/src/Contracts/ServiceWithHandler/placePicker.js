@@ -34,6 +34,15 @@ class DeletePlaceBookingRequest {
   }
 }
 
+class AddLuggageToBookingRequest {
+  constructor({ orderId, flightId, luggageKg, }, userId) {
+    this.orderId = orderId;
+    this.flightId = flightId;
+    this.luggageKg = luggageKg;
+    this.userId = userId;
+  }
+}
+
 class GetPlacesResponse {
   constructor(failures, params) {
     if (failures) {
@@ -74,6 +83,16 @@ class BookPlaceResponse {
   }
 }
 
+class AddLuggageToBookingResponse {
+  constructor(failures) {
+    if (failures) {
+      for (let failure in failures) {
+        this[failure] = failures[failure];
+      }
+    }
+  }
+}
+
 module.exports = {
   GetPlacesRequest,
   GetPlacesResponse,
@@ -84,4 +103,6 @@ module.exports = {
   BookPlaceRequest,
   BookPlaceResponse,
   DeletePlaceBookingRequest,
+  AddLuggageToBookingRequest,
+  AddLuggageToBookingResponse,
 };
