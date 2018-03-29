@@ -32,7 +32,7 @@ export default (state = initialState, { type, payload, }) => {
         ...state,
         nickname: payload.nickname,
         editableUsername: payload.nickname,
-        avatar: payload.avatar.data,
+        avatar: payload.avatar,
         isFetching: false,
       };
     case PROFILE_EDIT_USERNAME:

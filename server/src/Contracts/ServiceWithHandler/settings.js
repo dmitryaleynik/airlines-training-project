@@ -24,7 +24,7 @@ class UserInfoResponse {
     this.email = email;
     this.nickname = nickname;
     this.role = role;
-    this.avatar = avatar;
+    this.avatar = avatar.toString('base64');
   }
 }
 

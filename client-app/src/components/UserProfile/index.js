@@ -1,5 +1,4 @@
 import React, { Component, } from 'react';
-import FileSaver from 'file-saver';
 import Loader from 'src/components/Loader';
 import check from 'src/assets/icons/check.svg';
 import x from 'src/assets/icons/x.svg';
@@ -42,12 +41,6 @@ class UserProfile extends Component {
       handleUsernameSubmit,
       handleAvatarChange,
     } = this;
-    // const avatar = new File(profile.avatar, 'img.png', {
-    //   type: 'image/png',
-    // });
-    // const url = URL.createObjectURL(avatar);
-    // console.log(profile.avatar);
-    // FileSaver.saveAs(avatar);
     return (
       <div>
         {isFetching && <Loader />}
@@ -58,7 +51,11 @@ class UserProfile extends Component {
               <div className="row align-items-center justify-content-around">
                 <div className="col-5 d-flex justify-content-between align-items-center">
                   <div className="avatar-wrapper">
-                    <img className="avatar" src={''} alt="avatar" />
+                    <img
+                      className="avatar"
+                      src={`data:image/png;base64,${profile.avatar}`}
+                      alt="avatar"
+                    />
                   </div>
                   <div className="input-group upload-avatar">
                     <div className="custom-file">
@@ -72,7 +69,7 @@ class UserProfile extends Component {
                         className="custom-file-label"
                         htmlFor="inputGroupFile"
                       >
-                        {profile.avatar.name || 'Upload new image'}
+                        {'Upload new image'}
                       </label>
                       {isAvatarUploaded && (
                         <span className="text-success avatar-success">
