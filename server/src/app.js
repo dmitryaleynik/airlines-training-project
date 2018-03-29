@@ -12,6 +12,7 @@ const { Roles, } = require('./setup/roles');
 
 const app = new Koa();
 app.use(bodyParser());
+
 app.use(async (ctx, next) => {
   try {
     await next();

@@ -73,7 +73,7 @@ export const confirmEditting = (nickname) => {
 export const uploadAvatar = (avatar) => {
   return async (dispatch, getState) => {
     const token = getToken(getState);
-    await changeAvatar(avatar, token);
+    await changeAvatar({ avatar, }, token);
     dispatch({
       type: PROFILE_UPLOAD_AVATAR,
       payload: avatar,

@@ -22,7 +22,11 @@ class UserProfile extends Component {
     if (!e.target.files.length) {
       return;
     }
-    this.props.uploadAvatar(e.target.files[0]);
+    let reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onloadend = () => {
+      this.props.uploadAvatar(reader.result);
+    };
   };
 
   render() {
@@ -51,11 +55,7 @@ class UserProfile extends Component {
               <div className="row align-items-center justify-content-around">
                 <div className="col-5 d-flex justify-content-between align-items-center">
                   <div className="avatar-wrapper">
-                    <img
-                      className="avatar"
-                      src={`data:image/png;base64,${profile.avatar}`}
-                      alt="avatar"
-                    />
+                    <img className="avatar" src={profile.avatar} alt="avatar" />
                   </div>
                   <div className="input-group upload-avatar">
                     <div className="custom-file">

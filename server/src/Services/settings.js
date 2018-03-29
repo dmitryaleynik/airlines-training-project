@@ -20,7 +20,13 @@ const getUserInfo = async ({ id, }) => {
 };
 
 const changeAvatar = async ({ id, avatar, }) => {
-  await dbConnector.changeAvatar(new ChangeAvatarRequest(id, avatar));
+  const avatarArray = avatar.split(',');
+  const data = Buffer.from(avatarArray[1], 'base64');
+  const avatarData = {
+    type: avatarArray[0],
+    data,
+  };
+  await dbConnector.changeAvatar(new ChangeAvatarRequest(id, avatarData));
   return true;
 };
 

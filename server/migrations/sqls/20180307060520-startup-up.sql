@@ -81,6 +81,7 @@ create type user_with_avatar as (
   email varchar(255),
   nickname varchar(255),
   avatar bytea,
+  avatar_type varchar(255),
   role roles
 );
 
@@ -97,6 +98,7 @@ create table users (
   password_salt text not null,
   nickname varchar(255),
   avatar bytea not null,
+  avatar_type varchar(255) not null,
   role roles not null
 );
 
@@ -231,12 +233,17 @@ begin
 end;
 $$ language plpgsql;
 
-create function insert_user(user_email varchar(255), user_hash text, user_salt text, user_avatar bytea)
+create function insert_user
+  (user_email varchar(255),
+  user_hash text,
+  user_salt text,
+  user_avatar bytea,
+  user_avtype varchar(255))
   returns void as $$
 declare temp integer;
 begin
-  insert into users(email, password_hash, password_salt, avatar, role) 
-    values(user_email, user_hash, user_salt, user_avatar, 'user');
+  insert into users(email, password_hash, password_salt, avatar, avatar_type, role) 
+    values(user_email, user_hash, user_salt, user_avatar, user_avtype, 'user');
 
   update users
     set nickname = 'User#' || user_id
@@ -317,7 +324,12 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_flights_by_filters(c_from varchar(255), c_to varchar(255), d_from timestamp, d_to timestamp, seats integer)
+create function get_flights_by_filters
+  (c_from varchar(255),
+  c_to varchar(255),
+  d_from timestamp,
+  d_to timestamp,
+  seats integer)
   returns table (fs flight_brief) as $$
 begin
   return query
@@ -525,6 +537,7 @@ begin
     email,
     nickname,
     avatar,
+    avatar_type,
     role
   into ret
   from users
@@ -534,11 +547,12 @@ begin
 end;
 $$ language plpgsql;
 
-create function change_avatar(uid integer, av bytea)
+create function change_avatar(uid integer, av bytea, av_type varchar(255))
 returns void as $$
 begin
   update users
-  set avatar = av
+  set avatar = av,
+  avatar_type = av_type
   where uid = user_id;
 
   return;

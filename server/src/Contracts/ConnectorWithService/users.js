@@ -1,7 +1,8 @@
 class RegistrationRequest {
-  constructor(email, passwordData) {
+  constructor(email, passwordData, avatar) {
     this.email = email;
     this.passwordData = passwordData;
+    this.avatar = avatar;
   }
 }
 
@@ -54,12 +55,12 @@ class PasswordDataResponse {
 }
 
 class UserWithAvatarResponse {
-  constructor({ user_id, email, nickname, role, avatar, }) {
+  constructor({ user_id, email, nickname, role, avatar, avatar_type, }) {
     this.id = user_id;
     this.email = email;
     this.nickname = nickname;
     this.role = role;
-    this.avatar = avatar;
+    this.avatar = `${avatar_type},${avatar.toString('base64')}`;
   }
 }
 
