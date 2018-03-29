@@ -7,22 +7,21 @@ import {
   PROFILE_REJECT_EDIT_CONFIRMATION,
   PROFILE_CONFIRM_EDITTING,
   PROFILE_UPLOAD_AVATAR,
-  PROFILE_TOGGLE_AVATAR_OVERLAY,
-  PROFILE_REMOVE_AVATAR,
 } from './types';
-import { USERNAME_MIN_LENGTH, } from 'src/imports';
-import profile from 'src/db/profile';
+import userInfo from 'src/requests/userInfo';
+import changeNickname from 'src/requests/changeNickname';
+import changeAvatar from 'src/requests/changeAvatar';
+import { getToken, } from 'src/utils/helpers';
 
 export const getProfileInfo = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     dispatch({ type: PROFILE_REQUEST_INFO, });
-    const resolvedProfile = await Promise.resolve(profile);
-    setTimeout(() => {
-      dispatch({
-        type: PROFILE_GET_INFO,
-        payload: resolvedProfile,
-      });
-    }, 2000);
+    const token = getToken(getState);
+    const resolvedProfile = (await userInfo(token)).data;
+    dispatch({
+      type: PROFILE_GET_INFO,
+      payload: resolvedProfile,
+    });
   };
 };
 
@@ -32,10 +31,10 @@ export const editUsername = () => {
   };
 };
 
-export const handleUsernameChange = (username) => {
+export const handleUsernameChange = (nickname) => {
   return {
     type: PROFILE_CHANGE_USERNAME,
-    payload: username,
+    payload: nickname,
   };
 };
 
@@ -45,52 +44,39 @@ export const cancelEditting = () => {
   };
 };
 
-export const confirmEditting = (username) => {
-  if (username.length < USERNAME_MIN_LENGTH) {
+export const confirmEditting = (nickname) => {
+  if (!nickname.length) {
     return {
       type: PROFILE_REJECT_EDIT_CONFIRMATION,
-      payload: 'Username is too short',
+      payload: 'Nickname is required.',
     };
   }
-  return async (dispatch) => {
-    const error = await Promise.resolve(false);
-    if (!error) {
+  return async (dispatch, getState) => {
+    try {
+      const token = getToken(getState);
+      await changeNickname(nickname, token);
       dispatch({
         type: PROFILE_CONFIRM_EDITTING,
-        payload: username,
+        payload: nickname,
       });
-    } else {
-      dispatch({
-        type: PROFILE_REJECT_EDIT_CONFIRMATION,
-        payload: error,
-      });
+    } catch ({ response, }) {
+      if (response.status === 304) {
+        dispatch({
+          type: PROFILE_CONFIRM_EDITTING,
+          payload: nickname,
+        });
+      }
     }
   };
 };
 
-export const uploadAvatar = (name, path) => {
-  return async (dispatch) => {
-    await Promise.resolve(true);
+export const uploadAvatar = (avatar) => {
+  return async (dispatch, getState) => {
+    const token = getToken(getState);
+    await changeAvatar(avatar, token);
     dispatch({
       type: PROFILE_UPLOAD_AVATAR,
-      payload: {
-        name,
-        path,
-      },
-    });
-  };
-};
-
-export const toggleAvatarOverlay = () => {
-  return {
-    type: PROFILE_TOGGLE_AVATAR_OVERLAY,
-  };
-};
-
-export const removeAvatar = () => {
-  return async (dispatch) => {
-    dispatch({
-      type: PROFILE_REMOVE_AVATAR,
+      payload: avatar,
     });
   };
 };

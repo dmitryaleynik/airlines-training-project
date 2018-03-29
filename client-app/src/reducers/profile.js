@@ -7,20 +7,15 @@ import {
   PROFILE_CONFIRM_EDITTING,
   PROFILE_REJECT_EDIT_CONFIRMATION,
   PROFILE_UPLOAD_AVATAR,
-  PROFILE_TOGGLE_AVATAR_OVERLAY,
-  PROFILE_REMOVE_AVATAR,
 } from 'src/actions/types';
 
 const initialState = {
-  username: '',
+  nickname: '',
   editableUsername: '',
-  avatar: {
-    name: '',
-    path: '',
-  },
+  avatar: '',
   isEditting: false,
   isFetching: true,
-  usernameError: '',
+  nicknameError: '',
   isAvatarUploaded: false,
   isOverlay: false,
 };
@@ -35,9 +30,9 @@ export default (state = initialState, { type, payload, }) => {
     case PROFILE_GET_INFO:
       return {
         ...state,
-        username: payload.username,
-        editableUsername: payload.username,
-        avatar: payload.avatar,
+        nickname: payload.nickname,
+        editableUsername: payload.nickname,
+        avatar: payload.avatar.data,
         isFetching: false,
       };
     case PROFILE_EDIT_USERNAME:
@@ -54,41 +49,27 @@ export default (state = initialState, { type, payload, }) => {
       return {
         ...state,
         isEditting: false,
-        editableUsername: state.username,
-        usernameError: '',
+        editableUsername: state.nickname,
+        nicknameError: '',
       };
     case PROFILE_CONFIRM_EDITTING:
       return {
         ...state,
-        username: payload,
+        nickname: payload,
         editableUsername: payload,
         isEditting: false,
-        usernameError: '',
+        nicknameError: '',
       };
     case PROFILE_REJECT_EDIT_CONFIRMATION:
       return {
         ...state,
-        usernameError: payload,
+        nicknameError: payload,
       };
     case PROFILE_UPLOAD_AVATAR:
       return {
         ...state,
         avatar: payload,
         isAvatarUploaded: true,
-      };
-    case PROFILE_TOGGLE_AVATAR_OVERLAY:
-      return {
-        ...state,
-        isOverlay: !state.isOverlay,
-      };
-    case PROFILE_REMOVE_AVATAR:
-      return {
-        ...state,
-        avatar: {
-          // should set default avatar that is got from the server
-          name: '',
-          path: '',
-        },
       };
     default:
       return state;

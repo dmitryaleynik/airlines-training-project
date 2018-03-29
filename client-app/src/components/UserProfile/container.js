@@ -6,18 +6,16 @@ import {
   cancelEditting,
   confirmEditting,
   uploadAvatar,
-  toggleAvatarOverlay,
-  removeAvatar,
 } from 'src/actions/profile';
 import UserProfile from 'src/components/UserProfile';
 
 const mapStateToProps = (state) => {
   const {
-    username,
+    nickname,
     avatar,
     isEditting,
     editableUsername,
-    usernameError,
+    nicknameError,
     isAvatarUploaded,
     isOverlay,
     isFetching,
@@ -25,12 +23,12 @@ const mapStateToProps = (state) => {
 
   return {
     profile: {
-      username,
+      nickname,
       avatar,
     },
     editableUsername,
     isEditting,
-    usernameError,
+    nicknameError,
     isAvatarUploaded,
     isOverlay,
     isFetching,
@@ -44,8 +42,6 @@ const mapDispatchToProps = {
   cancelEditting,
   confirmEditting,
   uploadAvatar,
-  toggleAvatarOverlay,
-  removeAvatar,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

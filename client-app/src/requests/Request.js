@@ -41,15 +41,15 @@ class Request {
     return axios(config);
   };
 
-  put = (payload, params) => {
+  put = (payload, params, headers) => {
     const config = {
       method: methods.PUT,
       url: `${SERVER_URL}${this.url}`,
       data: payload,
       params,
+      headers,
     };
     config.headers = this.setAuthHeaderIfNeeded(config.headers);
-
     return axios(config);
   };
 }

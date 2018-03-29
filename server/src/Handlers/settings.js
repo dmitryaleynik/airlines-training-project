@@ -43,8 +43,10 @@ const getUserInfo = async ctx => {
 
 const changeAvatar = async ctx => {
   const { id, } = ctx.state.user;
-  const { avatar, } = ctx.request.body;
+  // const { avatar, } = ctx.request.body;
+  const avatar = ctx.request.body;
 
+  console.log(avatar);
   if (!avatar) {
     ctx.status = HttpCodes.BAD_REQUEST;
     ctx.body = {
