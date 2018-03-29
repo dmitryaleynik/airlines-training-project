@@ -52,6 +52,18 @@ class Request {
     config.headers = this.setAuthHeaderIfNeeded(config.headers);
     return axios(config);
   };
+
+  delete = (payload, params, headers) => {
+    const config = {
+      method: methods.DELETE,
+      url: `${SERVER_URL}${this.url}`,
+      data: payload,
+      params,
+      headers,
+    };
+    config.headers = this.setAuthHeaderIfNeeded(config.headers);
+    return axios(config);
+  };
 }
 
 export default Request;

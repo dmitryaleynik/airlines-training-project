@@ -11,6 +11,8 @@ import {
 import places from 'src/requests/places';
 import postBooking from 'src/requests/postBooking';
 import putBooking from 'src/requests/putBooking';
+import bookPlace from 'src/requests/bookPlace';
+import unbookPlace from 'src/requests/unbookPlace';
 import { getToken, } from 'src/utils/helpers';
 
 export const getPlaces = (flightId, directionName) => {
@@ -28,9 +30,26 @@ export const getPlaces = (flightId, directionName) => {
 };
 
 export const togglePlace = (number, directionName) => {
-  return {
-    type: PLACE_PICKER_TOGGLE_PLACE,
-    payload: { number, directionName, },
+  return async (dispatch, getState) => {
+    const token = getToken(getState);
+    const { placePicker, flightFinder, priceConfirmator, } = getState();
+    const { pickedPlaces, } = placePicker[directionName];
+    const flightId = flightFinder[directionName].selectedId;
+    const { orderId, } = priceConfirmator;
+    const body = {
+      orderId,
+      flightId,
+      placeId: number,
+    };
+    if (pickedPlaces.includes(number)) {
+      await unbookPlace(body, token);
+    } else {
+      await bookPlace(body, token);
+    }
+    dispatch({
+      type: PLACE_PICKER_TOGGLE_PLACE,
+      payload: { number, directionName, },
+    });
   };
 };
 
@@ -61,7 +80,7 @@ export const validatePlaces = (isValid, directionName) => {
   };
 };
 
-export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
+export const bookTemporarily = (flightId) => {
   return async (dispatch, getState) => {
     dispatch({
       type: PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
@@ -72,19 +91,15 @@ export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
     const orderId = (await postBooking(
       {
         flightId: flightId[directions[0]],
-        placeIds: placesToBeBooked[directions[0]],
-        luggageKg: luggage[directions[0]],
       },
       token
     )).data.orderId;
 
-    if (directions.length === 2) {
+    if (flightId[directions[1]]) {
       await putBooking(
         {
           orderId,
           flightId: flightId[directions[1]],
-          placeIds: placesToBeBooked[directions[1]],
-          luggageKg: luggage[directions[1]],
         },
         token
       );

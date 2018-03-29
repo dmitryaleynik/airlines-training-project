@@ -5,18 +5,16 @@ class GetPlacesRequest {
 }
 
 class BookTemporarilyRequest {
-  constructor({ flightId, luggageKg, }, userId) {
+  constructor({ flightId, }, userId) {
     this.flightId = flightId;
-    this.luggageKg = luggageKg || 0;
     this.userId = userId;
   }
 }
 
 class AddToBookingRequest {
-  constructor({ orderId, flightId, luggageKg, }) {
+  constructor({ orderId, flightId, }) {
     this.orderId = orderId;
     this.flightId = flightId;
-    this.luggageKg = luggageKg;
   }
 }
 

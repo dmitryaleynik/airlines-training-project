@@ -34,39 +34,27 @@ const getPlaces = async ({ flightId, }) => {
   return new GetPlacesResponse(sizes);
 };
 
-const bookTemporarily = async ({ flightId, luggageKg, userId, }) => {
+const bookTemporarily = async ({ flightId, userId, }) => {
   const expirationTime = new Date(Date.now() + 15 * 60000);
   const orderId = (await dbConnector.createOrder(
     new NewOrderRequest(flightId, userId, expirationTime)
   )).id;
-  if (luggageKg) {
-    await dbConnector.linkFlightWithOrderWithLuggage(
-      new LinkFlightWithOrderRequest(flightId, orderId, luggageKg)
-    );
-  } else {
-    await dbConnector.linkFlightWithOrder(
-      new LinkFlightWithOrderRequest(flightId, orderId)
-    );
-  }
+  await dbConnector.linkFlightWithOrder(
+    new LinkFlightWithOrderRequest(flightId, orderId)
+  );
   return new OrderIdResponse(orderId);
 };
 
-const addToBooking = async ({ orderId, flightId, luggageKg, }) => {
+const addToBooking = async ({ orderId, flightId, }) => {
   const isLinked = (await dbConnector.checkFlightLinkage(
     new CheckFlightLinkageRequest(flightId, orderId)
   )).isLinked;
   if (isLinked) {
     return new AddToBookingResponse({ isLinked: true, });
   }
-  if (luggageKg) {
-    await dbConnector.linkFlightWithOrderWithLuggage(
-      new LinkFlightWithOrderRequest(flightId, orderId, luggageKg)
-    );
-  } else {
-    await dbConnector.linkFlightWithOrder(
-      new LinkFlightWithOrderRequest(flightId, orderId)
-    );
-  }
+  await dbConnector.linkFlightWithOrder(
+    new LinkFlightWithOrderRequest(flightId, orderId)
+  );
   return true;
 };
 

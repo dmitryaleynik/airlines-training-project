@@ -4,10 +4,20 @@ export const steps = {
   CONFIRMATOR: 2,
 };
 
-export const STRAIGHT_FLIGHT = 'straightFlight';
-export const REVERSE_FLIGHT = 'reverseFlight';
-export const STRAIGHT_PLACES = 'straightPlaces';
-export const REVERSE_PLACES = 'reversePlaces';
+export const directions = {
+  STRAIGHT: 'straight',
+  REVERSE: 'reverse',
+};
+
+export const flights = {
+  STRAIGHT: 'straightFlight',
+  REVERSE: 'reverseFlight',
+};
+
+export const places = {
+  STRAIGHT: 'straightPlaces',
+  REVERSE: 'reversePlaces',
+};
 
 export const DATETIME_DISPLAY_PATTERN = 'MMMM Do YYYY, h:mm A';
 export const DATE_DISPLAY_PATTERN = 'MMMM Do YYYY';
@@ -38,6 +48,7 @@ export const methods = {
   GET: 'get',
   POST: 'post',
   PUT: 'put',
+  DELETE: 'delete',
 };
 
 export const SERVER_URL = 'http://localhost:3001';
