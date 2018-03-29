@@ -5,6 +5,8 @@ const {
   GetPlacesRequest,
   BookTemporarilyRequest,
   AddToBookingRequest,
+  BookPlaceRequest,
+  DeletePlaceBookingRequest,
 } = require('../../Contracts/ServiceWithHandler/placePicker');
 const {
   GetPlacesResponse,
@@ -13,7 +15,6 @@ const {
 
 const getPlaces = async ctx => {
   const { flight_id, } = ctx.query;
-
   if (flight_id === undefined) {
     ctx.status = HttpCodes.BAD_REQUEST;
     ctx.body = { message: 'Invalid query. flight_id parameter is required.', };
@@ -46,13 +47,6 @@ const bookTemporarily = async ctx => {
       return;
     }
   }
-  if (!req.placeIds.length) {
-    ctx.status = HttpCodes.BAD_REQUEST;
-    ctx.body = {
-      message: 'Invalid body. You must pick at least one place.',
-    };
-    return;
-  }
 
   const res = await placePickerService.bookTemporarily(req);
   ctx.status = HttpCodes.CREATED;
@@ -72,13 +66,6 @@ const addToBooking = async ctx => {
       return;
     }
   }
-  if (!req.placeIds.length) {
-    ctx.status = HttpCodes.BAD_REQUEST;
-    ctx.body = {
-      message: 'Invalid body. You must pick at least one place.',
-    };
-    return;
-  }
 
   const res = await placePickerService.addToBooking(req);
   if (res.isLinked) {
@@ -88,8 +75,34 @@ const addToBooking = async ctx => {
   ctx.status = HttpCodes.NO_CONTENT;
 };
 
+const placeBooking = async ctx => {
+  const { orderId, flightId, placeId, } = ctx.request.body;
+  if (!placeId || !orderId || !flightId) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    return;
+  }
+
+  if (ctx.request.method === 'POST') {
+    const res = await placePickerService.bookPlace(
+      new BookPlaceRequest(orderId, flightId, placeId)
+    );
+    if (res.placeIsBooked) {
+      ctx.status = HttpCodes.CONFLICT;
+      return;
+    }
+    ctx.status = HttpCodes.CREATED;
+    return;
+  } else if (ctx.request.method === 'DELETE') {
+    await placePickerService.deletePlaceBooking(
+      new DeletePlaceBookingRequest(orderId, flightId, placeId)
+    );
+    ctx.status = HttpCodes.OK;
+  }
+};
+
 module.exports = {
   getPlaces,
   bookTemporarily,
   addToBooking,
+  placeBooking,
 };

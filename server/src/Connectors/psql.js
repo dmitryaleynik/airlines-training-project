@@ -150,6 +150,11 @@ const changeAvatar = async params => {
   return true;
 };
 
+const deletePlaceBooking = async params => {
+  await db.deletePlaceBooking(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -174,4 +179,5 @@ module.exports = {
   changeNickname,
   getUserWithAvatar,
   changeAvatar,
+  deletePlaceBooking,
 };
