@@ -5,25 +5,19 @@ import {
   AUTHORIZATION_DESTROY,
   AUTHORIZATION_LOGOUT,
 } from './types';
-import { TOKEN, } from 'src/imports';
 import signIn from 'src/requests/sign-in';
 
 export const authorize = ({ email, password, }) => {
   return async (dispatch) => {
-    try {
-      dispatch({ type: AUTHORIZATION_REQUEST, });
-      const res = await signIn(email, password);
-      localStorage.setItem(TOKEN, res.data.token);
-      dispatch({
-        type: AUTHORIZATION_SUCCESS,
-        payload: {
-          email,
-          token: res.data.token,
-        },
-      });
-    } catch ({ response, }) {
-      dispatch({ type: AUTHORIZATION_FAILURE, payload: response.data.message, });
-    }
+    dispatch({ type: AUTHORIZATION_REQUEST, });
+    const res = await signIn(email, password);
+    dispatch({
+      type: AUTHORIZATION_SUCCESS,
+      payload: {
+        email,
+        token: res.token,
+      },
+    });
   };
 };
 

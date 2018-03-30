@@ -4,7 +4,8 @@ import { TOKEN, } from 'src/imports';
 export default (store) => (next) => async (action) => {
   if (typeof action === 'function') {
     try {
-      await action(store.dispatch, store.getState);
+      const token = getTokenFromStorage();
+      await action(store.dispatch, token, store.getState);
     } catch (err) {
       if (err.response && err.response.status === 401) {
         handleUnauthorized(store.dispatch);
@@ -27,4 +28,8 @@ const handleUnauthorized = (dispatch) => {
 
 const handleAuthSuccess = (token) => {
   localStorage.setItem(TOKEN, token);
+};
+
+const getTokenFromStorage = () => {
+  return localStorage.getItem(TOKEN);
 };

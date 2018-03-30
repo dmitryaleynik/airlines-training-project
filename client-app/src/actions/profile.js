@@ -11,12 +11,10 @@ import {
 import userInfo from 'src/requests/userInfo';
 import changeNickname from 'src/requests/changeNickname';
 import changeAvatar from 'src/requests/changeAvatar';
-import { getToken, } from 'src/utils/helpers';
 
 export const getProfileInfo = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch, token) => {
     dispatch({ type: PROFILE_REQUEST_INFO, });
-    const token = getToken(getState);
     const resolvedProfile = (await userInfo(token)).data;
     dispatch({
       type: PROFILE_GET_INFO,
@@ -51,9 +49,8 @@ export const confirmEditting = (nickname) => {
       payload: 'Nickname is required.',
     };
   }
-  return async (dispatch, getState) => {
+  return async (dispatch, token) => {
     try {
-      const token = getToken(getState);
       await changeNickname(nickname, token);
       dispatch({
         type: PROFILE_CONFIRM_EDITTING,
@@ -71,8 +68,7 @@ export const confirmEditting = (nickname) => {
 };
 
 export const uploadAvatar = (avatar) => {
-  return async (dispatch, getState) => {
-    const token = getToken(getState);
+  return async (dispatch, token) => {
     await changeAvatar({ avatar, }, token);
     dispatch({
       type: PROFILE_UPLOAD_AVATAR,

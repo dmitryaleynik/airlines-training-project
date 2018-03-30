@@ -1,57 +1,56 @@
-import axios from 'axios';
 import { methods, SERVER_URL, } from 'src/imports';
 
-class Request {
+class FetchRequest {
   constructor(url, token) {
     this.url = url;
-    this.token = token;
+    // this.token = token;
   }
 
-  setAuthHeaderIfNeeded = (headers) => {
-    if (this.token) {
-      return {
+  get = (params, headers) => {
+    const request = this.initRequest(methods.GET, params, headers);
+    return this.fetchJSON(request);
+  };
+
+  post = (body, params, headers) => {
+    const request = this.initRequest(methods.POST, params, headers, body);
+    return this.fetchJSON(request);
+  };
+
+  put = (body, params, headers) => {
+    const request = this.initRequest(methods.PUT, params, headers, body);
+    return this.fetchJSON(request);
+  };
+
+  initRequest = (method, params, headers, body) => {
+    headers = this.setAuthHeaderIfNeeded(headers);
+    return new Request(`${SERVER_URL}${this.url}`, {
+      method,
+      params,
+      headers: {
         ...headers,
-        Authorization: `Bearer ${this.token}`,
-      };
-    } else {
-      return headers;
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  };
+
+  setAuthHeaderIfNeeded = (headers) => {
+    return this.token
+      ? {
+          ...headers,
+          Authorization: `Bearer ${this.token}`,
+        }
+      : headers;
+  };
+
+  fetchJSON = async (request) => {
+    const response = await fetch(request);
+    if (!response.ok) {
+      debugger;
+      throw response;
     }
-  };
-
-  get = (params) => {
-    const config = {
-      method: methods.GET,
-      url: `${SERVER_URL}${this.url}`,
-      params,
-    };
-    config.headers = this.setAuthHeaderIfNeeded(config.headers);
-
-    return axios(config);
-  };
-
-  post = (payload, params) => {
-    const config = {
-      method: methods.POST,
-      url: `${SERVER_URL}${this.url}`,
-      data: payload,
-      params,
-    };
-    config.headers = this.setAuthHeaderIfNeeded(config.headers);
-
-    return axios(config);
-  };
-
-  put = (payload, params, headers) => {
-    const config = {
-      method: methods.PUT,
-      url: `${SERVER_URL}${this.url}`,
-      data: payload,
-      params,
-      headers,
-    };
-    config.headers = this.setAuthHeaderIfNeeded(config.headers);
-    return axios(config);
+    return response.json();
   };
 }
 
-export default Request;
+export default FetchRequest;

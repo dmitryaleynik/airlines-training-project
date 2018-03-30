@@ -11,14 +11,12 @@ import {
 import places from 'src/requests/places';
 import postBooking from 'src/requests/postBooking';
 import putBooking from 'src/requests/putBooking';
-import { getToken, } from 'src/utils/helpers';
 
 export const getPlaces = (flightId, directionName) => {
-  return async (dispatch, getState) => {
+  return async (dispatch, token) => {
     dispatch({
       type: PLACE_PICKER_REQUEST_ALL_PLACES,
     });
-    const token = getToken(getState);
     let resolvedPlaces = (await places(flightId, token)).data;
     dispatch({
       type: PLACE_PICKER_GET_ALL_PLACES,
@@ -62,12 +60,10 @@ export const validatePlaces = (isValid, directionName) => {
 };
 
 export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
-  return async (dispatch, getState) => {
+  return async (dispatch, token) => {
     dispatch({
       type: PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
     });
-
-    const token = getToken(getState);
     const directions = Object.keys(flightId);
     const orderId = (await postBooking(
       {

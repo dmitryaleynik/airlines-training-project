@@ -4,11 +4,9 @@ import {
 } from './types';
 import confirmBooking from 'src/requests/confirmBooking';
 import cancelBooking from 'src/requests/cancelBooking';
-import { getToken, } from 'src/utils/helpers';
 
 export const confirmOrder = (id) => {
-  return async (dispatch, getState) => {
-    const token = getToken(getState);
+  return async (dispatch, token) => {
     await confirmBooking(id, token);
     dispatch({
       type: PRICE_CONFIRMATOR_CONFIRM_ORDER,
@@ -17,8 +15,7 @@ export const confirmOrder = (id) => {
 };
 
 export const cancelOrder = (id) => {
-  return async (dispatch, getState) => {
-    const token = getToken(getState);
+  return async (dispatch, token) => {
     await cancelBooking(id, token);
     dispatch({
       type: PRICE_CONFIRMATOR_CANCEL_ORDER,

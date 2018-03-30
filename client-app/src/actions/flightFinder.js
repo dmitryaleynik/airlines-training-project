@@ -1,6 +1,5 @@
 import cities from 'src/requests/cities';
 import flights from 'src/requests/flights';
-import { getToken, } from 'src/utils/helpers';
 import {
   FLIGHT_FINDER_REQUEST_CITIES,
   FLIGHT_FINDER_GET_CITIES,
@@ -14,11 +13,10 @@ import {
 } from './types';
 
 export const getCities = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch, token) => {
     dispatch({
       type: FLIGHT_FINDER_REQUEST_CITIES,
     });
-    const token = getToken(getState);
     let resolvedCities = (await cities(token)).data.cities;
     dispatch({
       type: FLIGHT_FINDER_GET_CITIES,
@@ -42,7 +40,7 @@ export const changeDateEnd = (date, directionName) => {
 };
 
 export const findFlights = (filters, directionName) => {
-  return async (dispatch, getState) => {
+  return async (dispatch, token) => {
     dispatch({
       type: FLIGHT_FINDER_UPDATE_FILTERS,
       payload: { filters, directionName, },
@@ -51,7 +49,6 @@ export const findFlights = (filters, directionName) => {
       type: FLIGHT_FINDER_REQUEST_FLIGHTS,
       payload: { directionName, },
     });
-    const token = getToken(getState);
     let resolvedFlights = (await flights(filters, token)).data.flights;
     dispatch({
       type: FLIGHT_FINDER_RECEIVE_FLIGHTS,
