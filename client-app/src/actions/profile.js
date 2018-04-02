@@ -11,14 +11,18 @@ import {
 import userInfo from 'src/requests/userInfo';
 import changeNickname from 'src/requests/changeNickname';
 import changeAvatar from 'src/requests/changeAvatar';
+import handleNotOkResponse from './notOkResponse';
 
 export const getProfileInfo = () => {
   return async (dispatch, token) => {
     dispatch({ type: PROFILE_REQUEST_INFO, });
-    const resolvedProfile = (await userInfo(token)).data;
+    const res = await userInfo(token);
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
     dispatch({
       type: PROFILE_GET_INFO,
-      payload: resolvedProfile,
+      payload: res,
     });
   };
 };
@@ -50,20 +54,11 @@ export const confirmEditting = (nickname) => {
     };
   }
   return async (dispatch, token) => {
-    try {
-      await changeNickname(nickname, token);
-      dispatch({
-        type: PROFILE_CONFIRM_EDITTING,
-        payload: nickname,
-      });
-    } catch ({ response, }) {
-      if (response.status === 304) {
-        dispatch({
-          type: PROFILE_CONFIRM_EDITTING,
-          payload: nickname,
-        });
-      }
-    }
+    await changeNickname(nickname, token);
+    dispatch({
+      type: PROFILE_CONFIRM_EDITTING,
+      payload: nickname,
+    });
   };
 };
 

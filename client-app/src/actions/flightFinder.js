@@ -1,5 +1,3 @@
-import cities from 'src/requests/cities';
-import flights from 'src/requests/flights';
 import {
   FLIGHT_FINDER_REQUEST_CITIES,
   FLIGHT_FINDER_GET_CITIES,
@@ -11,16 +9,22 @@ import {
   FLIGHT_FINDER_SELECT_FLIGHT,
   FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT,
 } from './types';
+import cities from 'src/requests/cities';
+import flights from 'src/requests/flights';
+import handleNotOkResponse from './notOkResponse';
 
 export const getCities = () => {
   return async (dispatch, token) => {
     dispatch({
       type: FLIGHT_FINDER_REQUEST_CITIES,
     });
-    let resolvedCities = (await cities(token)).data.cities;
+    let res = await cities(token);
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
     dispatch({
       type: FLIGHT_FINDER_GET_CITIES,
-      payload: resolvedCities,
+      payload: res.cities,
     });
   };
 };
@@ -49,10 +53,13 @@ export const findFlights = (filters, directionName) => {
       type: FLIGHT_FINDER_REQUEST_FLIGHTS,
       payload: { directionName, },
     });
-    let resolvedFlights = (await flights(filters, token)).data.flights;
+    let res = await flights(filters, token);
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
     dispatch({
       type: FLIGHT_FINDER_RECEIVE_FLIGHTS,
-      payload: { flights: resolvedFlights, directionName, },
+      payload: { flights: res.flights, directionName, },
     });
   };
 };

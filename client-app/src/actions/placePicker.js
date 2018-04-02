@@ -11,16 +11,20 @@ import {
 import places from 'src/requests/places';
 import postBooking from 'src/requests/postBooking';
 import putBooking from 'src/requests/putBooking';
+import handleNotOkResponse from './notOkResponse';
 
 export const getPlaces = (flightId, directionName) => {
   return async (dispatch, token) => {
     dispatch({
       type: PLACE_PICKER_REQUEST_ALL_PLACES,
     });
-    let resolvedPlaces = (await places(flightId, token)).data;
+    let res = await places(flightId, token);
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
     dispatch({
       type: PLACE_PICKER_GET_ALL_PLACES,
-      payload: { places: resolvedPlaces, directionName, },
+      payload: { places: res, directionName, },
     });
   };
 };
@@ -65,15 +69,18 @@ export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
       type: PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
     });
     const directions = Object.keys(flightId);
-    const orderId = (await postBooking(
+    const res = await postBooking(
       {
         flightId: flightId[directions[0]],
         placeIds: placesToBeBooked[directions[0]],
         luggageKg: luggage[directions[0]],
       },
       token
-    )).data.orderId;
-
+    );
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
+    const { orderId, } = res;
     if (directions.length === 2) {
       await putBooking(
         {

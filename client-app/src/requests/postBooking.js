@@ -1,5 +1,5 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (body, token) => {
-  return new Request('/booking/temp', token).post(body);
+  return new FetchRequest('/booking/temp', token).post(body);
 };

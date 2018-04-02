@@ -1,5 +1,5 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (token) => {
-  return new Request('/settings/info', token).get();
+  return new FetchRequest('/settings/info', token).get();
 };

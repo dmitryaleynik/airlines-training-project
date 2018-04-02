@@ -1,5 +1,5 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (email, password) => {
-  return new Request('/sign-in').post({ email, password, });
+  return new FetchRequest('/sign-in').post({ email, password, });
 };

@@ -1,8 +1,8 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (id, token) => {
   const params = {
     flight_id: id,
   };
-  return new Request('/places', token).get(params);
+  return new FetchRequest('/places', token).get(params);
 };

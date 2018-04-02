@@ -1,5 +1,5 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (body, token) => {
-  return new Request('/settings/avatar/change', token).put(body);
+  return new FetchRequest('/settings/avatar/change', token).put(body);
 };

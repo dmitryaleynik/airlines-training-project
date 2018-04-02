@@ -1,5 +1,5 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (token) => {
-  return new Request('/orders', token).get();
+  return new FetchRequest('/orders', token).get();
 };

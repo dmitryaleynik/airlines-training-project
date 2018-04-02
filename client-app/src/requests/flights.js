@@ -1,4 +1,4 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 import { DATE_SENDING_IN_REQUEST_PATTERN, } from 'src/imports';
 
 export default (filters, token) => {
@@ -10,5 +10,5 @@ export default (filters, token) => {
     seats: filters.seats,
   };
 
-  return new Request('/flights', token).get(params);
+  return new FetchRequest('/flights', token).get(params);
 };

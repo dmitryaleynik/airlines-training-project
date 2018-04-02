@@ -1,5 +1,5 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (nickname, token) => {
-  return new Request('/settings/nickname', token).put({ nickname, });
+  return new FetchRequest('/settings/nickname', token).put({ nickname, });
 };

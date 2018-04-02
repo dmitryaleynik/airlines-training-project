@@ -3,10 +3,10 @@ import { methods, SERVER_URL, } from 'src/imports';
 class FetchRequest {
   constructor(url, token) {
     this.url = url;
-    // this.token = token;
+    this.token = token;
   }
 
-  get = (params, headers) => {
+  get = async (params, headers) => {
     const request = this.initRequest(methods.GET, params, headers);
     return this.fetchJSON(request);
   };
@@ -22,8 +22,9 @@ class FetchRequest {
   };
 
   initRequest = (method, params, headers, body) => {
+    this.prepareUrl(params);
     headers = this.setAuthHeaderIfNeeded(headers);
-    return new Request(`${SERVER_URL}${this.url}`, {
+    return new Request(this.url, {
       method,
       params,
       headers: {
@@ -32,6 +33,21 @@ class FetchRequest {
       },
       body: JSON.stringify(body),
     });
+  };
+
+  prepareUrl = (params) => {
+    if (!params) {
+      return (this.url = `${SERVER_URL}${this.url}`);
+    }
+    const paramsEntries = Object.entries(params);
+    const reducer = (prev, cur, i) => {
+      if (i) {
+        prev = `${prev}&`;
+      }
+      return `${prev}${cur[0]}=${cur[1]}`;
+    };
+    this.url = paramsEntries.reduce(reducer, `${SERVER_URL}${this.url}?`);
+    return;
   };
 
   setAuthHeaderIfNeeded = (headers) => {
@@ -46,10 +62,19 @@ class FetchRequest {
   fetchJSON = async (request) => {
     const response = await fetch(request);
     if (!response.ok) {
-      debugger;
-      throw response;
+      return response;
     }
-    return response.json();
+    const contentType = response.headers.get('Content-Type');
+    if (contentType && contentType.includes('application/json')) {
+      return {
+        ...(await response.json()),
+        ok: true,
+      };
+    }
+    return {
+      ...(await response.text()),
+      ok: true,
+    };
   };
 }
 

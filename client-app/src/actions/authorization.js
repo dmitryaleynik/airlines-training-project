@@ -1,16 +1,19 @@
 import {
   AUTHORIZATION_REQUEST,
   AUTHORIZATION_SUCCESS,
-  AUTHORIZATION_FAILURE,
   AUTHORIZATION_DESTROY,
   AUTHORIZATION_LOGOUT,
 } from './types';
 import signIn from 'src/requests/sign-in';
+import handleNotOkResponse from './notOkResponse';
 
 export const authorize = ({ email, password, }) => {
   return async (dispatch) => {
     dispatch({ type: AUTHORIZATION_REQUEST, });
     const res = await signIn(email, password);
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
     dispatch({
       type: AUTHORIZATION_SUCCESS,
       payload: {

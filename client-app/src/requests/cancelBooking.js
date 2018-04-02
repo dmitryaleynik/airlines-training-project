@@ -1,5 +1,5 @@
-import Request from './Request';
+import FetchRequest from './FetchRequest';
 
 export default (orderId, token) => {
-  return new Request('/booking/cancel', token).put({ orderId, });
+  return new FetchRequest('/booking/cancel', token).put({ orderId, });
 };
