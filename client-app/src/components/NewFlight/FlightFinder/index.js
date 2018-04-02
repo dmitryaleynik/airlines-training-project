@@ -33,24 +33,24 @@ const FlightFinder = (props) => {
       <FlightFinderForm
         form="flightFinderStraight"
         directionName={directions.STRAIGHT}
-        direction={props.flights[directions.STRAIGHT]}
+        direction={props.flights.straight}
         initialValues={prepareFormInitialValues(directions.STRAIGHT)}
         {...FlightFinderFormProps}
       />
-      {props.flights[directions.STRAIGHT].isFetching && <Loader />}
-      {props.flights[directions.STRAIGHT].isSearched && (
+      {props.flights.straight.isFetching && <Loader />}
+      {props.flights.straight.isSearched && (
         <FlightFinderTable
           directionName={directions.STRAIGHT}
-          selectedId={props.flights[directions.STRAIGHT].selectedId}
-          data={props.flights[directions.STRAIGHT].flights}
+          selectedId={props.flights.straight.selectedId}
+          data={props.flights.straight.flights}
           selectFlight={props.selectFlight}
         />
       )}
-      {props.flights[directions.STRAIGHT].isSearched && (
+      {props.flights.straight.isSearched && (
         <button
           className="btn btn-dark btn-small"
           onClick={props.onReverseClick}
-          disabled={props.flights[directions.REVERSE].isFetching}
+          disabled={props.flights.reverse.isFetching}
         >
           Find a way back
         </button>
@@ -59,17 +59,17 @@ const FlightFinder = (props) => {
         <FlightFinderForm
           form="flightFinderReverse"
           directionName={directions.REVERSE}
-          direction={props.flights[directions.REVERSE]}
+          direction={props.flights.reverse}
           initialValues={prepareFormInitialValues(directions.REVERSE)}
           {...FlightFinderFormProps}
         />
       )}
-      {props.flights[directions.REVERSE].isFetching && <Loader />}
-      {props.flights[directions.REVERSE].isSearched && (
+      {props.flights.reverse.isFetching && <Loader />}
+      {props.flights.reverse.isSearched && (
         <FlightFinderTable
           directionName={directions.REVERSE}
-          selectedId={props.flights[directions.REVERSE].selectedId}
-          data={props.flights[directions.REVERSE].flights}
+          selectedId={props.flights.reverse.selectedId}
+          data={props.flights.reverse.flights}
           selectFlight={props.selectFlight}
         />
       )}

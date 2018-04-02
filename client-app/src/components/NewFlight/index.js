@@ -10,7 +10,7 @@ import { steps, directions, } from 'src/imports';
 
 import './styles.scss';
 
-class NewFlight extends Component<{}, State> {
+class NewFlight extends Component {
   componentWillMount() {
     this.props.getCities();
   }
@@ -41,12 +41,12 @@ class NewFlight extends Component<{}, State> {
           }
           bookTemporarily(flightsId);
           getPlaces(
-            flights[directions.STRAIGHT].selectedId,
+            flights.straight.selectedId,
             directions.STRAIGHT
           );
           if (isReverseRequired) {
             getPlaces(
-              flights[directions.REVERSE].selectedId,
+              flights.reverse.selectedId,
               directions.REVERSE
             );
           }
@@ -107,12 +107,12 @@ class NewFlight extends Component<{}, State> {
       if (directionName === directions.STRAIGHT) {
         if (
           !isReverseRequired ||
-          (isReverseRequired && flights[directions.REVERSE].selectedId)
+          (isReverseRequired && flights.reverse.selectedId)
         ) {
           setStepFulfillment(steps.FINDER, true);
         }
       } else if (directionName === directions.REVERSE) {
-        if (flights[directions.STRAIGHT].selectedId) {
+        if (flights.straight.selectedId) {
           setStepFulfillment(steps.FINDER, true);
         }
       }
@@ -131,7 +131,7 @@ class NewFlight extends Component<{}, State> {
     if (!isReverseRequired) {
       setStepFulfillment(steps.FINDER, false);
     } else {
-      if (flights[directions.STRAIGHT].selectedId) {
+      if (flights.straight.selectedId) {
         setStepFulfillment(steps.FINDER, true);
       } else {
         setStepFulfillment(steps.FINDER, false);
@@ -149,13 +149,13 @@ class NewFlight extends Component<{}, State> {
     if (directionName === directions.STRAIGHT) {
       if (!isReverseRequired) {
         setStepFulfillment(steps.PICKER, isValid);
-      } else if (this.props.places[directions.REVERSE].isValid && isValid) {
+      } else if (this.props.places.reverse.isValid && isValid) {
         setStepFulfillment(steps.PICKER, true);
       } else {
         setStepFulfillment(steps.PICKER, false);
       }
     } else if (directionName === directions.REVERSE) {
-      if (this.props.places[directions.STRAIGHT].isValid && isValid) {
+      if (this.props.places.straight.isValid && isValid) {
         setStepFulfillment(steps.PICKER, true);
       } else {
         setStepFulfillment(steps.PICKER, false);
@@ -176,11 +176,11 @@ class NewFlight extends Component<{}, State> {
   };
 
   getLuggageLimit = (directionName) => {
-    return this.props.flights[directions.STRAIGHT].selectedId
-      ? this.props.flights[directions.STRAIGHT].flights.find(
-          (flight) =>
-            flight.id === this.props.flights[directions.STRAIGHT].selectedId
-        ).luggage.maxKg
+    return this.props.flights.straight.selectedId
+      ? this.props.flights.straight.flights.find(
+        (flight) =>
+          flight.id === this.props.flights.straight.selectedId
+      ).luggage.maxKg
       : null;
   };
 
@@ -216,13 +216,13 @@ class NewFlight extends Component<{}, State> {
     } = this;
 
     const luggageLimit = {
-      [directions.STRAIGHT]: this.getLuggageLimit(directions.STRAIGHT),
-      [directions.REVERSE]: this.getLuggageLimit(directions.REVERSE),
+      straight: this.getLuggageLimit(directions.STRAIGHT),
+      reverse: this.getLuggageLimit(directions.REVERSE),
     };
 
     const selectedIds = {
-      [directions.STRAIGHT]: flights[directions.STRAIGHT].selectedId,
-      [directions.REVERSE]: flights[directions.REVERSE].selectedId,
+      straight: flights.straight.selectedId,
+      reverse: flights.reverse.selectedId,
     };
 
     const isFetching =

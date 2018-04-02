@@ -16,17 +16,17 @@ const PlacePicker = (props) => {
       <h2>Step 2: Pick places</h2>
       <PlacePickerJumbotron
         directionName={directions.STRAIGHT}
-        direction={props.places[directions.STRAIGHT]}
-        selectedId={props.selectedIds[directions.STRAIGHT]}
-        luggageLimit={props.luggageLimit[directions.STRAIGHT]}
+        direction={props.places.straight}
+        selectedId={props.selectedIds.straight}
+        luggageLimit={props.luggageLimit.straight}
         {...PlacePickerJumbotronProps}
       />
       {props.isReverseRequired && (
         <PlacePickerJumbotron
           directionName={directions.REVERSE}
-          direction={props.places[directions.REVERSE]}
-          selectedId={props.selectedIds[directions.REVERSE]}
-          luggageLimit={props.luggageLimit[directions.REVERSE]}
+          direction={props.places.reverse}
+          selectedId={props.selectedIds.reverse}
+          luggageLimit={props.luggageLimit.reverse}
           {...PlacePickerJumbotronProps}
         />
       )}

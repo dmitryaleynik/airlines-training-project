@@ -95,7 +95,7 @@ export const bookTemporarily = (flightsId) => {
     });
     const res = await postBooking(
       {
-        flightId: flightsId[directions.STRAIGHT],
+        flightId: flightsId.straight,
       },
       token
     );
@@ -103,11 +103,11 @@ export const bookTemporarily = (flightsId) => {
       return handleNotOkResponse(dispatch, res);
     }
     const { orderId, } = res;
-    if (flightsId[directions.REVERSE]) {
+    if (flightsId.reverse) {
       await putBooking(
         {
           orderId,
-          flightId: flightsId[directions.REVERSE],
+          flightId: flightsId.reverse,
         },
         token
       );
