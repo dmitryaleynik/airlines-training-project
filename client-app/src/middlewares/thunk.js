@@ -3,27 +3,21 @@ import { TOKEN, } from 'src/imports';
 
 export default (store) => (next) => async (action) => {
   if (typeof action === 'function') {
-    try {
-      const token = getTokenFromStorage();
-      await action(store.dispatch, token, store.getState);
-    } catch (err) {
-      if (err.response && err.response.status === 401) {
-        handleUnauthorized(store.dispatch);
-      } else {
-        throw err;
-      }
-    }
+    const token = getTokenFromStorage();
+    await action(store.dispatch, token, store.getState);
   } else {
     if (action.type === AUTHORIZATION_SUCCESS) {
       handleAuthSuccess(action.payload.token);
+    }
+    if (action.type === AUTHORIZATION_LOGOUT) {
+      handleAuthLogout();
     }
     return next(action);
   }
 };
 
-const handleUnauthorized = (dispatch) => {
+const handleAuthLogout = () => {
   localStorage.removeItem(TOKEN);
-  dispatch({ type: AUTHORIZATION_LOGOUT, });
 };
 
 const handleAuthSuccess = (token) => {

@@ -15,7 +15,6 @@ export default (state = initialState, { type, payload, }) => {
         token: payload.token,
       };
     case AUTHORIZATION_LOGOUT:
-      localStorage.removeItem(TOKEN);
       return {
         ...state,
         email: '',

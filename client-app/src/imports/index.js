@@ -53,3 +53,8 @@ export const routes = {
 };
 
 export const TOKEN = 'authToken';
+
+export const actionTypes = {
+  AUTHORIZATION: 'authorization',
+  REGISTRATION: 'registration',
+};

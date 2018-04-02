@@ -6,13 +6,18 @@ import {
 } from './types';
 import signIn from 'src/requests/sign-in';
 import handleNotOkResponse from './notOkResponse';
+import { actionTypes, } from 'src/imports';
 
 export const authorize = ({ email, password, }) => {
   return async (dispatch) => {
     dispatch({ type: AUTHORIZATION_REQUEST, });
     const res = await signIn(email, password);
     if (!res.ok) {
-      return handleNotOkResponse(dispatch, res);
+      return await handleNotOkResponse(
+        dispatch,
+        res,
+        actionTypes.AUTHORIZATION
+      );
     }
     dispatch({
       type: AUTHORIZATION_SUCCESS,
