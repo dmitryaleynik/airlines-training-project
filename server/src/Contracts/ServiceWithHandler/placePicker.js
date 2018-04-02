@@ -5,20 +5,41 @@ class GetPlacesRequest {
 }
 
 class BookTemporarilyRequest {
-  constructor({ flightId, placeIds, luggageKg, }, userId) {
+  constructor({ flightId, }, userId) {
     this.flightId = flightId;
-    this.placeIds = placeIds;
-    this.luggageKg = luggageKg || 0;
     this.userId = userId;
   }
 }
 
 class AddToBookingRequest {
-  constructor({ orderId, flightId, placeIds, luggageKg, }) {
+  constructor({ orderId, flightId, }) {
     this.orderId = orderId;
     this.flightId = flightId;
-    this.placeIds = placeIds;
+  }
+}
+
+class BookPlaceRequest {
+  constructor(orderId, flightId, placeId) {
+    this.orderId = orderId;
+    this.flightId = flightId;
+    this.placeId = placeId;
+  }
+}
+
+class DeletePlaceBookingRequest {
+  constructor(orderId, flightId, placeId) {
+    this.orderId = orderId;
+    this.flightId = flightId;
+    this.placeId = placeId;
+  }
+}
+
+class AddLuggageToBookingRequest {
+  constructor({ orderId, flightId, luggageKg, }, userId) {
+    this.orderId = orderId;
+    this.flightId = flightId;
     this.luggageKg = luggageKg;
+    this.userId = userId;
   }
 }
 
@@ -52,6 +73,26 @@ class AddToBookingResponse {
   }
 }
 
+class BookPlaceResponse {
+  constructor(failures) {
+    if (failures) {
+      for (let failure in failures) {
+        this[failure] = failures[failure];
+      }
+    }
+  }
+}
+
+class AddLuggageToBookingResponse {
+  constructor(failures) {
+    if (failures) {
+      for (let failure in failures) {
+        this[failure] = failures[failure];
+      }
+    }
+  }
+}
+
 module.exports = {
   GetPlacesRequest,
   GetPlacesResponse,
@@ -59,4 +100,9 @@ module.exports = {
   OrderIdResponse,
   AddToBookingRequest,
   AddToBookingResponse,
+  BookPlaceRequest,
+  BookPlaceResponse,
+  DeletePlaceBookingRequest,
+  AddLuggageToBookingRequest,
+  AddLuggageToBookingResponse,
 };

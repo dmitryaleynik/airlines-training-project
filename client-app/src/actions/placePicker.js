@@ -7,11 +7,15 @@ import {
   PLACE_PICKER_VALIDATE_PLACES,
   PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
   PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
+  BOOKING_ADD_LUGGAGE,
 } from './types';
 import places from 'src/requests/places';
 import postBooking from 'src/requests/postBooking';
 import putBooking from 'src/requests/putBooking';
 import handleNotOkResponse from './notOkResponse';
+import bookPlace from 'src/requests/bookPlace';
+import unbookPlace from 'src/requests/unbookPlace';
+import addLuggage from 'src/requests/addLuggage';
 
 export const getPlaces = (flightId, directionName) => {
   return async (dispatch, token) => {
@@ -30,9 +34,25 @@ export const getPlaces = (flightId, directionName) => {
 };
 
 export const togglePlace = (number, directionName) => {
-  return {
-    type: PLACE_PICKER_TOGGLE_PLACE,
-    payload: { number, directionName, },
+  return async (dispatch, token, getState) => {
+    const { placePicker, flightFinder, priceConfirmator, } = getState();
+    const { pickedPlaces, } = placePicker[directionName];
+    const flightId = flightFinder[directionName].selectedId;
+    const { orderId, } = priceConfirmator;
+    const body = {
+      orderId,
+      flightId,
+      placeId: number,
+    };
+    if (pickedPlaces.includes(number)) {
+      await unbookPlace(body, token);
+    } else {
+      await bookPlace(body, token);
+    }
+    dispatch({
+      type: PLACE_PICKER_TOGGLE_PLACE,
+      payload: { number, directionName, },
+    });
   };
 };
 
@@ -72,8 +92,6 @@ export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
     const res = await postBooking(
       {
         flightId: flightId[directions[0]],
-        placeIds: placesToBeBooked[directions[0]],
-        luggageKg: luggage[directions[0]],
       },
       token
     );
@@ -86,8 +104,6 @@ export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
         {
           orderId,
           flightId: flightId[directions[1]],
-          placeIds: placesToBeBooked[directions[1]],
-          luggageKg: luggage[directions[1]],
         },
         token
       );
@@ -97,5 +113,12 @@ export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
       type: PLACE_PICKER_BOOK_PLACES_TEMPORARILY,
       payload: orderId,
     });
+  };
+};
+
+export const addLuggageToBooking = (orderId, flightId, luggageKg) => {
+  return async (dispatch, token) => {
+    await addLuggage({ orderId, flightId, luggageKg, }, token);
+    dispatch({ type: BOOKING_ADD_LUGGAGE, });
   };
 };

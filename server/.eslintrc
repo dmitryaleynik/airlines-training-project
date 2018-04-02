@@ -9,6 +9,7 @@
     "no-console": "warn",
     "comma-dangle": ["warn", "always"],
     "quotes": ["warn", "single"],
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "no-debugger": "off"
   }
 }

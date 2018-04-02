@@ -150,6 +150,16 @@ const changeAvatar = async ({ id, avatar, }) => {
   return true;
 };
 
+const deletePlaceBooking = async params => {
+  await db.deletePlaceBooking(params);
+  return true;
+};
+
+const addLuggageToBooking = async params => {
+  await db.addLuggageToBooking(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -174,4 +184,6 @@ module.exports = {
   changeNickname,
   getUserWithAvatar,
   changeAvatar,
+  deletePlaceBooking,
+  addLuggageToBooking,
 };

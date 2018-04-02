@@ -518,7 +518,7 @@ end;
 $$ language plpgsql;
 
 create function change_nickname(uid integer, nick varchar(255))
-returns void as $$
+  returns void as $$
 begin
   update users
   set nickname = nick
@@ -529,7 +529,7 @@ begin
  $$ language plpgsql;
 
 create function get_user_with_avatar_by_id(uid integer)
-returns user_with_avatar as $$
+  returns user_with_avatar as $$
 declare ret user_with_avatar;
 begin
   select 
@@ -554,6 +554,31 @@ begin
   set avatar = av,
   avatar_type = av_type
   where uid = user_id;
+
+  return;
+end;
+$$ language plpgsql;
+
+create function delete_place_booking(oid integer, fid integer, pid integer)
+  returns void as $$
+begin
+  delete 
+  from ordered_places
+  where order_id = oid
+    and flight_id = fid
+    and place_id = pid;
+
+  return;
+end;
+$$ language plpgsql;
+
+create function add_luggage_to_booking(oid integer, fid integer, lug integer)
+  returns void as $$
+begin
+  update ordered_flights
+  set luggage_kg = lug
+  where flight_id = fid
+    and order_id = oid;
 
   return;
 end;

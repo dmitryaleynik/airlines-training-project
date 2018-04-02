@@ -25,8 +25,8 @@ const initialPlaces = () => {
   };
 };
 const initialState = {
-  straightPlaces: initialPlaces(),
-  reversePlaces: initialPlaces(),
+  straight: initialPlaces(),
+  reverse: initialPlaces(),
   isFetching: false,
 };
 
