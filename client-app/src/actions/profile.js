@@ -53,8 +53,11 @@ export const confirmEditting = (nickname) => {
       payload: 'Nickname is required.',
     };
   }
-  return async (dispatch, token) => {
-    await changeNickname(nickname, token);
+  return async (dispatch, token, getState) => {
+    const currentNickname = getState().profile.nickname;
+    if (currentNickname !== nickname) {
+      await changeNickname(nickname, token);
+    }
     dispatch({
       type: PROFILE_CONFIRM_EDITTING,
       payload: nickname,

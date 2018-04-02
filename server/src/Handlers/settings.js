@@ -20,11 +20,6 @@ const changeNickname = async ctx => {
     return;
   }
 
-  if (nickname === user.nickname) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
-    return;
-  }
-
   await settingsService.changeNickname(
     new ChangeNicknameRequest(user.id, nickname)
   );

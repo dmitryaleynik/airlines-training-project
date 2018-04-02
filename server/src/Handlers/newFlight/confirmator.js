@@ -22,7 +22,7 @@ const confirmBooking = async ctx => {
   }
 
   if (res.nothingToConfirm) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
+    ctx.status = HttpCodes.CONFLICT;
     ctx.body = {
       message: 'Order has already been processed.',
     };
@@ -48,7 +48,7 @@ const cancelBooking = async ctx => {
   }
 
   if (res.nothingToConfirm) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
+    ctx.status = HttpCodes.CONFLICT;
     ctx.body = {
       message: 'Order has already been processed.',
     };

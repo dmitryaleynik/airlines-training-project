@@ -82,7 +82,7 @@ const addToBooking = async ctx => {
 
   const res = await placePickerService.addToBooking(req);
   if (res.isLinked) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
+    ctx.status = HttpCodes.CONFLICT;
     return;
   }
   ctx.status = HttpCodes.NO_CONTENT;

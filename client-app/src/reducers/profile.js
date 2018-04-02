@@ -14,10 +14,9 @@ const initialState = {
   editableUsername: '',
   avatar: '',
   isEditting: false,
-  isFetching: true,
+  isFetching: false,
   nicknameError: '',
   isAvatarUploaded: false,
-  isOverlay: false,
 };
 
 export default (state = initialState, { type, payload, }) => {
