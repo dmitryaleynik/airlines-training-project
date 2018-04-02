@@ -5,6 +5,7 @@ import OrdersTable from './OrdersTable';
 import Dropdown from 'src/components/Dropdown';
 import Loader from 'src/components/Loader';
 import { ordersDropdown, } from 'src/imports';
+import LeavingDates from './LeavingDates';
 
 import './styles.scss';
 
@@ -37,7 +38,7 @@ class UserPage extends Component {
   };
 
   render() {
-    const {
+    let {
       orders,
       toggleDropdown,
       isDropdownToggled,
@@ -46,6 +47,16 @@ class UserPage extends Component {
       history,
     } = this.props;
     const { handleDropdownClick, } = this;
+    orders = orders.map((item) => {
+      if (item.datesFrom instanceof LeavingDates) {
+        return item;
+      }
+      item.datesFrom = new LeavingDates(item.datesFrom);
+      return {
+        ...item,
+        leaveAt: item.datesFrom.getLeavingDate(),
+      };
+    });
 
     return (
       <div className="user-page">

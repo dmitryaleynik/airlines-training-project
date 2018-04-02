@@ -21,6 +21,11 @@ class FetchRequest {
     return this.fetchJSON(request);
   };
 
+  delete = (body, params, headers) => {
+    const request = this.initRequest(methods.DELETE, params, headers, body);
+    return this.fetchJSON(request);
+  };
+
   initRequest = (method, params, headers, body) => {
     this.prepareUrl(params);
     headers = this.setAuthHeaderIfNeeded(headers);

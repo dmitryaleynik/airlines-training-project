@@ -9,15 +9,9 @@ import 'react-table/react-table.css';
 const OrderTable = (props) => {
   let orderTableProps;
   const data = props.data.map((item) => {
-    let leaveAt;
-    if (item.dateFrom.length === 1) {
-      leaveAt = item.dateFrom[0];
-    } else {
-      leaveAt = item.dateFrom.filter((date) => moment(date) > moment())[0];
-    }
     return {
       ...item,
-      leaveAt: moment(leaveAt),
+      leaveAt: item.datesFrom.getLeavingDate(),
     };
   });
   if (props.data.length) {

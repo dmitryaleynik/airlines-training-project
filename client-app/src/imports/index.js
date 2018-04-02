@@ -9,16 +9,6 @@ export const directions = {
   REVERSE: 'reverse',
 };
 
-export const flights = {
-  STRAIGHT: 'straightFlight',
-  REVERSE: 'reverseFlight',
-};
-
-export const places = {
-  STRAIGHT: 'straightPlaces',
-  REVERSE: 'reversePlaces',
-};
-
 export const DATETIME_DISPLAY_PATTERN = 'MMMM Do YYYY, h:mm A';
 export const DATE_DISPLAY_PATTERN = 'MMMM Do YYYY';
 export const DATE_SENDING_IN_REQUEST_PATTERN = 'YYYY-MM-DD';

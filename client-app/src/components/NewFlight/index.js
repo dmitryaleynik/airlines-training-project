@@ -35,11 +35,11 @@ class NewFlight extends Component<{}, State> {
           break;
         case steps.PICKER:
           window.scroll(0, 0);
-          const flightId = {};
+          const flightsId = {};
           for (let key in flights) {
-            flightId[key] = flights[key].selectedId;
+            flightsId[key] = flights[key].selectedId;
           }
-          bookTemporarily(flightId);
+          bookTemporarily(flightsId);
           getPlaces(
             flights[directions.STRAIGHT].selectedId,
             directions.STRAIGHT

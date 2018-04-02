@@ -16,6 +16,7 @@ import handleNotOkResponse from './notOkResponse';
 import bookPlace from 'src/requests/bookPlace';
 import unbookPlace from 'src/requests/unbookPlace';
 import addLuggage from 'src/requests/addLuggage';
+import { directions, } from 'src/imports';
 
 export const getPlaces = (flightId, directionName) => {
   return async (dispatch, token) => {
@@ -44,10 +45,14 @@ export const togglePlace = (number, directionName) => {
       flightId,
       placeId: number,
     };
+    let res;
     if (pickedPlaces.includes(number)) {
-      await unbookPlace(body, token);
+      res = await unbookPlace(body, token);
     } else {
-      await bookPlace(body, token);
+      res = await bookPlace(body, token);
+    }
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
     }
     dispatch({
       type: PLACE_PICKER_TOGGLE_PLACE,
@@ -83,15 +88,14 @@ export const validatePlaces = (isValid, directionName) => {
   };
 };
 
-export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
+export const bookTemporarily = (flightsId) => {
   return async (dispatch, token) => {
     dispatch({
       type: PLACE_PICKER_REQUEST_BOOKING_TEMPORARILY,
     });
-    const directions = Object.keys(flightId);
     const res = await postBooking(
       {
-        flightId: flightId[directions[0]],
+        flightId: flightsId[directions.STRAIGHT],
       },
       token
     );
@@ -99,11 +103,11 @@ export const bookTemporarily = (flightId, placesToBeBooked, luggage) => {
       return handleNotOkResponse(dispatch, res);
     }
     const { orderId, } = res;
-    if (directions.length === 2) {
+    if (flightsId[directions.REVERSE]) {
       await putBooking(
         {
           orderId,
-          flightId: flightId[directions[1]],
+          flightId: flightsId[directions.REVERSE],
         },
         token
       );
