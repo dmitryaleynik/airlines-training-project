@@ -2,40 +2,29 @@
 
 .root {
   background-color: @background-color;
-  height: 500px;
+  min-height: 100vh;
   font-family: sans-serif;
-  grid-template: "head" 48px
-                 "content" 1fr
-                 "footer" 40px 
-                 / 100%;
+  display: grid;
+  grid-template: "head head head" 56px
+                 "outlet outlet outlet" 0
+                 "left-space content right-space" 1fr
+                 "footer footer footer" 40px 
+                 / auto 1140px auto;
 
   .header {
-    height: 40px;
-    padding: 8px 16px;
-    background-color: @primary-color;
     grid-area: head;
-  
-    .header-content {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    
-      .header-content__brand {
+    background-color: @primary-color;
+    font-size: 1.25rem;
+
+    .header__brand {
+        color: @primary-link-color;
         text-decoration: none;
-        font-size: 1.25rem;
-        padding: .55rem 0;
-      }
     }
   }
 
-  .content {
-    grid-area: content;
-  }
-
   .footer {
-    height: 30px;
-    padding: 10px 15px 0;
-    background-color: @primary-color;
     grid-area: footer;
+    background-color: @primary-color;
+    padding: 10px 15px 0;
   }
 }
