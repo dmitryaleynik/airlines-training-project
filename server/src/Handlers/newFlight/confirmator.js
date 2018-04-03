@@ -16,13 +16,13 @@ const confirmBooking = async ctx => {
   if (res.orderNotFound) {
     ctx.status = HttpCodes.NOT_FOUND;
     ctx.body = {
-      message: 'Order is not found.',
+      message: 'Order not found.',
     };
     return;
   }
 
   if (res.nothingToConfirm) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
+    ctx.status = HttpCodes.CONFLICT;
     ctx.body = {
       message: 'Order has already been processed.',
     };
@@ -48,7 +48,7 @@ const cancelBooking = async ctx => {
   }
 
   if (res.nothingToConfirm) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
+    ctx.status = HttpCodes.CONFLICT;
     ctx.body = {
       message: 'Order has already been processed.',
     };

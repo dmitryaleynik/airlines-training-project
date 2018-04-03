@@ -4,7 +4,10 @@ import cn from 'classnames';
 
 class PlacePickerJumbotron extends React.Component {
   togglePlace = (e) => {
-    this.props.togglePlace(e.target.innerHTML, this.props.directionName);
+    this.props.togglePlace(
+      Number(e.target.getAttribute('id')),
+      this.props.directionName
+    );
   };
 
   toggleLuggageRequirement = (e) => {
@@ -27,15 +30,16 @@ class PlacePickerJumbotron extends React.Component {
     });
     const seatsRenderer = (i) => {
       let seats = [];
-      for (let j = 0; j < places.rows; ++j) {
-        let seat = places.seats[i * places.rows + j];
+      for (let j = 0; j < places.columns; ++j) {
+        let seat = places.seats[i * places.columns + j];
         if (seat.isAvailable) {
           const isPicked =
-            this.props.direction.pickedPlaces.indexOf(seat.number) !== -1;
+            this.props.direction.pickedPlaces.indexOf(seat.id) !== -1;
           const cls = `available-place-${seatTypesObj[seat.type]}`;
           seats.push(
             <a
-              key={seat.number}
+              key={seat.id}
+              id={seat.id}
               className={cn(
                 'mx-1',
                 {
@@ -52,7 +56,7 @@ class PlacePickerJumbotron extends React.Component {
           );
         } else {
           seats.push(
-            <span className="mx-1" key={seat.number}>
+            <span className="mx-1" key={seat.id} id={seat.id}>
               {seat.number}
             </span>
           );
@@ -62,7 +66,7 @@ class PlacePickerJumbotron extends React.Component {
     };
     const rowsRenderer = () => {
       let rows = [];
-      for (let i = 0; i < places.columns; ++i) {
+      for (let i = 0; i < places.rows; ++i) {
         rows.push(
           <div key={i} className="d-flex flex-row justify-content-between">
             {seatsRenderer(i)}

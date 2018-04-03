@@ -1,12 +1,85 @@
+import React from 'react';
+import moment from 'moment';
+import ReactTable from 'react-table';
 import { DATETIME_DISPLAY_PATTERN, } from 'src/imports';
 
+const prepareSubComponentData = (placesObj) => {
+  const data = [];
+  for (let key in placesObj) {
+    data.push({ ...placesObj[key], name: key, });
+  }
+  return data;
+};
+
+const prepareSubComponent = () => {
+  const columns = [
+    {
+      Header: 'Ticket types',
+      columns: [
+        {
+          Header: 'Name',
+          accessor: 'name',
+        },
+        {
+          Header: 'Amount',
+          accessor: 'amount',
+        },
+        {
+          Header: 'Price',
+          accessor: 'price',
+        },
+      ],
+    },
+  ];
+  return (row) => {
+    const data = row.original.places;
+    return (
+      <ReactTable
+        data={data}
+        columns={columns}
+        defaultPageSize={data.length}
+        showPageSizeOptions={false}
+        showPagination={false}
+      />
+    );
+  };
+};
+
 export const initializeTableProps = (data) => {
-  const defaultPageSize = 5;
+  const defaultPageSize = 9;
+  const minRows = data.length > defaultPageSize ? defaultPageSize : data.length;
   return {
-    data: data,
-    minRows: data.length || 1,
+    data,
+    minRows: minRows || 1,
     defaultPageSize,
+    showPageSizeOptions: false,
+    showPageJump: false,
+    sorted: [
+      {
+        id: 'id',
+        desc: true,
+      },
+    ],
     showPagination: data.length > defaultPageSize,
+  };
+};
+
+export const initializeFlightTableProps = (data) => {
+  data.forEach((row) => {
+    if (!(row.places instanceof Array)) {
+      row.places = prepareSubComponentData(row.places);
+    }
+  });
+  const SubComponent = prepareSubComponent();
+  return {
+    ...initializeTableProps(data),
+    SubComponent,
+    sorted: [
+      {
+        id: 'dateFrom',
+        asc: true,
+      },
+    ],
   };
 };
 
@@ -43,43 +116,13 @@ export const flightsTableColumns = (isFinder) => {
           id: 'dateFrom',
           Header: 'From',
           width: 250,
-          accessor: (d) => d.date.from.format(DATETIME_DISPLAY_PATTERN),
+          accessor: (d) => moment(d.date.from).format(DATETIME_DISPLAY_PATTERN),
         },
         {
           id: 'dateTo',
           Header: 'To',
           width: 250,
-          accessor: (d) => d.date.to.format(DATETIME_DISPLAY_PATTERN),
-        },
-      ],
-    },
-    {
-      Header: 'Econom tickets',
-      columns: [
-        {
-          id: 'economAmount',
-          Header: 'Amount',
-          accessor: (d) => d.places.econom.amount,
-        },
-        {
-          id: 'economPrice',
-          Header: 'Price',
-          accessor: (d) => d.places.econom.price,
-        },
-      ],
-    },
-    {
-      Header: 'Business tickets',
-      columns: [
-        {
-          id: 'businessAmount',
-          Header: 'Amount',
-          accessor: (d) => d.places.business.amount,
-        },
-        {
-          id: 'businessPrice',
-          Header: 'Price',
-          accessor: (d) => d.places.business.price,
+          accessor: (d) => moment(d.date.to).format(DATETIME_DISPLAY_PATTERN),
         },
       ],
     },
@@ -89,7 +132,7 @@ export const flightsTableColumns = (isFinder) => {
         {
           id: (d) => (isFinder ? 'luggageFree' : 'luggageKg'),
           Header: (d) => (isFinder ? 'Free' : 'KG'),
-          accessor: (d) => (isFinder ? d.luggage.free : d.luggage.kg),
+          accessor: (d) => (isFinder ? d.luggage.freeKg : d.luggage.kg),
         },
         {
           id: 'luggagePrice',
@@ -111,7 +154,7 @@ export const ordersTableColumns = () => {
     {
       Header: 'Leaving date',
       id: 'leaveAt',
-      accessor: (d) => d.leaveAt.format(DATETIME_DISPLAY_PATTERN),
+      accessor: (d) => moment(d.leaveAt).format(DATETIME_DISPLAY_PATTERN),
     },
     {
       Header: 'Status',

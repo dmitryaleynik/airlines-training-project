@@ -2,21 +2,15 @@ import React, { Component, } from 'react';
 import classNames from 'classnames';
 import FlightFinder from './FlightFinder';
 import PlacePicker from './PlacePicker';
-import PriceConfirmator from './PriceConfirmator';
+import OrderInfo from 'src/components/OrderInfo/container';
 import ButtonPanel from './ButtonPanel';
 import Modal from 'src/components/Modal/container';
 import Loader from 'src/components/Loader';
-import {
-  steps,
-  STRAIGHT_FLIGHT,
-  REVERSE_FLIGHT,
-  STRAIGHT_PLACES,
-  REVERSE_PLACES,
-} from 'src/imports';
+import { steps, directions, } from 'src/imports';
 
 import './styles.scss';
 
-class NewFlight extends Component<{}, State> {
+class NewFlight extends Component {
   componentWillMount() {
     this.props.getCities();
   }
@@ -26,12 +20,12 @@ class NewFlight extends Component<{}, State> {
       currentStep,
       getCities,
       getPlaces,
-      straightFlight,
-      reverseFlight,
-      straightPlaces,
-      reversePlaces,
+      flights,
+      places,
       isReverseRequired,
       bookTemporarily,
+      orderId,
+      addLuggageToBooking,
     } = this.props;
     if (currentStep !== nextProps.currentStep) {
       switch (nextProps.currentStep) {
@@ -41,27 +35,33 @@ class NewFlight extends Component<{}, State> {
           break;
         case steps.PICKER:
           window.scroll(0, 0);
-          getPlaces(straightFlight.selectedId, STRAIGHT_PLACES);
+          const flightsId = {};
+          for (let key in flights) {
+            flightsId[key] = flights[key].selectedId;
+          }
+          bookTemporarily(flightsId);
+          getPlaces(
+            flights.straight.selectedId,
+            directions.STRAIGHT
+          );
           if (isReverseRequired) {
-            getPlaces(reverseFlight.selectedId, REVERSE_PLACES);
+            getPlaces(
+              flights.reverse.selectedId,
+              directions.REVERSE
+            );
           }
           break;
         case steps.CONFIRMATOR:
           window.scroll(0, 0);
-          const flightId = isReverseRequired
-            ? `${straightFlight.selectedId}&${reverseFlight.selectedId}`
-            : straightFlight.selectedId;
-          const placesToBeBooked = {
-            [STRAIGHT_FLIGHT]: straightPlaces.pickedPlaces,
-          };
-          const luggage = {
-            [STRAIGHT_FLIGHT]: straightPlaces.luggageKg,
-          };
-          if (isReverseRequired) {
-            placesToBeBooked[REVERSE_FLIGHT] = reversePlaces.pickedPlaces;
-            luggage[STRAIGHT_FLIGHT] = reversePlaces.luggageKg;
+          for (let key in places) {
+            if (places[key].isLuggageRequired) {
+              addLuggageToBooking(
+                orderId,
+                flights[key].selectedId,
+                places[key].luggageKg
+              );
+            }
           }
-          bookTemporarily(flightId, placesToBeBooked, luggage);
           break;
         default:
           break;
@@ -85,8 +85,8 @@ class NewFlight extends Component<{}, State> {
           to: values['city-to'],
         },
         dates: {
-          from: this.props[directionName].filters.dates.from,
-          to: this.props[directionName].filters.dates.to,
+          from: this.props.flights[directionName].filters.dates.from,
+          to: this.props.flights[directionName].filters.dates.to,
         },
         seats: values['seats'],
       },
@@ -99,21 +99,20 @@ class NewFlight extends Component<{}, State> {
       selectFlight,
       fulfilledSteps,
       isReverseRequired,
-      straightFlight,
-      reverseFlight,
+      flights,
       setStepFulfillment,
     } = this.props;
     selectFlight(id, directionName);
     if (!fulfilledSteps[steps.FINDER]) {
-      if (directionName === STRAIGHT_FLIGHT) {
+      if (directionName === directions.STRAIGHT) {
         if (
           !isReverseRequired ||
-          (isReverseRequired && reverseFlight.selectedId)
+          (isReverseRequired && flights.reverse.selectedId)
         ) {
           setStepFulfillment(steps.FINDER, true);
         }
-      } else if (directionName === REVERSE_FLIGHT) {
-        if (straightFlight.selectedId) {
+      } else if (directionName === directions.REVERSE) {
+        if (flights.straight.selectedId) {
           setStepFulfillment(steps.FINDER, true);
         }
       }
@@ -126,13 +125,13 @@ class NewFlight extends Component<{}, State> {
       toggleReversePath,
       isReverseRequired,
       setStepFulfillment,
-      straightFlight,
+      flights,
     } = this.props;
     toggleReversePath();
     if (!isReverseRequired) {
       setStepFulfillment(steps.FINDER, false);
     } else {
-      if (straightFlight.selectedId) {
+      if (flights.straight.selectedId) {
         setStepFulfillment(steps.FINDER, true);
       } else {
         setStepFulfillment(steps.FINDER, false);
@@ -147,16 +146,16 @@ class NewFlight extends Component<{}, State> {
       isReverseRequired,
     } = this.props;
     validatePlaces(isValid, directionName);
-    if (directionName === STRAIGHT_PLACES) {
+    if (directionName === directions.STRAIGHT) {
       if (!isReverseRequired) {
         setStepFulfillment(steps.PICKER, isValid);
-      } else if (this.props[REVERSE_PLACES].isValid && isValid) {
+      } else if (this.props.places.reverse.isValid && isValid) {
         setStepFulfillment(steps.PICKER, true);
       } else {
         setStepFulfillment(steps.PICKER, false);
       }
-    } else if (directionName === REVERSE_PLACES) {
-      if (this.props[STRAIGHT_PLACES].isValid && isValid) {
+    } else if (directionName === directions.REVERSE) {
+      if (this.props.places.straight.isValid && isValid) {
         setStepFulfillment(steps.PICKER, true);
       } else {
         setStepFulfillment(steps.PICKER, false);
@@ -177,10 +176,11 @@ class NewFlight extends Component<{}, State> {
   };
 
   getLuggageLimit = (directionName) => {
-    return this.props[directionName].selectedId
-      ? this.props[directionName].flights.find(
-          (flight) => flight.id === this.props[directionName].selectedId
-        ).luggage.maxKg
+    return this.props.flights.straight.selectedId
+      ? this.props.flights.straight.flights.find(
+        (flight) =>
+          flight.id === this.props.flights.straight.selectedId
+      ).luggage.maxKg
       : null;
   };
 
@@ -190,42 +190,39 @@ class NewFlight extends Component<{}, State> {
       fulfilledSteps,
       currentStep,
       cities,
-      straightFlight,
-      reverseFlight,
+      flights,
+      places,
       isReverseRequired,
       handleBackClick,
       handleNextClick,
       changeDateStart,
       changeDateEnd,
-      straightPlaces,
-      reversePlaces,
       toggleLuggageRequirement,
       changeLuggageAmount,
       togglePlace,
       modal,
-      openModal,
       orderId,
-      total,
       isFlightFinderFetching,
       isPlacePickerFetching,
       isPriceConfirmatorFetching,
+      match,
+      history,
     } = this.props;
     const {
       findFlights,
       selectFlight,
       toggleReversePath,
       validatePlaces,
-      confirmOrder,
-      cancelOrder,
     } = this;
 
     const luggageLimit = {
-      [STRAIGHT_PLACES]: this.getLuggageLimit(STRAIGHT_FLIGHT),
-      [REVERSE_PLACES]: this.getLuggageLimit(REVERSE_FLIGHT),
+      straight: this.getLuggageLimit(directions.STRAIGHT),
+      reverse: this.getLuggageLimit(directions.REVERSE),
     };
+
     const selectedIds = {
-      [STRAIGHT_FLIGHT]: straightFlight.selectedId,
-      [REVERSE_FLIGHT]: reverseFlight.selectedId,
+      straight: flights.straight.selectedId,
+      reverse: flights.reverse.selectedId,
     };
 
     const isFetching =
@@ -237,8 +234,7 @@ class NewFlight extends Component<{}, State> {
     const renderredComponents = [
       <FlightFinder
         cities={cities}
-        straightFlight={straightFlight}
-        reverseFlight={reverseFlight}
+        flights={flights}
         isReverseRequired={isReverseRequired}
         changeDateStart={changeDateStart}
         changeDateEnd={changeDateEnd}
@@ -249,27 +245,16 @@ class NewFlight extends Component<{}, State> {
       <PlacePicker
         isReverseRequired={isReverseRequired}
         selectedIds={selectedIds}
-        straightPlaces={straightPlaces}
-        reversePlaces={reversePlaces}
+        places={places}
         togglePlace={togglePlace}
         toggleLuggageRequirement={toggleLuggageRequirement}
         luggageLimit={luggageLimit}
         onLuggageChange={changeLuggageAmount}
         validate={validatePlaces}
       />,
-      <PriceConfirmator
-        orderId={orderId}
-        totalPrice={total}
-        isReverseRequired={isReverseRequired}
-        straightFlight={straightFlight}
-        reverseFlight={reverseFlight}
-        straightPlaces={straightPlaces}
-        reversePlaces={reversePlaces}
-        confirmOrder={confirmOrder}
-        cancelOrder={cancelOrder}
-        openModal={openModal}
-      />,
+      <OrderInfo orderId={orderId} match={match} history={history} />,
     ];
+
     return (
       <div className="new-flight">
         {modal && <Modal modal={modal} />}

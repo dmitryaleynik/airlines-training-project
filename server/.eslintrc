@@ -8,6 +8,8 @@
     "node/exports-style": ["error", "module.exports"],
     "no-console": "warn",
     "comma-dangle": ["warn", "always"],
-    "quotes": ["warn", "single"]
+    "quotes": ["warn", "single"],
+    "no-unused-vars": "warn",
+    "no-debugger": "off"
   }
 }

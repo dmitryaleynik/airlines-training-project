@@ -1,10 +1,8 @@
 import React, { Component, } from 'react';
 import Loader from 'src/components/Loader';
-
 import check from 'src/assets/icons/check.svg';
 import x from 'src/assets/icons/x.svg';
 import pencil from 'src/assets/icons/pencil.svg';
-import avatar from 'src/assets/avatar.png';
 import './styles.scss';
 
 class UserProfile extends Component {
@@ -21,21 +19,25 @@ class UserProfile extends Component {
   };
 
   handleAvatarChange = (e) => {
-    this.props.uploadAvatar(e.target.files[0].name, e.target.value);
+    if (!e.target.files.length) {
+      return;
+    }
+    let reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onloadend = () => {
+      this.props.uploadAvatar(reader.result);
+    };
   };
 
   render() {
     const {
       profile,
       isEditting,
-      usernameError,
+      nicknameError,
       editUsername,
       editableUsername,
       cancelEditting,
       isAvatarUploaded,
-      isOverlay,
-      toggleAvatarOverlay,
-      removeAvatar,
       isFetching,
     } = this.props;
     const {
@@ -52,22 +54,8 @@ class UserProfile extends Component {
             <div className="user-profile jumbotron container">
               <div className="row align-items-center justify-content-around">
                 <div className="col-5 d-flex justify-content-between align-items-center">
-                  <div
-                    className="avatar-wrapper"
-                    onMouseEnter={toggleAvatarOverlay}
-                    onMouseLeave={toggleAvatarOverlay}
-                  >
-                    <img className="avatar" src={avatar} alt="avatar" />
-                    {isOverlay && (
-                      <div className="remove-overlay">
-                        <img
-                          className="remove"
-                          src={x}
-                          onClick={removeAvatar}
-                          alt="remove"
-                        />
-                      </div>
-                    )}
+                  <div className="avatar-wrapper">
+                    <img className="avatar" src={profile.avatar} alt="avatar" />
                   </div>
                   <div className="input-group upload-avatar">
                     <div className="custom-file">
@@ -81,7 +69,7 @@ class UserProfile extends Component {
                         className="custom-file-label"
                         htmlFor="inputGroupFile"
                       >
-                        {profile.avatar.name || 'Upload new image'}
+                        {'Upload new image'}
                       </label>
                       {isAvatarUploaded && (
                         <span className="text-success avatar-success">
@@ -92,13 +80,13 @@ class UserProfile extends Component {
                   </div>
                 </div>
                 <div className="col-5">
-                  <label htmlFor="username">Your username</label>
+                  <label htmlFor="nickname">Your nickname</label>
                   <div className="input-group nickname">
                     <input
                       type="text"
-                      id="username"
+                      id="nickname"
                       className="form-control"
-                      value={isEditting ? editableUsername : profile.username}
+                      value={isEditting ? editableUsername : profile.nickname}
                       onChange={handleUsernameChange}
                       disabled={!isEditting}
                     />
@@ -132,9 +120,9 @@ class UserProfile extends Component {
                       </div>
                     )}
                   </div>
-                  {usernameError && (
-                    <span className="text-danger username-error">
-                      {usernameError}
+                  {nicknameError && (
+                    <span className="text-danger nickname-error">
+                      {nicknameError}
                     </span>
                   )}
                 </div>

@@ -4,11 +4,7 @@ import { Field, reduxForm, } from 'redux-form';
 import validate from 'src/utils/validate';
 import { renderInputWithLabel, } from 'src/utils/renderField';
 
-type Props = {
-  onSubmit: Function,
-};
-
-let SignUpForm = (props: Props) => {
+let SignUpForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit} noValidate="true">
       <Field
@@ -20,13 +16,6 @@ let SignUpForm = (props: Props) => {
       />
       <Field
         className="form-control"
-        name="username"
-        type="text"
-        component={renderInputWithLabel}
-        label="Username"
-      />
-      <Field
-        className="form-control"
         name="password"
         type="password"
         component={renderInputWithLabel}
@@ -35,7 +24,7 @@ let SignUpForm = (props: Props) => {
       <Field
         className="form-control"
         name="confirmPassword"
-        type="confirmPassword"
+        type="password"
         component={renderInputWithLabel}
         label="Confirm Password"
       />

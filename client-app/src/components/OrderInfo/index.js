@@ -4,12 +4,19 @@ import BackButton from 'src/components/BackButton';
 import Modal from 'src/components/Modal/container';
 import Loader from 'src/components/Loader';
 import { orderStatuses, } from 'src/imports';
+import { calculatePrices, } from 'src/utils/helpers';
+import { routes, } from 'src/imports';
 
 import './styles.scss';
 
 class OrderInfo extends Component {
   componentWillMount() {
-    this.props.getOrderInfo(this.props.match.params.id);
+    let { orderId, getOrderInfo, match, } = this.props;
+    orderId = orderId || match.params.id;
+    if (!orderId) {
+      return null;
+    }
+    getOrderInfo(orderId);
   }
 
   componentWillUnmount() {
@@ -22,7 +29,7 @@ class OrderInfo extends Component {
       handlePositiveClick: () => {
         const { order, cancelOrder, } = this.props;
         cancelOrder(order.id);
-        this.props.history.push('/orders');
+        this.props.history.push(routes.PROFILE);
       },
     };
     this.props.openModal(modalScheme);
@@ -36,26 +43,25 @@ class OrderInfo extends Component {
     const { order, confirmOrder, } = this.props;
     confirmOrder(order.id);
     setTimeout(() => {
-      this.props.history.push('/orders');
+      this.props.history.push(routes.PROFILE);
     }, 3000);
   };
 
   render() {
     const { order, modal, isFetching, history, } = this.props;
     const { cancelOrder, confirmOrder, } = this;
+    let total = 0;
     if (!order) {
       return <Loader />;
     }
 
     const children = [];
     order.flights.forEach((flight, i) => {
+      const prices = calculatePrices(flight);
+      total += prices.subtotal;
       children.push(
         <div key={i}>
-          <FlightInfo
-            flight={flight}
-            places={order.places[i]}
-            luggage={order.luggage[i]}
-          />
+          <FlightInfo flight={flight} prices={prices} />
           <div className="flights-divider-both" />
         </div>
       );
@@ -73,9 +79,7 @@ class OrderInfo extends Component {
             </div>
             {children}
             <div className="d-flex justify-content-between mt-3">
-              <span className="font-weight-bold">
-                GRAND TOTAL: {order.total}$
-              </span>
+              <span className="font-weight-bold">GRAND TOTAL: {total}$</span>
               {order.status === orderStatuses.PENDING && (
                 <span className="buttons">
                   <button

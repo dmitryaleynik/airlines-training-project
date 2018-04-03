@@ -20,3 +20,27 @@ export const disableScroll = () => {
 export const enableScroll = () => {
   document.body.className = '';
 };
+
+export const calculatePrices = (flight) => {
+  const { places, luggage, } = flight;
+  const placePrices = {};
+  let luggagePrice = 0;
+  let subtotal = 0;
+  Object.keys(places).forEach((key) => {
+    placePrices[key] = places[key].length * places[key][0].price;
+  });
+
+  for (let price of Object.values(placePrices)) {
+    subtotal += price;
+  }
+
+  if (flight.luggage.isRequired) {
+    luggagePrice = luggage.paidKg * luggage.price;
+    subtotal += luggagePrice;
+  }
+  return {
+    placePrices,
+    luggagePrice,
+    subtotal,
+  };
+};

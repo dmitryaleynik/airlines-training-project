@@ -5,6 +5,7 @@
   margin-bottom: 20px;
   .nav-link {
     color: $link-color;
+    cursor: pointer;
     &:hover {
       color: $link-color-hover;
     }

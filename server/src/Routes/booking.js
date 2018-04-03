@@ -22,6 +22,20 @@ bookingRouter.put(
   placePickerHandler.addToBooking
 );
 
+bookingRouter.post(
+  '/place',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  placePickerHandler.placeBooking
+);
+
+bookingRouter.delete(
+  '/place',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  placePickerHandler.placeBooking
+);
+
 bookingRouter.put(
   '/confirm',
   passport.authenticate('jwt', { session: false, }),
@@ -34,6 +48,13 @@ bookingRouter.put(
   passport.authenticate('jwt', { session: false, }),
   Roles.can(access.user),
   confirmatorHandler.cancelBooking
+);
+
+bookingRouter.put(
+  '/luggage',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.user),
+  placePickerHandler.addLuggageToBooking
 );
 
 module.exports = bookingRouter;
