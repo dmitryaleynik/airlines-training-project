@@ -57,7 +57,7 @@ class FlightResponse {
     this.planeId = plane_id;
     this.planeType = plane_type;
     this.luggage = {
-      kg: luggage_kg,
+      luggageKg: luggage_kg,
       maxKg: max_kg,
       freeKg: free_kg,
       price: price_for_kg,

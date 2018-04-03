@@ -5,13 +5,9 @@ import OrdersTable from './OrdersTable';
 import Dropdown from 'src/components/Dropdown';
 import Loader from 'src/components/Loader';
 import { ordersDropdown, } from 'src/imports';
+import LeavingDates from './LeavingDates';
 
 import './styles.scss';
-
-type State = {
-  dropdownIsToggled: boolean,
-  filter: string,
-};
 
 const menuItems = [
   {
@@ -28,7 +24,7 @@ const menuItems = [
   },
 ];
 
-class UserPage extends Component<{}, State> {
+class UserPage extends Component {
   componentWillMount = () => {
     const { getAllOrders, setFilter, } = this.props;
     setFilter(ordersDropdown.values.FUTURE);
@@ -42,7 +38,7 @@ class UserPage extends Component<{}, State> {
   };
 
   render() {
-    const {
+    let {
       orders,
       toggleDropdown,
       isDropdownToggled,
@@ -51,9 +47,16 @@ class UserPage extends Component<{}, State> {
       history,
     } = this.props;
     const { handleDropdownClick, } = this;
-    if (!orders.length) {
-      return <Loader />;
-    }
+    orders = orders.map((item) => {
+      if (item.datesFrom instanceof LeavingDates) {
+        return item;
+      }
+      item.datesFrom = new LeavingDates(item.datesFrom);
+      return {
+        ...item,
+        leaveAt: item.datesFrom.getLeavingDate(),
+      };
+    });
 
     return (
       <div className="user-page">

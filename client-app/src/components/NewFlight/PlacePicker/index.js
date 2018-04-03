@@ -1,11 +1,6 @@
 import React from 'react';
 import PlacePickerJumbotron from './PlacePickerJumbotron';
-import {
-  STRAIGHT_FLIGHT,
-  REVERSE_FLIGHT,
-  STRAIGHT_PLACES,
-  REVERSE_PLACES,
-} from 'src/imports';
+import { directions, } from 'src/imports';
 
 import './styles.scss';
 
@@ -20,18 +15,18 @@ const PlacePicker = (props) => {
     <div className="place-picker">
       <h2>Step 2: Pick places</h2>
       <PlacePickerJumbotron
-        directionName={STRAIGHT_PLACES}
-        direction={props[STRAIGHT_PLACES]}
-        selectedId={props.selectedIds[STRAIGHT_FLIGHT]}
-        luggageLimit={props.luggageLimit[STRAIGHT_PLACES]}
+        directionName={directions.STRAIGHT}
+        direction={props.places.straight}
+        selectedId={props.selectedIds.straight}
+        luggageLimit={props.luggageLimit.straight}
         {...PlacePickerJumbotronProps}
       />
       {props.isReverseRequired && (
         <PlacePickerJumbotron
-          directionName={REVERSE_PLACES}
-          direction={props[REVERSE_PLACES]}
-          selectedId={props.selectedIds[REVERSE_FLIGHT]}
-          luggageLimit={props.luggageLimit[REVERSE_PLACES]}
+          directionName={directions.REVERSE}
+          direction={props.places.reverse}
+          selectedId={props.selectedIds.reverse}
+          luggageLimit={props.luggageLimit.reverse}
           {...PlacePickerJumbotronProps}
         />
       )}

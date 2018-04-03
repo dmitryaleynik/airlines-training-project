@@ -2,7 +2,7 @@ import React from 'react';
 import FlightFinderForm from './FlightFinderForm';
 import FlightFinderTable from './FlightFinderTable';
 import Loader from 'src/components/Loader';
-import { STRAIGHT_FLIGHT, REVERSE_FLIGHT, } from 'src/imports';
+import { directions, } from 'src/imports';
 
 import './styles.scss';
 
@@ -19,7 +19,7 @@ const FlightFinder = (props) => {
     selectFlight: props.selectFlight,
   };
   const prepareFormInitialValues = (directionName) => {
-    const { cities, seats, } = props[directionName].filters;
+    const { cities, seats, } = props.flights[directionName].filters;
     return {
       'city-from': cities.from,
       'city-to': cities.to,
@@ -32,25 +32,25 @@ const FlightFinder = (props) => {
       <h2>Step 1: Find a flight</h2>
       <FlightFinderForm
         form="flightFinderStraight"
-        directionName="straightFlight"
-        direction={props.straightFlight}
-        initialValues={prepareFormInitialValues(STRAIGHT_FLIGHT)}
+        directionName={directions.STRAIGHT}
+        direction={props.flights.straight}
+        initialValues={prepareFormInitialValues(directions.STRAIGHT)}
         {...FlightFinderFormProps}
       />
-      {props.straightFlight.isFetching && <Loader />}
-      {props.straightFlight.isSearched && (
+      {props.flights.straight.isFetching && <Loader />}
+      {props.flights.straight.isSearched && (
         <FlightFinderTable
-          directionName={STRAIGHT_FLIGHT}
-          selectedId={props.straightFlight.selectedId}
-          data={props.straightFlight.flights}
+          directionName={directions.STRAIGHT}
+          selectedId={props.flights.straight.selectedId}
+          data={props.flights.straight.flights}
           selectFlight={props.selectFlight}
         />
       )}
-      {props.straightFlight.isSearched && (
+      {props.flights.straight.isSearched && (
         <button
           className="btn btn-dark btn-small"
           onClick={props.onReverseClick}
-          disabled={props.reverseFlight.isFetching}
+          disabled={props.flights.reverse.isFetching}
         >
           Find a way back
         </button>
@@ -58,18 +58,18 @@ const FlightFinder = (props) => {
       {props.isReverseRequired && (
         <FlightFinderForm
           form="flightFinderReverse"
-          directionName="reverseFlight"
-          direction={props.reverseFlight}
-          initialValues={prepareFormInitialValues(REVERSE_FLIGHT)}
+          directionName={directions.REVERSE}
+          direction={props.flights.reverse}
+          initialValues={prepareFormInitialValues(directions.REVERSE)}
           {...FlightFinderFormProps}
         />
       )}
-      {props.reverseFlight.isFetching && <Loader />}
-      {props.reverseFlight.isSearched && (
+      {props.flights.reverse.isFetching && <Loader />}
+      {props.flights.reverse.isSearched && (
         <FlightFinderTable
-          directionName={REVERSE_FLIGHT}
-          selectedId={props.reverseFlight.selectedId}
-          data={props.reverseFlight.flights}
+          directionName={directions.REVERSE}
+          selectedId={props.flights.reverse.selectedId}
+          data={props.flights.reverse.flights}
           selectFlight={props.selectFlight}
         />
       )}

@@ -17,7 +17,7 @@ const initialState = {
   cities: [],
   isFetching: false,
   isReverseRequired: false,
-  straightFlight: {
+  straight: {
     flights: [],
     filters: {
       dates: {
@@ -34,22 +34,22 @@ const initialState = {
     isSearched: false,
     selectedId: '',
   },
-  reverseFlight: {},
+  reverse: {},
 };
 
 const toggleReverse = (state, payload) => {
-  const reverseFlight = !state.isReverseRequired
+  const reverse = !state.isReverseRequired
     ? {
-        ...state.straightFlight,
+        ...state.straight,
         flights: [],
         isFetching: false,
         isSearched: false,
         selectedId: '',
         filters: {
-          ...state.straightFlight.filters,
+          ...state.straight.filters,
           cities: {
-            from: state.straightFlight.filters.cities.to,
-            to: state.straightFlight.filters.cities.from,
+            from: state.straight.filters.cities.to,
+            to: state.straight.filters.cities.from,
           },
         },
       }
@@ -57,7 +57,7 @@ const toggleReverse = (state, payload) => {
   return {
     ...state,
     isReverseRequired: !state.isReverseRequired,
-    reverseFlight,
+    reverse,
   };
 };
 

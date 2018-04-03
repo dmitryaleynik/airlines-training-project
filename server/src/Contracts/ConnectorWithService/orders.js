@@ -42,7 +42,7 @@ class OrderResponse {
   }) {
     this.id = order_id;
     this.number = order_number;
-    this.dateFrom = date_from;
+    this.datesFrom = date_from;
     this.status = status;
     this.expiresAt = expires_at;
     this.total = total;

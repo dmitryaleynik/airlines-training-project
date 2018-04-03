@@ -4,13 +4,14 @@ export const steps = {
   CONFIRMATOR: 2,
 };
 
-export const STRAIGHT_FLIGHT = 'straightFlight';
-export const REVERSE_FLIGHT = 'reverseFlight';
-export const STRAIGHT_PLACES = 'straightPlaces';
-export const REVERSE_PLACES = 'reversePlaces';
+export const directions = {
+  STRAIGHT: 'straight',
+  REVERSE: 'reverse',
+};
 
 export const DATETIME_DISPLAY_PATTERN = 'MMMM Do YYYY, h:mm A';
 export const DATE_DISPLAY_PATTERN = 'MMMM Do YYYY';
+export const DATE_SENDING_IN_REQUEST_PATTERN = 'YYYY-MM-DD';
 
 export const ordersDropdown = {
   keys: {
@@ -31,4 +32,30 @@ export const orderStatuses = {
   PENDING: 'Pending',
   COMPLETED: 'Completed',
   CANCELLED: 'Cancelled',
-}
+};
+
+export const methods = {
+  GET: 'get',
+  POST: 'post',
+  PUT: 'put',
+  DELETE: 'delete',
+};
+
+export const SERVER_URL = 'http://localhost:3001';
+
+export const routes = {
+  HOME: '/',
+  SIGN_IN: '/sign-in',
+  SIGN_UP: '/sign-up',
+  PROFILE: '/profile',
+  SETTINGS: '/settings',
+  ORDER: '/orders/:id',
+  NEW_FLIGHT: '/new-flight',
+};
+
+export const TOKEN = 'authToken';
+
+export const actionTypes = {
+  AUTHORIZATION: 'authorization',
+  REGISTRATION: 'registration',
+};

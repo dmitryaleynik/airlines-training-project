@@ -51,8 +51,8 @@ const getUserByEmail = async ({ email, }) => {
   return new UserResponse(result);
 };
 
-const register = async ({ email, passwordData, }) => {
-  await db.register(email, passwordData);
+const register = async ({ email, passwordData, avatar, }) => {
+  await db.register(email, passwordData, avatar);
   return true;
 };
 
@@ -145,8 +145,18 @@ const getUserWithAvatar = async ({ id, }) => {
   return new UserWithAvatarResponse(user);
 };
 
-const changeAvatar = async params => {
-  await db.changeAvatar(params);
+const changeAvatar = async ({ id, avatar, }) => {
+  await db.changeAvatar(id, avatar);
+  return true;
+};
+
+const deletePlaceBooking = async params => {
+  await db.deletePlaceBooking(params);
+  return true;
+};
+
+const addLuggageToBooking = async params => {
+  await db.addLuggageToBooking(params);
   return true;
 };
 
@@ -174,4 +184,6 @@ module.exports = {
   changeNickname,
   getUserWithAvatar,
   changeAvatar,
+  deletePlaceBooking,
+  addLuggageToBooking,
 };

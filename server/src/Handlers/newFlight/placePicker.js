@@ -5,6 +5,9 @@ const {
   GetPlacesRequest,
   BookTemporarilyRequest,
   AddToBookingRequest,
+  BookPlaceRequest,
+  DeletePlaceBookingRequest,
+  AddLuggageToBookingRequest,
 } = require('../../Contracts/ServiceWithHandler/placePicker');
 const {
   GetPlacesResponse,
@@ -13,7 +16,6 @@ const {
 
 const getPlaces = async ctx => {
   const { flight_id, } = ctx.query;
-
   if (flight_id === undefined) {
     ctx.status = HttpCodes.BAD_REQUEST;
     ctx.body = { message: 'Invalid query. flight_id parameter is required.', };
@@ -46,13 +48,6 @@ const bookTemporarily = async ctx => {
       return;
     }
   }
-  if (!req.placeIds.length) {
-    ctx.status = HttpCodes.BAD_REQUEST;
-    ctx.body = {
-      message: 'Invalid body. You must pick at least one place.',
-    };
-    return;
-  }
 
   const res = await placePickerService.bookTemporarily(req);
   ctx.status = HttpCodes.CREATED;
@@ -72,17 +67,53 @@ const addToBooking = async ctx => {
       return;
     }
   }
-  if (!req.placeIds.length) {
-    ctx.status = HttpCodes.BAD_REQUEST;
-    ctx.body = {
-      message: 'Invalid body. You must pick at least one place.',
-    };
-    return;
-  }
 
   const res = await placePickerService.addToBooking(req);
   if (res.isLinked) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
+    ctx.status = HttpCodes.CONFLICT;
+    return;
+  }
+  ctx.status = HttpCodes.NO_CONTENT;
+};
+
+const placeBooking = async ctx => {
+  const { orderId, flightId, placeId, } = ctx.request.body;
+  if (!placeId || !orderId || !flightId) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    return;
+  }
+
+  if (ctx.request.method === 'POST') {
+    const res = await placePickerService.bookPlace(
+      new BookPlaceRequest(orderId, flightId, placeId)
+    );
+    if (res.placeIsBooked) {
+      ctx.status = HttpCodes.CONFLICT;
+      return;
+    }
+    ctx.status = HttpCodes.CREATED;
+    return;
+  } else if (ctx.request.method === 'DELETE') {
+    await placePickerService.deletePlaceBooking(
+      new DeletePlaceBookingRequest(orderId, flightId, placeId)
+    );
+    ctx.status = HttpCodes.OK;
+  }
+};
+
+const addLuggageToBooking = async ctx => {
+  const { body, } = ctx.request;
+  const req = new AddLuggageToBookingRequest(body, ctx.state.user.id);
+  for (let key in req) {
+    if (!req[key]) {
+      ctx.status = HttpCodes.BAD_REQUEST;
+      return;
+    }
+  }
+
+  const res = await placePickerService.addLuggageToBooking(req);
+  if (res.unavailableToProcess) {
+    ctx.status = HttpCodes.CONFLICT;
     return;
   }
   ctx.status = HttpCodes.NO_CONTENT;
@@ -92,4 +123,6 @@ module.exports = {
   getPlaces,
   bookTemporarily,
   addToBooking,
+  placeBooking,
+  addLuggageToBooking,
 };

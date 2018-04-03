@@ -20,11 +20,6 @@ const changeNickname = async ctx => {
     return;
   }
 
-  if (nickname === user.nickname) {
-    ctx.status = HttpCodes.NOT_MODIFIED;
-    return;
-  }
-
   await settingsService.changeNickname(
     new ChangeNicknameRequest(user.id, nickname)
   );
@@ -44,7 +39,6 @@ const getUserInfo = async ctx => {
 const changeAvatar = async ctx => {
   const { id, } = ctx.state.user;
   const { avatar, } = ctx.request.body;
-
   if (!avatar) {
     ctx.status = HttpCodes.BAD_REQUEST;
     ctx.body = {

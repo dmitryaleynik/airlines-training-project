@@ -1,4 +1,3 @@
-import { cities, flights, } from 'src/db/flightFinder';
 import {
   FLIGHT_FINDER_REQUEST_CITIES,
   FLIGHT_FINDER_GET_CITIES,
@@ -10,19 +9,23 @@ import {
   FLIGHT_FINDER_SELECT_FLIGHT,
   FLIGHT_FINDER_TOGGLE_REVERSE_FLIGHT,
 } from './types';
+import cities from 'src/requests/cities';
+import flights from 'src/requests/flights';
+import handleNotOkResponse from './notOkResponse';
 
 export const getCities = () => {
-  return async (dispatch) => {
+  return async (dispatch, token) => {
     dispatch({
       type: FLIGHT_FINDER_REQUEST_CITIES,
     });
-    let resolvedCities = await Promise.resolve(cities);
-    setTimeout(() => {
-      dispatch({
-        type: FLIGHT_FINDER_GET_CITIES,
-        payload: resolvedCities,
-      });
-    }, 2000);
+    let res = await cities(token);
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
+    dispatch({
+      type: FLIGHT_FINDER_GET_CITIES,
+      payload: res.cities,
+    });
   };
 };
 
@@ -41,7 +44,7 @@ export const changeDateEnd = (date, directionName) => {
 };
 
 export const findFlights = (filters, directionName) => {
-  return async (dispatch) => {
+  return async (dispatch, token) => {
     dispatch({
       type: FLIGHT_FINDER_UPDATE_FILTERS,
       payload: { filters, directionName, },
@@ -50,13 +53,14 @@ export const findFlights = (filters, directionName) => {
       type: FLIGHT_FINDER_REQUEST_FLIGHTS,
       payload: { directionName, },
     });
-    let resolvedFlights = await Promise.resolve(flights);
-    setTimeout(() => {
-      dispatch({
-        type: FLIGHT_FINDER_RECEIVE_FLIGHTS,
-        payload: { flights: resolvedFlights, directionName, },
-      });
-    }, 2000);
+    let res = await flights(filters, token);
+    if (!res.ok) {
+      return handleNotOkResponse(dispatch, res);
+    }
+    dispatch({
+      type: FLIGHT_FINDER_RECEIVE_FLIGHTS,
+      payload: { flights: res.flights, directionName, },
+    });
   };
 };
 

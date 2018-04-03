@@ -31,6 +31,23 @@ class LinkPlaceWithOrderRequest {
   }
 }
 
+class DeletePlaceBookingRequest {
+  constructor(orderId, flightId, placeId) {
+    this.placeId = placeId;
+    this.flightId = flightId;
+    this.orderId = orderId;
+  }
+}
+
+class AddLuggageToBookingRequest {
+  constructor({ orderId, flightId, luggageKg, userId, }) {
+    this.orderId = orderId;
+    this.flightId = flightId;
+    this.luggageKg = luggageKg;
+    this.userId = userId;
+  }
+}
+
 class PlaceResponse {
   constructor({ place_id, place_number, type_name, price, availability, }) {
     this.id = place_id;
@@ -65,4 +82,6 @@ module.exports = {
   PlaneSizesResponse,
   PlacesWithAvailabilityRequest,
   LinkPlaceWithOrderRequest,
+  DeletePlaceBookingRequest,
+  AddLuggageToBookingRequest,
 };
