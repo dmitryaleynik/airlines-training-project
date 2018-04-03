@@ -2,16 +2,18 @@
 
 .root {
   background-color: @background-color;
-  min-height: 100vh;
+  height: 500px;
   font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  grid-template: "head" 48px
+                 "content" 1fr
+                 "footer" 40px 
+                 / 100%;
 
   .header {
     height: 40px;
     padding: 8px 16px;
     background-color: @primary-color;
+    grid-area: head;
   
     .header-content {
       display: flex;
@@ -26,9 +28,14 @@
     }
   }
 
+  .content {
+    grid-area: content;
+  }
+
   .footer {
     height: 30px;
     padding: 10px 15px 0;
     background-color: @primary-color;
+    grid-area: footer;
   }
 }
