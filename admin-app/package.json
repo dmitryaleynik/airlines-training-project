@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
+    "start": "ng serve --open --port 3002",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
+    "less": "^3.0.1",
+    "normalize.css": "^8.0.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
