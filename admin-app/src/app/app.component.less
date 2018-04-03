@@ -2,6 +2,33 @@
 
 .root {
   background-color: @background-color;
-  height: 100vh;
+  min-height: 100vh;
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header {
+    height: 40px;
+    padding: 8px 16px;
+    background-color: @primary-color;
+  
+    .header-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    
+      .header-content__brand {
+        text-decoration: none;
+        font-size: 1.25rem;
+        padding: .55rem 0;
+      }
+    }
+  }
+
+  .footer {
+    height: 30px;
+    padding: 10px 15px 0;
+    background-color: @primary-color;
+  }
 }
