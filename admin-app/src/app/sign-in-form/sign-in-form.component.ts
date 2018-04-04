@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SignIn } from '../sign-in';
-import { AuthorizationService } from '../authorization.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { SignInRequest } from '../classes/sign-in.request';
 
 @Component({
   selector: 'app-sign-in-form',
@@ -8,15 +7,10 @@ import { AuthorizationService } from '../authorization.service';
   styleUrls: ['./sign-in-form.component.less'],
 })
 export class SignInFormComponent implements OnInit {
-  user: SignIn = new SignIn();
-  submitted = false;
+  @Input() user: SignInRequest;
+  @Input() onSubmit: Function;
 
-  constructor(private authService: AuthorizationService) {}
+  constructor() { }
 
-  ngOnInit() {}
-
-  onSubmit() {
-    this.submitted = true;
-    this.authService.signIn(this.user).subscribe(res => console.log(res));
-  }
+  ngOnInit() { }
 }
