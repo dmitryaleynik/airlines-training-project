@@ -1,0 +1,13 @@
+<div class="dashboard">
+  <h2 class="dashboard__logo">Dashboard</h2>
+  <ul *ngIf="!category" class="nav-buttons">
+    <li class="nav-buttons__button">
+      <button class="btn" routerLink="/dashboard/flights">Flights</button>
+    </li>
+    <li class="nav-buttons__button">
+      <button class="btn" routerLink="/dashboard/planes">Planes</button>
+    </li>
+  </ul>
+  <div *ngIf="category === 'flights'">Here'll be flights</div>
+  <div *ngIf="category === 'planes'">Here'll be planes</div>
+</div>
