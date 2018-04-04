@@ -5,8 +5,7 @@ import { SignIn } from './sign-in';
 
 @Injectable()
 export class AuthorizationService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   signIn(user: SignIn): Observable<any> {
     return this.http.post('http://localhost:3001/sign-in', user);

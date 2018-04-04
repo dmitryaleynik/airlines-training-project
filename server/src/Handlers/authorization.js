@@ -8,9 +8,13 @@ const { AuthResponse, } = require('../Contracts/Responses/authorization');
 
 const authHandler = async ctx => {
   const { body, } = ctx.request;
-  const request = new AuthRequest(body.email, body.password);
+  const request = new AuthRequest(body.email, body.password, body.role);
   const response = await authService.authorize(request);
-  if (response.userNotFound || response.wrongPassword) {
+  if (
+    response.userNotFound ||
+    response.wrongPassword ||
+    response.unsuitableRole
+  ) {
     ctx.status = HttpCodes.CONFLICT;
     ctx.body = {
       message: 'Authorization failed. Email or password are invalid.',
