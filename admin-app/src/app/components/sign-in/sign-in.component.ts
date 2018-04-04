@@ -20,7 +20,6 @@ export class SignInComponent implements OnInit {
   onSubmit = () => {
     this.authService.signIn(this.user)
       .subscribe((res: SignInResponse) => {
-        this.authService.setAuthToken(res.token);
         console.log('done');
       });
   }

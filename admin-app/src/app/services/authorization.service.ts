@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError, tap } from 'rxjs/operators';
 import { AUTH_TOKEN } from '../../constants';
 
 import { SignInRequest } from '../classes/sign-in.request';
@@ -25,6 +27,13 @@ export class AuthorizationService {
   }
 
   signIn(user: SignInRequest): Observable<Object> {
-    return this.http.post('http://localhost:3001/sign-in', user);
+    return this.http.post('http://localhost:3001/sign-in', user)
+      .pipe(
+        tap((res: SignInResponse) => this.setAuthToken(res.token)),
+        catchError((error) => {
+          alert(error.message);
+          return of(null);
+        })
+      );
   }
 }

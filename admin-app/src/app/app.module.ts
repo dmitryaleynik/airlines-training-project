@@ -9,8 +9,10 @@ import { AppComponent } from './app.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
 
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
 import { AuthorizationService } from './services/authorization.service';
+
+import { jwtModuleConfig } from '../config/jwtModule';
 
 @NgModule({
   declarations: [
@@ -23,9 +25,13 @@ import { AuthorizationService } from './services/authorization.service';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    JwtHelperService
+    JwtModule.forRoot({
+      config: jwtModuleConfig
+    })
   ],
-  providers: [AuthorizationService],
+  providers: [
+    AuthorizationService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
