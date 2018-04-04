@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignInFormComponent } from './sign-in-form/sign-in-form.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
 
-import { AuthorizationService } from './authorization.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthorizationService } from './services/authorization.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AuthorizationService } from './authorization.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    JwtHelperService
   ],
   providers: [AuthorizationService],
   bootstrap: [AppComponent]

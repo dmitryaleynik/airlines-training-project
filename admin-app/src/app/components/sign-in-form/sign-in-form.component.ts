@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SignInRequest } from '../classes/sign-in.request';
+import { SignInRequest } from '../../classes/sign-in.request';
 
 @Component({
   selector: 'app-sign-in-form',

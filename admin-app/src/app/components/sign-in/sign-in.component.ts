@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizationService } from '../authorization.service';
+import { AuthorizationService } from '../../services/authorization.service';
 
-import { SignInRequest } from '../classes/sign-in.request';
-import { SignInResponse } from '../classes/sign-in.response';
+import { SignInRequest } from '../../classes/sign-in.request';
+import { SignInResponse } from '../../classes/sign-in.response';
 
 @Component({
   selector: 'app-sign-in',
