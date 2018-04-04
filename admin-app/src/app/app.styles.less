@@ -1,0 +1,30 @@
+@import '../assets/styles.less';
+
+.root {
+  background-color: @background-color;
+  min-height: 100vh;
+  font-family: sans-serif;
+  display: grid;
+  grid-template: "head head head" 56px
+                 "outlet outlet outlet" 0
+                 "left-space content right-space" 1fr
+                 "footer footer footer" 40px 
+                 / auto 1140px auto;
+
+  .header {
+    grid-area: head;
+    background-color: @primary-color;
+    font-size: 1.25rem;
+
+    .header__brand {
+        color: @primary-link-color;
+        text-decoration: none;
+    }
+  }
+
+  .footer {
+    grid-area: footer;
+    background-color: @primary-color;
+    padding: 10px 15px 0;
+  }
+}

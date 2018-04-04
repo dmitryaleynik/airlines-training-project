@@ -10,11 +10,15 @@ const {
   AuthResponse,
 } = require('../Contracts/ServiceWithHandler/authorization');
 
-const authorize = async ({ email, password, }) => {
+const authorize = async ({ email, password, role, }) => {
   const user = await dbConnector.getUserByEmail(new UserByEmailRequest(email));
   if (!user.id) {
     return new AuthResponse(null, { userNotFound: true, });
   }
+  if (user.role !== role) {
+    return new AuthResponse(null, { unsuitableRole: true, });
+  }
+
   const passwordData = await dbConnector.getUserPasswordData(
     new PasswordDataRequest(user.id)
   );

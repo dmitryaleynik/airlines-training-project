@@ -16,7 +16,6 @@ import handleNotOkResponse from './notOkResponse';
 import bookPlace from 'src/requests/bookPlace';
 import unbookPlace from 'src/requests/unbookPlace';
 import addLuggage from 'src/requests/addLuggage';
-import { directions, } from 'src/imports';
 
 export const getPlaces = (flightId, directionName) => {
   return async (dispatch, token) => {
