@@ -69,6 +69,17 @@ create type flight_expanded as (
   price_for_kg integer
 );
 
+create type flight_admin as (
+ flight_id integer,
+ city_from varchar(255),
+ city_to varchar(255),
+ date_from timestamp,
+ date_to timestamp,
+ plane_id integer,
+ free_kg integer,
+ price_for_kg integer
+);
+
 create type user_main_info as (
   user_id integer,
   email varchar(255),
@@ -601,5 +612,28 @@ begin
     and order_id = oid;
 
   return;
+end;
+$$ language plpgsql;
+
+create function get_all_flights()
+  returns table (ff flight_admin) as $$
+begin
+  return query
+    select *
+    from flights
+      natural join luggage_prices;
+end;
+$$ language plpgsql;
+
+create function get_types_prices(fid integer)
+  returns table(tn varchar(255), tp integer) as $$
+begin
+  return query
+    select
+      type_name,
+      price
+    from type_prices
+      natural join place_types
+    where flight_id = fid;
 end;
 $$ language plpgsql;

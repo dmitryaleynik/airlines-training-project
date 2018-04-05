@@ -18,6 +18,7 @@ const {
   PlaceResponse,
   AvailablePlacesStatisticsResponse,
   PlaneSizesResponse,
+  TypesPricesResponse,
 } = require('../Contracts/ConnectorWithService/places');
 
 const getOrdersByUserId = async ({ id, }) => {
@@ -160,6 +161,20 @@ const addLuggageToBooking = async params => {
   return true;
 };
 
+const getAllFlights = async () => {
+  const res = (await db.getAllFlights()).rows;
+  return res.map(row => {
+    return new FlightResponse(row);
+  });
+};
+
+const getTypesPrices = async ({ flightId, }) => {
+  const res = (await db.getTypesPrices(flightId)).rows;
+  return res.map(row => {
+    return new TypesPricesResponse(row);
+  });
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -186,4 +201,6 @@ module.exports = {
   changeAvatar,
   deletePlaceBooking,
   addLuggageToBooking,
+  getAllFlights,
+  getTypesPrices,
 };

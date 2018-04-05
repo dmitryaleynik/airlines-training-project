@@ -1,4 +1,5 @@
 const client = require('./setup');
+const Request = require('./Request');
 
 const getOrderedFlights = async order_id => {
   const queryText = 'SELECT * FROM get_ordered_flights($1);';
@@ -51,6 +52,10 @@ const checkFlightLinkage = async ({ flightId, orderId, }) => {
   return result;
 };
 
+const getAllFlights = async () => {
+  return await new Request('SELECT * FROM get_all_flights()').send();
+};
+
 module.exports = {
   getOrderedFlights,
   getAllCities,
@@ -58,4 +63,5 @@ module.exports = {
   linkFlightWithOrder,
   linkFlightWithOrderWithLuggage,
   checkFlightLinkage,
+  getAllFlights,
 };

@@ -21,6 +21,7 @@ const {
   linkFlightWithOrderWithLuggage,
   linkFlightWithOrder,
   checkFlightLinkage,
+  getAllFlights,
 } = require('./flights');
 const {
   getOrderedPlaces,
@@ -31,6 +32,7 @@ const {
   linkPlaceWithOrder,
   deletePlaceBooking,
   addLuggageToBooking,
+  getTypesPrices,
 } = require('./places');
 
 module.exports = {
@@ -60,4 +62,6 @@ module.exports = {
   changeAvatar,
   deletePlaceBooking,
   addLuggageToBooking,
+  getAllFlights,
+  getTypesPrices,
 };
