@@ -6,21 +6,19 @@ import { SignInResponse } from '../../classes/sign-in.response';
 
 @Component({
   selector: 'app-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.less']
+  templateUrl: './sign-in.template.html',
+  styleUrls: ['./sign-in.styles.less'],
 })
 export class SignInComponent implements OnInit {
   user: SignInRequest = new SignInRequest();
 
-  constructor(private authService: AuthorizationService) { }
+  constructor(private authService: AuthorizationService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit = () => {
-    this.authService.signIn(this.user)
-      .subscribe((res: SignInResponse) => {
-        console.log('done');
-      });
-  }
+    this.authService.signIn(this.user).subscribe((res: SignInResponse) => {
+      console.log('done');
+    });
+  };
 }
