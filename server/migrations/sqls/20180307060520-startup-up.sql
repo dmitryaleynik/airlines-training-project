@@ -113,7 +113,6 @@ create table place_types (
   type_id serial primary key,
   plane_id integer references planes not null,
   type_name varchar(255) not null,
-  price integer not null
 );
 
 create table places (
@@ -140,6 +139,12 @@ create table flights (
   plane_id integer references planes not null
 );
 
+create table type_prices (
+  type_id integer references place_types not null,
+  flight_id integer references flights not null,
+  price integer
+);
+
 create table ordered_flights (
   flight_id integer references flights not null,
   order_id integer references orders not null,
@@ -156,6 +161,12 @@ create table luggage_schemas (
   luggage_schema_id serial primary key,
   plane_id integer references planes not null,
   max_kg integer not null,
+  free_kg integer not null,
+  price_for_kg integer not null
+);
+
+create table luggage_prices (
+  flight_id integer references flights not null,
   free_kg integer not null,
   price_for_kg integer not null
 );
@@ -206,12 +217,13 @@ begin
       p.type as plane_type,
       of.luggage_kg, 
       lsc.max_kg,
-      lsc.free_kg,
-      lsc.price_for_kg
+      lp.free_kg,
+      lp.price_for_kg
     from ordered_flights of
       natural join flights f
       natural join planes p
-      natural join luggage_schemas lsc 
+      natural join luggage_schemas lsc
+      natural join luggage_prices lp
     where of.order_id = ord_id;
 end;
 $$ language plpgsql;
@@ -224,10 +236,11 @@ begin
       p.place_id,
       p.place_number,
       pt.type_name,
-      pt.price 
+      tpr.price 
     from ordered_places
       natural join places p
-      natural join place_types pt 
+      natural join place_types pt
+      natural join type_prices tpr
     where flight_id = fl_id
       and order_id = ord_id;
 end;
@@ -342,6 +355,7 @@ begin
     from flights f
       natural join planes
       natural join luggage_schemas
+      natural join luggage_prices
     where f.city_from = c_from
       and f.city_to = c_to
       and f.date_from >= d_from
@@ -360,20 +374,24 @@ begin
     select
       place_id,
       place_number,
-      type_name,
-      price, 
+      cast(max(type_name) as varchar(255)) as type_name,
+      max(price) as price,
       case 
-        when status = 'Confirmed' then false 
-        when expires_at > current_timestamp then false
+        when max(status) = 'Confirmed' then false 
+        when max(expires_at) > current_timestamp then false
         else true
       end as is_available
     from flights
       natural join planes
       natural join places
-      natural join place_types 
-      left join ordered_places using(flight_id, place_id)
+      natural join place_types
+      join type_prices
+        using(flight_id, type_id)
+      left join ordered_places
+        using(flight_id, place_id)
       left join orders using(order_id)
     where flights.flight_id = fl_id
+    group by place_id
     order by place_number;
 end;
 $$ language plpgsql;
@@ -398,13 +416,15 @@ begin
     select
       count(place_id) as amount,
       pt.type_name,
-      pt.price 
+      tpr.price 
     from get_available_places_ids(fl_id)
       natural join places
-      natural join place_types pt 
+      natural join place_types pt
+      natural join type_prices tpr
+    where flight_id = fl_id
     group by
       pt.type_name,
-      pt.price;
+      tpr.price;
 end;
 $$ language plpgsql;
 
