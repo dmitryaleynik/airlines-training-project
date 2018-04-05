@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, RouterEvent } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.less']
+  templateUrl: './dashboard.template.html',
+  styleUrls: ['./dashboard.styles.less']
 })
 export class DashboardComponent implements OnInit {
   category: string;
@@ -13,21 +13,24 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    console.log('kek');
     this.getCategory();
+    this.router.events.subscribe(
+      this.routerEventInterceptor
+    );
+  }
+
+  routerEventInterceptor = (event: RouterEvent) => {
+    if (event instanceof NavigationEnd) {
+      this.getCategory();
+    }
   }
 
   getCategory() {
     this.category = this.route.snapshot.paramMap.get('category');
   }
-
-  setCategory(category) {
-    this.category = category;
-    this.location.go(`/dashboard/${category}`);
-  }
-
 }
