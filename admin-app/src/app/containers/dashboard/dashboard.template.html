@@ -9,6 +9,7 @@
     </li>
   </ul>
   <div *ngIf="category === 'flights'">
+    <app-new-flight-form></app-new-flight-form>
     <app-flights-table [data]="flightsData"></app-flights-table>
   </div>
   <div *ngIf="category === 'planes'">Here'll be planes</div>

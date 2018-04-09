@@ -1,0 +1,17 @@
+<div class="new-flight-content">
+  <button class="btn" *ngIf="!isToggled" (click)="toggleForm()">+ add new flight</button>
+  <div *ngIf="isToggled">
+    <button class="btn" (click)="toggleForm()">- add new flight</button>
+    <form [formGroup]="newFlightForm" (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="City from" formControlName="city-from">
+        <input type="text" class="form-control" placeholder="City to" formControlName="city-to">
+        <input type="datetime-local" class="form-control" placeholder="Date from" formControlName="date-from">
+        <input type="datetime-local" class="form-control" placeholder="Date to" formControlName="date-to">
+        <div class="input-group-append">
+          <button class="btn" [disabled]="newFlightForm.status==='INVALID'">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

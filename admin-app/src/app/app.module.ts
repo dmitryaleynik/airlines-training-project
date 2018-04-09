@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -10,6 +10,7 @@ import { DashboardComponent } from './containers/dashboard/dashboard.component';
 import { AppComponent } from './app.component';
 import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
 import { FlightsTableComponent } from './components/flights-table/flights-table.component';
+import { NewFlightFormComponent } from './components/new-flight-form/new-flight-form.component';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthorizationService } from './services/authorization.service';
@@ -23,13 +24,15 @@ import { jwtModuleConfig } from '../config/jwtModule';
     SignInComponent,
     SignInFormComponent,
     DashboardComponent,
-    FlightsTableComponent
+    FlightsTableComponent,
+    NewFlightFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     JwtModule.forRoot({
       config: jwtModuleConfig
     }),

@@ -9,19 +9,9 @@ import { Flight } from '../../classes/Flight';
 })
 export class FlightsTableComponent implements OnInit {
   @Input()data: Flight[];
-  isClicked: boolean[];
 
   constructor() { }
 
   ngOnInit() {
-    this.isClicked = [];
-    for (const value of this.data) {
-      this.isClicked[value.id] = false;
-    }
   }
-
-  handleTrClick(index: number) {
-    this.isClicked[index] = !this.isClicked[index];
-  }
-
 }
