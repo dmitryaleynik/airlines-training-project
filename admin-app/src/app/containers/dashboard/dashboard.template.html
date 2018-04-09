@@ -8,6 +8,8 @@
       <button class="btn" routerLink="/dashboard/planes">Planes</button>
     </li>
   </ul>
-  <div *ngIf="category === 'flights'">Here'll be flights</div>
+  <div *ngIf="category === 'flights'">
+    <app-flights-table [data]="flightsData"></app-flights-table>
+  </div>
   <div *ngIf="category === 'planes'">Here'll be planes</div>
 </div>

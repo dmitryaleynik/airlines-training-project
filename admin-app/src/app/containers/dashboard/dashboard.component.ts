@@ -1,36 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, RouterEvent } from '@angular/router';
+import { Component, OnInit, DoCheck } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { DashboardService } from '../../services/dashboard.service';
+
+import { Flight } from '../../classes/Flight';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.template.html',
   styleUrls: ['./dashboard.styles.less']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, DoCheck {
   category: string;
+  flightsData: Flight[];
 
 
-  constructor(
+  constructor (
     private route: ActivatedRoute,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
     this.getCategory();
-    this.router.events.subscribe(
-      this.routerEventInterceptor
-    );
   }
 
-  routerEventInterceptor = (event: RouterEvent) => {
-    if (event instanceof NavigationEnd) {
+  ngDoCheck() {
+    if (this.category !== this.route.snapshot.paramMap.get('category')) {
       this.getCategory();
     }
   }
 
   getCategory() {
-    this.category = this.route.snapshot.paramMap.get('category');
+    const category = this.route.snapshot.paramMap.get('category');
+    if (!category) {
+      this.category = category;
+      return;
+    }
+    this.dashboardService.getCategoryInfo(category)
+      .subscribe((res: {flights: Flight[]}) => {
+        this.flightsData = res.flights;
+        this.category = category;
+      });
   }
 }
