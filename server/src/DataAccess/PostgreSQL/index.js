@@ -33,7 +33,9 @@ const {
   deletePlaceBooking,
   addLuggageToBooking,
   getTypesPrices,
+  getTypeNames,
 } = require('./places');
+const { getPlanes, } = require('./planes');
 
 module.exports = {
   getOrdersByUserId,
@@ -64,4 +66,6 @@ module.exports = {
   addLuggageToBooking,
   getAllFlights,
   getTypesPrices,
+  getPlanes,
+  getTypeNames,
 };

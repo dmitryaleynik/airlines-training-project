@@ -101,6 +101,12 @@ create type password_data as (
   password_salt text
 );
 
+create type plane as (
+  plane_id integer,
+  plane_type varchar(255),
+  max_kg integer
+);
+
 -- tables --
 create table users (
   user_id serial primary key,
@@ -635,5 +641,28 @@ begin
     from type_prices
       natural join place_types
     where flight_id = fid;
+end;
+$$ language plpgsql;
+
+create function get_planes()
+  returns table(pls plane) as $$
+begin
+  return query
+    select
+      plane_id,
+      type as plane_type,
+      max_kg
+    from planes
+      natural join luggage_schemas;
+end;
+$$ language plpgsql;
+
+create function get_place_type_names(plid integer)
+  returns table(tname varchar(255)) as $$
+begin
+  return query
+    select type_name
+    from place_types
+    where plane_id = plid;
 end;
 $$ language plpgsql;

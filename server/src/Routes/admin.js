@@ -14,4 +14,11 @@ adminRouter.get(
   adminHandler.getFlights
 );
 
+adminRouter.get(
+  '/planes/short',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.admin),
+  adminHandler.getPlanesShort
+);
+
 module.exports = adminRouter;
