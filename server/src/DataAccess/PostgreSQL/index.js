@@ -35,7 +35,7 @@ const {
   getTypesPrices,
   getTypeNames,
 } = require('./places');
-const { getPlanes, } = require('./planes');
+const { getPlanes, getPlaneById, } = require('./planes');
 
 module.exports = {
   getOrdersByUserId,
@@ -68,4 +68,5 @@ module.exports = {
   getTypesPrices,
   getPlanes,
   getTypeNames,
+  getPlaneById,
 };

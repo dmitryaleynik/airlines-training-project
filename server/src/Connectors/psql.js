@@ -189,6 +189,11 @@ const getTypeNames = async ({ planeId, }) => {
   return new TypeNamesResponse(res);
 };
 
+const getPlaneById = async ({ planeId, }) => {
+  const res = (await db.getPlaneById(planeId)).rows[0];
+  return new PlaneResponse(res);
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -219,4 +224,5 @@ module.exports = {
   getTypesPrices,
   getPlanes,
   getTypeNames,
+  getPlaneById,
 };

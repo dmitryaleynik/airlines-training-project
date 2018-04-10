@@ -1,3 +1,9 @@
+class PlaneByIdRequest {
+  constructor(id) {
+    this.planeId = id;
+  }
+}
+
 class PlaneResponse {
   constructor({ plane_id, plane_type, max_kg, }) {
     this.id = plane_id;
@@ -8,4 +14,5 @@ class PlaneResponse {
 
 module.exports = {
   PlaneResponse,
+  PlaneByIdRequest,
 };

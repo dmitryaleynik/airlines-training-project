@@ -666,3 +666,20 @@ begin
     where plane_id = plid;
 end;
 $$ language plpgsql;
+
+create function get_plane_by_id(plid integer)
+  returns plane as $$
+declare ret plane;
+begin
+  select
+    plane_id,
+    type as plane_type,
+    max_kg
+  into ret
+  from planes
+    natural join luggage_schemas
+    where plane_id = plid;
+
+  return ret;
+end;
+$$ language plpgsql;

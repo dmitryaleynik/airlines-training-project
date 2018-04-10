@@ -10,7 +10,14 @@ class GetPlanesResponse {
   }
 }
 
+class GetPlaneByIdResponse {
+  constructor(plane) {
+    this.plane = plane;
+  }
+}
+
 module.exports = {
   FlightsResponse,
   GetPlanesResponse,
+  GetPlaneByIdResponse,
 };

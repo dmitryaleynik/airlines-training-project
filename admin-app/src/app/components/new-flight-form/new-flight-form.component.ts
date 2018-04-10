@@ -69,6 +69,7 @@ export class NewFlightFormComponent implements OnInit, DoCheck {
       this.setFlightObject();
     } else {
       this.flight = new NewFlight();
+      this.selectedPlane = new Plane();
     }
   }
 

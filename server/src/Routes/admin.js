@@ -15,10 +15,31 @@ adminRouter.get(
 );
 
 adminRouter.get(
+  '/planes/full',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.admin),
+  adminHandler.getPlanesFull
+);
+
+adminRouter.get(
   '/planes/short',
   passport.authenticate('jwt', { session: false, }),
   Roles.can(access.admin),
   adminHandler.getPlanesShort
+);
+
+adminRouter.get(
+  '/planes/:id',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.admin),
+  adminHandler.getPlaneById
+);
+
+adminRouter.post(
+  '/flights/add',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.admin),
+  adminHandler.addNewFlight
 );
 
 module.exports = adminRouter;
