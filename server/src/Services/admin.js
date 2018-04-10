@@ -22,9 +22,9 @@ const getFlights = async () => {
 const getPlanes = async () => {
   const planes = await dbConnector.getPlanes();
   for (let plane of planes) {
-    plane.places = await dbConnector.getTypeNames(
+    plane.places = (await dbConnector.getTypeNames(
       new TypeNamesRequest(plane.id)
-    );
+    )).places;
   }
   return new GetPlanesResponse(planes);
 };

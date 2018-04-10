@@ -1,17 +1,27 @@
 <div class="new-flight-content">
   <button class="btn" *ngIf="!isToggled" (click)="toggleForm()">+ add new flight</button>
   <div *ngIf="isToggled">
-    <button class="btn" (click)="toggleForm()">- add new flight</button>
-    <form [formGroup]="newFlightForm" (ngSubmit)="onSubmit()">
+    <button class="btn form-toggler" (click)="toggleForm()">- add new flight</button>
+    <form #newFlightForm="ngForm" (ngSubmit)="onSubmit()">
+      <div>{{newFlightForm.value | json}}</div>
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="City from" formControlName="city-from">
-        <input type="text" class="form-control" placeholder="City to" formControlName="city-to">
-        <input type="datetime-local" class="form-control" placeholder="Date from" formControlName="date-from">
-        <input type="datetime-local" class="form-control" placeholder="Date to" formControlName="date-to">
-        <div class="input-group-append">
-          <button class="btn" [disabled]="newFlightForm.status==='INVALID'">Submit</button>
+        <input type="text" class="form-control" name="cityFrom" placeholder="City from" [(ngModel)]="flight.cityFrom">
+        <input type="text" class="form-control" name="cityTo" placeholder="City to" [(ngModel)]="flight.cityTo">
+        <input type="datetime-local" class="date form-control" name="dateFrom" placeholder="Date from" [(ngModel)]="flight.dateFrom">
+        <input type="datetime-local" class="date form-control" name="dateTo" placeholder="Date to" [(ngModel)]="flight.dateTo">
+        <select name="planeId" class="form-control" [(ngModel)]="flight.planeId">
+          <option *ngFor="let plane of planes" value="{{plane.id}}">#{{plane.id}}: {{plane.type}}</option>
+        </select>
+      </div>
+      <div class="place-types" *ngIf="selectedPlane">
+        <div class="row">
+          <div class="col-6 form-group" *ngFor="let type of selectedPlane.places; let i = index;">
+            <label for="">{{type}}</label>
+            <input name="{{type}}" class="form-control" placeholder="price" type="number" [(ngModel)]="flight.placeTypePrices[i]">
+          </div>
         </div>
       </div>
+      <button type="submit" class="btn">Submit</button>
     </form>
   </div>
 </div>
