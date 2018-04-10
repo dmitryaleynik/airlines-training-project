@@ -11,7 +11,7 @@ import { DATETIME_FORMAT } from '../../../constants';
   styleUrls: ['./new-flight-form.styles.less'],
 })
 export class NewFlightFormComponent implements OnInit, DoCheck {
-  isToggled = true; // change to false !!!!!!!!!!!!!!!!!!!!!!!
+  isToggled = false;
   planes: Plane[];
   selectedPlane: Plane;
   flight: NewFlight;
@@ -50,11 +50,26 @@ export class NewFlightFormComponent implements OnInit, DoCheck {
       return;
     }
     this.selectedPlane = this.planes.find(plane => plane.id === id);
-    this.flight.placeTypePrices = [];
+    this.flight.placeTypePrices = this.initializePlaceTypePrices(
+      this.selectedPlane.places,
+    );
+  }
+
+  initializePlaceTypePrices(places: string[]) {
+    const placeTypePrices = {};
+    for (const type of places) {
+      placeTypePrices[type] = '';
+    }
+    return placeTypePrices;
   }
 
   toggleForm() {
     this.isToggled = !this.isToggled;
+    if (this.isToggled) {
+      this.setFlightObject();
+    } else {
+      this.flight = new NewFlight();
+    }
   }
 
   onSubmit() {

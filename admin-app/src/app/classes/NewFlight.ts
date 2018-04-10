@@ -4,5 +4,7 @@ export class NewFlight {
   dateFrom: string;
   dateTo: string;
   planeId: number;
-  placeTypePrices: number[];
+  placeTypePrices: {
+    [x: string]: number;
+  };
 }

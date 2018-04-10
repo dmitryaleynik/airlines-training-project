@@ -7,7 +7,7 @@
   display: grid;
   grid-template:
     'head head head' 56px
-    'outlet outlet outlet' 0
+    // 'outlet outlet outlet' 0
     'left-space content right-space' 1fr
     'footer footer footer' 40px
     / auto 1140px auto;
@@ -21,6 +21,10 @@
       color: @primary-link-color;
       text-decoration: none;
     }
+  }
+
+  .outlet-wrapper {
+    grid-area: content;
   }
 
   .footer {
