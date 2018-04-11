@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthorizationService } from '../../services/authorization.service';
 
 import { SignInRequest } from '../../classes/sign-in.request';
@@ -12,13 +14,17 @@ import { SignInResponse } from '../../classes/sign-in.response';
 export class SignInComponent implements OnInit {
   user: SignInRequest = new SignInRequest();
 
-  constructor(private authService: AuthorizationService) {}
+  constructor(
+    private authService: AuthorizationService,
+    private location: Location,
+    private router: Router,
+  ) {}
 
   ngOnInit() {}
 
   onSubmit = () => {
     this.authService.signIn(this.user).subscribe((res: SignInResponse) => {
-      console.log('done');
+      window.location.href = '/';
     });
-  }
+  };
 }
