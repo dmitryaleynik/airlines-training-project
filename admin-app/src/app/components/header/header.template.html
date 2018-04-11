@@ -1,0 +1,11 @@
+<nav class="header navbar navbar-light">
+  <a href="/" class="header__brand">Airlines</a>
+  <ul class="nav" *ngIf="isAuthenticated">
+    <li class="nav-item">
+      <a routerLink="/dashboard/flights" class="nav-link">Flights</a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/dashboard/planes" class="nav-link">Planes</a>
+    </li>
+  </ul>
+</nav>
