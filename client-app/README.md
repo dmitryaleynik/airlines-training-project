@@ -4,7 +4,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Installation
 
-use `npm install` first, then run one of the following scripts.
+* Use `npm install`.
+
+* If your server app locates on different url than `http://localhost:3001` then:
+
+  Create `.env` file in the root directory.  
+   Set `REACT_APP_API_URL` variable to be equal the host of your server.
 
 ## Available Scripts
 

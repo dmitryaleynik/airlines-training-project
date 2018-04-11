@@ -3,16 +3,30 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SignInComponent } from './containers/sign-in/sign-in.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
+import { AuthorizedGuardService } from './services/authorized-guard.service';
+import { UnauthorizedGuardService } from './services/unauthorized-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
-  { path: 'sign-in', component: SignInComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'dashboard/:category', component: DashboardComponent }
+  {
+    path: 'sign-in',
+    component: SignInComponent,
+    canActivate: [UnauthorizedGuardService],
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthorizedGuardService],
+  },
+  {
+    path: 'dashboard/:category',
+    component: DashboardComponent,
+    canActivate: [AuthorizedGuardService],
+  },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

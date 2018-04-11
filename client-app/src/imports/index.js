@@ -41,7 +41,8 @@ export const methods = {
   DELETE: 'delete',
 };
 
-export const SERVER_URL = 'http://localhost:3001';
+export const SERVER_URL =
+  process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 export const routes = {
   HOME: '/',

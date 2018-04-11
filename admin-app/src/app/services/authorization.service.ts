@@ -11,10 +11,7 @@ import { SignInResponse } from '../classes/sign-in.response';
 
 @Injectable()
 export class AuthorizationService {
-  constructor(
-    private http: HttpClient,
-    private jwtHelper: JwtHelperService
-  ) {}
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem(AUTH_TOKEN);

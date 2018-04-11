@@ -15,7 +15,7 @@ adminRouter.get(
 );
 
 adminRouter.get(
-  '/planes/full',
+  '/planes',
   passport.authenticate('jwt', { session: false, }),
   Roles.can(access.admin),
   adminHandler.getPlanesFull
