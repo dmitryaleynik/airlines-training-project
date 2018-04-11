@@ -15,6 +15,8 @@ import { NewFlightFormComponent } from './components/new-flight-form/new-flight-
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthorizationService } from './services/authorization.service';
 import { DashboardService } from './services/dashboard.service';
+import { AuthorizedGuardService } from './services/authorized-guard.service';
+import { UnauthorizedGuardService } from './services/unauthorized-guard.service';
 
 import { jwtModuleConfig } from '../config/jwtModule';
 
@@ -25,7 +27,7 @@ import { jwtModuleConfig } from '../config/jwtModule';
     SignInFormComponent,
     DashboardComponent,
     FlightsTableComponent,
-    NewFlightFormComponent
+    NewFlightFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,13 +36,15 @@ import { jwtModuleConfig } from '../config/jwtModule';
     FormsModule,
     ReactiveFormsModule,
     JwtModule.forRoot({
-      config: jwtModuleConfig
+      config: jwtModuleConfig,
     }),
   ],
   providers: [
     AuthorizationService,
-    DashboardService
+    DashboardService,
+    AuthorizedGuardService,
+    UnauthorizedGuardService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
