@@ -5,7 +5,7 @@ class AddFlightRequest {
     dateFrom,
     dateTo,
     planeId,
-    places,
+    placeTypePrices,
     freeKg,
     priceForKg,
   }) {
@@ -14,7 +14,7 @@ class AddFlightRequest {
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
     this.planeId = planeId;
-    this.places = places;
+    this.places = placeTypePrices;
     this.freeKg = freeKg;
     this.priceForKg = priceForKg;
   }

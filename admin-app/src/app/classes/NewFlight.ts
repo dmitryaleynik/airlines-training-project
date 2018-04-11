@@ -7,4 +7,6 @@ export class NewFlight {
   placeTypePrices: {
     [x: string]: number;
   };
+  freeKg: number;
+  priceForKg: number;
 }

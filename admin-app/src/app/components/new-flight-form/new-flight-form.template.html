@@ -9,16 +9,29 @@
         <input type="datetime-local" class="date form-control" name="dateFrom" placeholder="Date from" [(ngModel)]="flight.dateFrom"
           required>
         <input type="datetime-local" class="date form-control" name="dateTo" placeholder="Date to" [(ngModel)]="flight.dateTo" required>
-        <select name="planeId" class="form-control" [(ngModel)]="flight.planeId" required>
+        <select name="planeId" class="form-control" [(ngModel)]="flight.planeId" (input)="onPlaneSelect(planeId.value)" required #planeId>
           <option *ngFor="let plane of planes" value="{{plane.id}}">#{{plane.id}}: {{plane.type}}</option>
         </select>
       </div>
       <div class="place-types" *ngIf="selectedPlane">
         <div class="row">
-          <div class="col-6 form-group" *ngFor="let type of selectedPlane.places; let i = index;">
+          <h4 class="col-12">Tickets</h4>
+          <div class="col-6 form-group" *ngFor="let type of selectedPlane.places">
             <label for="">{{type}}</label>
             <input name="{{type}}" class="form-control" placeholder="price" type="number" [(ngModel)]="flight.placeTypePrices[type]"
               required>
+          </div>
+        </div>
+        <div class="row">
+          <h4 class="col-12">Luggage</h4>
+          <div class="col-6 form-group">
+            <label for="">Free luggage</label>
+            <input type="number" class="form-control" placeholder="weight" name="freeKg" [(ngModel)]="flight.freeKg" required>
+            <small class="form-text text-muted">Max luggage weight is {{selectedPlane.maxKg}} kg</small>
+          </div>
+          <div class="col-6 form-group">
+            <label for="">Price for kg</label>
+            <input type="number" class="form-control" placeholder="price" name="priceForKg" [(ngModel)]="flight.priceForKg" required>
           </div>
         </div>
         <button type="submit" [disabled]="!newFlightForm.form.valid" class="btn btn-success">Submit</button>

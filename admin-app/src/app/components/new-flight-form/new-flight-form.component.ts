@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { DashboardService } from '../../services/dashboard.service';
 import { Plane } from '../../classes/Plane';
@@ -10,7 +10,7 @@ import { DATETIME_FORMAT } from '../../../constants';
   templateUrl: './new-flight-form.template.html',
   styleUrls: ['./new-flight-form.styles.less'],
 })
-export class NewFlightFormComponent implements OnInit, DoCheck {
+export class NewFlightFormComponent implements OnInit {
   isToggled = false;
   planes: Plane[];
   selectedPlane: Plane;
@@ -41,20 +41,6 @@ export class NewFlightFormComponent implements OnInit, DoCheck {
     };
   }
 
-  ngDoCheck() {
-    const id = Number(this.flight.planeId);
-    if (!id) {
-      return;
-    }
-    if (this.selectedPlane && this.selectedPlane.id === id) {
-      return;
-    }
-    this.selectedPlane = this.planes.find(plane => plane.id === id);
-    this.flight.placeTypePrices = this.initializePlaceTypePrices(
-      this.selectedPlane.places,
-    );
-  }
-
   initializePlaceTypePrices(places: string[]) {
     const placeTypePrices = {};
     for (const type of places) {
@@ -68,9 +54,22 @@ export class NewFlightFormComponent implements OnInit, DoCheck {
     if (this.isToggled) {
       this.setFlightObject();
     } else {
-      this.flight = new NewFlight();
-      this.selectedPlane = new Plane();
+      this.clearForm();
     }
+  }
+
+  clearForm() {
+    this.flight = null;
+    this.selectedPlane = null;
+  }
+
+  onPlaneSelect(planeId) {
+    this.dbService.getPlaneById(planeId)
+     .subscribe((res: Plane) => {
+       this.selectedPlane = res;
+       this.flight.placeTypePrices = this.initializePlaceTypePrices(
+          this.selectedPlane.places);
+     });
   }
 
   onSubmit() {

@@ -11,6 +11,10 @@ export class DashboardService {
     return this.http.get(`${SERVER_URL}/planes/short`);
   }
 
+  getPlaneById(planeId: number): Observable<Object> {
+    return this.http.get(`${SERVER_URL}/planes/${planeId}`);
+  }
+
   getCategoryInfo(category: string): Observable<Object> {
     return this.http.get(`${SERVER_URL}/${category}`);
   }
