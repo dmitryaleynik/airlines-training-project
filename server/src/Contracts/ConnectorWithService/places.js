@@ -48,6 +48,27 @@ class AddLuggageToBookingRequest {
   }
 }
 
+class TypePricesRequest {
+  constructor(id) {
+    this.flightId = id;
+  }
+}
+
+class TypeNamesRequest {
+  constructor(id) {
+    this.planeId = id;
+  }
+}
+
+class AddTypePriceRequest {
+  constructor(planeId, flightId, type, price) {
+    this.planeId = planeId;
+    this.flightId = flightId;
+    this.type = type;
+    this.price = price;
+  }
+}
+
 class PlaceResponse {
   constructor({ place_id, place_number, type_name, price, availability, }) {
     this.id = place_id;
@@ -73,6 +94,22 @@ class PlaneSizesResponse {
   }
 }
 
+class TypesPricesResponse {
+  constructor({ tn, tp, }) {
+    this.type = tn;
+    this.price = tp;
+  }
+}
+
+class TypeNamesResponse {
+  constructor(places) {
+    this.places = [];
+    for (let place of places) {
+      this.places.push(place.tname);
+    }
+  }
+}
+
 module.exports = {
   PlaceResponse,
   OrderedPlacesRequest,
@@ -84,4 +121,9 @@ module.exports = {
   LinkPlaceWithOrderRequest,
   DeletePlaceBookingRequest,
   AddLuggageToBookingRequest,
+  TypePricesRequest,
+  TypesPricesResponse,
+  TypeNamesRequest,
+  TypeNamesResponse,
+  AddTypePriceRequest,
 };

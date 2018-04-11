@@ -69,6 +69,17 @@ create type flight_expanded as (
   price_for_kg integer
 );
 
+create type flight_admin as (
+ flight_id integer,
+ city_from varchar(255),
+ city_to varchar(255),
+ date_from timestamp,
+ date_to timestamp,
+ plane_id integer,
+ free_kg integer,
+ price_for_kg integer
+);
+
 create type user_main_info as (
   user_id integer,
   email varchar(255),
@@ -88,6 +99,12 @@ create type user_with_avatar as (
 create type password_data as (
   password_hash text, 
   password_salt text
+);
+
+create type plane as (
+  plane_id integer,
+  plane_type varchar(255),
+  max_kg integer
 );
 
 -- tables --
@@ -113,7 +130,6 @@ create table place_types (
   type_id serial primary key,
   plane_id integer references planes not null,
   type_name varchar(255) not null,
-  price integer not null
 );
 
 create table places (
@@ -140,6 +156,12 @@ create table flights (
   plane_id integer references planes not null
 );
 
+create table type_prices (
+  type_id integer references place_types not null,
+  flight_id integer references flights not null,
+  price integer
+);
+
 create table ordered_flights (
   flight_id integer references flights not null,
   order_id integer references orders not null,
@@ -156,6 +178,12 @@ create table luggage_schemas (
   luggage_schema_id serial primary key,
   plane_id integer references planes not null,
   max_kg integer not null,
+  free_kg integer not null,
+  price_for_kg integer not null
+);
+
+create table luggage_prices (
+  flight_id integer references flights not null,
   free_kg integer not null,
   price_for_kg integer not null
 );
@@ -206,12 +234,13 @@ begin
       p.type as plane_type,
       of.luggage_kg, 
       lsc.max_kg,
-      lsc.free_kg,
-      lsc.price_for_kg
+      lp.free_kg,
+      lp.price_for_kg
     from ordered_flights of
       natural join flights f
       natural join planes p
-      natural join luggage_schemas lsc 
+      natural join luggage_schemas lsc
+      natural join luggage_prices lp
     where of.order_id = ord_id;
 end;
 $$ language plpgsql;
@@ -224,10 +253,11 @@ begin
       p.place_id,
       p.place_number,
       pt.type_name,
-      pt.price 
+      tpr.price 
     from ordered_places
       natural join places p
-      natural join place_types pt 
+      natural join place_types pt
+      natural join type_prices tpr
     where flight_id = fl_id
       and order_id = ord_id;
 end;
@@ -342,6 +372,7 @@ begin
     from flights f
       natural join planes
       natural join luggage_schemas
+      natural join luggage_prices
     where f.city_from = c_from
       and f.city_to = c_to
       and f.date_from >= d_from
@@ -360,20 +391,24 @@ begin
     select
       place_id,
       place_number,
-      type_name,
-      price, 
+      cast(max(type_name) as varchar(255)) as type_name,
+      max(price) as price,
       case 
-        when status = 'Confirmed' then false 
-        when expires_at > current_timestamp then false
+        when max(status) = 'Confirmed' then false 
+        when max(expires_at) > current_timestamp then false
         else true
       end as is_available
     from flights
       natural join planes
       natural join places
-      natural join place_types 
-      left join ordered_places using(flight_id, place_id)
+      natural join place_types
+      join type_prices
+        using(flight_id, type_id)
+      left join ordered_places
+        using(flight_id, place_id)
       left join orders using(order_id)
     where flights.flight_id = fl_id
+    group by place_id
     order by place_number;
 end;
 $$ language plpgsql;
@@ -398,13 +433,15 @@ begin
     select
       count(place_id) as amount,
       pt.type_name,
-      pt.price 
+      tpr.price 
     from get_available_places_ids(fl_id)
       natural join places
-      natural join place_types pt 
+      natural join place_types pt
+      natural join type_prices tpr
+    where flight_id = fl_id
     group by
       pt.type_name,
-      pt.price;
+      tpr.price;
 end;
 $$ language plpgsql;
 
@@ -579,6 +616,111 @@ begin
   set luggage_kg = lug
   where flight_id = fid
     and order_id = oid;
+
+  return;
+end;
+$$ language plpgsql;
+
+create function get_all_flights()
+  returns table (ff flight_admin) as $$
+begin
+  return query
+    select *
+    from flights
+      natural join luggage_prices;
+end;
+$$ language plpgsql;
+
+create function get_types_prices(fid integer)
+  returns table(tn varchar(255), tp integer) as $$
+begin
+  return query
+    select
+      type_name,
+      price
+    from type_prices
+      natural join place_types
+    where flight_id = fid;
+end;
+$$ language plpgsql;
+
+create function get_planes()
+  returns table(pls plane) as $$
+begin
+  return query
+    select
+      plane_id,
+      type as plane_type,
+      max_kg
+    from planes
+      natural join luggage_schemas;
+end;
+$$ language plpgsql;
+
+create function get_place_type_names(plid integer)
+  returns table(tname varchar(255)) as $$
+begin
+  return query
+    select type_name
+    from place_types
+    where plane_id = plid;
+end;
+$$ language plpgsql;
+
+create function get_plane_by_id(plid integer)
+  returns plane as $$
+declare ret plane;
+begin
+  select
+    plane_id,
+    type as plane_type,
+    max_kg
+  into ret
+  from planes
+    natural join luggage_schemas
+    where plane_id = plid;
+
+  return ret;
+end;
+$$ language plpgsql;
+
+create or replace function add_flight
+  (cfrom varchar(255),
+  cto varchar(255),
+  dfrom timestamp,
+  dto timestamp,
+  plid integer,
+  frkg integer,
+  prkg integer)
+returns integer as $$
+declare fid integer;
+begin
+    insert into flights
+      (city_from, city_to, date_from, date_to, plane_id)
+    values 
+      (cfrom, cto, dfrom, dto, plid)
+    returning flight_id
+      into fid;
+
+    insert into luggage_prices
+      values (fid, frkg, prkg);
+
+    return fid;
+end;
+$$ language plpgsql;
+
+create or replace function add_type_price(fid integer, pid integer, tname varchar(255), prc integer)
+returns void as $$
+declare tid integer;
+begin
+  select type_id
+  into tid
+  from place_types
+  where plane_id = pid
+    and type_name = tname;
+
+  insert into type_prices
+  values (tid, fid, prc);
 
   return;
 end;

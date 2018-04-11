@@ -1,4 +1,5 @@
 const client = require('./setup');
+const Request = require('./Request');
 
 const getOrderedPlaces = async ({ flightId, orderId, }) => {
   const queryText = 'SELECT * FROM get_ordered_places($1, $2);';
@@ -49,6 +50,30 @@ const addLuggageToBooking = async ({ luggageKg, flightId, orderId, }) => {
   return result;
 };
 
+const getTypesPrices = async flightId => {
+  return await new Request(
+    'SELECT * FROM get_types_prices($1)',
+    flightId
+  ).send();
+};
+
+const getTypeNames = async planeId => {
+  return await new Request(
+    'SELECT * FROM get_place_type_names($1)',
+    planeId
+  ).send();
+};
+
+const addTypePrice = async ({ flightId, planeId, type, price, }) => {
+  return await new Request(
+    'SELECT * FROM add_type_price($1, $2, $3, $4)',
+    flightId,
+    planeId,
+    type,
+    price
+  ).send();
+};
+
 module.exports = {
   getOrderedPlaces,
   countAvailablePlaces,
@@ -57,4 +82,7 @@ module.exports = {
   linkPlaceWithOrder,
   deletePlaceBooking,
   addLuggageToBooking,
+  getTypesPrices,
+  getTypeNames,
+  addTypePrice,
 };

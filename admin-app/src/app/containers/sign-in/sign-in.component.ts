@@ -20,5 +20,5 @@ export class SignInComponent implements OnInit {
     this.authService.signIn(this.user).subscribe((res: SignInResponse) => {
       console.log('done');
     });
-  };
+  }
 }

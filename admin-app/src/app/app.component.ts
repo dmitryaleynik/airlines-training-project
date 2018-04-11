@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.styles.less'],
 })
 export class AppComponent {
-  title = 'app';
 }

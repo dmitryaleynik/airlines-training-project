@@ -1,8 +1,22 @@
 <div class="root">
   <nav class="header navbar navbar-light">
-      <a href="/" class="header__brand">Airlines</a>
+    <a href="/" class="header__brand">Airlines</a>
+    <ul class="nav">
+      <li class="nav-item">
+        <a routerLink="/dashboard">DASH</a>
+      </li>
+      <!-- added temporarily -->
+      <li class="nav-item">
+        <a routerLink="/dashboard/flights" class="nav-link">Flights</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/dashboard/planes" class="nav-link">Planes</a>
+      </li>
+    </ul>
   </nav>
-  <router-outlet></router-outlet>
+  <div class="outlet-wrapper">
+    <router-outlet></router-outlet>
+  </div>
   <footer class="footer">
     <span>iTechArt 2018</span>
   </footer>

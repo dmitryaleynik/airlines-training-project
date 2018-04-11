@@ -1,0 +1,31 @@
+<div>
+  <h3 class="flights-logo">Flights</h3>
+  <table class="flights-table table table-light table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Cities</th>
+        <th scope="col">Dates</th>
+        <th scope="col">Free Luggage</th>
+        <th scope="col">Price for Luggage</th>
+        <th scope="col">Tickets</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="content" *ngFor="let flight of data">
+        <th scope="row">{{flight.id}}</th>
+        <td>{{flight.city.from}} - {{flight.city.to}}</td>
+        <td>{{flight.date.from | date: 'MMM d, y h:mm a'}} - {{flight.date.to | date: 'MMM d, y h:mm a'}}</td>
+        <td>{{flight.luggage.freeKg}}kg</td>
+        <td>{{flight.luggage.price | currency}}</td>
+        <td>
+          <ul>
+            <li *ngFor="let place of flight.places">
+              {{place.type}} - {{place.price | currency}}
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

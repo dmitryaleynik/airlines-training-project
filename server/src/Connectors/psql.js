@@ -13,12 +13,16 @@ const {
   FlightResponse,
   CitiesResponse,
   CheckFlightLinkageResponse,
+  AddFlightResponse,
 } = require('../Contracts/ConnectorWithService/flights');
 const {
   PlaceResponse,
   AvailablePlacesStatisticsResponse,
   PlaneSizesResponse,
+  TypesPricesResponse,
+  TypeNamesResponse,
 } = require('../Contracts/ConnectorWithService/places');
+const { PlaneResponse, } = require('../Contracts/ConnectorWithService/planes');
 
 const getOrdersByUserId = async ({ id, }) => {
   const ordersToBeMapped = (await db.getOrdersByUserId(id)).rows;
@@ -160,6 +164,47 @@ const addLuggageToBooking = async params => {
   return true;
 };
 
+const getAllFlights = async () => {
+  const res = (await db.getAllFlights()).rows;
+  return res.map(row => {
+    return new FlightResponse(row);
+  });
+};
+
+const getTypesPrices = async ({ flightId, }) => {
+  const res = (await db.getTypesPrices(flightId)).rows;
+  return res.map(row => {
+    return new TypesPricesResponse(row);
+  });
+};
+
+const getPlanes = async () => {
+  const res = (await db.getPlanes()).rows;
+  return res.map(row => {
+    return new PlaneResponse(row);
+  });
+};
+
+const getTypeNames = async ({ planeId, }) => {
+  const res = (await db.getTypeNames(planeId)).rows;
+  return new TypeNamesResponse(res);
+};
+
+const getPlaneById = async ({ planeId, }) => {
+  const res = (await db.getPlaneById(planeId)).rows[0];
+  return new PlaneResponse(res);
+};
+
+const addFlight = async params => {
+  const res = (await db.addFlight(params)).rows[0];
+  return new AddFlightResponse(res);
+};
+
+const addTypePrice = async params => {
+  await db.addTypePrice(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -186,4 +231,11 @@ module.exports = {
   changeAvatar,
   deletePlaceBooking,
   addLuggageToBooking,
+  getAllFlights,
+  getTypesPrices,
+  getPlanes,
+  getTypeNames,
+  getPlaneById,
+  addFlight,
+  addTypePrice,
 };
