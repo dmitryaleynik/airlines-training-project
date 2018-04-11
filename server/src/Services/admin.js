@@ -8,10 +8,14 @@ const {
 const {
   TypePricesRequest,
   TypeNamesRequest,
+  AddTypePriceRequest,
 } = require('../Contracts/ConnectorWithService/places');
 const {
   PlaneByIdRequest,
 } = require('../Contracts/ConnectorWithService/planes');
+const {
+  AddFlightRequest,
+} = require('../Contracts/ConnectorWithService/flights');
 
 const getFlights = async () => {
   const flights = await dbConnector.getAllFlights();
@@ -41,7 +45,25 @@ const getPlanes = async planeId => {
   return new GetPlanesResponse(planes);
 };
 
+const addNewFlight = async flightParams => {
+  const flightId = (await dbConnector.addFlight(
+    new AddFlightRequest(flightParams)
+  )).id;
+  for (const key in flightParams.places) {
+    await dbConnector.addTypePrice(
+      new AddTypePriceRequest(
+        flightParams.planeId,
+        flightId,
+        key,
+        flightParams.places[key]
+      )
+    );
+  }
+  return true;
+};
+
 module.exports = {
   getFlights,
   getPlanes,
+  addNewFlight,
 };

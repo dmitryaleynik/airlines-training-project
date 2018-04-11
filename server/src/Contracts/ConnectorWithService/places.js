@@ -60,6 +60,15 @@ class TypeNamesRequest {
   }
 }
 
+class AddTypePriceRequest {
+  constructor(planeId, flightId, type, price) {
+    this.planeId = planeId;
+    this.flightId = flightId;
+    this.type = type;
+    this.price = price;
+  }
+}
+
 class PlaceResponse {
   constructor({ place_id, place_number, type_name, price, availability, }) {
     this.id = place_id;
@@ -116,4 +125,5 @@ module.exports = {
   TypesPricesResponse,
   TypeNamesRequest,
   TypeNamesResponse,
+  AddTypePriceRequest,
 };

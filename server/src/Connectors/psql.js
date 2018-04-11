@@ -13,6 +13,7 @@ const {
   FlightResponse,
   CitiesResponse,
   CheckFlightLinkageResponse,
+  AddFlightResponse,
 } = require('../Contracts/ConnectorWithService/flights');
 const {
   PlaceResponse,
@@ -194,6 +195,16 @@ const getPlaneById = async ({ planeId, }) => {
   return new PlaneResponse(res);
 };
 
+const addFlight = async params => {
+  const res = (await db.addFlight(params)).rows[0];
+  return new AddFlightResponse(res);
+};
+
+const addTypePrice = async params => {
+  await db.addTypePrice(params);
+  return true;
+};
+
 module.exports = {
   getOrdersByUserId,
   getOrderById,
@@ -225,4 +236,6 @@ module.exports = {
   getPlanes,
   getTypeNames,
   getPlaneById,
+  addFlight,
+  addTypePrice,
 };

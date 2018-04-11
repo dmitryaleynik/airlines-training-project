@@ -22,6 +22,7 @@ const {
   linkFlightWithOrder,
   checkFlightLinkage,
   getAllFlights,
+  addFlight,
 } = require('./flights');
 const {
   getOrderedPlaces,
@@ -34,6 +35,7 @@ const {
   addLuggageToBooking,
   getTypesPrices,
   getTypeNames,
+  addTypePrice,
 } = require('./places');
 const { getPlanes, getPlaneById, } = require('./planes');
 
@@ -69,4 +71,6 @@ module.exports = {
   getPlanes,
   getTypeNames,
   getPlaneById,
+  addFlight,
+  addTypePrice,
 };

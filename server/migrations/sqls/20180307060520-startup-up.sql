@@ -683,3 +683,45 @@ begin
   return ret;
 end;
 $$ language plpgsql;
+
+create or replace function add_flight
+  (cfrom varchar(255),
+  cto varchar(255),
+  dfrom timestamp,
+  dto timestamp,
+  plid integer,
+  frkg integer,
+  prkg integer)
+returns integer as $$
+declare fid integer;
+begin
+    insert into flights
+      (city_from, city_to, date_from, date_to, plane_id)
+    values 
+      (cfrom, cto, dfrom, dto, plid)
+    returning flight_id
+      into fid;
+
+    insert into luggage_prices
+      values (fid, frkg, prkg);
+
+    return fid;
+end;
+$$ language plpgsql;
+
+create or replace function add_type_price(fid integer, pid integer, tname varchar(255), prc integer)
+returns void as $$
+declare tid integer;
+begin
+  select type_id
+  into tid
+  from place_types
+  where plane_id = pid
+    and type_name = tname;
+
+  insert into type_prices
+  values (tid, fid, prc);
+
+  return;
+end;
+$$ language plpgsql;

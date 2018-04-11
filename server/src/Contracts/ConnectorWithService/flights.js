@@ -31,6 +31,26 @@ class CheckOrderStatusesRequest {
   }
 }
 
+class AddFlightRequest {
+  constructor({
+    cityFrom,
+    cityTo,
+    dateFrom,
+    dateTo,
+    planeId,
+    freeKg,
+    priceForKg,
+  }) {
+    this.cityFrom = cityFrom;
+    this.cityTo = cityTo;
+    this.dateFrom = dateFrom;
+    this.dateTo = dateTo;
+    this.planeId = planeId;
+    this.freeKg = freeKg;
+    this.priceForKg = priceForKg;
+  }
+}
+
 class FlightResponse {
   constructor({
     flight_id,
@@ -80,6 +100,12 @@ class CheckFlightLinkageResponse {
   }
 }
 
+class AddFlightResponse {
+  constructor({ add_flight, }) {
+    this.id = add_flight;
+  }
+}
+
 module.exports = {
   OrderedFlightRequest,
   FlightByFiltersRequest,
@@ -89,4 +115,6 @@ module.exports = {
   CheckFlightLinkageRequest,
   CheckFlightLinkageResponse,
   CheckOrderStatusesRequest,
+  AddFlightRequest,
+  AddFlightResponse,
 };

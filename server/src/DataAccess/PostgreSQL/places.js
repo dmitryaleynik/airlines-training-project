@@ -64,6 +64,16 @@ const getTypeNames = async planeId => {
   ).send();
 };
 
+const addTypePrice = async ({ flightId, planeId, type, price, }) => {
+  return await new Request(
+    'SELECT * FROM add_type_price($1, $2, $3, $4)',
+    flightId,
+    planeId,
+    type,
+    price
+  ).send();
+};
+
 module.exports = {
   getOrderedPlaces,
   countAvailablePlaces,
@@ -74,4 +84,5 @@ module.exports = {
   addLuggageToBooking,
   getTypesPrices,
   getTypeNames,
+  addTypePrice,
 };
