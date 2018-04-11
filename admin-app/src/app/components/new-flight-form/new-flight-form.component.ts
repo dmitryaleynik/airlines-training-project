@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
 import { DashboardService } from '../../services/dashboard.service';
 import { Plane } from '../../classes/Plane';
@@ -11,6 +11,7 @@ import { DATETIME_FORMAT } from '../../../constants';
   styleUrls: ['./new-flight-form.styles.less'],
 })
 export class NewFlightFormComponent implements OnInit {
+  @Input() outerSubmit: Function;
   isToggled = false;
   planes: Plane[];
   selectedPlane: Plane;
@@ -64,15 +65,17 @@ export class NewFlightFormComponent implements OnInit {
   }
 
   onPlaneSelect(planeId) {
-    this.dbService.getPlaneById(planeId)
-     .subscribe((res: Plane) => {
-       this.selectedPlane = res;
-       this.flight.placeTypePrices = this.initializePlaceTypePrices(
-          this.selectedPlane.places);
-     });
+    this.dbService.getPlaneById(planeId).subscribe((res: Plane) => {
+      this.selectedPlane = res;
+      this.flight.placeTypePrices = this.initializePlaceTypePrices(
+        this.selectedPlane.places,
+      );
+    });
   }
 
   onSubmit() {
-    console.log(this.flight);
+    this.outerSubmit(this.flight).subscribe(() => {
+      this.toggleForm();
+    });
   }
 }

@@ -53,14 +53,14 @@ const addNewFlight = async ctx => {
   const { body, } = ctx.request;
   const req = new AddFlightRequest(body);
   for (const key in req) {
-    if (!req[key]) {
+    if (req[key] === null) {
       ctx.status = HttpCodes.BAD_REQUEST;
       return;
     }
   }
 
   await adminService.addNewFlight(req);
-  ctx.status = HttpCodes.FAILED_DEPENDENCY;
+  ctx.status = HttpCodes.CREATED;
 };
 
 module.exports = {

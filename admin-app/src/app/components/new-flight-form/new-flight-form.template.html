@@ -9,7 +9,8 @@
         <input type="datetime-local" class="date form-control" name="dateFrom" placeholder="Date from" [(ngModel)]="flight.dateFrom"
           required>
         <input type="datetime-local" class="date form-control" name="dateTo" placeholder="Date to" [(ngModel)]="flight.dateTo" required>
-        <select name="planeId" class="form-control" [(ngModel)]="flight.planeId" (input)="onPlaneSelect(planeId.value)" required #planeId>
+        <select name="planeId" class="form-control" [(ngModel)]="flight.planeId" (input)="onPlaneSelect(planeId.value)" required
+          #planeId>
           <option *ngFor="let plane of planes" value="{{plane.id}}">#{{plane.id}}: {{plane.type}}</option>
         </select>
       </div>
