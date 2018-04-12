@@ -107,6 +107,14 @@ create type plane as (
   max_kg integer
 );
 
+create type plane_with_rows as (
+  plane_id integer,
+  plane_type varchar(255),
+  max_kg integer,
+  rows integer,
+  columns integer
+);
+
 -- tables --
 create table users (
   user_id serial primary key,
@@ -644,14 +652,16 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_planes()
-  returns table(pls plane) as $$
+create or replace function get_planes()
+  returns table(pls plane_with_rows) as $$
 begin
   return query
     select
       plane_id,
       type as plane_type,
-      max_kg
+      max_kg,
+      places_rows as "rows",
+      places_columns as "columns"
     from planes
       natural join luggage_schemas;
 end;

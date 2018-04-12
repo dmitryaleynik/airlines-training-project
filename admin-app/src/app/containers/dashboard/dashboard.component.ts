@@ -15,7 +15,7 @@ import { NewFlight } from '../../classes/NewFlight';
 })
 export class DashboardComponent implements OnInit, DoCheck {
   category: string;
-  flightsData: Flight[];
+  categoryData: Object[];
 
   constructor(
     private route: ActivatedRoute,
@@ -40,12 +40,10 @@ export class DashboardComponent implements OnInit, DoCheck {
       this.category = category;
       return;
     }
-    this.dashboardService
-      .getCategoryInfo(category)
-      .subscribe((res: { flights: Flight[] }) => {
-        this.flightsData = res.flights;
-        this.category = category;
-      });
+    this.dashboardService.getCategoryInfo(category).subscribe((res: Object) => {
+      this.categoryData = res[category];
+      this.category = category;
+    });
   }
 
   onNewFlightFormSubmit = (flight: NewFlight) => {

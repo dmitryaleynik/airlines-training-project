@@ -1,0 +1,23 @@
+<div class="planes-table">
+  <h3 class="planes-table__logo">Planes</h3>
+  <table class="planes-table__table table table-sm table-light">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Type</th>
+        <th scope="col">Max weight</th>
+        <th scope="col">Types of seats</th>
+        <th scope="col">Seats info</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="content" *ngFor="let plane of data">
+        <th scope="row">{{plane.id}}</th>
+        <td>{{plane.type}}</td>
+        <td>{{plane.maxKg}}kg</td>
+        <td>{{plane.places}}</td>
+        <td>{{plane.columns*plane.rows}} places: {{plane.rows}} rows x {{plane.columns}} columns</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

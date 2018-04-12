@@ -10,7 +10,9 @@
   </ul>
   <div *ngIf="category === 'flights'">
     <app-new-flight-form [outerSubmit]="onNewFlightFormSubmit"></app-new-flight-form>
-    <app-flights-table [data]="flightsData"></app-flights-table>
+    <app-flights-table [data]="categoryData"></app-flights-table>
   </div>
-  <div *ngIf="category === 'planes'">Here'll be planes</div>
+  <div *ngIf="category === 'planes'">
+    <app-planes-table [data]="categoryData"></app-planes-table>
+  </div>
 </div>
