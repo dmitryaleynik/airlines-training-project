@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SignInComponent } from './containers/sign-in/sign-in.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
+import { NewPlaneComponent } from './containers/new-plane/new-plane.component';
 import { AuthorizedGuardService } from './services/authorized-guard.service';
 import { UnauthorizedGuardService } from './services/unauthorized-guard.service';
 
@@ -16,6 +17,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthorizedGuardService],
+  },
+  {
+    path: 'dashboard/new-plane',
+    component: NewPlaneComponent,
     canActivate: [AuthorizedGuardService],
   },
   {

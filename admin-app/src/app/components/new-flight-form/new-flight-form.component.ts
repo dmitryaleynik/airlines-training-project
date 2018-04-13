@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
 import { DashboardService } from '../../services/dashboard.service';
+import { DATETIME_FORMAT } from '../../../constants';
+
 import { Plane } from '../../classes/Plane';
 import { NewFlight } from '../../classes/NewFlight';
-import { DATETIME_FORMAT } from '../../../constants';
 
 @Component({
   selector: 'app-new-flight-form',

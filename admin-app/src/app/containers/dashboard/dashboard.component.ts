@@ -16,6 +16,7 @@ import { NewFlight } from '../../classes/NewFlight';
 export class DashboardComponent implements OnInit, DoCheck {
   category: string;
   categoryData: Object[];
+  categoriesLocal = categories;
 
   constructor(
     private route: ActivatedRoute,

@@ -8,11 +8,12 @@
       <button class="btn" routerLink="/dashboard/planes">Planes</button>
     </li>
   </ul>
-  <div *ngIf="category === 'flights'">
+  <div *ngIf="category === categoriesLocal.FLIGHTS">
     <app-new-flight-form [outerSubmit]="onNewFlightFormSubmit"></app-new-flight-form>
     <app-flights-table [data]="categoryData"></app-flights-table>
   </div>
-  <div *ngIf="category === 'planes'">
+  <div *ngIf="category === categoriesLocal.PLANES">
+    <button class="btn" routerLink="/dashboard/new-plane">+ add new plane</button>
     <app-planes-table [data]="categoryData"></app-planes-table>
   </div>
 </div>

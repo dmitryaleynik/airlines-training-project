@@ -1,4 +1,5 @@
 export class Place {
   type: string;
-  price: number;
+  price?: number;
+  name?: string;
 }
