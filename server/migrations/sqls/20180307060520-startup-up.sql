@@ -735,3 +735,46 @@ begin
   return;
 end;
 $$ language plpgsql;
+
+create function add_plane(ptype varchar(255), prows integer, pcolumns integer, pkg integer)
+returns integer as $$
+declare plid integer;
+begin
+  insert into planes
+    (type, places_rows, places_columns)
+  values (ptype, prows, pcolumns)
+  returning plane_id
+    into plid;
+
+  insert into luggage_schemas
+    (plane_id, max_kg)
+  values (plid, pkg);
+
+  return plid;
+end;
+$$ language plpgsql;
+
+create function add_type_for_plane(plid integer, tname varchar(255))
+returns integer as $$
+declare tid integer;
+begin
+  insert into place_types
+    (plane_id, type_name)
+  values(plid, tname)
+  returning type_id
+    into tid;
+
+  return tid;
+end;
+$$ language plpgsql;
+
+create function add_place_for_plane(plid integer, tid integer, pnum varchar(255))
+returns void as $$
+begin
+  insert into places
+    (type_id, plane_id, place_number)
+  values (tid, plid, pnum);
+
+  return;
+end;
+$$ language plpgsql;
