@@ -417,7 +417,26 @@ begin
       left join orders using(order_id)
     where flights.flight_id = fl_id
     group by place_id
-    order by place_number;
+    order by 
+      replace
+        (translate
+          (place_number,
+          '0123456789',
+          '##########'),
+        '#',
+        ''),
+      cast
+        (replace
+          (place_number,
+          replace
+            (translate
+              (place_number,
+              '0123456789',
+              '##########'),
+            '#',
+            ''),
+          '')
+        as integer);
 end;
 $$ language plpgsql;
 

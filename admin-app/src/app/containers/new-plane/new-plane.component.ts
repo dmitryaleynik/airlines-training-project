@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from '../../services/dashboard.service';
 
 import { NewPlane } from '../../classes/NewPlane';
 import { NewType } from '../../classes/NewType';
@@ -13,7 +14,7 @@ export class NewPlaneComponent implements OnInit {
   errorMessage: string;
   isConfig = false;
 
-  constructor() {}
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit() {}
 
@@ -31,6 +32,16 @@ export class NewPlaneComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.validateTypesForColumns()) {
+      return;
+    }
+
+    this.dashboardService.addPlane(this.newPlane).subscribe(() => {
+      window.location.href = '/dashboard/planes';
+    });
+  }
+
+  validateTypesForColumns() {
     this.errorMessage = '';
     const columns = this.commonColumnsArray();
     let absentColumns = '';
@@ -48,8 +59,10 @@ export class NewPlaneComponent implements OnInit {
       } else {
         this.errorMessage = `Columns ${absentColumns} have no type.`;
       }
-      return;
+      return false;
     }
+
+    return true;
   }
 
   commonColumnsArray() {

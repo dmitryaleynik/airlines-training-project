@@ -5,7 +5,7 @@ class PlaneByIdRequest {
 }
 
 class AddPlaneRequest {
-  constructor({ type, rows, columns, maxKg, }) {
+  constructor(type, rows, columns, maxKg) {
     this.type = type;
     this.rows = rows;
     this.columns = columns;
