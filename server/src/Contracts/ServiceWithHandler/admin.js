@@ -20,6 +20,16 @@ class AddFlightRequest {
   }
 }
 
+class AddPlaneRequest {
+  constructor({ type, rows, columns, maxKg, types, }) {
+    this.type = type;
+    this.rows = rows;
+    this.columns = columns;
+    this.maxKg = maxKg;
+    this.types = types;
+  }
+}
+
 class FlightsResponse {
   constructor(flights) {
     this.flights = flights;
@@ -43,4 +53,5 @@ module.exports = {
   GetPlanesResponse,
   GetPlaneByIdResponse,
   AddFlightRequest,
+  AddPlaneRequest,
 };

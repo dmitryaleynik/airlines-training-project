@@ -5,10 +5,12 @@ class FlightsResponse {
 }
 
 class Plane {
-  constructor({ id, type, maxKg, places, }) {
+  constructor({ id, type, maxKg, rows, columns, places, }) {
     this.id = id;
     this.type = type;
     this.maxKg = maxKg;
+    this.rows = rows;
+    this.columns = columns;
     this.places = places;
   }
 }

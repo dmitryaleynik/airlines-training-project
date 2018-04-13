@@ -1,0 +1,45 @@
+<div class="new-plane-content">
+  <h3 class="new-plane-content__logo">Add new plane:</h3>
+  <form class="row" #newPlaneForm="ngForm">
+    <div class="col-6 from-group">
+      <label>Plane type</label>
+      <input type="text" class="form-control" name="type" placeholder="Plane type" [(ngModel)]="newPlane.type" required>
+    </div>
+    <div class="col-6 from-group">
+      <label>Max weight</label>
+      <input type="number" class="form-control" name="maxKg" placeholder="Max weight" [(ngModel)]="newPlane.maxKg" required>
+    </div>
+    <div class="col-4 from-group">
+      <label>Rows</label>
+      <input type="number" class="form-control" name="rows" placeholder="Rows" [(ngModel)]="newPlane.rows" required>
+    </div>
+    <div class="col-4 from-group">
+      <label>Columns</label>
+      <input type="number" class="form-control" name="columns" placeholder="Columns" [(ngModel)]="newPlane.columns" required>
+    </div>
+    <div class="col-4 places-total">
+      <span class="places-total__text" *ngIf="newPlane.rows && newPlane.columns">Total: {{newPlane.rows*newPlane.columns}} places</span>
+    </div>
+    <div class="col-12 config-button-wrapper">
+      <button (click)="onConfigClick()" class="config-button btn btn-sm" *ngIf="!isConfig" [disabled]="!newPlane.rows || !newPlane.columns">Configure types</button>
+      <div *ngIf="isConfig">
+        <h5>Add types for columns (input column numbers separated by a comma)</h5>
+        <div class="row" *ngFor="let place of newPlane.types; let i = index;">
+          <div class="form-group col-6">
+            <input type="text" class="form-control" name="{{i}}-type" placeholder="Type" [(ngModel)]="place.name" required>
+          </div>
+          <div class="form-group col-5">
+            <input type="text" class="form-control" name="{{i}}-typeColumns" placeholder="Columns(separated by a comma)" [(ngModel)]="place.columns"
+              required>
+          </div>
+          <div (click)="removeType(i)" class="remove-type col-1">X</div>
+        </div>
+        <div class="buttons">
+          <button (click)="addType()" class="btn add-type">Add type</button>
+          <button (click)="onSubmit()" [disabled]="!newPlaneForm.valid" class="btn btn-success">Submit</button>
+        </div>
+        <div class="alert alert-danger mt-3" *ngIf="errorMessage">{{this.errorMessage}}</div>
+      </div>
+    </div>
+  </form>
+</div>

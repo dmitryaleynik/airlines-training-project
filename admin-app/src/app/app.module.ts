@@ -8,10 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './containers/sign-in/sign-in.component';
 import { DashboardComponent } from './containers/dashboard/dashboard.component';
+import { NewPlaneComponent } from './containers/new-plane/new-plane.component';
 import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
 import { FlightsTableComponent } from './components/flights-table/flights-table.component';
 import { NewFlightFormComponent } from './components/new-flight-form/new-flight-form.component';
 import { HeaderComponent } from './components/header/header.component';
+import { PlanesTableComponent } from './components/planes-table/planes-table.component';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthorizationService } from './services/authorization.service';
@@ -30,6 +32,8 @@ import { jwtModuleConfig } from '../config/jwtModule';
     FlightsTableComponent,
     NewFlightFormComponent,
     HeaderComponent,
+    PlanesTableComponent,
+    NewPlaneComponent,
   ],
   imports: [
     BrowserModule,

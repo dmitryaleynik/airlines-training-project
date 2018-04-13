@@ -1,5 +1,6 @@
 const HttpCodes = require('http-status-codes');
 const placePickerService = require('../../Services/newFlight/placePicker');
+const { validateBody, } = require('../../utils/validators');
 
 const {
   GetPlacesRequest,
@@ -39,14 +40,13 @@ const getPlaces = async ctx => {
 const bookTemporarily = async ctx => {
   const { body, } = ctx.request;
   const req = new BookTemporarilyRequest(body, ctx.state.user.id);
-  for (let key in req) {
-    if (req[key] === undefined) {
-      ctx.status = HttpCodes.BAD_REQUEST;
-      ctx.body = {
-        message: `Invalid body. ${key} is required.`,
-      };
-      return;
-    }
+  const validationResult = validateBody(req);
+  if (!validationResult.valid) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    ctx.body = {
+      message: validationResult.message,
+    };
+    return;
   }
 
   const res = await placePickerService.bookTemporarily(req);

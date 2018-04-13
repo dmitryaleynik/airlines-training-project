@@ -18,6 +18,6 @@ export default class {
         return this.dates[key];
       }
     }
-    return this.dates[directions.REVERSE];
+    return this.dates[directions.REVERSE] || this.dates[directions.STRAIGHT];
   }
 }

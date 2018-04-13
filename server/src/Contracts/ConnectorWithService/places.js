@@ -69,6 +69,21 @@ class AddTypePriceRequest {
   }
 }
 
+class AddTypeRequest {
+  constructor(planeId, typeName) {
+    this.planeId = planeId;
+    this.typeName = typeName;
+  }
+}
+
+class AddPlaceRequest {
+  constructor(planeId, typeId, number) {
+    this.planeId = planeId;
+    this.typeId = typeId;
+    this.number = number;
+  }
+}
+
 class PlaceResponse {
   constructor({ place_id, place_number, type_name, price, availability, }) {
     this.id = place_id;
@@ -110,6 +125,12 @@ class TypeNamesResponse {
   }
 }
 
+class AddTypeResponse {
+  constructor({ type_id, }) {
+    this.typeId = type_id;
+  }
+}
+
 module.exports = {
   PlaceResponse,
   OrderedPlacesRequest,
@@ -126,4 +147,7 @@ module.exports = {
   TypeNamesRequest,
   TypeNamesResponse,
   AddTypePriceRequest,
+  AddPlaceRequest,
+  AddTypeRequest,
+  AddTypeResponse,
 };

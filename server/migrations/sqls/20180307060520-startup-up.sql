@@ -107,6 +107,14 @@ create type plane as (
   max_kg integer
 );
 
+create type plane_with_rows as (
+  plane_id integer,
+  plane_type varchar(255),
+  max_kg integer,
+  rows integer,
+  columns integer
+);
+
 -- tables --
 create table users (
   user_id serial primary key,
@@ -129,7 +137,7 @@ create table planes (
 create table place_types (
   type_id serial primary key,
   plane_id integer references planes not null,
-  type_name varchar(255) not null,
+  type_name varchar(255) not null
 );
 
 create table places (
@@ -409,7 +417,26 @@ begin
       left join orders using(order_id)
     where flights.flight_id = fl_id
     group by place_id
-    order by place_number;
+    order by 
+      replace
+        (translate
+          (place_number,
+          '0123456789',
+          '##########'),
+        '#',
+        ''),
+      cast
+        (replace
+          (place_number,
+          replace
+            (translate
+              (place_number,
+              '0123456789',
+              '##########'),
+            '#',
+            ''),
+          '')
+        as integer);
 end;
 $$ language plpgsql;
 
@@ -644,14 +671,16 @@ begin
 end;
 $$ language plpgsql;
 
-create function get_planes()
-  returns table(pls plane) as $$
+create or replace function get_planes()
+  returns table(pls plane_with_rows) as $$
 begin
   return query
     select
       plane_id,
       type as plane_type,
-      max_kg
+      max_kg,
+      places_rows as "rows",
+      places_columns as "columns"
     from planes
       natural join luggage_schemas;
 end;
@@ -721,6 +750,49 @@ begin
 
   insert into type_prices
   values (tid, fid, prc);
+
+  return;
+end;
+$$ language plpgsql;
+
+create function add_plane(ptype varchar(255), prows integer, pcolumns integer, pkg integer)
+returns integer as $$
+declare plid integer;
+begin
+  insert into planes
+    (type, places_rows, places_columns)
+  values (ptype, prows, pcolumns)
+  returning plane_id
+    into plid;
+
+  insert into luggage_schemas
+    (plane_id, max_kg)
+  values (plid, pkg);
+
+  return plid;
+end;
+$$ language plpgsql;
+
+create function add_type_for_plane(plid integer, tname varchar(255))
+returns integer as $$
+declare tid integer;
+begin
+  insert into place_types
+    (plane_id, type_name)
+  values(plid, tname)
+  returning type_id
+    into tid;
+
+  return tid;
+end;
+$$ language plpgsql;
+
+create function add_place_for_plane(plid integer, tid integer, pnum varchar(255))
+returns void as $$
+begin
+  insert into places
+    (type_id, plane_id, place_number)
+  values (tid, plid, pnum);
 
   return;
 end;
