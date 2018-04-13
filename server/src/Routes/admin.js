@@ -28,6 +28,13 @@ adminRouter.get(
   adminHandler.getPlanesShort
 );
 
+adminRouter.post(
+  '/planes/add',
+  passport.authenticate('jwt', { session: false, }),
+  Roles.can(access.admin),
+  adminHandler.addNewPlane
+);
+
 adminRouter.get(
   '/planes/:id',
   passport.authenticate('jwt', { session: false, }),

@@ -1,4 +1,5 @@
 const dbConnector = require('../Connectors/psql');
+const preparePlaces = require('../utils/preparePlaces');
 
 const {
   FlightsResponse,
@@ -9,9 +10,12 @@ const {
   TypePricesRequest,
   TypeNamesRequest,
   AddTypePriceRequest,
+  AddTypeRequest,
+  AddPlaceRequest,
 } = require('../Contracts/ConnectorWithService/places');
 const {
   PlaneByIdRequest,
+  AddPlaneRequest,
 } = require('../Contracts/ConnectorWithService/planes');
 const {
   AddFlightRequest,
@@ -62,8 +66,29 @@ const addNewFlight = async flightParams => {
   return true;
 };
 
+const addNewPlane = async planeParams => {
+  const { planeId, } = await dbConnector.addPlane(
+    new AddPlaneRequest(planeParams)
+  );
+  const { types, } = planeParams;
+  for (let type of types) {
+    const { typeId, } = await dbConnector.addTypeForPlane(
+      new AddTypeRequest(planeId, type.name)
+    );
+    const places = preparePlaces(planeParams.rows, type);
+    for (let place of places) {
+      await dbConnector.addPlaceForPlane(
+        new AddPlaceRequest(planeId, typeId, place.number)
+      );
+    }
+  }
+
+  return true;
+};
+
 module.exports = {
   getFlights,
   getPlanes,
   addNewFlight,
+  addNewPlane,
 };

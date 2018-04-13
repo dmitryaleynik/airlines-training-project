@@ -74,11 +74,11 @@ const addTypePrice = async ({ flightId, planeId, type, price, }) => {
   ).send();
 };
 
-const addTypeForPlane = async ({ planeId, type, }) => {
+const addTypeForPlane = async ({ planeId, typeName, }) => {
   return await new Request(
-    'SELECT * FROM add_type_for_plane($1, $2)',
+    'SELECT * FROM add_type_for_plane($1, $2) as type_id',
     planeId,
-    type
+    typeName
   ).send();
 };
 
@@ -88,7 +88,7 @@ const addPlaceForPlane = async ({ planeId, typeId, number, }) => {
     planeId,
     typeId,
     number
-  );
+  ).send();
 };
 
 module.exports = {

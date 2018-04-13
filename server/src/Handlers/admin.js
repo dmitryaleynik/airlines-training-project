@@ -1,7 +1,11 @@
 const HttpCodes = require('http-status-codes');
 const adminService = require('../Services/admin');
+const { validateBody, } = require('../utils/validators');
 
-const { AddFlightRequest, } = require('../Contracts/ServiceWithHandler/admin');
+const {
+  AddFlightRequest,
+  AddPlaneRequest,
+} = require('../Contracts/ServiceWithHandler/admin');
 const {
   FlightsResponse,
   Plane,
@@ -52,14 +56,32 @@ const getPlaneById = async ctx => {
 const addNewFlight = async ctx => {
   const { body, } = ctx.request;
   const req = new AddFlightRequest(body);
-  for (const key in req) {
-    if (req[key] === null) {
-      ctx.status = HttpCodes.BAD_REQUEST;
-      return;
-    }
+  const validationResult = validateBody(req);
+  if (!validationResult.valid) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    ctx.body = {
+      message: validationResult.message,
+    };
+    return;
   }
 
   await adminService.addNewFlight(req);
+  ctx.status = HttpCodes.CREATED;
+};
+
+const addNewPlane = async ctx => {
+  const { body, } = ctx.request;
+  const req = new AddPlaneRequest(body);
+  const validationResult = validateBody(req);
+  if (!validationResult.valid) {
+    ctx.status = HttpCodes.BAD_REQUEST;
+    ctx.body = {
+      message: validationResult.message,
+    };
+    return;
+  }
+
+  await adminService.addNewPlane(req);
   ctx.status = HttpCodes.CREATED;
 };
 
@@ -69,4 +91,5 @@ module.exports = {
   getPlanesShort,
   addNewFlight,
   getPlaneById,
+  addNewPlane,
 };

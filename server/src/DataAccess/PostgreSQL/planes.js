@@ -10,7 +10,7 @@ const getPlaneById = async planeId => {
 
 const addPlane = async ({ type, maxKg, rows, columns, }) => {
   return await new Request(
-    'SELECT * FROM add_plane($1, $2, $3, $4)',
+    'SELECT * FROM add_plane($1, $2, $3, $4) as plane_id',
     type,
     rows,
     columns,
