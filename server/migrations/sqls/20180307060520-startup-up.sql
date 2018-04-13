@@ -137,7 +137,7 @@ create table planes (
 create table place_types (
   type_id serial primary key,
   plane_id integer references planes not null,
-  type_name varchar(255) not null,
+  type_name varchar(255) not null
 );
 
 create table places (
